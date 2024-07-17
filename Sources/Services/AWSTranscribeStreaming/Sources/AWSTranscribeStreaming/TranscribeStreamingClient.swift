@@ -16,8 +16,8 @@ import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HttpResponse
-import class SmithyHTTPAPI.SdkHttpRequest
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
@@ -227,7 +227,7 @@ extension TranscribeStreamingClient {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         AWSSDKEventStreamsAuth.setupBidirectionalStreaming(context: context)
-        let builder = ClientRuntime.OrchestratorBuilder<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -307,7 +307,7 @@ extension TranscribeStreamingClient {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         AWSSDKEventStreamsAuth.setupBidirectionalStreaming(context: context)
-        let builder = ClientRuntime.OrchestratorBuilder<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -387,7 +387,7 @@ extension TranscribeStreamingClient {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         AWSSDKEventStreamsAuth.setupBidirectionalStreaming(context: context)
-        let builder = ClientRuntime.OrchestratorBuilder<StartStreamTranscriptionInput, StartStreamTranscriptionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<StartStreamTranscriptionInput, StartStreamTranscriptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }

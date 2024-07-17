@@ -179,6 +179,111 @@ extension QuickSightClient {
 }
 
 extension QuickSightClient {
+    /// Performs the `BatchCreateTopicReviewedAnswer` operation on the `QuickSight_20180401` service.
+    ///
+    /// Creates new reviewed answers for a Q Topic.
+    ///
+    /// - Parameter BatchCreateTopicReviewedAnswerInput : [no documentation found]
+    ///
+    /// - Returns: `BatchCreateTopicReviewedAnswerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func batchCreateTopicReviewedAnswer(input: BatchCreateTopicReviewedAnswerInput) async throws -> BatchCreateTopicReviewedAnswerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchCreateTopicReviewedAnswer")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput>(id: "batchCreateTopicReviewedAnswer")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput>(BatchCreateTopicReviewedAnswerInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<BatchCreateTopicReviewedAnswerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchCreateTopicReviewedAnswerOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateTopicReviewedAnswerInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchCreateTopicReviewedAnswerOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchCreateTopicReviewedAnswerOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateTopicReviewedAnswerOutput>(BatchCreateTopicReviewedAnswerOutput.httpOutput(from:), BatchCreateTopicReviewedAnswerOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `BatchDeleteTopicReviewedAnswer` operation on the `QuickSight_20180401` service.
+    ///
+    /// Deletes reviewed answers for Q Topic.
+    ///
+    /// - Parameter BatchDeleteTopicReviewedAnswerInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteTopicReviewedAnswerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func batchDeleteTopicReviewedAnswer(input: BatchDeleteTopicReviewedAnswerInput) async throws -> BatchDeleteTopicReviewedAnswerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDeleteTopicReviewedAnswer")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput>(id: "batchDeleteTopicReviewedAnswer")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput>(BatchDeleteTopicReviewedAnswerInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<BatchDeleteTopicReviewedAnswerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchDeleteTopicReviewedAnswerOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteTopicReviewedAnswerInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteTopicReviewedAnswerOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchDeleteTopicReviewedAnswerOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteTopicReviewedAnswerOutput>(BatchDeleteTopicReviewedAnswerOutput.httpOutput(from:), BatchDeleteTopicReviewedAnswerOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `CancelIngestion` operation on the `QuickSight_20180401` service.
     ///
     /// Cancels an ongoing ingestion of data into SPICE.
@@ -6511,6 +6616,55 @@ extension QuickSightClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTopicRefreshSchedulesOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTopicRefreshSchedulesOutput>(ListTopicRefreshSchedulesOutput.httpOutput(from:), ListTopicRefreshSchedulesOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTopicRefreshSchedulesInput, ListTopicRefreshSchedulesOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListTopicReviewedAnswers` operation on the `QuickSight_20180401` service.
+    ///
+    /// Lists all reviewed answers for a Q Topic.
+    ///
+    /// - Parameter ListTopicReviewedAnswersInput : [no documentation found]
+    ///
+    /// - Returns: `ListTopicReviewedAnswersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func listTopicReviewedAnswers(input: ListTopicReviewedAnswersInput) async throws -> ListTopicReviewedAnswersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTopicReviewedAnswers")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListTopicReviewedAnswersInput, ListTopicReviewedAnswersOutput>(id: "listTopicReviewedAnswers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTopicReviewedAnswersInput, ListTopicReviewedAnswersOutput>(ListTopicReviewedAnswersInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTopicReviewedAnswersInput, ListTopicReviewedAnswersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListTopicReviewedAnswersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListTopicReviewedAnswersInput, ListTopicReviewedAnswersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTopicReviewedAnswersOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTopicReviewedAnswersOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTopicReviewedAnswersOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTopicReviewedAnswersOutput>(ListTopicReviewedAnswersOutput.httpOutput(from:), ListTopicReviewedAnswersOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTopicReviewedAnswersInput, ListTopicReviewedAnswersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -441,7 +441,7 @@ extension ACMClient {
 
     /// Performs the `GetCertificate` operation on the `CertificateManager` service.
     ///
-    /// Retrieves an Amazon-issued certificate and its certificate chain. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use [OpenSSL](https://wiki.openssl.org/index.php/Command_Line_Utilities) to decode the certificates and inspect individual fields.
+    /// Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM RequestCertificate action, or a certificate imported into ACM using the ImportCertificate action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use [OpenSSL](https://wiki.openssl.org/index.php/Command_Line_Utilities) to decode the certificates and inspect individual fields.
     ///
     /// - Parameter GetCertificateInput : [no documentation found]
     ///
@@ -499,10 +499,6 @@ extension ACMClient {
     /// * The private key must be unencrypted. You cannot import a private key that is protected by a password or a passphrase.
     ///
     /// * The private key must be no larger than 5 KB (5,120 bytes).
-    ///
-    /// * If the certificate you are importing is not self-signed, you must enter its certificate chain.
-    ///
-    /// * If a certificate chain is included, the issuer must be the subject of one of the certificates in the chain.
     ///
     /// * The certificate, private key, and certificate chain must be PEM-encoded.
     ///
@@ -576,7 +572,7 @@ extension ACMClient {
 
     /// Performs the `ListCertificates` operation on the `CertificateManager` service.
     ///
-    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see [Filters].
+    /// Retrieves a list of certificate ARNs and domain names. By default, the API returns RSA_2048 certificates. To return all certificates in the account, include the keyType filter with the values [RSA_1024, RSA_2048, RSA_3072, RSA_4096, EC_prime256v1, EC_secp384r1, EC_secp521r1]. In addition to keyType, you can also filter by the CertificateStatuses, keyUsage, and extendedKeyUsage attributes on the certificate. For more information, see [Filters].
     ///
     /// - Parameter ListCertificatesInput : [no documentation found]
     ///

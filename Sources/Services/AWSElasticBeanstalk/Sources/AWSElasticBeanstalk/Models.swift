@@ -9,7 +9,7 @@
 
 import Foundation
 import class SmithyFormURL.Writer
-import class SmithyHTTPAPI.HttpResponse
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyXML.Reader
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
@@ -110,7 +110,7 @@ public struct InsufficientPrivilegesException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -702,7 +702,7 @@ public struct ElasticBeanstalkServiceException: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -727,7 +727,7 @@ public struct ManagedActionInvalidStateException: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -889,7 +889,7 @@ public struct TooManyEnvironmentsException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1313,7 +1313,7 @@ public struct TooManyApplicationsException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1397,7 +1397,7 @@ public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1428,7 +1428,7 @@ public struct S3LocationNotInServiceRegionException: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1453,7 +1453,7 @@ public struct TooManyApplicationVersionsException: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1610,7 +1610,7 @@ public struct TooManyBucketsException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1635,7 +1635,7 @@ public struct TooManyConfigurationTemplatesException: ClientRuntime.ModeledError
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2048,7 +2048,7 @@ public struct TooManyPlatformsException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2239,7 +2239,7 @@ public struct S3SubscriptionRequiredException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2277,7 +2277,7 @@ public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2320,7 +2320,7 @@ public struct SourceBundleDeletionException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2406,7 +2406,7 @@ public struct PlatformVersionStillReferencedException: ClientRuntime.ModeledErro
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2858,7 +2858,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4285,7 +4285,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4310,7 +4310,7 @@ public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -5043,7 +5043,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -6105,14 +6105,14 @@ extension ValidateConfigurationSettingsInput {
 
 extension AbortEnvironmentUpdateOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AbortEnvironmentUpdateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AbortEnvironmentUpdateOutput {
         return AbortEnvironmentUpdateOutput()
     }
 }
 
 extension ApplyEnvironmentManagedActionOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ApplyEnvironmentManagedActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ApplyEnvironmentManagedActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ApplyEnvironmentManagedActionResult"]
@@ -6127,14 +6127,14 @@ extension ApplyEnvironmentManagedActionOutput {
 
 extension AssociateEnvironmentOperationsRoleOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateEnvironmentOperationsRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateEnvironmentOperationsRoleOutput {
         return AssociateEnvironmentOperationsRoleOutput()
     }
 }
 
 extension CheckDNSAvailabilityOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CheckDNSAvailabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CheckDNSAvailabilityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CheckDNSAvailabilityResult"]
@@ -6147,7 +6147,7 @@ extension CheckDNSAvailabilityOutput {
 
 extension ComposeEnvironmentsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ComposeEnvironmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ComposeEnvironmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ComposeEnvironmentsResult"]
@@ -6160,7 +6160,7 @@ extension ComposeEnvironmentsOutput {
 
 extension CreateApplicationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateApplicationResult"]
@@ -6172,7 +6172,7 @@ extension CreateApplicationOutput {
 
 extension CreateApplicationVersionOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApplicationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApplicationVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateApplicationVersionResult"]
@@ -6184,7 +6184,7 @@ extension CreateApplicationVersionOutput {
 
 extension CreateConfigurationTemplateOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConfigurationTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConfigurationTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateConfigurationTemplateResult"]
@@ -6205,7 +6205,7 @@ extension CreateConfigurationTemplateOutput {
 
 extension CreateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateEnvironmentResult"]
@@ -6237,7 +6237,7 @@ extension CreateEnvironmentOutput {
 
 extension CreatePlatformVersionOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePlatformVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePlatformVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreatePlatformVersionResult"]
@@ -6250,7 +6250,7 @@ extension CreatePlatformVersionOutput {
 
 extension CreateStorageLocationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateStorageLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateStorageLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateStorageLocationResult"]
@@ -6262,35 +6262,35 @@ extension CreateStorageLocationOutput {
 
 extension DeleteApplicationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApplicationOutput {
         return DeleteApplicationOutput()
     }
 }
 
 extension DeleteApplicationVersionOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApplicationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApplicationVersionOutput {
         return DeleteApplicationVersionOutput()
     }
 }
 
 extension DeleteConfigurationTemplateOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConfigurationTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConfigurationTemplateOutput {
         return DeleteConfigurationTemplateOutput()
     }
 }
 
 extension DeleteEnvironmentConfigurationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEnvironmentConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEnvironmentConfigurationOutput {
         return DeleteEnvironmentConfigurationOutput()
     }
 }
 
 extension DeletePlatformVersionOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePlatformVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePlatformVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeletePlatformVersionResult"]
@@ -6302,7 +6302,7 @@ extension DeletePlatformVersionOutput {
 
 extension DescribeAccountAttributesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAccountAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAccountAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAccountAttributesResult"]
@@ -6314,7 +6314,7 @@ extension DescribeAccountAttributesOutput {
 
 extension DescribeApplicationsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeApplicationsResult"]
@@ -6326,7 +6326,7 @@ extension DescribeApplicationsOutput {
 
 extension DescribeApplicationVersionsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeApplicationVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeApplicationVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeApplicationVersionsResult"]
@@ -6339,7 +6339,7 @@ extension DescribeApplicationVersionsOutput {
 
 extension DescribeConfigurationOptionsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConfigurationOptionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeConfigurationOptionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeConfigurationOptionsResult"]
@@ -6353,7 +6353,7 @@ extension DescribeConfigurationOptionsOutput {
 
 extension DescribeConfigurationSettingsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConfigurationSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeConfigurationSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeConfigurationSettingsResult"]
@@ -6365,7 +6365,7 @@ extension DescribeConfigurationSettingsOutput {
 
 extension DescribeEnvironmentHealthOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentHealthOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEnvironmentHealthOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentHealthResult"]
@@ -6384,7 +6384,7 @@ extension DescribeEnvironmentHealthOutput {
 
 extension DescribeEnvironmentManagedActionHistoryOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentManagedActionHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEnvironmentManagedActionHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentManagedActionHistoryResult"]
@@ -6397,7 +6397,7 @@ extension DescribeEnvironmentManagedActionHistoryOutput {
 
 extension DescribeEnvironmentManagedActionsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentManagedActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEnvironmentManagedActionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentManagedActionsResult"]
@@ -6409,7 +6409,7 @@ extension DescribeEnvironmentManagedActionsOutput {
 
 extension DescribeEnvironmentResourcesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEnvironmentResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentResourcesResult"]
@@ -6421,7 +6421,7 @@ extension DescribeEnvironmentResourcesOutput {
 
 extension DescribeEnvironmentsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEnvironmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentsResult"]
@@ -6434,7 +6434,7 @@ extension DescribeEnvironmentsOutput {
 
 extension DescribeEventsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEventsResult"]
@@ -6447,7 +6447,7 @@ extension DescribeEventsOutput {
 
 extension DescribeInstancesHealthOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInstancesHealthOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeInstancesHealthOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeInstancesHealthResult"]
@@ -6461,7 +6461,7 @@ extension DescribeInstancesHealthOutput {
 
 extension DescribePlatformVersionOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePlatformVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePlatformVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribePlatformVersionResult"]
@@ -6473,14 +6473,14 @@ extension DescribePlatformVersionOutput {
 
 extension DisassociateEnvironmentOperationsRoleOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateEnvironmentOperationsRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateEnvironmentOperationsRoleOutput {
         return DisassociateEnvironmentOperationsRoleOutput()
     }
 }
 
 extension ListAvailableSolutionStacksOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAvailableSolutionStacksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAvailableSolutionStacksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAvailableSolutionStacksResult"]
@@ -6493,7 +6493,7 @@ extension ListAvailableSolutionStacksOutput {
 
 extension ListPlatformBranchesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPlatformBranchesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPlatformBranchesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListPlatformBranchesResult"]
@@ -6506,7 +6506,7 @@ extension ListPlatformBranchesOutput {
 
 extension ListPlatformVersionsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPlatformVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPlatformVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListPlatformVersionsResult"]
@@ -6519,7 +6519,7 @@ extension ListPlatformVersionsOutput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListTagsForResourceResult"]
@@ -6532,28 +6532,28 @@ extension ListTagsForResourceOutput {
 
 extension RebuildEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RebuildEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RebuildEnvironmentOutput {
         return RebuildEnvironmentOutput()
     }
 }
 
 extension RequestEnvironmentInfoOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RequestEnvironmentInfoOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RequestEnvironmentInfoOutput {
         return RequestEnvironmentInfoOutput()
     }
 }
 
 extension RestartAppServerOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestartAppServerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RestartAppServerOutput {
         return RestartAppServerOutput()
     }
 }
 
 extension RetrieveEnvironmentInfoOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RetrieveEnvironmentInfoOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RetrieveEnvironmentInfoOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RetrieveEnvironmentInfoResult"]
@@ -6565,14 +6565,14 @@ extension RetrieveEnvironmentInfoOutput {
 
 extension SwapEnvironmentCNAMEsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SwapEnvironmentCNAMEsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SwapEnvironmentCNAMEsOutput {
         return SwapEnvironmentCNAMEsOutput()
     }
 }
 
 extension TerminateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TerminateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["TerminateEnvironmentResult"]
@@ -6604,7 +6604,7 @@ extension TerminateEnvironmentOutput {
 
 extension UpdateApplicationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateApplicationResult"]
@@ -6616,7 +6616,7 @@ extension UpdateApplicationOutput {
 
 extension UpdateApplicationResourceLifecycleOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationResourceLifecycleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApplicationResourceLifecycleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateApplicationResourceLifecycleResult"]
@@ -6629,7 +6629,7 @@ extension UpdateApplicationResourceLifecycleOutput {
 
 extension UpdateApplicationVersionOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApplicationVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateApplicationVersionResult"]
@@ -6641,7 +6641,7 @@ extension UpdateApplicationVersionOutput {
 
 extension UpdateConfigurationTemplateOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateConfigurationTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConfigurationTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateConfigurationTemplateResult"]
@@ -6662,7 +6662,7 @@ extension UpdateConfigurationTemplateOutput {
 
 extension UpdateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateEnvironmentResult"]
@@ -6694,14 +6694,14 @@ extension UpdateEnvironmentOutput {
 
 extension UpdateTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTagsForResourceOutput {
         return UpdateTagsForResourceOutput()
     }
 }
 
 extension ValidateConfigurationSettingsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ValidateConfigurationSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ValidateConfigurationSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ValidateConfigurationSettingsResult"]
@@ -6713,7 +6713,7 @@ extension ValidateConfigurationSettingsOutput {
 
 enum AbortEnvironmentUpdateOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6727,7 +6727,7 @@ enum AbortEnvironmentUpdateOutputError {
 
 enum ApplyEnvironmentManagedActionOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6742,7 +6742,7 @@ enum ApplyEnvironmentManagedActionOutputError {
 
 enum AssociateEnvironmentOperationsRoleOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6756,7 +6756,7 @@ enum AssociateEnvironmentOperationsRoleOutputError {
 
 enum CheckDNSAvailabilityOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6769,7 +6769,7 @@ enum CheckDNSAvailabilityOutputError {
 
 enum ComposeEnvironmentsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6784,7 +6784,7 @@ enum ComposeEnvironmentsOutputError {
 
 enum CreateApplicationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6798,7 +6798,7 @@ enum CreateApplicationOutputError {
 
 enum CreateApplicationVersionOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6816,7 +6816,7 @@ enum CreateApplicationVersionOutputError {
 
 enum CreateConfigurationTemplateOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6832,7 +6832,7 @@ enum CreateConfigurationTemplateOutputError {
 
 enum CreateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6847,7 +6847,7 @@ enum CreateEnvironmentOutputError {
 
 enum CreatePlatformVersionOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6863,7 +6863,7 @@ enum CreatePlatformVersionOutputError {
 
 enum CreateStorageLocationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6879,7 +6879,7 @@ enum CreateStorageLocationOutputError {
 
 enum DeleteApplicationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6893,7 +6893,7 @@ enum DeleteApplicationOutputError {
 
 enum DeleteApplicationVersionOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6910,7 +6910,7 @@ enum DeleteApplicationVersionOutputError {
 
 enum DeleteConfigurationTemplateOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6924,7 +6924,7 @@ enum DeleteConfigurationTemplateOutputError {
 
 enum DeleteEnvironmentConfigurationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6937,7 +6937,7 @@ enum DeleteEnvironmentConfigurationOutputError {
 
 enum DeletePlatformVersionOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6954,7 +6954,7 @@ enum DeletePlatformVersionOutputError {
 
 enum DescribeAccountAttributesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6968,7 +6968,7 @@ enum DescribeAccountAttributesOutputError {
 
 enum DescribeApplicationsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6981,7 +6981,7 @@ enum DescribeApplicationsOutputError {
 
 enum DescribeApplicationVersionsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6994,7 +6994,7 @@ enum DescribeApplicationVersionsOutputError {
 
 enum DescribeConfigurationOptionsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7008,7 +7008,7 @@ enum DescribeConfigurationOptionsOutputError {
 
 enum DescribeConfigurationSettingsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7022,7 +7022,7 @@ enum DescribeConfigurationSettingsOutputError {
 
 enum DescribeEnvironmentHealthOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7037,7 +7037,7 @@ enum DescribeEnvironmentHealthOutputError {
 
 enum DescribeEnvironmentManagedActionHistoryOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7051,7 +7051,7 @@ enum DescribeEnvironmentManagedActionHistoryOutputError {
 
 enum DescribeEnvironmentManagedActionsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7065,7 +7065,7 @@ enum DescribeEnvironmentManagedActionsOutputError {
 
 enum DescribeEnvironmentResourcesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7079,7 +7079,7 @@ enum DescribeEnvironmentResourcesOutputError {
 
 enum DescribeEnvironmentsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7092,7 +7092,7 @@ enum DescribeEnvironmentsOutputError {
 
 enum DescribeEventsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7105,7 +7105,7 @@ enum DescribeEventsOutputError {
 
 enum DescribeInstancesHealthOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7120,7 +7120,7 @@ enum DescribeInstancesHealthOutputError {
 
 enum DescribePlatformVersionOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7135,7 +7135,7 @@ enum DescribePlatformVersionOutputError {
 
 enum DisassociateEnvironmentOperationsRoleOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7149,7 +7149,7 @@ enum DisassociateEnvironmentOperationsRoleOutputError {
 
 enum ListAvailableSolutionStacksOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7162,7 +7162,7 @@ enum ListAvailableSolutionStacksOutputError {
 
 enum ListPlatformBranchesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7175,7 +7175,7 @@ enum ListPlatformBranchesOutputError {
 
 enum ListPlatformVersionsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7190,7 +7190,7 @@ enum ListPlatformVersionsOutputError {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7206,7 +7206,7 @@ enum ListTagsForResourceOutputError {
 
 enum RebuildEnvironmentOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7220,7 +7220,7 @@ enum RebuildEnvironmentOutputError {
 
 enum RequestEnvironmentInfoOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7233,7 +7233,7 @@ enum RequestEnvironmentInfoOutputError {
 
 enum RestartAppServerOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7246,7 +7246,7 @@ enum RestartAppServerOutputError {
 
 enum RetrieveEnvironmentInfoOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7259,7 +7259,7 @@ enum RetrieveEnvironmentInfoOutputError {
 
 enum SwapEnvironmentCNAMEsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7272,7 +7272,7 @@ enum SwapEnvironmentCNAMEsOutputError {
 
 enum TerminateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7286,7 +7286,7 @@ enum TerminateEnvironmentOutputError {
 
 enum UpdateApplicationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7299,7 +7299,7 @@ enum UpdateApplicationOutputError {
 
 enum UpdateApplicationResourceLifecycleOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7313,7 +7313,7 @@ enum UpdateApplicationResourceLifecycleOutputError {
 
 enum UpdateApplicationVersionOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7326,7 +7326,7 @@ enum UpdateApplicationVersionOutputError {
 
 enum UpdateConfigurationTemplateOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7341,7 +7341,7 @@ enum UpdateConfigurationTemplateOutputError {
 
 enum UpdateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7356,7 +7356,7 @@ enum UpdateEnvironmentOutputError {
 
 enum UpdateTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7374,7 +7374,7 @@ enum UpdateTagsForResourceOutputError {
 
 enum ValidateConfigurationSettingsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

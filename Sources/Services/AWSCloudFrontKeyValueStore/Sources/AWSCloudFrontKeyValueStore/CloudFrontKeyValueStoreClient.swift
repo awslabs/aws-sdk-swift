@@ -17,8 +17,8 @@ import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HttpResponse
-import class SmithyHTTPAPI.SdkHttpRequest
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -222,7 +222,7 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteKeyInput, DeleteKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteKeyInput, DeleteKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -289,7 +289,7 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -355,7 +355,7 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetKeyInput, GetKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetKeyInput, GetKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -422,7 +422,7 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListKeysInput, ListKeysOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListKeysInput, ListKeysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -491,7 +491,7 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutKeyInput, PutKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutKeyInput, PutKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -563,7 +563,7 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateKeysInput, UpdateKeysOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateKeysInput, UpdateKeysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }

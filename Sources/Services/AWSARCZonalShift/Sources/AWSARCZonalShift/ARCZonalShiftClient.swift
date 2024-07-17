@@ -231,7 +231,7 @@ extension ARCZonalShiftClient {
 
     /// Performs the `CreatePracticeRunConfiguration` operation on the `PercDataPlane` service.
     ///
-    /// A practice run configuration for zonal autoshift is required when you enable zonal autoshift. A practice run configuration includes specifications for blocked dates and blocked time windows, and for Amazon CloudWatch alarms that you create to use with practice runs. The alarms that you specify are an outcome alarm, to monitor application health during practice runs and, optionally, a blocking alarm, to block practice runs from starting. For more information, see [ Considerations when you configure zonal autoshift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.considerations.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    /// A practice run configuration for zonal autoshift is required when you enable zonal autoshift. A practice run configuration includes specifications for blocked dates and blocked time windows, and for Amazon CloudWatch alarms that you create to use with practice runs. The alarms that you specify are an outcome alarm, to monitor application health during practice runs and, optionally, a blocking alarm, to block practice runs from starting. When a resource has a practice run configuration, Route 53 ARC starts zonal shifts for the resource weekly, to shift traffic for practice runs. Practice runs help you to ensure that shifting away traffic from an Availability Zone during an autoshift is safe for your application. For more information, see [ Considerations when you configure zonal autoshift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.considerations.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.
     ///
     /// - Parameter CreatePracticeRunConfigurationInput : [no documentation found]
     ///
@@ -332,6 +332,53 @@ extension ARCZonalShiftClient {
         return result
     }
 
+    /// Performs the `GetAutoshiftObserverNotificationStatus` operation on the `PercDataPlane` service.
+    ///
+    /// Returns the status of autoshift observer notification. Autoshift observer notification enables you to be notified, through Amazon EventBridge, when there is an autoshift event for zonal autoshift. If the status is ENABLED, Route 53 ARC includes all autoshift events when you use the EventBridge pattern Autoshift In Progress. When the status is DISABLED, Route 53 ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. For more information, see [ Notifications for practice runs and autoshifts](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html#ZAShiftNotification) in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    ///
+    /// - Parameter GetAutoshiftObserverNotificationStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetAutoshiftObserverNotificationStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func getAutoshiftObserverNotificationStatus(input: GetAutoshiftObserverNotificationStatusInput) async throws -> GetAutoshiftObserverNotificationStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAutoshiftObserverNotificationStatus")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "arc-zonal-shift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>(id: "getAutoshiftObserverNotificationStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>(GetAutoshiftObserverNotificationStatusInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetAutoshiftObserverNotificationStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetAutoshiftObserverNotificationStatusOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAutoshiftObserverNotificationStatusOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetAutoshiftObserverNotificationStatusOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAutoshiftObserverNotificationStatusOutput>(GetAutoshiftObserverNotificationStatusOutput.httpOutput(from:), GetAutoshiftObserverNotificationStatusOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `GetManagedResource` operation on the `PercDataPlane` service.
     ///
     /// Get information about a resource that's been registered for zonal shifts with Amazon Route 53 Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for zonal shifts are managed resources in Route 53 ARC. You can start zonal shifts and configure zonal autoshift for managed resources. At this time, you can only start a zonal shift or configure zonal autoshift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
@@ -383,7 +430,7 @@ extension ARCZonalShiftClient {
 
     /// Performs the `ListAutoshifts` operation on the `PercDataPlane` service.
     ///
-    /// Returns the active autoshifts for a specified resource.
+    /// Returns a list of autoshifts for an Amazon Web Services Region. By default, the call returns only ACTIVE autoshifts. Optionally, you can specify the status parameter to return COMPLETED autoshifts.
     ///
     /// - Parameter ListAutoshiftsInput : [no documentation found]
     ///
@@ -481,7 +528,7 @@ extension ARCZonalShiftClient {
 
     /// Performs the `ListZonalShifts` operation on the `PercDataPlane` service.
     ///
-    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. ListZonalShifts returns customer-started zonal shifts, as well as practice run zonal shifts that Route 53 ARC started on your behalf for zonal autoshift. The ListZonalShifts operation does not list autoshifts. For more information about listing autoshifts, see [">ListAutoshifts](https://docs.aws.amazon.com/arc-zonal-shift/latest/api/API_ListAutoshifts.html).
+    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. ListZonalShifts returns customer-initiated zonal shifts, as well as practice run zonal shifts that Route 53 ARC started on your behalf for zonal autoshift. The ListZonalShifts operation does not list autoshifts. For more information about listing autoshifts, see [">ListAutoshifts](https://docs.aws.amazon.com/arc-zonal-shift/latest/api/API_ListAutoshifts.html).
     ///
     /// - Parameter ListZonalShiftsInput : [no documentation found]
     ///
@@ -581,6 +628,57 @@ extension ARCZonalShiftClient {
         return result
     }
 
+    /// Performs the `UpdateAutoshiftObserverNotificationStatus` operation on the `PercDataPlane` service.
+    ///
+    /// Update the status of autoshift observer notification. Autoshift observer notification enables you to be notified, through Amazon EventBridge, when there is an autoshift event for zonal autoshift. If the status is ENABLED, Route 53 ARC includes all autoshift events when you use the EventBridge pattern Autoshift In Progress. When the status is DISABLED, Route 53 ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. For more information, see [ Notifications for practice runs and autoshifts](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html#ZAShiftNotification) in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    ///
+    /// - Parameter UpdateAutoshiftObserverNotificationStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAutoshiftObserverNotificationStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func updateAutoshiftObserverNotificationStatus(input: UpdateAutoshiftObserverNotificationStatusInput) async throws -> UpdateAutoshiftObserverNotificationStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAutoshiftObserverNotificationStatus")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "arc-zonal-shift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>(id: "updateAutoshiftObserverNotificationStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>(UpdateAutoshiftObserverNotificationStatusInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateAutoshiftObserverNotificationStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateAutoshiftObserverNotificationStatusOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAutoshiftObserverNotificationStatusInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAutoshiftObserverNotificationStatusOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateAutoshiftObserverNotificationStatusOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAutoshiftObserverNotificationStatusOutput>(UpdateAutoshiftObserverNotificationStatusOutput.httpOutput(from:), UpdateAutoshiftObserverNotificationStatusOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `UpdatePracticeRunConfiguration` operation on the `PercDataPlane` service.
     ///
     /// Update a practice run configuration to change one or more of the following: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows.
@@ -636,7 +734,7 @@ extension ARCZonalShiftClient {
 
     /// Performs the `UpdateZonalAutoshiftConfiguration` operation on the `PercDataPlane` service.
     ///
-    /// You can update the zonal autoshift status for a resource, to enable or disable zonal autoshift. When zonal autoshift is ENABLED, Amazon Web Services shifts away resource traffic from an Availability Zone, on your behalf, when Amazon Web Services determines that there's an issue in the Availability Zone that could potentially affect customers.
+    /// The zonal autoshift configuration for a resource includes the practice run configuration and the status for running autoshifts, zonal autoshift status. When a resource has a practice run configuation, Route 53 ARC starts weekly zonal shifts for the resource, to shift traffic away from an Availability Zone. Weekly practice runs help you to make sure that your application can continue to operate normally with the loss of one Availability Zone. You can update the zonal autoshift autoshift status to enable or disable zonal autoshift. When zonal autoshift is ENABLED, you authorize Amazon Web Services to shift away resource traffic for an application from an Availability Zone during events, on your behalf, to help reduce time to recovery. Traffic is also shifted away for the required weekly practice runs.
     ///
     /// - Parameter UpdateZonalAutoshiftConfigurationInput : [no documentation found]
     ///

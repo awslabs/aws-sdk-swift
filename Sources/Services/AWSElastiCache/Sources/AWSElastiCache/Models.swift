@@ -9,7 +9,7 @@
 
 import Foundation
 import class SmithyFormURL.Writer
-import class SmithyHTTPAPI.HttpResponse
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyXML.Reader
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
@@ -50,7 +50,7 @@ public struct CacheClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -74,7 +74,7 @@ public struct CacheParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -98,7 +98,7 @@ public struct CacheSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -122,7 +122,7 @@ public struct CacheSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -146,7 +146,7 @@ public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -170,7 +170,7 @@ public struct InvalidReplicationGroupStateFault: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -194,7 +194,7 @@ public struct InvalidServerlessCacheSnapshotStateFault: ClientRuntime.ModeledErr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -218,7 +218,7 @@ public struct InvalidServerlessCacheStateFault: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -242,7 +242,7 @@ public struct ReplicationGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -266,7 +266,7 @@ public struct ReservedCacheNodeNotFoundFault: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -290,7 +290,7 @@ public struct ServerlessCacheNotFoundFault: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -314,7 +314,7 @@ public struct ServerlessCacheSnapshotNotFoundFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -338,7 +338,7 @@ public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -362,7 +362,7 @@ public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -386,7 +386,7 @@ public struct UserGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -410,7 +410,7 @@ public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -486,7 +486,7 @@ public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -510,7 +510,7 @@ public struct InvalidCacheSecurityGroupStateFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -535,7 +535,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -560,7 +560,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -688,7 +688,7 @@ public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -896,7 +896,7 @@ public struct ReplicationGroupNotUnderMigrationFault: ClientRuntime.ModeledError
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1811,7 +1811,7 @@ public struct ServerlessCacheSnapshotAlreadyExistsFault: ClientRuntime.ModeledEr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1835,7 +1835,7 @@ public struct ServerlessCacheSnapshotQuotaExceededFault: ClientRuntime.ModeledEr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1859,7 +1859,7 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -1993,7 +1993,7 @@ public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2017,7 +2017,7 @@ public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2041,7 +2041,7 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2368,7 +2368,7 @@ public struct CacheClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2392,7 +2392,7 @@ public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2416,7 +2416,7 @@ public struct InsufficientCacheClusterCapacityFault: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2440,7 +2440,7 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2464,7 +2464,7 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -2488,7 +2488,7 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3209,7 +3209,7 @@ public struct CacheParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3233,7 +3233,7 @@ public struct CacheParameterGroupQuotaExceededFault: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3257,7 +3257,7 @@ public struct InvalidCacheParameterGroupStateFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3353,7 +3353,7 @@ public struct CacheSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3377,7 +3377,7 @@ public struct CacheSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3442,7 +3442,7 @@ public struct CacheSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3466,7 +3466,7 @@ public struct CacheSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3490,7 +3490,7 @@ public struct CacheSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3514,7 +3514,7 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3538,7 +3538,7 @@ public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3706,7 +3706,7 @@ public struct GlobalReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledErr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3884,7 +3884,7 @@ public struct GlobalReplicationGroupNotFoundFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3908,7 +3908,7 @@ public struct InvalidCacheClusterStateFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3932,7 +3932,7 @@ public struct InvalidGlobalReplicationGroupStateFault: ClientRuntime.ModeledErro
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3956,7 +3956,7 @@ public struct InvalidUserGroupStateFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -3980,7 +3980,7 @@ public struct NodeGroupsPerReplicationGroupQuotaExceededFault: ClientRuntime.Mod
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4004,7 +4004,7 @@ public struct ReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4282,7 +4282,7 @@ public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4306,7 +4306,7 @@ public struct ServerlessCacheAlreadyExistsFault: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4330,7 +4330,7 @@ public struct ServerlessCacheQuotaForCustomerExceededFault: ClientRuntime.Modele
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4644,7 +4644,7 @@ public struct SnapshotFeatureNotSupportedFault: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4710,7 +4710,7 @@ public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4734,7 +4734,7 @@ public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4758,7 +4758,7 @@ public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4974,7 +4974,7 @@ public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -4998,7 +4998,7 @@ public struct UserGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -5022,7 +5022,7 @@ public struct UserGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -5181,7 +5181,7 @@ public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -5357,7 +5357,7 @@ public struct CacheSubnetGroupInUse: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -5541,7 +5541,7 @@ public struct DefaultUserAssociatedToUserGroupFault: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -5565,7 +5565,7 @@ public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -6635,7 +6635,7 @@ public struct ReservedCacheNodesOfferingNotFoundFault: ClientRuntime.ModeledErro
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -7928,7 +7928,7 @@ public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -8330,7 +8330,7 @@ public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -8861,7 +8861,7 @@ public struct ReservedCacheNodeAlreadyExistsFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -8885,7 +8885,7 @@ public struct ReservedCacheNodeQuotaExceededFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -9010,7 +9010,7 @@ public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -9105,7 +9105,7 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -9171,7 +9171,7 @@ public struct ReplicationGroupAlreadyUnderMigrationFault: ClientRuntime.ModeledE
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -9245,7 +9245,7 @@ public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -9269,7 +9269,7 @@ public struct NodeGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -9293,7 +9293,7 @@ public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -10951,7 +10951,7 @@ extension TestMigrationInput {
 
 extension AddTagsToResourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddTagsToResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddTagsToResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["AddTagsToResourceResult"]
@@ -10963,7 +10963,7 @@ extension AddTagsToResourceOutput {
 
 extension AuthorizeCacheSecurityGroupIngressOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AuthorizeCacheSecurityGroupIngressOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AuthorizeCacheSecurityGroupIngressOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["AuthorizeCacheSecurityGroupIngressResult"]
@@ -10975,7 +10975,7 @@ extension AuthorizeCacheSecurityGroupIngressOutput {
 
 extension BatchApplyUpdateActionOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchApplyUpdateActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchApplyUpdateActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["BatchApplyUpdateActionResult"]
@@ -10988,7 +10988,7 @@ extension BatchApplyUpdateActionOutput {
 
 extension BatchStopUpdateActionOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchStopUpdateActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchStopUpdateActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["BatchStopUpdateActionResult"]
@@ -11001,7 +11001,7 @@ extension BatchStopUpdateActionOutput {
 
 extension CompleteMigrationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CompleteMigrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CompleteMigrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CompleteMigrationResult"]
@@ -11013,7 +11013,7 @@ extension CompleteMigrationOutput {
 
 extension CopyServerlessCacheSnapshotOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopyServerlessCacheSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CopyServerlessCacheSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CopyServerlessCacheSnapshotResult"]
@@ -11025,7 +11025,7 @@ extension CopyServerlessCacheSnapshotOutput {
 
 extension CopySnapshotOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopySnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CopySnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CopySnapshotResult"]
@@ -11037,7 +11037,7 @@ extension CopySnapshotOutput {
 
 extension CreateCacheClusterOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCacheClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCacheClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateCacheClusterResult"]
@@ -11049,7 +11049,7 @@ extension CreateCacheClusterOutput {
 
 extension CreateCacheParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCacheParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCacheParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateCacheParameterGroupResult"]
@@ -11061,7 +11061,7 @@ extension CreateCacheParameterGroupOutput {
 
 extension CreateCacheSecurityGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCacheSecurityGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCacheSecurityGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateCacheSecurityGroupResult"]
@@ -11073,7 +11073,7 @@ extension CreateCacheSecurityGroupOutput {
 
 extension CreateCacheSubnetGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCacheSubnetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCacheSubnetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateCacheSubnetGroupResult"]
@@ -11085,7 +11085,7 @@ extension CreateCacheSubnetGroupOutput {
 
 extension CreateGlobalReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGlobalReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateGlobalReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateGlobalReplicationGroupResult"]
@@ -11097,7 +11097,7 @@ extension CreateGlobalReplicationGroupOutput {
 
 extension CreateReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateReplicationGroupResult"]
@@ -11109,7 +11109,7 @@ extension CreateReplicationGroupOutput {
 
 extension CreateServerlessCacheOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateServerlessCacheOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateServerlessCacheOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateServerlessCacheResult"]
@@ -11121,7 +11121,7 @@ extension CreateServerlessCacheOutput {
 
 extension CreateServerlessCacheSnapshotOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateServerlessCacheSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateServerlessCacheSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateServerlessCacheSnapshotResult"]
@@ -11133,7 +11133,7 @@ extension CreateServerlessCacheSnapshotOutput {
 
 extension CreateSnapshotOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateSnapshotResult"]
@@ -11145,7 +11145,7 @@ extension CreateSnapshotOutput {
 
 extension CreateUserOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateUserResult"]
@@ -11165,7 +11165,7 @@ extension CreateUserOutput {
 
 extension CreateUserGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateUserGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateUserGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateUserGroupResult"]
@@ -11185,7 +11185,7 @@ extension CreateUserGroupOutput {
 
 extension DecreaseNodeGroupsInGlobalReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DecreaseNodeGroupsInGlobalReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DecreaseNodeGroupsInGlobalReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DecreaseNodeGroupsInGlobalReplicationGroupResult"]
@@ -11197,7 +11197,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupOutput {
 
 extension DecreaseReplicaCountOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DecreaseReplicaCountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DecreaseReplicaCountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DecreaseReplicaCountResult"]
@@ -11209,7 +11209,7 @@ extension DecreaseReplicaCountOutput {
 
 extension DeleteCacheClusterOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCacheClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCacheClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteCacheClusterResult"]
@@ -11221,28 +11221,28 @@ extension DeleteCacheClusterOutput {
 
 extension DeleteCacheParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCacheParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCacheParameterGroupOutput {
         return DeleteCacheParameterGroupOutput()
     }
 }
 
 extension DeleteCacheSecurityGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCacheSecurityGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCacheSecurityGroupOutput {
         return DeleteCacheSecurityGroupOutput()
     }
 }
 
 extension DeleteCacheSubnetGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCacheSubnetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCacheSubnetGroupOutput {
         return DeleteCacheSubnetGroupOutput()
     }
 }
 
 extension DeleteGlobalReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGlobalReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteGlobalReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteGlobalReplicationGroupResult"]
@@ -11254,7 +11254,7 @@ extension DeleteGlobalReplicationGroupOutput {
 
 extension DeleteReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteReplicationGroupResult"]
@@ -11266,7 +11266,7 @@ extension DeleteReplicationGroupOutput {
 
 extension DeleteServerlessCacheOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteServerlessCacheOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServerlessCacheOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteServerlessCacheResult"]
@@ -11278,7 +11278,7 @@ extension DeleteServerlessCacheOutput {
 
 extension DeleteServerlessCacheSnapshotOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteServerlessCacheSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServerlessCacheSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteServerlessCacheSnapshotResult"]
@@ -11290,7 +11290,7 @@ extension DeleteServerlessCacheSnapshotOutput {
 
 extension DeleteSnapshotOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteSnapshotResult"]
@@ -11302,7 +11302,7 @@ extension DeleteSnapshotOutput {
 
 extension DeleteUserOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteUserResult"]
@@ -11322,7 +11322,7 @@ extension DeleteUserOutput {
 
 extension DeleteUserGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUserGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteUserGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteUserGroupResult"]
@@ -11342,7 +11342,7 @@ extension DeleteUserGroupOutput {
 
 extension DescribeCacheClustersOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCacheClustersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCacheClustersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeCacheClustersResult"]
@@ -11355,7 +11355,7 @@ extension DescribeCacheClustersOutput {
 
 extension DescribeCacheEngineVersionsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCacheEngineVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCacheEngineVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeCacheEngineVersionsResult"]
@@ -11368,7 +11368,7 @@ extension DescribeCacheEngineVersionsOutput {
 
 extension DescribeCacheParameterGroupsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCacheParameterGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCacheParameterGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeCacheParameterGroupsResult"]
@@ -11381,7 +11381,7 @@ extension DescribeCacheParameterGroupsOutput {
 
 extension DescribeCacheParametersOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCacheParametersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCacheParametersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeCacheParametersResult"]
@@ -11395,7 +11395,7 @@ extension DescribeCacheParametersOutput {
 
 extension DescribeCacheSecurityGroupsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCacheSecurityGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCacheSecurityGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeCacheSecurityGroupsResult"]
@@ -11408,7 +11408,7 @@ extension DescribeCacheSecurityGroupsOutput {
 
 extension DescribeCacheSubnetGroupsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCacheSubnetGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCacheSubnetGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeCacheSubnetGroupsResult"]
@@ -11421,7 +11421,7 @@ extension DescribeCacheSubnetGroupsOutput {
 
 extension DescribeEngineDefaultParametersOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEngineDefaultParametersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEngineDefaultParametersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEngineDefaultParametersResult"]
@@ -11433,7 +11433,7 @@ extension DescribeEngineDefaultParametersOutput {
 
 extension DescribeEventsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEventsResult"]
@@ -11446,7 +11446,7 @@ extension DescribeEventsOutput {
 
 extension DescribeGlobalReplicationGroupsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeGlobalReplicationGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeGlobalReplicationGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeGlobalReplicationGroupsResult"]
@@ -11459,7 +11459,7 @@ extension DescribeGlobalReplicationGroupsOutput {
 
 extension DescribeReplicationGroupsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeReplicationGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeReplicationGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeReplicationGroupsResult"]
@@ -11472,7 +11472,7 @@ extension DescribeReplicationGroupsOutput {
 
 extension DescribeReservedCacheNodesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeReservedCacheNodesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeReservedCacheNodesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeReservedCacheNodesResult"]
@@ -11485,7 +11485,7 @@ extension DescribeReservedCacheNodesOutput {
 
 extension DescribeReservedCacheNodesOfferingsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeReservedCacheNodesOfferingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeReservedCacheNodesOfferingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeReservedCacheNodesOfferingsResult"]
@@ -11498,7 +11498,7 @@ extension DescribeReservedCacheNodesOfferingsOutput {
 
 extension DescribeServerlessCachesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeServerlessCachesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeServerlessCachesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeServerlessCachesResult"]
@@ -11511,7 +11511,7 @@ extension DescribeServerlessCachesOutput {
 
 extension DescribeServerlessCacheSnapshotsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeServerlessCacheSnapshotsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeServerlessCacheSnapshotsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeServerlessCacheSnapshotsResult"]
@@ -11524,7 +11524,7 @@ extension DescribeServerlessCacheSnapshotsOutput {
 
 extension DescribeServiceUpdatesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeServiceUpdatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeServiceUpdatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeServiceUpdatesResult"]
@@ -11537,7 +11537,7 @@ extension DescribeServiceUpdatesOutput {
 
 extension DescribeSnapshotsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSnapshotsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSnapshotsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeSnapshotsResult"]
@@ -11550,7 +11550,7 @@ extension DescribeSnapshotsOutput {
 
 extension DescribeUpdateActionsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeUpdateActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeUpdateActionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeUpdateActionsResult"]
@@ -11563,7 +11563,7 @@ extension DescribeUpdateActionsOutput {
 
 extension DescribeUserGroupsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeUserGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeUserGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeUserGroupsResult"]
@@ -11576,7 +11576,7 @@ extension DescribeUserGroupsOutput {
 
 extension DescribeUsersOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeUsersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeUsersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeUsersResult"]
@@ -11589,7 +11589,7 @@ extension DescribeUsersOutput {
 
 extension DisassociateGlobalReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateGlobalReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateGlobalReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DisassociateGlobalReplicationGroupResult"]
@@ -11601,7 +11601,7 @@ extension DisassociateGlobalReplicationGroupOutput {
 
 extension ExportServerlessCacheSnapshotOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportServerlessCacheSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportServerlessCacheSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ExportServerlessCacheSnapshotResult"]
@@ -11613,7 +11613,7 @@ extension ExportServerlessCacheSnapshotOutput {
 
 extension FailoverGlobalReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> FailoverGlobalReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> FailoverGlobalReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["FailoverGlobalReplicationGroupResult"]
@@ -11625,7 +11625,7 @@ extension FailoverGlobalReplicationGroupOutput {
 
 extension IncreaseNodeGroupsInGlobalReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> IncreaseNodeGroupsInGlobalReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> IncreaseNodeGroupsInGlobalReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["IncreaseNodeGroupsInGlobalReplicationGroupResult"]
@@ -11637,7 +11637,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupOutput {
 
 extension IncreaseReplicaCountOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> IncreaseReplicaCountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> IncreaseReplicaCountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["IncreaseReplicaCountResult"]
@@ -11649,7 +11649,7 @@ extension IncreaseReplicaCountOutput {
 
 extension ListAllowedNodeTypeModificationsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAllowedNodeTypeModificationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAllowedNodeTypeModificationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAllowedNodeTypeModificationsResult"]
@@ -11662,7 +11662,7 @@ extension ListAllowedNodeTypeModificationsOutput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListTagsForResourceResult"]
@@ -11674,7 +11674,7 @@ extension ListTagsForResourceOutput {
 
 extension ModifyCacheClusterOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyCacheClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyCacheClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyCacheClusterResult"]
@@ -11686,7 +11686,7 @@ extension ModifyCacheClusterOutput {
 
 extension ModifyCacheParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyCacheParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyCacheParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyCacheParameterGroupResult"]
@@ -11698,7 +11698,7 @@ extension ModifyCacheParameterGroupOutput {
 
 extension ModifyCacheSubnetGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyCacheSubnetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyCacheSubnetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyCacheSubnetGroupResult"]
@@ -11710,7 +11710,7 @@ extension ModifyCacheSubnetGroupOutput {
 
 extension ModifyGlobalReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyGlobalReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyGlobalReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyGlobalReplicationGroupResult"]
@@ -11722,7 +11722,7 @@ extension ModifyGlobalReplicationGroupOutput {
 
 extension ModifyReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyReplicationGroupResult"]
@@ -11734,7 +11734,7 @@ extension ModifyReplicationGroupOutput {
 
 extension ModifyReplicationGroupShardConfigurationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyReplicationGroupShardConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyReplicationGroupShardConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyReplicationGroupShardConfigurationResult"]
@@ -11746,7 +11746,7 @@ extension ModifyReplicationGroupShardConfigurationOutput {
 
 extension ModifyServerlessCacheOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyServerlessCacheOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyServerlessCacheOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyServerlessCacheResult"]
@@ -11758,7 +11758,7 @@ extension ModifyServerlessCacheOutput {
 
 extension ModifyUserOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyUserResult"]
@@ -11778,7 +11778,7 @@ extension ModifyUserOutput {
 
 extension ModifyUserGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyUserGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyUserGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyUserGroupResult"]
@@ -11798,7 +11798,7 @@ extension ModifyUserGroupOutput {
 
 extension PurchaseReservedCacheNodesOfferingOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PurchaseReservedCacheNodesOfferingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PurchaseReservedCacheNodesOfferingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["PurchaseReservedCacheNodesOfferingResult"]
@@ -11810,7 +11810,7 @@ extension PurchaseReservedCacheNodesOfferingOutput {
 
 extension RebalanceSlotsInGlobalReplicationGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RebalanceSlotsInGlobalReplicationGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RebalanceSlotsInGlobalReplicationGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RebalanceSlotsInGlobalReplicationGroupResult"]
@@ -11822,7 +11822,7 @@ extension RebalanceSlotsInGlobalReplicationGroupOutput {
 
 extension RebootCacheClusterOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RebootCacheClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RebootCacheClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RebootCacheClusterResult"]
@@ -11834,7 +11834,7 @@ extension RebootCacheClusterOutput {
 
 extension RemoveTagsFromResourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveTagsFromResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveTagsFromResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RemoveTagsFromResourceResult"]
@@ -11846,7 +11846,7 @@ extension RemoveTagsFromResourceOutput {
 
 extension ResetCacheParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResetCacheParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ResetCacheParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ResetCacheParameterGroupResult"]
@@ -11858,7 +11858,7 @@ extension ResetCacheParameterGroupOutput {
 
 extension RevokeCacheSecurityGroupIngressOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RevokeCacheSecurityGroupIngressOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeCacheSecurityGroupIngressOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RevokeCacheSecurityGroupIngressResult"]
@@ -11870,7 +11870,7 @@ extension RevokeCacheSecurityGroupIngressOutput {
 
 extension StartMigrationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartMigrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMigrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StartMigrationResult"]
@@ -11882,7 +11882,7 @@ extension StartMigrationOutput {
 
 extension TestFailoverOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TestFailoverOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TestFailoverOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["TestFailoverResult"]
@@ -11894,7 +11894,7 @@ extension TestFailoverOutput {
 
 extension TestMigrationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TestMigrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TestMigrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["TestMigrationResult"]
@@ -11906,7 +11906,7 @@ extension TestMigrationOutput {
 
 enum AddTagsToResourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11935,7 +11935,7 @@ enum AddTagsToResourceOutputError {
 
 enum AuthorizeCacheSecurityGroupIngressOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11953,7 +11953,7 @@ enum AuthorizeCacheSecurityGroupIngressOutputError {
 
 enum BatchApplyUpdateActionOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11968,7 +11968,7 @@ enum BatchApplyUpdateActionOutputError {
 
 enum BatchStopUpdateActionOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11983,7 +11983,7 @@ enum BatchStopUpdateActionOutputError {
 
 enum CompleteMigrationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11999,7 +11999,7 @@ enum CompleteMigrationOutputError {
 
 enum CopyServerlessCacheSnapshotOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12020,7 +12020,7 @@ enum CopyServerlessCacheSnapshotOutputError {
 
 enum CopySnapshotOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12040,7 +12040,7 @@ enum CopySnapshotOutputError {
 
 enum CreateCacheClusterOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12067,7 +12067,7 @@ enum CreateCacheClusterOutputError {
 
 enum CreateCacheParameterGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12086,7 +12086,7 @@ enum CreateCacheParameterGroupOutputError {
 
 enum CreateCacheSecurityGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12104,7 +12104,7 @@ enum CreateCacheSecurityGroupOutputError {
 
 enum CreateCacheSubnetGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12123,7 +12123,7 @@ enum CreateCacheSubnetGroupOutputError {
 
 enum CreateGlobalReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12141,7 +12141,7 @@ enum CreateGlobalReplicationGroupOutputError {
 
 enum CreateReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12173,7 +12173,7 @@ enum CreateReplicationGroupOutputError {
 
 enum CreateServerlessCacheOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12197,7 +12197,7 @@ enum CreateServerlessCacheOutputError {
 
 enum CreateServerlessCacheSnapshotOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12218,7 +12218,7 @@ enum CreateServerlessCacheSnapshotOutputError {
 
 enum CreateSnapshotOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12241,7 +12241,7 @@ enum CreateSnapshotOutputError {
 
 enum CreateUserOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12261,7 +12261,7 @@ enum CreateUserOutputError {
 
 enum CreateUserGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12282,7 +12282,7 @@ enum CreateUserGroupOutputError {
 
 enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12299,7 +12299,7 @@ enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError {
 
 enum DecreaseReplicaCountOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12324,7 +12324,7 @@ enum DecreaseReplicaCountOutputError {
 
 enum DeleteCacheClusterOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12344,7 +12344,7 @@ enum DeleteCacheClusterOutputError {
 
 enum DeleteCacheParameterGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12361,7 +12361,7 @@ enum DeleteCacheParameterGroupOutputError {
 
 enum DeleteCacheSecurityGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12378,7 +12378,7 @@ enum DeleteCacheSecurityGroupOutputError {
 
 enum DeleteCacheSubnetGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12393,7 +12393,7 @@ enum DeleteCacheSubnetGroupOutputError {
 
 enum DeleteGlobalReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12409,7 +12409,7 @@ enum DeleteGlobalReplicationGroupOutputError {
 
 enum DeleteReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12429,7 +12429,7 @@ enum DeleteReplicationGroupOutputError {
 
 enum DeleteServerlessCacheOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12449,7 +12449,7 @@ enum DeleteServerlessCacheOutputError {
 
 enum DeleteServerlessCacheSnapshotOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12466,7 +12466,7 @@ enum DeleteServerlessCacheSnapshotOutputError {
 
 enum DeleteSnapshotOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12483,7 +12483,7 @@ enum DeleteSnapshotOutputError {
 
 enum DeleteUserOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12501,7 +12501,7 @@ enum DeleteUserOutputError {
 
 enum DeleteUserGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12518,7 +12518,7 @@ enum DeleteUserGroupOutputError {
 
 enum DescribeCacheClustersOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12534,7 +12534,7 @@ enum DescribeCacheClustersOutputError {
 
 enum DescribeCacheEngineVersionsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12547,7 +12547,7 @@ enum DescribeCacheEngineVersionsOutputError {
 
 enum DescribeCacheParameterGroupsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12563,7 +12563,7 @@ enum DescribeCacheParameterGroupsOutputError {
 
 enum DescribeCacheParametersOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12579,7 +12579,7 @@ enum DescribeCacheParametersOutputError {
 
 enum DescribeCacheSecurityGroupsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12595,7 +12595,7 @@ enum DescribeCacheSecurityGroupsOutputError {
 
 enum DescribeCacheSubnetGroupsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12609,7 +12609,7 @@ enum DescribeCacheSubnetGroupsOutputError {
 
 enum DescribeEngineDefaultParametersOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12624,7 +12624,7 @@ enum DescribeEngineDefaultParametersOutputError {
 
 enum DescribeEventsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12639,7 +12639,7 @@ enum DescribeEventsOutputError {
 
 enum DescribeGlobalReplicationGroupsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12655,7 +12655,7 @@ enum DescribeGlobalReplicationGroupsOutputError {
 
 enum DescribeReplicationGroupsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12671,7 +12671,7 @@ enum DescribeReplicationGroupsOutputError {
 
 enum DescribeReservedCacheNodesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12687,7 +12687,7 @@ enum DescribeReservedCacheNodesOutputError {
 
 enum DescribeReservedCacheNodesOfferingsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12703,7 +12703,7 @@ enum DescribeReservedCacheNodesOfferingsOutputError {
 
 enum DescribeServerlessCachesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12719,7 +12719,7 @@ enum DescribeServerlessCachesOutputError {
 
 enum DescribeServerlessCacheSnapshotsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12736,7 +12736,7 @@ enum DescribeServerlessCacheSnapshotsOutputError {
 
 enum DescribeServiceUpdatesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12752,7 +12752,7 @@ enum DescribeServiceUpdatesOutputError {
 
 enum DescribeSnapshotsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12769,7 +12769,7 @@ enum DescribeSnapshotsOutputError {
 
 enum DescribeUpdateActionsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12784,7 +12784,7 @@ enum DescribeUpdateActionsOutputError {
 
 enum DescribeUserGroupsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12800,7 +12800,7 @@ enum DescribeUserGroupsOutputError {
 
 enum DescribeUsersOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12816,7 +12816,7 @@ enum DescribeUsersOutputError {
 
 enum DisassociateGlobalReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12833,7 +12833,7 @@ enum DisassociateGlobalReplicationGroupOutputError {
 
 enum ExportServerlessCacheSnapshotOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12850,7 +12850,7 @@ enum ExportServerlessCacheSnapshotOutputError {
 
 enum FailoverGlobalReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12867,7 +12867,7 @@ enum FailoverGlobalReplicationGroupOutputError {
 
 enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12883,7 +12883,7 @@ enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError {
 
 enum IncreaseReplicaCountOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12908,7 +12908,7 @@ enum IncreaseReplicaCountOutputError {
 
 enum ListAllowedNodeTypeModificationsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12925,7 +12925,7 @@ enum ListAllowedNodeTypeModificationsOutputError {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12953,7 +12953,7 @@ enum ListTagsForResourceOutputError {
 
 enum ModifyCacheClusterOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12977,7 +12977,7 @@ enum ModifyCacheClusterOutputError {
 
 enum ModifyCacheParameterGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12995,7 +12995,7 @@ enum ModifyCacheParameterGroupOutputError {
 
 enum ModifyCacheSubnetGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13013,7 +13013,7 @@ enum ModifyCacheSubnetGroupOutputError {
 
 enum ModifyGlobalReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13029,7 +13029,7 @@ enum ModifyGlobalReplicationGroupOutputError {
 
 enum ModifyReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13058,7 +13058,7 @@ enum ModifyReplicationGroupOutputError {
 
 enum ModifyReplicationGroupShardConfigurationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13081,7 +13081,7 @@ enum ModifyReplicationGroupShardConfigurationOutputError {
 
 enum ModifyServerlessCacheOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13102,7 +13102,7 @@ enum ModifyServerlessCacheOutputError {
 
 enum ModifyUserOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13120,7 +13120,7 @@ enum ModifyUserOutputError {
 
 enum ModifyUserGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13141,7 +13141,7 @@ enum ModifyUserGroupOutputError {
 
 enum PurchaseReservedCacheNodesOfferingOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13160,7 +13160,7 @@ enum PurchaseReservedCacheNodesOfferingOutputError {
 
 enum RebalanceSlotsInGlobalReplicationGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13176,7 +13176,7 @@ enum RebalanceSlotsInGlobalReplicationGroupOutputError {
 
 enum RebootCacheClusterOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13191,7 +13191,7 @@ enum RebootCacheClusterOutputError {
 
 enum RemoveTagsFromResourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13220,7 +13220,7 @@ enum RemoveTagsFromResourceOutputError {
 
 enum ResetCacheParameterGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13238,7 +13238,7 @@ enum ResetCacheParameterGroupOutputError {
 
 enum RevokeCacheSecurityGroupIngressOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13256,7 +13256,7 @@ enum RevokeCacheSecurityGroupIngressOutputError {
 
 enum StartMigrationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13273,7 +13273,7 @@ enum StartMigrationOutputError {
 
 enum TestFailoverOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13295,7 +13295,7 @@ enum TestFailoverOutputError {
 
 enum TestMigrationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -17,8 +17,8 @@ import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HttpResponse
-import class SmithyHTTPAPI.SdkHttpRequest
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -219,7 +219,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCapacityProviderInput, CreateCapacityProviderOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCapacityProviderInput, CreateCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -288,7 +288,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateClusterInput, CreateClusterOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateClusterInput, CreateClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -369,7 +369,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceInput, CreateServiceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceInput, CreateServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -445,7 +445,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTaskSetInput, CreateTaskSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTaskSetInput, CreateTaskSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -513,7 +513,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccountSettingInput, DeleteAccountSettingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccountSettingInput, DeleteAccountSettingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -581,7 +581,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAttributesInput, DeleteAttributesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAttributesInput, DeleteAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -649,7 +649,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCapacityProviderInput, DeleteCapacityProviderOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCapacityProviderInput, DeleteCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -722,7 +722,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteClusterInput, DeleteClusterOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteClusterInput, DeleteClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -792,7 +792,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceInput, DeleteServiceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceInput, DeleteServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -861,7 +861,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -935,7 +935,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTaskSetInput, DeleteTaskSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTaskSetInput, DeleteTaskSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1004,7 +1004,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1072,7 +1072,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1140,7 +1140,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1208,7 +1208,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeClustersInput, DescribeClustersOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeClustersInput, DescribeClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1277,7 +1277,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeContainerInstancesInput, DescribeContainerInstancesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeContainerInstancesInput, DescribeContainerInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1346,7 +1346,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeServicesInput, DescribeServicesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeServicesInput, DescribeServicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1414,7 +1414,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1487,7 +1487,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskSetsInput, DescribeTaskSetsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskSetsInput, DescribeTaskSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1556,7 +1556,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTasksInput, DescribeTasksOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeTasksInput, DescribeTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1623,7 +1623,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DiscoverPollEndpointInput, DiscoverPollEndpointOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DiscoverPollEndpointInput, DiscoverPollEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1703,7 +1703,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExecuteCommandInput, ExecuteCommandOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ExecuteCommandInput, ExecuteCommandOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1775,7 +1775,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTaskProtectionInput, GetTaskProtectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTaskProtectionInput, GetTaskProtectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1843,7 +1843,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAccountSettingsInput, ListAccountSettingsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAccountSettingsInput, ListAccountSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1910,7 +1910,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAttributesInput, ListAttributesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAttributesInput, ListAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1978,7 +1978,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListClustersInput, ListClustersOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListClustersInput, ListClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2047,7 +2047,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListContainerInstancesInput, ListContainerInstancesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListContainerInstancesInput, ListContainerInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2116,7 +2116,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServicesInput, ListServicesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListServicesInput, ListServicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2185,7 +2185,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServicesByNamespaceInput, ListServicesByNamespaceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListServicesByNamespaceInput, ListServicesByNamespaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2254,7 +2254,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2322,7 +2322,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2390,7 +2390,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTaskDefinitionsInput, ListTaskDefinitionsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTaskDefinitionsInput, ListTaskDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2460,7 +2460,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTasksInput, ListTasksOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTasksInput, ListTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2528,7 +2528,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingInput, PutAccountSettingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingInput, PutAccountSettingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2596,7 +2596,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2665,7 +2665,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAttributesInput, PutAttributesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAttributesInput, PutAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2736,7 +2736,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2804,7 +2804,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RegisterContainerInstanceInput, RegisterContainerInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterContainerInstanceInput, RegisterContainerInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2872,7 +2872,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2955,7 +2955,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RunTaskInput, RunTaskOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<RunTaskInput, RunTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3026,7 +3026,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartTaskInput, StartTaskOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<StartTaskInput, StartTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3095,7 +3095,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopTaskInput, StopTaskOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<StopTaskInput, StopTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3164,7 +3164,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3232,7 +3232,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3301,7 +3301,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3371,7 +3371,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3441,7 +3441,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3509,7 +3509,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCapacityProviderInput, UpdateCapacityProviderOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCapacityProviderInput, UpdateCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3579,7 +3579,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterInput, UpdateClusterOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterInput, UpdateClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3648,7 +3648,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterSettingsInput, UpdateClusterSettingsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterSettingsInput, UpdateClusterSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3720,7 +3720,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerAgentInput, UpdateContainerAgentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerAgentInput, UpdateContainerAgentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3796,7 +3796,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3907,7 +3907,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceInput, UpdateServiceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceInput, UpdateServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3981,7 +3981,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4053,7 +4053,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskProtectionInput, UpdateTaskProtectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskProtectionInput, UpdateTaskProtectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4127,7 +4127,7 @@ extension ECSClient {
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskSetInput, UpdateTaskSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskSetInput, UpdateTaskSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }

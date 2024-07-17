@@ -10,7 +10,7 @@
 import Foundation
 import class ClientRuntime.Indirect
 import class SmithyEventStreams.DefaultMessageDecoder
-import class SmithyHTTPAPI.HttpResponse
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyJSON.Reader
 import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
@@ -246,7 +246,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -684,7 +684,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -713,7 +713,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -745,7 +745,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -781,7 +781,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -810,7 +810,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -895,7 +895,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -979,6 +979,98 @@ extension QBusinessClientTypes.EncryptionConfiguration: Swift.CustomDebugStringC
 }
 
 extension QBusinessClientTypes {
+
+    public enum PersonalizationControlMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PersonalizationControlMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html).
+    public struct PersonalizationConfiguration {
+        /// An option to allow Amazon Q Business to customize chat responses using user specific metadata—specifically, location and job information—in your IAM Identity Center instance.
+        /// This member is required.
+        public var personalizationControlMode: QBusinessClientTypes.PersonalizationControlMode?
+
+        public init(
+            personalizationControlMode: QBusinessClientTypes.PersonalizationControlMode? = nil
+        )
+        {
+            self.personalizationControlMode = personalizationControlMode
+        }
+    }
+
+}
+
+extension QBusinessClientTypes {
+
+    public enum QAppsControlMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QAppsControlMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Configuration information about Amazon Q Apps. (preview feature)
+    public struct QAppsConfiguration {
+        /// Status information about whether end users can create and use Amazon Q Apps in the web experience.
+        /// This member is required.
+        public var qAppsControlMode: QBusinessClientTypes.QAppsControlMode?
+
+        public init(
+            qAppsControlMode: QBusinessClientTypes.QAppsControlMode? = nil
+        )
+        {
+            self.qAppsControlMode = qAppsControlMode
+        }
+    }
+
+}
+
+extension QBusinessClientTypes {
     /// A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public struct Tag {
         /// The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source.
@@ -1014,6 +1106,10 @@ public struct CreateApplicationInput {
     public var encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration?
     /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
     public var identityCenterInstanceArn: Swift.String?
+    /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html)
+    public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
+    /// An option to allow end users to create and use Amazon Q Apps in the web experience.
+    public var qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration?
     /// The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics.
     public var roleArn: Swift.String?
     /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
@@ -1026,6 +1122,8 @@ public struct CreateApplicationInput {
         displayName: Swift.String? = nil,
         encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
+        personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration? = nil,
+        qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration? = nil,
         roleArn: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil
     )
@@ -1036,6 +1134,8 @@ public struct CreateApplicationInput {
         self.displayName = displayName
         self.encryptionConfiguration = encryptionConfiguration
         self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.personalizationConfiguration = personalizationConfiguration
+        self.qAppsConfiguration = qAppsConfiguration
         self.roleArn = roleArn
         self.tags = tags
     }
@@ -1178,6 +1278,10 @@ public struct GetApplicationOutput {
     public var error: QBusinessClientTypes.ErrorDetail?
     /// The Amazon Resource Name (ARN) of the AWS IAM Identity Center instance attached to your Amazon Q Business application.
     public var identityCenterApplicationArn: Swift.String?
+    /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html).
+    public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
+    /// Settings for whether end users can create and use Amazon Q Apps in the web experience.
+    public var qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration?
     /// The Amazon Resource Name (ARN) of the IAM with permissions to access your CloudWatch logs and metrics.
     public var roleArn: Swift.String?
     /// The status of the Amazon Q Business application.
@@ -1195,6 +1299,8 @@ public struct GetApplicationOutput {
         encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration? = nil,
         error: QBusinessClientTypes.ErrorDetail? = nil,
         identityCenterApplicationArn: Swift.String? = nil,
+        personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration? = nil,
+        qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration? = nil,
         roleArn: Swift.String? = nil,
         status: QBusinessClientTypes.ApplicationStatus? = nil,
         updatedAt: Foundation.Date? = nil
@@ -1209,6 +1315,8 @@ public struct GetApplicationOutput {
         self.encryptionConfiguration = encryptionConfiguration
         self.error = error
         self.identityCenterApplicationArn = identityCenterApplicationArn
+        self.personalizationConfiguration = personalizationConfiguration
+        self.qAppsConfiguration = qAppsConfiguration
         self.roleArn = roleArn
         self.status = status
         self.updatedAt = updatedAt
@@ -1275,7 +1383,7 @@ public struct CreateIndexInput {
     public var displayName: Swift.String?
     /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [QBusinessClientTypes.Tag]?
-    /// The index type that's suitable for your needs. For more information on what's included in each type of index or index tier, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/what-is.html#tiers).
+    /// The index type that's suitable for your needs. For more information on what's included in each type of index, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#index-tiers).
     public var type: QBusinessClientTypes.IndexType?
 
     public init(
@@ -3382,6 +3490,10 @@ public struct UpdateApplicationInput {
     public var displayName: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
     public var identityCenterInstanceArn: Swift.String?
+    /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html).
+    public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
+    /// An option to allow end users to create and use Amazon Q Apps in the web experience.
+    public var qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration?
     /// An Amazon Web Services Identity and Access Management (IAM) role that gives Amazon Q Business permission to access Amazon CloudWatch logs and metrics.
     public var roleArn: Swift.String?
 
@@ -3391,6 +3503,8 @@ public struct UpdateApplicationInput {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
+        personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration? = nil,
+        qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration? = nil,
         roleArn: Swift.String? = nil
     )
     {
@@ -3399,6 +3513,8 @@ public struct UpdateApplicationInput {
         self.description = description
         self.displayName = displayName
         self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.personalizationConfiguration = personalizationConfiguration
+        self.qAppsConfiguration = qAppsConfiguration
         self.roleArn = roleArn
     }
 }
@@ -4315,7 +4431,7 @@ public struct LicenseNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
@@ -6241,7 +6357,7 @@ extension QBusinessClientTypes {
         public var andAllFilters: [QBusinessClientTypes.AttributeFilter]?
         /// Returns true when a document contains all the specified document attributes or metadata fields. Supported for the following [document attribute value types](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html): stringListValue.
         public var containsAll: QBusinessClientTypes.DocumentAttribute?
-        /// Returns true when a document contains any of the specified document attributes or metadata fields. Supported for the following [document attribute value types](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html): dateValue, longValue, stringListValue and stringValue.
+        /// Returns true when a document contains any of the specified document attributes or metadata fields. Supported for the following [document attribute value types](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html): stringListValue.
         public var containsAny: QBusinessClientTypes.DocumentAttribute?
         /// Performs an equals operation on two document attributes or metadata fields. Supported for the following [document attribute value types](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html): dateValue, longValue, stringListValue and stringValue.
         public var equalsTo: QBusinessClientTypes.DocumentAttribute?
@@ -6348,7 +6464,7 @@ public struct ChatSyncInput {
     public var clientToken: Swift.String?
     /// The identifier of the Amazon Q Business conversation.
     public var conversationId: Swift.String?
-    /// The identifier of the previous end user text input message in a conversation.
+    /// The identifier of the previous system message in a conversation.
     public var parentMessageId: Swift.String?
     /// The groups that a user associated with the chat input belongs to.
     public var userGroups: [Swift.String]?
@@ -7513,6 +7629,8 @@ extension CreateApplicationInput {
         try writer["displayName"].write(value.displayName)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: QBusinessClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["personalizationConfiguration"].write(value.personalizationConfiguration, with: QBusinessClientTypes.PersonalizationConfiguration.write(value:to:))
+        try writer["qAppsConfiguration"].write(value.qAppsConfiguration, with: QBusinessClientTypes.QAppsConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: QBusinessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -7634,6 +7752,8 @@ extension UpdateApplicationInput {
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["personalizationConfiguration"].write(value.personalizationConfiguration, with: QBusinessClientTypes.PersonalizationConfiguration.write(value:to:))
+        try writer["qAppsConfiguration"].write(value.qAppsConfiguration, with: QBusinessClientTypes.QAppsConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
     }
 }
@@ -7722,7 +7842,7 @@ extension UpdateWebExperienceInput {
 
 extension BatchDeleteDocumentOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDeleteDocumentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteDocumentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7734,7 +7854,7 @@ extension BatchDeleteDocumentOutput {
 
 extension BatchPutDocumentOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchPutDocumentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchPutDocumentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7746,7 +7866,7 @@ extension BatchPutDocumentOutput {
 
 extension ChatOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ChatOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ChatOutput {
         var value = ChatOutput()
         if case .stream(let stream) = httpResponse.body {
             let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
@@ -7759,7 +7879,7 @@ extension ChatOutput {
 
 extension ChatSyncOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ChatSyncOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ChatSyncOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7778,7 +7898,7 @@ extension ChatSyncOutput {
 
 extension CreateApplicationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7791,7 +7911,7 @@ extension CreateApplicationOutput {
 
 extension CreateDataSourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7804,7 +7924,7 @@ extension CreateDataSourceOutput {
 
 extension CreateIndexOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7817,7 +7937,7 @@ extension CreateIndexOutput {
 
 extension CreatePluginOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePluginOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7831,7 +7951,7 @@ extension CreatePluginOutput {
 
 extension CreateRetrieverOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRetrieverOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRetrieverOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7844,14 +7964,14 @@ extension CreateRetrieverOutput {
 
 extension CreateUserOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateUserOutput {
         return CreateUserOutput()
     }
 }
 
 extension CreateWebExperienceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWebExperienceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateWebExperienceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7864,77 +7984,77 @@ extension CreateWebExperienceOutput {
 
 extension DeleteApplicationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApplicationOutput {
         return DeleteApplicationOutput()
     }
 }
 
 extension DeleteChatControlsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChatControlsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChatControlsConfigurationOutput {
         return DeleteChatControlsConfigurationOutput()
     }
 }
 
 extension DeleteConversationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConversationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConversationOutput {
         return DeleteConversationOutput()
     }
 }
 
 extension DeleteDataSourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataSourceOutput {
         return DeleteDataSourceOutput()
     }
 }
 
 extension DeleteGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteGroupOutput {
         return DeleteGroupOutput()
     }
 }
 
 extension DeleteIndexOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIndexOutput {
         return DeleteIndexOutput()
     }
 }
 
 extension DeletePluginOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePluginOutput {
         return DeletePluginOutput()
     }
 }
 
 extension DeleteRetrieverOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRetrieverOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRetrieverOutput {
         return DeleteRetrieverOutput()
     }
 }
 
 extension DeleteUserOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteUserOutput {
         return DeleteUserOutput()
     }
 }
 
 extension DeleteWebExperienceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWebExperienceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWebExperienceOutput {
         return DeleteWebExperienceOutput()
     }
 }
 
 extension GetApplicationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7948,6 +8068,8 @@ extension GetApplicationOutput {
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: QBusinessClientTypes.EncryptionConfiguration.read(from:))
         value.error = try reader["error"].readIfPresent(with: QBusinessClientTypes.ErrorDetail.read(from:))
         value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent()
+        value.personalizationConfiguration = try reader["personalizationConfiguration"].readIfPresent(with: QBusinessClientTypes.PersonalizationConfiguration.read(from:))
+        value.qAppsConfiguration = try reader["qAppsConfiguration"].readIfPresent(with: QBusinessClientTypes.QAppsConfiguration.read(from:))
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .epochSeconds)
@@ -7957,7 +8079,7 @@ extension GetApplicationOutput {
 
 extension GetChatControlsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChatControlsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetChatControlsConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7973,7 +8095,7 @@ extension GetChatControlsConfigurationOutput {
 
 extension GetDataSourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8000,7 +8122,7 @@ extension GetDataSourceOutput {
 
 extension GetGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8013,7 +8135,7 @@ extension GetGroupOutput {
 
 extension GetIndexOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8037,7 +8159,7 @@ extension GetIndexOutput {
 
 extension GetPluginOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPluginOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8060,7 +8182,7 @@ extension GetPluginOutput {
 
 extension GetRetrieverOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRetrieverOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRetrieverOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8081,7 +8203,7 @@ extension GetRetrieverOutput {
 
 extension GetUserOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8093,7 +8215,7 @@ extension GetUserOutput {
 
 extension GetWebExperienceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetWebExperienceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWebExperienceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8118,7 +8240,7 @@ extension GetWebExperienceOutput {
 
 extension ListApplicationsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8131,7 +8253,7 @@ extension ListApplicationsOutput {
 
 extension ListConversationsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListConversationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConversationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8144,7 +8266,7 @@ extension ListConversationsOutput {
 
 extension ListDataSourcesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDataSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataSourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8157,7 +8279,7 @@ extension ListDataSourcesOutput {
 
 extension ListDataSourceSyncJobsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDataSourceSyncJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataSourceSyncJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8170,7 +8292,7 @@ extension ListDataSourceSyncJobsOutput {
 
 extension ListDocumentsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDocumentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDocumentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8183,7 +8305,7 @@ extension ListDocumentsOutput {
 
 extension ListGroupsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8196,7 +8318,7 @@ extension ListGroupsOutput {
 
 extension ListIndicesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIndicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListIndicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8209,7 +8331,7 @@ extension ListIndicesOutput {
 
 extension ListMessagesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMessagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMessagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8222,7 +8344,7 @@ extension ListMessagesOutput {
 
 extension ListPluginsOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPluginsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPluginsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8235,7 +8357,7 @@ extension ListPluginsOutput {
 
 extension ListRetrieversOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRetrieversOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRetrieversOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8248,7 +8370,7 @@ extension ListRetrieversOutput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8260,7 +8382,7 @@ extension ListTagsForResourceOutput {
 
 extension ListWebExperiencesOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWebExperiencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWebExperiencesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8273,21 +8395,21 @@ extension ListWebExperiencesOutput {
 
 extension PutFeedbackOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutFeedbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutFeedbackOutput {
         return PutFeedbackOutput()
     }
 }
 
 extension PutGroupOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutGroupOutput {
         return PutGroupOutput()
     }
 }
 
 extension StartDataSourceSyncJobOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDataSourceSyncJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDataSourceSyncJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8299,70 +8421,70 @@ extension StartDataSourceSyncJobOutput {
 
 extension StopDataSourceSyncJobOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopDataSourceSyncJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopDataSourceSyncJobOutput {
         return StopDataSourceSyncJobOutput()
     }
 }
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
 
 extension UpdateApplicationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApplicationOutput {
         return UpdateApplicationOutput()
     }
 }
 
 extension UpdateChatControlsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChatControlsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateChatControlsConfigurationOutput {
         return UpdateChatControlsConfigurationOutput()
     }
 }
 
 extension UpdateDataSourceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataSourceOutput {
         return UpdateDataSourceOutput()
     }
 }
 
 extension UpdateIndexOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIndexOutput {
         return UpdateIndexOutput()
     }
 }
 
 extension UpdatePluginOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePluginOutput {
         return UpdatePluginOutput()
     }
 }
 
 extension UpdateRetrieverOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRetrieverOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRetrieverOutput {
         return UpdateRetrieverOutput()
     }
 }
 
 extension UpdateUserOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8376,14 +8498,14 @@ extension UpdateUserOutput {
 
 extension UpdateWebExperienceOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWebExperienceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWebExperienceOutput {
         return UpdateWebExperienceOutput()
     }
 }
 
 enum BatchDeleteDocumentOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8402,7 +8524,7 @@ enum BatchDeleteDocumentOutputError {
 
 enum BatchPutDocumentOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8422,7 +8544,7 @@ enum BatchPutDocumentOutputError {
 
 enum ChatOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8442,7 +8564,7 @@ enum ChatOutputError {
 
 enum ChatSyncOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8462,7 +8584,7 @@ enum ChatSyncOutputError {
 
 enum CreateApplicationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8482,7 +8604,7 @@ enum CreateApplicationOutputError {
 
 enum CreateDataSourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8502,7 +8624,7 @@ enum CreateDataSourceOutputError {
 
 enum CreateIndexOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8522,7 +8644,7 @@ enum CreateIndexOutputError {
 
 enum CreatePluginOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8542,7 +8664,7 @@ enum CreatePluginOutputError {
 
 enum CreateRetrieverOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8562,7 +8684,7 @@ enum CreateRetrieverOutputError {
 
 enum CreateUserOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8582,7 +8704,7 @@ enum CreateUserOutputError {
 
 enum CreateWebExperienceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8602,7 +8724,7 @@ enum CreateWebExperienceOutputError {
 
 enum DeleteApplicationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8621,7 +8743,7 @@ enum DeleteApplicationOutputError {
 
 enum DeleteChatControlsConfigurationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8639,7 +8761,7 @@ enum DeleteChatControlsConfigurationOutputError {
 
 enum DeleteConversationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8658,7 +8780,7 @@ enum DeleteConversationOutputError {
 
 enum DeleteDataSourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8677,7 +8799,7 @@ enum DeleteDataSourceOutputError {
 
 enum DeleteGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8696,7 +8818,7 @@ enum DeleteGroupOutputError {
 
 enum DeleteIndexOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8715,7 +8837,7 @@ enum DeleteIndexOutputError {
 
 enum DeletePluginOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8734,7 +8856,7 @@ enum DeletePluginOutputError {
 
 enum DeleteRetrieverOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8753,7 +8875,7 @@ enum DeleteRetrieverOutputError {
 
 enum DeleteUserOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8772,7 +8894,7 @@ enum DeleteUserOutputError {
 
 enum DeleteWebExperienceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8791,7 +8913,7 @@ enum DeleteWebExperienceOutputError {
 
 enum GetApplicationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8809,7 +8931,7 @@ enum GetApplicationOutputError {
 
 enum GetChatControlsConfigurationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8827,7 +8949,7 @@ enum GetChatControlsConfigurationOutputError {
 
 enum GetDataSourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8845,7 +8967,7 @@ enum GetDataSourceOutputError {
 
 enum GetGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8864,7 +8986,7 @@ enum GetGroupOutputError {
 
 enum GetIndexOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8882,7 +9004,7 @@ enum GetIndexOutputError {
 
 enum GetPluginOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8900,7 +9022,7 @@ enum GetPluginOutputError {
 
 enum GetRetrieverOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8918,7 +9040,7 @@ enum GetRetrieverOutputError {
 
 enum GetUserOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8937,7 +9059,7 @@ enum GetUserOutputError {
 
 enum GetWebExperienceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8955,7 +9077,7 @@ enum GetWebExperienceOutputError {
 
 enum ListApplicationsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8972,7 +9094,7 @@ enum ListApplicationsOutputError {
 
 enum ListConversationsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8991,7 +9113,7 @@ enum ListConversationsOutputError {
 
 enum ListDataSourcesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9009,7 +9131,7 @@ enum ListDataSourcesOutputError {
 
 enum ListDataSourceSyncJobsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9027,7 +9149,7 @@ enum ListDataSourceSyncJobsOutputError {
 
 enum ListDocumentsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9045,7 +9167,7 @@ enum ListDocumentsOutputError {
 
 enum ListGroupsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9064,7 +9186,7 @@ enum ListGroupsOutputError {
 
 enum ListIndicesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9082,7 +9204,7 @@ enum ListIndicesOutputError {
 
 enum ListMessagesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9101,7 +9223,7 @@ enum ListMessagesOutputError {
 
 enum ListPluginsOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9119,7 +9241,7 @@ enum ListPluginsOutputError {
 
 enum ListRetrieversOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9137,7 +9259,7 @@ enum ListRetrieversOutputError {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9155,7 +9277,7 @@ enum ListTagsForResourceOutputError {
 
 enum ListWebExperiencesOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9173,7 +9295,7 @@ enum ListWebExperiencesOutputError {
 
 enum PutFeedbackOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9191,7 +9313,7 @@ enum PutFeedbackOutputError {
 
 enum PutGroupOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9211,7 +9333,7 @@ enum PutGroupOutputError {
 
 enum StartDataSourceSyncJobOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9231,7 +9353,7 @@ enum StartDataSourceSyncJobOutputError {
 
 enum StopDataSourceSyncJobOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9249,7 +9371,7 @@ enum StopDataSourceSyncJobOutputError {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9268,7 +9390,7 @@ enum TagResourceOutputError {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9286,7 +9408,7 @@ enum UntagResourceOutputError {
 
 enum UpdateApplicationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9305,7 +9427,7 @@ enum UpdateApplicationOutputError {
 
 enum UpdateChatControlsConfigurationOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9325,7 +9447,7 @@ enum UpdateChatControlsConfigurationOutputError {
 
 enum UpdateDataSourceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9344,7 +9466,7 @@ enum UpdateDataSourceOutputError {
 
 enum UpdateIndexOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9364,7 +9486,7 @@ enum UpdateIndexOutputError {
 
 enum UpdatePluginOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9384,7 +9506,7 @@ enum UpdatePluginOutputError {
 
 enum UpdateRetrieverOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9404,7 +9526,7 @@ enum UpdateRetrieverOutputError {
 
 enum UpdateUserOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9423,7 +9545,7 @@ enum UpdateUserOutputError {
 
 enum UpdateWebExperienceOutputError {
 
-    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9630,14 +9752,14 @@ extension QBusinessClientTypes.ChatOutputStream {
                 let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     default:
-                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
                 throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
@@ -9856,6 +9978,36 @@ extension QBusinessClientTypes.AppliedAttachmentsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.AppliedAttachmentsConfiguration()
         value.attachmentsControlMode = try reader["attachmentsControlMode"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.QAppsConfiguration {
+
+    static func write(value: QBusinessClientTypes.QAppsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["qAppsControlMode"].write(value.qAppsControlMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.QAppsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.QAppsConfiguration()
+        value.qAppsControlMode = try reader["qAppsControlMode"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.PersonalizationConfiguration {
+
+    static func write(value: QBusinessClientTypes.PersonalizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["personalizationControlMode"].write(value.personalizationControlMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.PersonalizationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.PersonalizationConfiguration()
+        value.personalizationControlMode = try reader["personalizationControlMode"].readIfPresent()
         return value
     }
 }

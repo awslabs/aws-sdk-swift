@@ -345,6 +345,7 @@ extension WorkSpacesWebClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
     /// - `InternalServerException` : There is an internal server error.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
@@ -1324,6 +1325,7 @@ extension WorkSpacesWebClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
     /// - `InternalServerException` : There is an internal server error.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
@@ -1373,6 +1375,7 @@ extension WorkSpacesWebClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
     /// - `InternalServerException` : There is an internal server error.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
@@ -1422,6 +1425,7 @@ extension WorkSpacesWebClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
     /// - `InternalServerException` : There is an internal server error.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
@@ -1471,6 +1475,7 @@ extension WorkSpacesWebClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
     /// - `InternalServerException` : There is an internal server error.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
@@ -1520,6 +1525,7 @@ extension WorkSpacesWebClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
     /// - `InternalServerException` : There is an internal server error.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
@@ -1569,6 +1575,7 @@ extension WorkSpacesWebClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
     /// - `InternalServerException` : There is an internal server error.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.

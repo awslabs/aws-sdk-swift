@@ -179,6 +179,37 @@ extension PaginatorSequence where OperationStackInput == ListApprovedOriginsInpu
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListAuthenticationProfilesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAuthenticationProfilesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAuthenticationProfilesOutput`
+    public func listAuthenticationProfilesPaginated(input: ListAuthenticationProfilesInput) -> ClientRuntime.PaginatorSequence<ListAuthenticationProfilesInput, ListAuthenticationProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAuthenticationProfilesInput, ListAuthenticationProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAuthenticationProfiles(input:))
+    }
+}
+
+extension ListAuthenticationProfilesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAuthenticationProfilesInput {
+        return ListAuthenticationProfilesInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAuthenticationProfilesInput, OperationStackOutput == ListAuthenticationProfilesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAuthenticationProfilesPaginated`
+    /// to access the nested member `[ConnectClientTypes.AuthenticationProfileSummary]`
+    /// - Returns: `[ConnectClientTypes.AuthenticationProfileSummary]`
+    public func authenticationProfileSummaryList() async throws -> [ConnectClientTypes.AuthenticationProfileSummary] {
+        return try await self.asyncCompactMap { item in item.authenticationProfileSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListBotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -20,8 +20,8 @@ import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HttpResponse
-import class SmithyHTTPAPI.SdkHttpRequest
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyXML.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -265,7 +265,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AbortMultipartUploadInput, AbortMultipartUploadOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<AbortMultipartUploadInput, AbortMultipartUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -382,7 +382,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CompleteMultipartUploadInput, CompleteMultipartUploadOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CompleteMultipartUploadInput, CompleteMultipartUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -444,7 +444,7 @@ extension S3Client {
     /// For example policies, see [Example bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) and [Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html) in the Amazon S3 User Guide.
     ///
     ///
-    /// Response and special errors When the request is an HTTP 1.1 request, the response is chunk encoded. When the request is not an HTTP 1.1 request, the response would not contain the Content-Length. You always need to read the entire response body to check if the copy succeeds. to keep the connection alive while we copy the data.
+    /// Response and special errors When the request is an HTTP 1.1 request, the response is chunk encoded. When the request is not an HTTP 1.1 request, the response would not contain the Content-Length. You always need to read the entire response body to check if the copy succeeds.
     ///
     /// * If the copy is successful, you receive a response with information about the copied object.
     ///
@@ -490,7 +490,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CopyObjectInput, CopyObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CopyObjectInput, CopyObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -586,7 +586,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateBucketInput, CreateBucketOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateBucketInput, CreateBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -716,7 +716,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateMultipartUploadInput, CreateMultipartUploadOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateMultipartUploadInput, CreateMultipartUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -791,7 +791,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSessionInput, CreateSessionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateSessionInput, CreateSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -870,7 +870,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketInput, DeleteBucketOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketInput, DeleteBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -936,7 +936,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1001,7 +1001,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketCorsInput, DeleteBucketCorsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketCorsInput, DeleteBucketCorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1066,7 +1066,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1133,7 +1133,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1199,7 +1199,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1264,7 +1264,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1333,7 +1333,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1398,7 +1398,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1470,7 +1470,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketPolicyInput, DeleteBucketPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketPolicyInput, DeleteBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1535,7 +1535,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketReplicationInput, DeleteBucketReplicationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketReplicationInput, DeleteBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1600,7 +1600,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketTaggingInput, DeleteBucketTaggingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketTaggingInput, DeleteBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1665,7 +1665,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1758,7 +1758,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectInput, DeleteObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectInput, DeleteObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1823,7 +1823,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectTaggingInput, DeleteObjectTaggingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectTaggingInput, DeleteObjectTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1874,7 +1874,7 @@ extension S3Client {
     ///
     /// * s3:DeleteObject - To delete an object from a bucket, you must always specify the s3:DeleteObject permission.
     ///
-    /// * s3:DeleteObjectVersion - To delete a specific version of an object from a versiong-enabled bucket, you must specify the s3:DeleteObjectVersion permission.
+    /// * s3:DeleteObjectVersion - To delete a specific version of an object from a versioning-enabled bucket, you must specify the s3:DeleteObjectVersion permission.
     ///
     ///
     ///
@@ -1922,7 +1922,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectsInput, DeleteObjectsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectsInput, DeleteObjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1996,7 +1996,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2059,7 +2059,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2122,7 +2122,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAclInput, GetBucketAclOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAclInput, GetBucketAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2189,7 +2189,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2254,7 +2254,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketCorsInput, GetBucketCorsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketCorsInput, GetBucketCorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2319,7 +2319,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketEncryptionInput, GetBucketEncryptionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketEncryptionInput, GetBucketEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2386,7 +2386,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2452,7 +2452,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2533,7 +2533,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2598,7 +2598,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLocationInput, GetBucketLocationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLocationInput, GetBucketLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2663,7 +2663,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLoggingInput, GetBucketLoggingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLoggingInput, GetBucketLoggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2732,7 +2732,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2795,7 +2795,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2860,7 +2860,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2930,7 +2930,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketPolicyInput, GetBucketPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketPolicyInput, GetBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2999,7 +2999,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3064,7 +3064,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketReplicationInput, GetBucketReplicationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketReplicationInput, GetBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3127,7 +3127,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3202,7 +3202,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketTaggingInput, GetBucketTaggingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketTaggingInput, GetBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3269,7 +3269,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketVersioningInput, GetBucketVersioningOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketVersioningInput, GetBucketVersioningOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3334,7 +3334,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketWebsiteInput, GetBucketWebsiteOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketWebsiteInput, GetBucketWebsiteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3434,7 +3434,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3508,7 +3508,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetObjectAclInput, GetObjectAclOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectAclInput, GetObjectAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3634,7 +3634,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetObjectAttributesInput, GetObjectAttributesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectAttributesInput, GetObjectAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3697,7 +3697,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetObjectLegalHoldInput, GetObjectLegalHoldOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectLegalHoldInput, GetObjectLegalHoldOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3760,7 +3760,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3823,7 +3823,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetObjectRetentionInput, GetObjectRetentionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectRetentionInput, GetObjectRetentionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3890,7 +3890,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetObjectTaggingInput, GetObjectTaggingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectTaggingInput, GetObjectTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3953,7 +3953,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetObjectTorrentInput, GetObjectTorrentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectTorrentInput, GetObjectTorrentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4021,7 +4021,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetPublicAccessBlockInput, GetPublicAccessBlockOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPublicAccessBlockInput, GetPublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4094,7 +4094,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<HeadBucketInput, HeadBucketOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<HeadBucketInput, HeadBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4200,7 +4200,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<HeadObjectInput, HeadObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<HeadObjectInput, HeadObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4267,7 +4267,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4334,7 +4334,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4400,7 +4400,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4467,7 +4467,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4528,7 +4528,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBucketsInput, ListBucketsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketsInput, ListBucketsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4588,7 +4588,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDirectoryBucketsInput, ListDirectoryBucketsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDirectoryBucketsInput, ListDirectoryBucketsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4679,7 +4679,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListMultipartUploadsInput, ListMultipartUploadsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListMultipartUploadsInput, ListMultipartUploadsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4748,7 +4748,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListObjectVersionsInput, ListObjectVersionsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListObjectVersionsInput, ListObjectVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4824,7 +4824,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListObjectsInput, ListObjectsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListObjectsInput, ListObjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4910,7 +4910,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListObjectsV2Input, ListObjectsV2Output, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListObjectsV2Input, ListObjectsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4990,7 +4990,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListPartsInput, ListPartsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPartsInput, ListPartsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5062,7 +5062,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5203,7 +5203,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAclInput, PutBucketAclOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAclInput, PutBucketAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5308,7 +5308,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5387,7 +5387,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketCorsInput, PutBucketCorsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketCorsInput, PutBucketCorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5457,7 +5457,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketEncryptionInput, PutBucketEncryptionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketEncryptionInput, PutBucketEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5532,7 +5532,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5601,7 +5601,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5689,7 +5689,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5772,7 +5772,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketLoggingInput, PutBucketLoggingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketLoggingInput, PutBucketLoggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5853,7 +5853,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5919,7 +5919,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5987,7 +5987,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6063,7 +6063,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketPolicyInput, PutBucketPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketPolicyInput, PutBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6133,7 +6133,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketReplicationInput, PutBucketReplicationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketReplicationInput, PutBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6203,7 +6203,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6284,7 +6284,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketTaggingInput, PutBucketTaggingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketTaggingInput, PutBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6356,7 +6356,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketVersioningInput, PutBucketVersioningOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketVersioningInput, PutBucketVersioningOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6468,7 +6468,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketWebsiteInput, PutBucketWebsiteOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketWebsiteInput, PutBucketWebsiteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6577,7 +6577,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6714,7 +6714,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutObjectAclInput, PutObjectAclOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectAclInput, PutObjectAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6780,7 +6780,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutObjectLegalHoldInput, PutObjectLegalHoldOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectLegalHoldInput, PutObjectLegalHoldOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6852,7 +6852,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6918,7 +6918,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutObjectRetentionInput, PutObjectRetentionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectRetentionInput, PutObjectRetentionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6999,7 +6999,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutObjectTaggingInput, PutObjectTaggingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectTaggingInput, PutObjectTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7073,7 +7073,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7206,7 +7206,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RestoreObjectInput, RestoreObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<RestoreObjectInput, RestoreObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7295,7 +7295,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SelectObjectContentInput, SelectObjectContentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<SelectObjectContentInput, SelectObjectContentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7405,7 +7405,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7456,11 +7456,11 @@ extension S3Client {
     /// * If the destination bucket is a general purpose bucket, you must have the s3:PutObject permission to write the object copy to the destination bucket.
     ///
     ///
-    /// For information about permissions required to use the multipart upload API, see [Multipart Upload and Permissions](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html) in the Amazon S3 User Guide.
+    /// For information about permissions required to use the multipart upload API, see [Multipart upload API and permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions) in the Amazon S3 User Guide.
     ///
     /// * Directory bucket permissions - You must have permissions in a bucket policy or an IAM identity-based policy based on the source and destination bucket types in an UploadPartCopy operation.
     ///
-    /// * If the source object that you want to copy is in a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to read the object . By default, the session is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the copy source bucket.
+    /// * If the source object that you want to copy is in a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to read the object. By default, the session is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the copy source bucket.
     ///
     /// * If the copy destination is a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to write the object to the destination. The s3express:SessionMode condition key cannot be set to ReadOnly on the copy destination.
     ///
@@ -7531,7 +7531,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UploadPartCopyInput, UploadPartCopyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UploadPartCopyInput, UploadPartCopyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7592,7 +7592,7 @@ extension S3Client {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<WriteGetObjectResponseInput, WriteGetObjectResponseOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<WriteGetObjectResponseInput, WriteGetObjectResponseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7797,7 +7797,7 @@ extension S3Client {
         guard let presignedRequest else {
             throw Smithy.ClientError.unknownError("Could not presign the request for the operation GetObject.")
         }
-        return try await SmithyHTTPAPI.SdkHttpRequest.makeURLRequest(from: presignedRequest)
+        return try await SmithyHTTPAPI.HTTPRequest.makeURLRequest(from: presignedRequest)
     }
 }
 
@@ -7860,7 +7860,7 @@ extension S3Client {
         guard let presignedRequest else {
             throw Smithy.ClientError.unknownError("Could not presign the request for the operation PutObject.")
         }
-        return try await SmithyHTTPAPI.SdkHttpRequest.makeURLRequest(from: presignedRequest)
+        return try await SmithyHTTPAPI.HTTPRequest.makeURLRequest(from: presignedRequest)
     }
 }
 
@@ -7927,6 +7927,6 @@ extension S3Client {
         guard let presignedRequest else {
             throw Smithy.ClientError.unknownError("Could not presign the request for the operation UploadPart.")
         }
-        return try await SmithyHTTPAPI.SdkHttpRequest.makeURLRequest(from: presignedRequest)
+        return try await SmithyHTTPAPI.HTTPRequest.makeURLRequest(from: presignedRequest)
     }
 }
