@@ -8,10 +8,10 @@
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct SmithyIdentity.BearerTokenIdentity
 import struct Smithy.Attributes
-@_spi(FileBasedConfig) import AWSSDKCommon
+import class Foundation.FileManager
 import AwsCommonRuntimeKit
-import Foundation
 import enum Smithy.ClientError
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 /// The bearer token identity resolver that resolves token identity using the config file & the cached SSO token.
 /// This resolver does not handle creation of the SSO token; it must be created by the user beforehand (e.g., using AWS CLI, etc.).
