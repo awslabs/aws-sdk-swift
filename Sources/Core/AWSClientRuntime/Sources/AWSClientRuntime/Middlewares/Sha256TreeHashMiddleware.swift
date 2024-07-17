@@ -29,7 +29,7 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
               return try await next.handle(context: context, input: input)
           }
 
-    private func addHashes(request: SdkHttpRequest, builder: SdkHttpRequestBuilder, context: Context) async throws {
+    private func addHashes(request: SmithyHTTPAPI.HTTPRequest, builder: HTTPRequestBuilder, context: Context) async throws {
         switch request.body {
         case .data(let data):
             guard let data = data else {
@@ -104,7 +104,7 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
         return data.encodeToHexString()
     }
 
-    public typealias MInput = SdkHttpRequestBuilder
+    public typealias MInput = HTTPRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
 }
 

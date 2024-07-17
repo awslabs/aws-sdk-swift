@@ -10,12 +10,12 @@ import struct Smithy.AttributeKey
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
 import struct SmithyHTTPAPI.Headers
-import class SmithyHTTPAPI.SdkHttpRequestBuilder
+import class SmithyHTTPAPI.HTTPRequestBuilder
 import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import class SmithyChecksums.ChunkedStream
 import AwsCommonRuntimeKit
 
-extension SdkHttpRequestBuilder {
+extension HTTPRequestBuilder {
     public func setAwsChunkedHeaders() throws {
 
         // Check if self.body is of the case ByteStream.stream(let stream)

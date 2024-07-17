@@ -11,12 +11,12 @@ import SmithyHTTPAPI
 
 public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "AWSS3ErrorWith200StatusXMLMiddleware"
-    private let errorStatusCode: HttpStatusCode = .internalServerError
+    private let errorStatusCode: HTTPStatusCode = .internalServerError
 
     public init() {}
 
     public func handle<H>(context: Context,
-                          input: SdkHttpRequest,
+                          input: HTTPRequest,
                           next: H) async throws -> OperationOutput<OperationStackOutput>
     where H: Handler,
           Self.MInput == H.Input,
@@ -35,7 +35,7 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
         return response
     }
 
-    private func isErrorWith200Status(response: HttpResponse) async throws -> Bool {
+    private func isErrorWith200Status(response: HTTPResponse) async throws -> Bool {
         // Check if the status code is OK (200)
         guard response.statusCode == .ok else {
             return false
@@ -51,7 +51,7 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
         return xmlString.contains("<Error>")
     }
 
-    public typealias MInput = SdkHttpRequest
+    public typealias MInput = HTTPRequest
     public typealias MOutput = OperationOutput<OperationStackOutput>
 }
 

@@ -34,7 +34,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         return try await next.handle(context: context, input: input)
     }
 
-    private func addHeaders(builder: SdkHttpRequestBuilder, attributes: Context) async throws {
+    private func addHeaders(builder: HTTPRequestBuilder, attributes: Context) async throws {
         if case(.stream(let stream)) = builder.body {
             attributes.isChunkedEligibleStream = stream.isEligibleForChunkedStreaming
             if stream.isEligibleForChunkedStreaming {

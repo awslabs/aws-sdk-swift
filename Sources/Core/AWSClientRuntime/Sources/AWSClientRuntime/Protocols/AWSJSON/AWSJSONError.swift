@@ -7,7 +7,7 @@
 
 import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
-import class SmithyHTTPAPI.HttpResponse
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyJSON.Reader
 
 public struct AWSJSONError: BaseError {
@@ -16,10 +16,10 @@ public struct AWSJSONError: BaseError {
     public let requestID: String?
     public var errorBodyReader: Reader { responseReader }
 
-    public let httpResponse: HttpResponse
+    public let httpResponse: HTTPResponse
     private let responseReader: Reader
 
-    public init(httpResponse: HttpResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
+    public init(httpResponse: HTTPResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
         let code: String? = try httpResponse.headers.value(for: "X-Amzn-Errortype")
                             ?? responseReader["code"].readIfPresent()
                             ?? responseReader["__type"].readIfPresent()
