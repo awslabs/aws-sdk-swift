@@ -255,7 +255,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.51.0",
+    clientRuntimeVersion: "0.52.0",
     crtVersion: "0.32.0"
 )
 
