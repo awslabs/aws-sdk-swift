@@ -180,7 +180,7 @@ extension AutoScalingClient {
 extension AutoScalingClient {
     /// Performs the `AttachInstances` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups. For more information, see [Attach EC2 instances to your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-instance-asg.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups. For more information, see [Detach or attach instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-detach-attach-instances.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter AttachInstancesInput : [no documentation found]
     ///
@@ -660,7 +660,7 @@ extension AutoScalingClient {
 
     /// Performs the `CreateLaunchConfiguration` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Creates a launch configuration. If you exceed your maximum limit of launch configurations, the call fails. To query this limit, call the [DescribeAccountLimits] API. For information about updating this limit, see [Quotas for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-quotas.html) in the Amazon EC2 Auto Scaling User Guide. For more information, see [Launch configurations](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html) in the Amazon EC2 Auto Scaling User Guide. Amazon EC2 Auto Scaling configures instances launched as part of an Auto Scaling group using either a launch template or a launch configuration. We strongly recommend that you do not use launch configurations. They do not provide full functionality for Amazon EC2 Auto Scaling or Amazon EC2. For information about using launch templates, see [Launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Creates a launch configuration. If you exceed your maximum limit of launch configurations, the call fails. To query this limit, call the [DescribeAccountLimits] API. For information about updating this limit, see [Quotas for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-quotas.html) in the Amazon EC2 Auto Scaling User Guide. For more information, see [Launch configurations](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-configurations.html) in the Amazon EC2 Auto Scaling User Guide. Amazon EC2 Auto Scaling configures instances launched as part of an Auto Scaling group using either a launch template or a launch configuration. We strongly recommend that you do not use launch configurations. They do not provide full functionality for Amazon EC2 Auto Scaling or Amazon EC2. For information about using launch templates, see [Launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter CreateLaunchConfigurationInput : [no documentation found]
     ///
@@ -956,7 +956,7 @@ extension AutoScalingClient {
 
     /// Performs the `DeletePolicy` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Deletes the specified scaling policy. Deleting either a step scaling policy or a simple scaling policy deletes the underlying alarm action, but does not delete the alarm, even if it no longer has an associated action. For more information, see [Deleting a scaling policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/deleting-scaling-policy.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Deletes the specified scaling policy. Deleting either a step scaling policy or a simple scaling policy deletes the underlying alarm action, but does not delete the alarm, even if it no longer has an associated action. For more information, see [Delete a scaling policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/deleting-scaling-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter DeletePolicyInput : [no documentation found]
     ///
@@ -1844,7 +1844,7 @@ extension AutoScalingClient {
 
     /// Performs the `DescribeScalingActivities` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Gets information about the scaling activities in the account and Region. When scaling events occur, you see a record of the scaling activity in the scaling activities. For more information, see [Verifying a scaling activity for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-verify-scaling-activity.html) in the Amazon EC2 Auto Scaling User Guide. If the scaling event succeeds, the value of the StatusCode element in the response is Successful. If an attempt to launch instances failed, the StatusCode value is Failed or Cancelled and the StatusMessage element in the response indicates the cause of the failure. For help interpreting the StatusMessage, see [Troubleshooting Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/CHAP_Troubleshooting.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Gets information about the scaling activities in the account and Region. When scaling events occur, you see a record of the scaling activity in the scaling activities. For more information, see [Verify a scaling activity for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-verify-scaling-activity.html) in the Amazon EC2 Auto Scaling User Guide. If the scaling event succeeds, the value of the StatusCode element in the response is Successful. If an attempt to launch instances failed, the StatusCode value is Failed or Cancelled and the StatusMessage element in the response indicates the cause of the failure. For help interpreting the StatusMessage, see [Troubleshooting Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/CHAP_Troubleshooting.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter DescribeScalingActivitiesInput : [no documentation found]
     ///
@@ -2039,7 +2039,7 @@ extension AutoScalingClient {
 
     /// Performs the `DescribeTerminationPolicyTypes` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Describes the termination policies supported by Amazon EC2 Auto Scaling. For more information, see [Work with Amazon EC2 Auto Scaling termination policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Describes the termination policies supported by Amazon EC2 Auto Scaling. For more information, see [Configure termination policies for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter DescribeTerminationPolicyTypesInput : [no documentation found]
     ///
@@ -2186,7 +2186,7 @@ extension AutoScalingClient {
 
     /// Performs the `DetachInstances` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Removes one or more instances from the specified Auto Scaling group. After the instances are detached, you can manage them independent of the Auto Scaling group. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are detached. If there is a Classic Load Balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group, the instances are deregistered from the target groups. For more information, see [Detach EC2 instances from your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Removes one or more instances from the specified Auto Scaling group. After the instances are detached, you can manage them independent of the Auto Scaling group. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are detached. If there is a Classic Load Balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group, the instances are deregistered from the target groups. For more information, see [Detach or attach instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-detach-attach-instances.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter DetachInstancesInput : [no documentation found]
     ///
@@ -2731,7 +2731,7 @@ extension AutoScalingClient {
 
     /// Performs the `PutNotificationConfiguration` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Configures an Auto Scaling group to send notifications when specified events take place. Subscribers to the specified topic can have messages delivered to an endpoint such as a web server or an email address. This configuration overwrites any existing configuration. For more information, see [Getting Amazon SNS notifications when your Auto Scaling group scales](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ASGettingNotifications.html) in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call fails.
+    /// Configures an Auto Scaling group to send notifications when specified events take place. Subscribers to the specified topic can have messages delivered to an endpoint such as a web server or an email address. This configuration overwrites any existing configuration. For more information, see [Amazon SNS notification options for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-sns-notifications.html) in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call fails.
     ///
     /// - Parameter PutNotificationConfigurationInput : [no documentation found]
     ///
@@ -2831,7 +2831,7 @@ extension AutoScalingClient {
 
     /// Performs the `PutScheduledUpdateGroupAction` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Creates or updates a scheduled scaling action for an Auto Scaling group. For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html) in the Amazon EC2 Auto Scaling User Guide. You can view the scheduled actions for an Auto Scaling group using the [DescribeScheduledActions] API call. If you are no longer using a scheduled action, you can delete it by calling the [DeleteScheduledAction] API. If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error message.
+    /// Creates or updates a scheduled scaling action for an Auto Scaling group. For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html) in the Amazon EC2 Auto Scaling User Guide. You can view the scheduled actions for an Auto Scaling group using the [DescribeScheduledActions] API call. If you are no longer using a scheduled action, you can delete it by calling the [DeleteScheduledAction] API. If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error message.
     ///
     /// - Parameter PutScheduledUpdateGroupActionInput : [no documentation found]
     ///
@@ -2881,7 +2881,7 @@ extension AutoScalingClient {
 
     /// Performs the `PutWarmPool` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Creates or updates a warm pool for the specified Auto Scaling group. A warm pool is a pool of pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your application needs to scale out, the Auto Scaling group can draw on the warm pool to meet its new desired capacity. For more information and example configurations, see [Warm pools for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html) in the Amazon EC2 Auto Scaling User Guide. This operation must be called from the Region in which the Auto Scaling group was created. This operation cannot be called on an Auto Scaling group that has a mixed instances policy or a launch template or launch configuration that requests Spot Instances. You can view the instances in the warm pool using the [DescribeWarmPool] API call. If you are no longer using a warm pool, you can delete it by calling the [DeleteWarmPool] API.
+    /// Creates or updates a warm pool for the specified Auto Scaling group. A warm pool is a pool of pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your application needs to scale out, the Auto Scaling group can draw on the warm pool to meet its new desired capacity. This operation must be called from the Region in which the Auto Scaling group was created. You can view the instances in the warm pool using the [DescribeWarmPool] API call. If you are no longer using a warm pool, you can delete it by calling the [DeleteWarmPool] API. For more information, see [Warm pools for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter PutWarmPoolInput : [no documentation found]
     ///
@@ -2993,7 +2993,7 @@ extension AutoScalingClient {
 
     /// Performs the `ResumeProcesses` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Resumes the specified suspended auto scaling processes, or all suspended process, for the specified Auto Scaling group. For more information, see [Suspending and resuming scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Resumes the specified suspended auto scaling processes, or all suspended process, for the specified Auto Scaling group. For more information, see [Suspend and resume Amazon EC2 Auto Scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter ResumeProcessesInput : [no documentation found]
     ///
@@ -3102,7 +3102,7 @@ extension AutoScalingClient {
 
     /// Performs the `SetDesiredCapacity` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Sets the size of the specified Auto Scaling group. If a scale-in activity occurs as a result of a new DesiredCapacity value that is lower than the current size of the group, the Auto Scaling group uses its termination policy to determine which instances to terminate. For more information, see [Manual scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-manual-scaling.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Sets the size of the specified Auto Scaling group. If a scale-in activity occurs as a result of a new DesiredCapacity value that is lower than the current size of the group, the Auto Scaling group uses its termination policy to determine which instances to terminate. For more information, see [Manual scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-manually.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter SetDesiredCapacityInput : [no documentation found]
     ///
@@ -3151,7 +3151,7 @@ extension AutoScalingClient {
 
     /// Performs the `SetInstanceHealth` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Sets the health status of the specified instance. For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Sets the health status of the specified instance. For more information, see [Health checks for instances in an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter SetInstanceHealthInput : [no documentation found]
     ///
@@ -3199,7 +3199,7 @@ extension AutoScalingClient {
 
     /// Performs the `SetInstanceProtection` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information about preventing instances that are part of an Auto Scaling group from terminating on scale in, see [Using instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails.
+    /// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails.
     ///
     /// - Parameter SetInstanceProtectionInput : [no documentation found]
     ///
@@ -3298,7 +3298,7 @@ extension AutoScalingClient {
 
     /// Performs the `SuspendProcesses` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more information, see [Suspending and resuming scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html) in the Amazon EC2 Auto Scaling User Guide. To resume processes that have been suspended, call the [ResumeProcesses] API.
+    /// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more information, see [Suspend and resume Amazon EC2 Auto Scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html) in the Amazon EC2 Auto Scaling User Guide. To resume processes that have been suspended, call the [ResumeProcesses] API.
     ///
     /// - Parameter SuspendProcessesInput : [no documentation found]
     ///
@@ -3347,7 +3347,7 @@ extension AutoScalingClient {
 
     /// Performs the `TerminateInstanceInAutoScalingGroup` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instance is not terminated immediately. When an instance is terminated, the instance status changes to terminated. You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are terminated. By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing might terminate instances in other zones. For more information, see [Rebalancing activities](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage) in the Amazon EC2 Auto Scaling User Guide.
+    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instance is not terminated immediately. When an instance is terminated, the instance status changes to terminated. You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are terminated. By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing might terminate instances in other zones. For more information, see [Manual scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-manually.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter TerminateInstanceInAutoScalingGroupInput : [no documentation found]
     ///

@@ -19,7 +19,7 @@ import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyFormURL.Writer
-import class SmithyHTTPAPI.SdkHttpRequest
+import class SmithyHTTPAPI.HTTPRequest
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
@@ -637,6 +637,6 @@ extension STSClient {
         guard let presignedRequest else {
             throw Smithy.ClientError.unknownError("Could not presign the request for the operation GetCallerIdentity.")
         }
-        return try await SmithyHTTPAPI.SdkHttpRequest.makeURLRequest(from: presignedRequest)
+        return try await SmithyHTTPAPI.HTTPRequest.makeURLRequest(from: presignedRequest)
     }
 }

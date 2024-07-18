@@ -27,9 +27,9 @@ class PutObjectPresignedURLMiddleware(
             """
             extension $typeName: Smithy.RequestMessageSerializer {
                 public typealias InputType = ${inputSymbol.name}
-                public typealias RequestType = SmithyHTTPAPI.SdkHttpRequest
+                public typealias RequestType = SmithyHTTPAPI.HTTPRequest
                 
-                public func apply(input: InputType, builder: SmithyHTTPAPI.SdkHttpRequestBuilder, attributes: Smithy.Context) throws {
+                public func apply(input: InputType, builder: SmithyHTTPAPI.HTTPRequestBuilder, attributes: Smithy.Context) throws {
                     let metadata = input.metadata ?? [:]
                     for (metadataKey, metadataValue) in metadata {
                         let queryItem = ${'$'}N(

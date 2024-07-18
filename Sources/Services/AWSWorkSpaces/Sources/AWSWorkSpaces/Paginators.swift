@@ -109,7 +109,8 @@ extension DescribeWorkspaceDirectoriesInput: ClientRuntime.PaginateToken {
         return DescribeWorkspaceDirectoriesInput(
             directoryIds: self.directoryIds,
             limit: self.limit,
-            nextToken: token
+            nextToken: token,
+            workspaceDirectoryNames: self.workspaceDirectoryNames
         )}
 }
 

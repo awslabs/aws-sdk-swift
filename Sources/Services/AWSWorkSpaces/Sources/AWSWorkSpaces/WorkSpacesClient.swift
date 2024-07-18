@@ -1048,6 +1048,60 @@ extension WorkSpacesClient {
         return result
     }
 
+    /// Performs the `CreateWorkspacesPool` operation on the `WorkspacesService` service.
+    ///
+    /// Creates a pool of WorkSpaces.
+    ///
+    /// - Parameter CreateWorkspacesPoolInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkspacesPoolOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `OperationNotSupportedException` : This operation is not supported.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func createWorkspacesPool(input: CreateWorkspacesPoolInput) async throws -> CreateWorkspacesPoolOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createWorkspacesPool")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>(id: "createWorkspacesPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>(CreateWorkspacesPoolInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateWorkspacesPoolOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateWorkspacesPoolOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>(xAmzTarget: "WorkspacesService.CreateWorkspacesPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkspacesPoolInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorkspacesPoolOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateWorkspacesPoolOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkspacesPoolOutput>(CreateWorkspacesPoolOutput.httpOutput(from:), CreateWorkspacesPoolOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DeleteAccountLinkInvitation` operation on the `WorkspacesService` service.
     ///
     /// Deletes the account link invitation.
@@ -2630,6 +2684,108 @@ extension WorkSpacesClient {
         return result
     }
 
+    /// Performs the `DescribeWorkspacesPoolSessions` operation on the `WorkspacesService` service.
+    ///
+    /// Retrieves a list that describes the streaming sessions for a specified pool.
+    ///
+    /// - Parameter DescribeWorkspacesPoolSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorkspacesPoolSessionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func describeWorkspacesPoolSessions(input: DescribeWorkspacesPoolSessionsInput) async throws -> DescribeWorkspacesPoolSessionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeWorkspacesPoolSessions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>(id: "describeWorkspacesPoolSessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>(DescribeWorkspacesPoolSessionsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeWorkspacesPoolSessionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeWorkspacesPoolSessionsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>(xAmzTarget: "WorkspacesService.DescribeWorkspacesPoolSessions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWorkspacesPoolSessionsInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorkspacesPoolSessionsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeWorkspacesPoolSessionsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkspacesPoolSessionsOutput>(DescribeWorkspacesPoolSessionsOutput.httpOutput(from:), DescribeWorkspacesPoolSessionsOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DescribeWorkspacesPools` operation on the `WorkspacesService` service.
+    ///
+    /// Describes the specified WorkSpaces Pools.
+    ///
+    /// - Parameter DescribeWorkspacesPoolsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorkspacesPoolsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func describeWorkspacesPools(input: DescribeWorkspacesPoolsInput) async throws -> DescribeWorkspacesPoolsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeWorkspacesPools")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>(id: "describeWorkspacesPools")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>(DescribeWorkspacesPoolsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeWorkspacesPoolsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeWorkspacesPoolsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>(xAmzTarget: "WorkspacesService.DescribeWorkspacesPools"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWorkspacesPoolsInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWorkspacesPoolsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeWorkspacesPoolsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkspacesPoolsOutput>(DescribeWorkspacesPoolsOutput.httpOutput(from:), DescribeWorkspacesPoolsOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DisassociateConnectionAlias` operation on the `WorkspacesService` service.
     ///
     /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different Regions. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html). Before performing this operation, call [ DescribeConnectionAliases](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html) to make sure that the current state of the connection alias is CREATED.
@@ -2697,6 +2853,7 @@ extension WorkSpacesClient {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
+    /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     public func disassociateIpGroups(input: DisassociateIpGroupsInput) async throws -> DisassociateIpGroupsOutput {
         let context = Smithy.ContextBuilder()
@@ -3227,6 +3384,7 @@ extension WorkSpacesClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     public func modifyClientProperties(input: ModifyClientPropertiesInput) async throws -> ModifyClientPropertiesOutput {
         let context = Smithy.ContextBuilder()
@@ -3330,6 +3488,7 @@ extension WorkSpacesClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     public func modifySelfservicePermissions(input: ModifySelfservicePermissionsInput) async throws -> ModifySelfservicePermissionsOutput {
         let context = Smithy.ContextBuilder()
@@ -3364,6 +3523,58 @@ extension WorkSpacesClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ModifySelfservicePermissionsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifySelfservicePermissionsOutput>(ModifySelfservicePermissionsOutput.httpOutput(from:), ModifySelfservicePermissionsOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifySelfservicePermissionsInput, ModifySelfservicePermissionsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ModifyStreamingProperties` operation on the `WorkspacesService` service.
+    ///
+    /// Modifies the specified streaming properties.
+    ///
+    /// - Parameter ModifyStreamingPropertiesInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyStreamingPropertiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `OperationNotSupportedException` : This operation is not supported.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func modifyStreamingProperties(input: ModifyStreamingPropertiesInput) async throws -> ModifyStreamingPropertiesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyStreamingProperties")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>(id: "modifyStreamingProperties")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>(ModifyStreamingPropertiesInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ModifyStreamingPropertiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ModifyStreamingPropertiesOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>(xAmzTarget: "WorkspacesService.ModifyStreamingProperties"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyStreamingPropertiesInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyStreamingPropertiesOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ModifyStreamingPropertiesOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyStreamingPropertiesOutput>(ModifyStreamingPropertiesOutput.httpOutput(from:), ModifyStreamingPropertiesOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3693,6 +3904,7 @@ extension WorkSpacesClient {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `OperationNotSupportedException` : This operation is not supported.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `UnsupportedNetworkConfigurationException` : The configuration of this network is not supported for this operation, or your network configuration conflicts with the Amazon WorkSpaces management network IP range. For more information, see [ Configure a VPC for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-vpc.html).
@@ -3935,6 +4147,61 @@ extension WorkSpacesClient {
         return result
     }
 
+    /// Performs the `StartWorkspacesPool` operation on the `WorkspacesService` service.
+    ///
+    /// Starts the specified pool. You cannot start a pool unless it has a running mode of AutoStop and a state of STOPPED.
+    ///
+    /// - Parameter StartWorkspacesPoolInput : [no documentation found]
+    ///
+    /// - Returns: `StartWorkspacesPoolOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
+    /// - `OperationInProgressException` : The properties of this WorkSpace are currently being modified. Try again in a moment.
+    /// - `OperationNotSupportedException` : This operation is not supported.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func startWorkspacesPool(input: StartWorkspacesPoolInput) async throws -> StartWorkspacesPoolOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startWorkspacesPool")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>(id: "startWorkspacesPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>(StartWorkspacesPoolInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartWorkspacesPoolOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartWorkspacesPoolOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>(xAmzTarget: "WorkspacesService.StartWorkspacesPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartWorkspacesPoolInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartWorkspacesPoolOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartWorkspacesPoolOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartWorkspacesPoolOutput>(StartWorkspacesPoolOutput.httpOutput(from:), StartWorkspacesPoolOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `StopWorkspaces` operation on the `WorkspacesService` service.
     ///
     /// Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
@@ -3979,6 +4246,59 @@ extension WorkSpacesClient {
         return result
     }
 
+    /// Performs the `StopWorkspacesPool` operation on the `WorkspacesService` service.
+    ///
+    /// Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    ///
+    /// - Parameter StopWorkspacesPoolInput : [no documentation found]
+    ///
+    /// - Returns: `StopWorkspacesPoolOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
+    /// - `OperationInProgressException` : The properties of this WorkSpace are currently being modified. Try again in a moment.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func stopWorkspacesPool(input: StopWorkspacesPoolInput) async throws -> StopWorkspacesPoolOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopWorkspacesPool")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>(id: "stopWorkspacesPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>(StopWorkspacesPoolInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StopWorkspacesPoolOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StopWorkspacesPoolOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>(xAmzTarget: "WorkspacesService.StopWorkspacesPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopWorkspacesPoolInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopWorkspacesPoolOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StopWorkspacesPoolOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopWorkspacesPoolOutput>(StopWorkspacesPoolOutput.httpOutput(from:), StopWorkspacesPoolOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `TerminateWorkspaces` operation on the `WorkspacesService` service.
     ///
     /// Terminates the specified WorkSpaces. Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using [ DescribeWorkSpaces](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html). If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated. Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the [Directory Service pricing terms](http://aws.amazon.com/directoryservice/pricing/). To delete empty directories, see [ Delete the Directory for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html). If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
@@ -4019,6 +4339,112 @@ extension WorkSpacesClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TerminateWorkspacesOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateWorkspacesOutput>(TerminateWorkspacesOutput.httpOutput(from:), TerminateWorkspacesOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateWorkspacesInput, TerminateWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `TerminateWorkspacesPool` operation on the `WorkspacesService` service.
+    ///
+    /// Terminates the specified pool.
+    ///
+    /// - Parameter TerminateWorkspacesPoolInput : [no documentation found]
+    ///
+    /// - Returns: `TerminateWorkspacesPoolOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
+    /// - `OperationInProgressException` : The properties of this WorkSpace are currently being modified. Try again in a moment.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func terminateWorkspacesPool(input: TerminateWorkspacesPoolInput) async throws -> TerminateWorkspacesPoolOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "terminateWorkspacesPool")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>(id: "terminateWorkspacesPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>(TerminateWorkspacesPoolInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<TerminateWorkspacesPoolOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TerminateWorkspacesPoolOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>(xAmzTarget: "WorkspacesService.TerminateWorkspacesPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateWorkspacesPoolInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateWorkspacesPoolOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TerminateWorkspacesPoolOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateWorkspacesPoolOutput>(TerminateWorkspacesPoolOutput.httpOutput(from:), TerminateWorkspacesPoolOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `TerminateWorkspacesPoolSession` operation on the `WorkspacesService` service.
+    ///
+    /// Terminates the pool session.
+    ///
+    /// - Parameter TerminateWorkspacesPoolSessionInput : [no documentation found]
+    ///
+    /// - Returns: `TerminateWorkspacesPoolSessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `OperationInProgressException` : The properties of this WorkSpace are currently being modified. Try again in a moment.
+    /// - `OperationNotSupportedException` : This operation is not supported.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func terminateWorkspacesPoolSession(input: TerminateWorkspacesPoolSessionInput) async throws -> TerminateWorkspacesPoolSessionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "terminateWorkspacesPoolSession")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>(id: "terminateWorkspacesPoolSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>(TerminateWorkspacesPoolSessionInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<TerminateWorkspacesPoolSessionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TerminateWorkspacesPoolSessionOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>(xAmzTarget: "WorkspacesService.TerminateWorkspacesPoolSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateWorkspacesPoolSessionInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateWorkspacesPoolSessionOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TerminateWorkspacesPoolSessionOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateWorkspacesPoolSessionOutput>(TerminateWorkspacesPoolSessionOutput.httpOutput(from:), TerminateWorkspacesPoolSessionOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4292,6 +4718,61 @@ extension WorkSpacesClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateWorkspaceImagePermissionOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkspaceImagePermissionOutput>(UpdateWorkspaceImagePermissionOutput.httpOutput(from:), UpdateWorkspaceImagePermissionOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkspaceImagePermissionInput, UpdateWorkspaceImagePermissionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateWorkspacesPool` operation on the `WorkspacesService` service.
+    ///
+    /// Updates the specified pool.
+    ///
+    /// - Parameter UpdateWorkspacesPoolInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkspacesPoolOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
+    /// - `OperationInProgressException` : The properties of this WorkSpace are currently being modified. Try again in a moment.
+    /// - `OperationNotSupportedException` : This operation is not supported.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func updateWorkspacesPool(input: UpdateWorkspacesPoolInput) async throws -> UpdateWorkspacesPoolOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateWorkspacesPool")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>(id: "updateWorkspacesPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>(UpdateWorkspacesPoolInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateWorkspacesPoolOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateWorkspacesPoolOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>(xAmzTarget: "WorkspacesService.UpdateWorkspacesPool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkspacesPoolInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWorkspacesPoolOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateWorkspacesPoolOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkspacesPoolOutput>(UpdateWorkspacesPoolOutput.httpOutput(from:), UpdateWorkspacesPoolOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -18,7 +18,7 @@ import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.SdkHttpRequest
+import class SmithyHTTPAPI.HTTPRequest
 import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -672,6 +672,6 @@ extension PollyClient {
         guard let presignedRequest else {
             throw Smithy.ClientError.unknownError("Could not presign the request for the operation SynthesizeSpeech.")
         }
-        return try await SmithyHTTPAPI.SdkHttpRequest.makeURLRequest(from: presignedRequest)
+        return try await SmithyHTTPAPI.HTTPRequest.makeURLRequest(from: presignedRequest)
     }
 }

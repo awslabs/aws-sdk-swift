@@ -255,7 +255,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.51.0",
+    clientRuntimeVersion: "0.52.0",
     crtVersion: "0.32.0"
 )
 
@@ -546,6 +546,7 @@ let serviceTargets: [String] = [
     "AWSPricing",
     "AWSPrivateNetworks",
     "AWSProton",
+    "AWSQApps",
     "AWSQBusiness",
     "AWSQConnect",
     "AWSQLDB",
