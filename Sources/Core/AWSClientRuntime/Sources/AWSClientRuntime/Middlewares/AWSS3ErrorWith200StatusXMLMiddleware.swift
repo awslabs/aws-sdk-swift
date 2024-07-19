@@ -8,6 +8,8 @@
 import class Smithy.Context
 import ClientRuntime
 import SmithyHTTPAPI
+import SmithyXML
+import struct Foundation.Data
 
 public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "AWSS3ErrorWith200StatusXMLMiddleware"
@@ -35,6 +37,13 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
         return response
     }
 
+    private func isRootErrorElement(data: Data) throws -> Bool {
+        let reader = try Reader.from(data: data)
+
+        // Check if the root node's name is "Error"
+        return reader.nodeInfo.name == "Error"
+    }
+
     private func isErrorWith200Status(response: HTTPResponse) async throws -> Bool {
         // Check if the status code is OK (200)
         guard response.statusCode == .ok else {
@@ -47,8 +56,7 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
         }
 
         response.body = .data(data)
-        let xmlString = String(decoding: data, as: UTF8.self)
-        return xmlString.contains("<Error>")
+        return try isRootErrorElement(data: data)
     }
 
     public typealias MInput = HTTPRequest

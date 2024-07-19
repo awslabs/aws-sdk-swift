@@ -7320,6 +7320,7 @@ extension S3Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<SelectObjectContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SelectObjectContentOutput>(SelectObjectContentOutput.httpOutput(from:), SelectObjectContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(clientLogMode: config.clientLogMode))
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<SelectObjectContentInput, SelectObjectContentOutput>())
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SelectObjectContent")
