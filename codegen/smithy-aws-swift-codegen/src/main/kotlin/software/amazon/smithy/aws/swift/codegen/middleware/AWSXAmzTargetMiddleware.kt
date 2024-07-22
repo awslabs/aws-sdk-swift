@@ -13,9 +13,7 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
-import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
 class AWSXAmzTargetMiddleware(
     val model: Model,
@@ -24,10 +22,6 @@ class AWSXAmzTargetMiddleware(
 ) : MiddlewareRenderable {
 
     override val name = "AWSXAmzTargetMiddleware"
-
-    override val middlewareStep = MiddlewareStep.SERIALIZESTEP
-
-    override val position = MiddlewarePosition.BEFORE
 
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,

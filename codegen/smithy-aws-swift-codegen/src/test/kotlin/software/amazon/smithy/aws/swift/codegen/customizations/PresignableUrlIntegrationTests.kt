@@ -19,7 +19,7 @@ class PresignableUrlIntegrationTests {
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PutObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        operation.serializeStep.intercept(position: .after, middleware: PutObjectPresignedURLMiddleware())
+        builder.serialize(PutObjectPresignedURLMiddleware())
         """
         contents.shouldContainOnlyOnce(expectedContents)
     }
@@ -30,24 +30,25 @@ class PresignableUrlIntegrationTests {
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PutObjectInput+QueryItemMiddlewareForPresignUrl.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
+public struct PutObjectPresignedURLMiddleware {
     public let id: Swift.String = "PutObjectPresignedURLMiddleware"
 
     public init() {}
+}
+extension PutObjectPresignedURLMiddleware: Smithy.RequestMessageSerializer {
+    public typealias InputType = PutObjectInput
+    public typealias RequestType = SmithyHTTPAPI.HTTPRequest
 
-    public func handle<H>(context: Smithy.Context,
-                  input: ClientRuntime.SerializeStepInput<PutObjectInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
-    where H: ClientRuntime.Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output
-    {
-        try self.apply(input: input.operationInput, builder: input.builder, attributes: context)
-        return try await next.handle(context: context, input: input)
+    public func apply(input: InputType, builder: SmithyHTTPAPI.HTTPRequestBuilder, attributes: Smithy.Context) throws {
+        let metadata = input.metadata ?? [:]
+        for (metadataKey, metadataValue) in metadata {
+            let queryItem = Smithy.URIQueryItem(
+                name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
+                value: metadataValue.urlPercentEncoding()
+            )
+            builder.withQueryItem(queryItem)
+        }
     }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
 }
 """
         contents.shouldContainOnlyOnce(expectedContents)

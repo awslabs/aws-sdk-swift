@@ -22,9 +22,7 @@ import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
-import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
@@ -39,10 +37,6 @@ class OperationEndpointResolverMiddleware(
 ) : MiddlewareRenderable {
 
     override val name = "EndpointResolverMiddleware"
-
-    override val middlewareStep = MiddlewareStep.BUILDSTEP
-
-    override val position = MiddlewarePosition.BEFORE
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         renderEndpointParams(ctx, writer, op)
