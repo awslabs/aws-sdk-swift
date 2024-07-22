@@ -10,6 +10,7 @@ import ClientRuntime
 import SmithyHTTPAPI
 import SmithyXML
 import struct Foundation.Data
+import SmithyStreams
 
 public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "AWSS3ErrorWith200StatusXMLMiddleware"
@@ -40,8 +41,8 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
     private func isRootErrorElement(data: Data) throws -> Bool {
         let reader = try Reader.from(data: data)
 
-        // Check if the root node's name is "Error"
-        return reader.nodeInfo.name == "Error"
+        // Use findNode to check if there's an "Error" node in the XML
+        return reader.findNode("Error") != nil
     }
 
     private func isErrorWith200Status(response: HTTPResponse) async throws -> Bool {
@@ -55,7 +56,9 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
             return false
         }
 
-        response.body = .data(data)
+        //response.body = .data(data)
+        //response.body = .stream(BufferedStream(data: data))
+
         return try isRootErrorElement(data: data)
     }
 
