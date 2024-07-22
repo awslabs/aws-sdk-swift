@@ -8,7 +8,7 @@
 import class Smithy.Context
 import ClientRuntime
 
-public struct Route53TrimHostedZoneMiddleware<Input, Output>: ClientRuntime.Middleware {
+public struct Route53TrimHostedZoneMiddleware<Input, Output> {
     public let id: Swift.String = "Route53TrimHostedZoneMiddleware"
     private let prefixes = ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"]
 
@@ -16,16 +16,6 @@ public struct Route53TrimHostedZoneMiddleware<Input, Output>: ClientRuntime.Midd
 
     public init(_ hostedZoneIDKeyPath: WritableKeyPath<Input, String?>) {
         self.hostedZoneIDKeyPath = hostedZoneIDKeyPath
-    }
-
-    public func handle<H>(context: Context,
-                          input: Input,
-                          next: H) async throws -> ClientRuntime.OperationOutput<Output>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output {
-        let updatedInput = getUpdatedInput(input: input)
-        return try await next.handle(context: context, input: updatedInput)
     }
 
     private func getUpdatedInput(input: Input) -> Input {
@@ -37,9 +27,6 @@ public struct Route53TrimHostedZoneMiddleware<Input, Output>: ClientRuntime.Midd
         copiedInput[keyPath: hostedZoneIDKeyPath] = stripped
         return copiedInput
     }
-
-    public typealias MInput = Input
-    public typealias MOutput = ClientRuntime.OperationOutput<Output>
 }
 
 extension Route53TrimHostedZoneMiddleware: HttpInterceptor {

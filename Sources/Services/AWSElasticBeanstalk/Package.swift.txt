@@ -61,11 +61,11 @@ let package = Package(
                     package: "aws-sdk-swift.AWSSDKHTTPAuth"
                 ),
                 .product(
-                    name: "SmithyFormURL",
+                    name: "SmithyRetries",
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
-                    name: "SmithyRetries",
+                    name: "SmithyFormURL",
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(

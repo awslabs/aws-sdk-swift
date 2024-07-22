@@ -9,7 +9,6 @@ import software.amazon.smithy.model.shapes.TimestampShape
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.model.isEnum
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
@@ -22,7 +21,7 @@ class InputTypeGETQueryItemMiddleware(
     outputErrorSymbol: Symbol,
     val inputShape: Shape,
     private val writer: SwiftWriter
-) : Middleware(writer, inputSymbol, OperationSerializeStep(inputSymbol, outputSymbol, outputErrorSymbol)) {
+) : Middleware(writer, inputSymbol) {
     override val typeName = "${inputSymbol.name}GETQueryItemMiddleware"
 
     override fun renderExtensions() {
@@ -33,21 +32,17 @@ class InputTypeGETQueryItemMiddleware(
             SmithyTypes.RequestMessageSerializer,
         ) {
             writer.write("public typealias InputType = \$L", inputSymbol.name)
-            writer.write("public typealias RequestType = \$N", SmithyHTTPAPITypes.SdkHttpRequest)
+            writer.write("public typealias RequestType = \$N", SmithyHTTPAPITypes.HTTPRequest)
             writer.write("")
             writer.openBlock(
                 "public func apply(input: InputType, builder: \$N, attributes: \$N) throws {",
                 "}",
-                SmithyHTTPAPITypes.SdkHttpRequestBuilder,
+                SmithyHTTPAPITypes.HTTPRequestBuilder,
                 SmithyTypes.Context,
             ) {
                 writer.write("\${C|}", Runnable { renderApplyBody() })
             }
         }
-    }
-
-    override fun generateMiddlewareClosure() {
-        writer.write("try self.apply(input: input.operationInput, builder: input.builder, attributes: context)")
     }
 
     private fun renderApplyBody() {

@@ -54,7 +54,7 @@ extension InitialRequestTestClientTypes.TestStream {
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: InitialRequestTestClientTypes.TestStream.marshal, initialRequestMessage: try input.makeInitialRequestMessage()))
+        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: InitialRequestTestClientTypes.TestStream.marshal, initialRequestMessage: try input.makeInitialRequestMessage()))
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
