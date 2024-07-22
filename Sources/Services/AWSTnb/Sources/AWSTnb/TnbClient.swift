@@ -9,17 +9,23 @@
 
 import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
+import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
+import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
@@ -27,6 +33,7 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
+import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -36,6 +43,7 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct AWSClientRuntime.AWSUserAgentMetadata
+import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -47,12 +55,11 @@ import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.LoggerMiddleware
-import struct ClientRuntime.OperationStack
 import struct ClientRuntime.QueryItemMiddleware
-import struct ClientRuntime.RetryMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -217,19 +224,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(id: "cancelSolNetworkOperation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(CancelSolNetworkOperationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(CancelSolNetworkOperationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSolNetworkOperationOutput>(CancelSolNetworkOperationOutput.httpOutput(from:), CancelSolNetworkOperationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelSolNetworkOperationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CancelSolNetworkOperationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CancelSolNetworkOperationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSolNetworkOperationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CancelSolNetworkOperationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSolNetworkOperationOutput>(CancelSolNetworkOperationOutput.httpOutput(from:), CancelSolNetworkOperationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CancelSolNetworkOperationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelSolNetworkOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelSolNetworkOperation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateSolFunctionPackage` operation on the `TNB` service.
@@ -266,22 +292,41 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(id: "createSolFunctionPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(CreateSolFunctionPackageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(CreateSolFunctionPackageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSolFunctionPackageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolFunctionPackageOutput>(CreateSolFunctionPackageOutput.httpOutput(from:), CreateSolFunctionPackageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSolFunctionPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateSolFunctionPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateSolFunctionPackageOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSolFunctionPackageInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSolFunctionPackageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateSolFunctionPackageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolFunctionPackageOutput>(CreateSolFunctionPackageOutput.httpOutput(from:), CreateSolFunctionPackageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateSolFunctionPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSolFunctionPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSolFunctionPackage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateSolNetworkInstance` operation on the `TNB` service.
@@ -319,22 +364,41 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(id: "createSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(CreateSolNetworkInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(CreateSolNetworkInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSolNetworkInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolNetworkInstanceOutput>(CreateSolNetworkInstanceOutput.httpOutput(from:), CreateSolNetworkInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateSolNetworkInstanceOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSolNetworkInstanceInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateSolNetworkInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolNetworkInstanceOutput>(CreateSolNetworkInstanceOutput.httpOutput(from:), CreateSolNetworkInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSolNetworkInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateSolNetworkPackage` operation on the `TNB` service.
@@ -371,22 +435,41 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(id: "createSolNetworkPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(CreateSolNetworkPackageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(CreateSolNetworkPackageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSolNetworkPackageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolNetworkPackageOutput>(CreateSolNetworkPackageOutput.httpOutput(from:), CreateSolNetworkPackageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSolNetworkPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateSolNetworkPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateSolNetworkPackageOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSolNetworkPackageInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSolNetworkPackageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateSolNetworkPackageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolNetworkPackageOutput>(CreateSolNetworkPackageOutput.httpOutput(from:), CreateSolNetworkPackageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateSolNetworkPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSolNetworkPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSolNetworkPackage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteSolFunctionPackage` operation on the `TNB` service.
@@ -423,19 +506,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(id: "deleteSolFunctionPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(DeleteSolFunctionPackageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(DeleteSolFunctionPackageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSolFunctionPackageOutput>(DeleteSolFunctionPackageOutput.httpOutput(from:), DeleteSolFunctionPackageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSolFunctionPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteSolFunctionPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteSolFunctionPackageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSolFunctionPackageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteSolFunctionPackageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolFunctionPackageOutput>(DeleteSolFunctionPackageOutput.httpOutput(from:), DeleteSolFunctionPackageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteSolFunctionPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSolFunctionPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSolFunctionPackage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteSolNetworkInstance` operation on the `TNB` service.
@@ -472,19 +574,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(id: "deleteSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(DeleteSolNetworkInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(DeleteSolNetworkInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSolNetworkInstanceOutput>(DeleteSolNetworkInstanceOutput.httpOutput(from:), DeleteSolNetworkInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteSolNetworkInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteSolNetworkInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolNetworkInstanceOutput>(DeleteSolNetworkInstanceOutput.httpOutput(from:), DeleteSolNetworkInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSolNetworkInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteSolNetworkPackage` operation on the `TNB` service.
@@ -521,19 +642,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(id: "deleteSolNetworkPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(DeleteSolNetworkPackageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(DeleteSolNetworkPackageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSolNetworkPackageOutput>(DeleteSolNetworkPackageOutput.httpOutput(from:), DeleteSolNetworkPackageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSolNetworkPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteSolNetworkPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteSolNetworkPackageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSolNetworkPackageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteSolNetworkPackageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolNetworkPackageOutput>(DeleteSolNetworkPackageOutput.httpOutput(from:), DeleteSolNetworkPackageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteSolNetworkPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSolNetworkPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSolNetworkPackage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSolFunctionInstance` operation on the `TNB` service.
@@ -570,19 +710,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(id: "getSolFunctionInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(GetSolFunctionInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(GetSolFunctionInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolFunctionInstanceOutput>(GetSolFunctionInstanceOutput.httpOutput(from:), GetSolFunctionInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSolFunctionInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSolFunctionInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSolFunctionInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSolFunctionInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionInstanceOutput>(GetSolFunctionInstanceOutput.httpOutput(from:), GetSolFunctionInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSolFunctionInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolFunctionInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSolFunctionInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSolFunctionPackage` operation on the `TNB` service.
@@ -619,19 +778,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(id: "getSolFunctionPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(GetSolFunctionPackageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSolFunctionPackageInput, GetSolFunctionPackageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSolFunctionPackageInput, GetSolFunctionPackageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(GetSolFunctionPackageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageOutput>(GetSolFunctionPackageOutput.httpOutput(from:), GetSolFunctionPackageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSolFunctionPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSolFunctionPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSolFunctionPackageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionPackageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSolFunctionPackageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageOutput>(GetSolFunctionPackageOutput.httpOutput(from:), GetSolFunctionPackageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSolFunctionPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolFunctionPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSolFunctionPackage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSolFunctionPackageContent` operation on the `TNB` service.
@@ -668,20 +846,39 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(id: "getSolFunctionPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(GetSolFunctionPackageContentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(GetSolFunctionPackageContentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(GetSolFunctionPackageContentInput.headerProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageContentOutput>(GetSolFunctionPackageContentOutput.httpOutput(from:), GetSolFunctionPackageContentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSolFunctionPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSolFunctionPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSolFunctionPackageContentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(GetSolFunctionPackageContentInput.headerProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionPackageContentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSolFunctionPackageContentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageContentOutput>(GetSolFunctionPackageContentOutput.httpOutput(from:), GetSolFunctionPackageContentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSolFunctionPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolFunctionPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSolFunctionPackageContent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSolFunctionPackageDescriptor` operation on the `TNB` service.
@@ -718,20 +915,39 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(id: "getSolFunctionPackageDescriptor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(GetSolFunctionPackageDescriptorInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(GetSolFunctionPackageDescriptorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(GetSolFunctionPackageDescriptorInput.headerProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageDescriptorOutput>(GetSolFunctionPackageDescriptorOutput.httpOutput(from:), GetSolFunctionPackageDescriptorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSolFunctionPackageDescriptorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSolFunctionPackageDescriptorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSolFunctionPackageDescriptorOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(GetSolFunctionPackageDescriptorInput.headerProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionPackageDescriptorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSolFunctionPackageDescriptorOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageDescriptorOutput>(GetSolFunctionPackageDescriptorOutput.httpOutput(from:), GetSolFunctionPackageDescriptorOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSolFunctionPackageDescriptorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolFunctionPackageDescriptorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSolFunctionPackageDescriptor")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSolNetworkInstance` operation on the `TNB` service.
@@ -768,19 +984,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(id: "getSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(GetSolNetworkInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(GetSolNetworkInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkInstanceOutput>(GetSolNetworkInstanceOutput.httpOutput(from:), GetSolNetworkInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSolNetworkInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSolNetworkInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkInstanceOutput>(GetSolNetworkInstanceOutput.httpOutput(from:), GetSolNetworkInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSolNetworkInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSolNetworkOperation` operation on the `TNB` service.
@@ -817,19 +1052,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(id: "getSolNetworkOperation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(GetSolNetworkOperationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSolNetworkOperationInput, GetSolNetworkOperationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSolNetworkOperationInput, GetSolNetworkOperationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(GetSolNetworkOperationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkOperationOutput>(GetSolNetworkOperationOutput.httpOutput(from:), GetSolNetworkOperationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkOperationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkOperationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSolNetworkOperationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkOperationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSolNetworkOperationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkOperationOutput>(GetSolNetworkOperationOutput.httpOutput(from:), GetSolNetworkOperationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkOperationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolNetworkOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSolNetworkOperation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSolNetworkPackage` operation on the `TNB` service.
@@ -866,19 +1120,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(id: "getSolNetworkPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(GetSolNetworkPackageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSolNetworkPackageInput, GetSolNetworkPackageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSolNetworkPackageInput, GetSolNetworkPackageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(GetSolNetworkPackageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageOutput>(GetSolNetworkPackageOutput.httpOutput(from:), GetSolNetworkPackageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSolNetworkPackageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkPackageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSolNetworkPackageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageOutput>(GetSolNetworkPackageOutput.httpOutput(from:), GetSolNetworkPackageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolNetworkPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSolNetworkPackage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSolNetworkPackageContent` operation on the `TNB` service.
@@ -915,20 +1188,39 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(id: "getSolNetworkPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(GetSolNetworkPackageContentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(GetSolNetworkPackageContentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(GetSolNetworkPackageContentInput.headerProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageContentOutput>(GetSolNetworkPackageContentOutput.httpOutput(from:), GetSolNetworkPackageContentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSolNetworkPackageContentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(GetSolNetworkPackageContentInput.headerProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkPackageContentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSolNetworkPackageContentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageContentOutput>(GetSolNetworkPackageContentOutput.httpOutput(from:), GetSolNetworkPackageContentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolNetworkPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSolNetworkPackageContent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSolNetworkPackageDescriptor` operation on the `TNB` service.
@@ -965,19 +1257,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(id: "getSolNetworkPackageDescriptor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(GetSolNetworkPackageDescriptorInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(GetSolNetworkPackageDescriptorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageDescriptorOutput>(GetSolNetworkPackageDescriptorOutput.httpOutput(from:), GetSolNetworkPackageDescriptorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkPackageDescriptorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkPackageDescriptorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSolNetworkPackageDescriptorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkPackageDescriptorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSolNetworkPackageDescriptorOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageDescriptorOutput>(GetSolNetworkPackageDescriptorOutput.httpOutput(from:), GetSolNetworkPackageDescriptorOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSolNetworkPackageDescriptorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolNetworkPackageDescriptorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSolNetworkPackageDescriptor")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `InstantiateSolNetworkInstance` operation on the `TNB` service.
@@ -1015,23 +1326,42 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(id: "instantiateSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(InstantiateSolNetworkInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(InstantiateSolNetworkInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(InstantiateSolNetworkInstanceInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InstantiateSolNetworkInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<InstantiateSolNetworkInstanceOutput>(InstantiateSolNetworkInstanceOutput.httpOutput(from:), InstantiateSolNetworkInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<InstantiateSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<InstantiateSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<InstantiateSolNetworkInstanceOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(InstantiateSolNetworkInstanceInput.queryItemProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InstantiateSolNetworkInstanceInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InstantiateSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<InstantiateSolNetworkInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InstantiateSolNetworkInstanceOutput>(InstantiateSolNetworkInstanceOutput.httpOutput(from:), InstantiateSolNetworkInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<InstantiateSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InstantiateSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "InstantiateSolNetworkInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListSolFunctionInstances` operation on the `TNB` service.
@@ -1067,20 +1397,39 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(id: "listSolFunctionInstances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(ListSolFunctionInstancesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(ListSolFunctionInstancesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(ListSolFunctionInstancesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolFunctionInstancesOutput>(ListSolFunctionInstancesOutput.httpOutput(from:), ListSolFunctionInstancesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSolFunctionInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListSolFunctionInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListSolFunctionInstancesOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(ListSolFunctionInstancesInput.queryItemProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolFunctionInstancesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListSolFunctionInstancesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolFunctionInstancesOutput>(ListSolFunctionInstancesOutput.httpOutput(from:), ListSolFunctionInstancesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListSolFunctionInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSolFunctionInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSolFunctionInstances")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListSolFunctionPackages` operation on the `TNB` service.
@@ -1116,20 +1465,39 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(id: "listSolFunctionPackages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(ListSolFunctionPackagesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(ListSolFunctionPackagesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(ListSolFunctionPackagesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolFunctionPackagesOutput>(ListSolFunctionPackagesOutput.httpOutput(from:), ListSolFunctionPackagesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSolFunctionPackagesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListSolFunctionPackagesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListSolFunctionPackagesOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(ListSolFunctionPackagesInput.queryItemProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolFunctionPackagesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListSolFunctionPackagesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolFunctionPackagesOutput>(ListSolFunctionPackagesOutput.httpOutput(from:), ListSolFunctionPackagesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListSolFunctionPackagesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSolFunctionPackagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSolFunctionPackages")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListSolNetworkInstances` operation on the `TNB` service.
@@ -1165,20 +1533,39 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(id: "listSolNetworkInstances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(ListSolNetworkInstancesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(ListSolNetworkInstancesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(ListSolNetworkInstancesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolNetworkInstancesOutput>(ListSolNetworkInstancesOutput.httpOutput(from:), ListSolNetworkInstancesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSolNetworkInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListSolNetworkInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListSolNetworkInstancesOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(ListSolNetworkInstancesInput.queryItemProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolNetworkInstancesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListSolNetworkInstancesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkInstancesOutput>(ListSolNetworkInstancesOutput.httpOutput(from:), ListSolNetworkInstancesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListSolNetworkInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSolNetworkInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSolNetworkInstances")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListSolNetworkOperations` operation on the `TNB` service.
@@ -1214,20 +1601,39 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(id: "listSolNetworkOperations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(ListSolNetworkOperationsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(ListSolNetworkOperationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(ListSolNetworkOperationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolNetworkOperationsOutput>(ListSolNetworkOperationsOutput.httpOutput(from:), ListSolNetworkOperationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSolNetworkOperationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListSolNetworkOperationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListSolNetworkOperationsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(ListSolNetworkOperationsInput.queryItemProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolNetworkOperationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListSolNetworkOperationsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkOperationsOutput>(ListSolNetworkOperationsOutput.httpOutput(from:), ListSolNetworkOperationsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListSolNetworkOperationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSolNetworkOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSolNetworkOperations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListSolNetworkPackages` operation on the `TNB` service.
@@ -1263,20 +1669,39 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(id: "listSolNetworkPackages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(ListSolNetworkPackagesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(ListSolNetworkPackagesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(ListSolNetworkPackagesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolNetworkPackagesOutput>(ListSolNetworkPackagesOutput.httpOutput(from:), ListSolNetworkPackagesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSolNetworkPackagesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListSolNetworkPackagesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListSolNetworkPackagesOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(ListSolNetworkPackagesInput.queryItemProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolNetworkPackagesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListSolNetworkPackagesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkPackagesOutput>(ListSolNetworkPackagesOutput.httpOutput(from:), ListSolNetworkPackagesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListSolNetworkPackagesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSolNetworkPackagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSolNetworkPackages")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListTagsForResource` operation on the `TNB` service.
@@ -1313,19 +1738,38 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutSolFunctionPackageContent` operation on the `TNB` service.
@@ -1362,23 +1806,42 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(id: "putSolFunctionPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(PutSolFunctionPackageContentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(PutSolFunctionPackageContentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(PutSolFunctionPackageContentInput.headerProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobBodyMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(keyPath: \.file))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSolFunctionPackageContentOutput>(PutSolFunctionPackageContentOutput.httpOutput(from:), PutSolFunctionPackageContentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutSolFunctionPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutSolFunctionPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutSolFunctionPackageContentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(PutSolFunctionPackageContentInput.headerProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(keyPath: \.file))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSolFunctionPackageContentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutSolFunctionPackageContentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSolFunctionPackageContentOutput>(PutSolFunctionPackageContentOutput.httpOutput(from:), PutSolFunctionPackageContentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutSolFunctionPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSolFunctionPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutSolFunctionPackageContent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutSolNetworkPackageContent` operation on the `TNB` service.
@@ -1415,23 +1878,42 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(id: "putSolNetworkPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(PutSolNetworkPackageContentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(PutSolNetworkPackageContentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(PutSolNetworkPackageContentInput.headerProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobBodyMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(keyPath: \.file))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSolNetworkPackageContentOutput>(PutSolNetworkPackageContentOutput.httpOutput(from:), PutSolNetworkPackageContentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutSolNetworkPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutSolNetworkPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutSolNetworkPackageContentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(PutSolNetworkPackageContentInput.headerProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(keyPath: \.file))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSolNetworkPackageContentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutSolNetworkPackageContentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSolNetworkPackageContentOutput>(PutSolNetworkPackageContentOutput.httpOutput(from:), PutSolNetworkPackageContentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutSolNetworkPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSolNetworkPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutSolNetworkPackageContent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `TagResource` operation on the `TNB` service.
@@ -1468,22 +1950,41 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `TerminateSolNetworkInstance` operation on the `TNB` service.
@@ -1521,22 +2022,41 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(id: "terminateSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(TerminateSolNetworkInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(TerminateSolNetworkInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateSolNetworkInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateSolNetworkInstanceOutput>(TerminateSolNetworkInstanceOutput.httpOutput(from:), TerminateSolNetworkInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TerminateSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<TerminateSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TerminateSolNetworkInstanceOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateSolNetworkInstanceInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TerminateSolNetworkInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateSolNetworkInstanceOutput>(TerminateSolNetworkInstanceOutput.httpOutput(from:), TerminateSolNetworkInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TerminateSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TerminateSolNetworkInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UntagResource` operation on the `TNB` service.
@@ -1573,20 +2093,39 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateSolFunctionPackage` operation on the `TNB` service.
@@ -1623,22 +2162,41 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(id: "updateSolFunctionPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(UpdateSolFunctionPackageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(UpdateSolFunctionPackageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSolFunctionPackageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSolFunctionPackageOutput>(UpdateSolFunctionPackageOutput.httpOutput(from:), UpdateSolFunctionPackageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSolFunctionPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateSolFunctionPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateSolFunctionPackageOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSolFunctionPackageInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSolFunctionPackageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateSolFunctionPackageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolFunctionPackageOutput>(UpdateSolFunctionPackageOutput.httpOutput(from:), UpdateSolFunctionPackageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateSolFunctionPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSolFunctionPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSolFunctionPackage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateSolNetworkInstance` operation on the `TNB` service.
@@ -1676,22 +2234,41 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(id: "updateSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(UpdateSolNetworkInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(UpdateSolNetworkInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSolNetworkInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSolNetworkInstanceOutput>(UpdateSolNetworkInstanceOutput.httpOutput(from:), UpdateSolNetworkInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateSolNetworkInstanceOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSolNetworkInstanceInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateSolNetworkInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolNetworkInstanceOutput>(UpdateSolNetworkInstanceOutput.httpOutput(from:), UpdateSolNetworkInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateSolNetworkInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSolNetworkInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateSolNetworkPackage` operation on the `TNB` service.
@@ -1728,22 +2305,41 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(id: "updateSolNetworkPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(UpdateSolNetworkPackageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(UpdateSolNetworkPackageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSolNetworkPackageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSolNetworkPackageOutput>(UpdateSolNetworkPackageOutput.httpOutput(from:), UpdateSolNetworkPackageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSolNetworkPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateSolNetworkPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateSolNetworkPackageOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSolNetworkPackageInput.write(value:to:)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSolNetworkPackageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateSolNetworkPackageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolNetworkPackageOutput>(UpdateSolNetworkPackageOutput.httpOutput(from:), UpdateSolNetworkPackageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateSolNetworkPackageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSolNetworkPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSolNetworkPackage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ValidateSolFunctionPackageContent` operation on the `TNB` service.
@@ -1780,23 +2376,42 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(id: "validateSolFunctionPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(ValidateSolFunctionPackageContentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(ValidateSolFunctionPackageContentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(ValidateSolFunctionPackageContentInput.headerProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobBodyMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(keyPath: \.file))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateSolFunctionPackageContentOutput>(ValidateSolFunctionPackageContentOutput.httpOutput(from:), ValidateSolFunctionPackageContentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ValidateSolFunctionPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ValidateSolFunctionPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ValidateSolFunctionPackageContentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(ValidateSolFunctionPackageContentInput.headerProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(keyPath: \.file))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateSolFunctionPackageContentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ValidateSolFunctionPackageContentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateSolFunctionPackageContentOutput>(ValidateSolFunctionPackageContentOutput.httpOutput(from:), ValidateSolFunctionPackageContentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ValidateSolFunctionPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateSolFunctionPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ValidateSolFunctionPackageContent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ValidateSolNetworkPackageContent` operation on the `TNB` service.
@@ -1833,23 +2448,42 @@ extension TnbClient {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(id: "validateSolNetworkPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(ValidateSolNetworkPackageContentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(ValidateSolNetworkPackageContentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(ValidateSolNetworkPackageContentInput.headerProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobBodyMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(keyPath: \.file))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateSolNetworkPackageContentOutput>(ValidateSolNetworkPackageContentOutput.httpOutput(from:), ValidateSolNetworkPackageContentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ValidateSolNetworkPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ValidateSolNetworkPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ValidateSolNetworkPackageContentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(ValidateSolNetworkPackageContentInput.headerProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(keyPath: \.file))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateSolNetworkPackageContentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ValidateSolNetworkPackageContentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateSolNetworkPackageContentOutput>(ValidateSolNetworkPackageContentOutput.httpOutput(from:), ValidateSolNetworkPackageContentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ValidateSolNetworkPackageContentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateSolNetworkPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Tnb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ValidateSolNetworkPackageContent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
 }

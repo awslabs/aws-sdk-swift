@@ -9,22 +9,29 @@
 
 import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
+import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
+import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
+import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -34,6 +41,7 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct AWSClientRuntime.AWSUserAgentMetadata
+import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
@@ -45,11 +53,10 @@ import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
-import struct ClientRuntime.OperationStack
-import struct ClientRuntime.RetryMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -224,24 +231,43 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateFacesInput, AssociateFacesOutput>(id: "associateFaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AssociateFacesInput, AssociateFacesOutput>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateFacesInput, AssociateFacesOutput>(AssociateFacesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateFacesInput, AssociateFacesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateFacesInput, AssociateFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<AssociateFacesInput, AssociateFacesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateFacesInput, AssociateFacesOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateFacesInput, AssociateFacesOutput>(AssociateFacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateFacesInput, AssociateFacesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFacesInput, AssociateFacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFacesOutput>(AssociateFacesOutput.httpOutput(from:), AssociateFacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFacesInput, AssociateFacesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<AssociateFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<AssociateFacesInput, AssociateFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AssociateFacesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateFacesInput, AssociateFacesOutput>(xAmzTarget: "RekognitionService.AssociateFaces"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateFacesInput, AssociateFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateFacesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<AssociateFacesInput, AssociateFacesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<AssociateFacesInput, AssociateFacesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateFacesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AssociateFacesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateFacesOutput>(AssociateFacesOutput.httpOutput(from:), AssociateFacesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateFacesInput, AssociateFacesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateFacesInput, AssociateFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateFacesInput, AssociateFacesOutput>(xAmzTarget: "RekognitionService.AssociateFaces"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateFacesInput, AssociateFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateFacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFacesInput, AssociateFacesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFacesInput, AssociateFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateFacesInput, AssociateFacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateFaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CompareFaces` operation on the `RekognitionService` service.
@@ -281,23 +307,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CompareFacesInput, CompareFacesOutput>(id: "compareFaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompareFacesInput, CompareFacesOutput>(CompareFacesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompareFacesInput, CompareFacesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CompareFacesInput, CompareFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CompareFacesInput, CompareFacesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CompareFacesInput, CompareFacesOutput>(CompareFacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CompareFacesInput, CompareFacesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompareFacesInput, CompareFacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CompareFacesOutput>(CompareFacesOutput.httpOutput(from:), CompareFacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompareFacesInput, CompareFacesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CompareFacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CompareFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CompareFacesInput, CompareFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CompareFacesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CompareFacesInput, CompareFacesOutput>(xAmzTarget: "RekognitionService.CompareFaces"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CompareFacesInput, CompareFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CompareFacesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CompareFacesInput, CompareFacesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CompareFacesInput, CompareFacesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompareFacesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CompareFacesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompareFacesOutput>(CompareFacesOutput.httpOutput(from:), CompareFacesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompareFacesInput, CompareFacesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CompareFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CompareFacesInput, CompareFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CompareFacesInput, CompareFacesOutput>(xAmzTarget: "RekognitionService.CompareFaces"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CompareFacesInput, CompareFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CompareFacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CompareFacesInput, CompareFacesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompareFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CompareFacesInput, CompareFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CompareFacesInput, CompareFacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CompareFaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CopyProjectVersion` operation on the `RekognitionService` service.
@@ -338,23 +383,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CopyProjectVersionInput, CopyProjectVersionOutput>(id: "copyProjectVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(CopyProjectVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CopyProjectVersionInput, CopyProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CopyProjectVersionInput, CopyProjectVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(CopyProjectVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyProjectVersionOutput>(CopyProjectVersionOutput.httpOutput(from:), CopyProjectVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CopyProjectVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CopyProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CopyProjectVersionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(xAmzTarget: "RekognitionService.CopyProjectVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CopyProjectVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopyProjectVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CopyProjectVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyProjectVersionOutput>(CopyProjectVersionOutput.httpOutput(from:), CopyProjectVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CopyProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(xAmzTarget: "RekognitionService.CopyProjectVersion"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CopyProjectVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopyProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CopyProjectVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateCollection` operation on the `RekognitionService` service.
@@ -393,23 +457,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateCollectionInput, CreateCollectionOutput>(id: "createCollection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCollectionInput, CreateCollectionOutput>(CreateCollectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCollectionInput, CreateCollectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCollectionInput, CreateCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateCollectionInput, CreateCollectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCollectionInput, CreateCollectionOutput>(CreateCollectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCollectionInput, CreateCollectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCollectionInput, CreateCollectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCollectionOutput>(CreateCollectionOutput.httpOutput(from:), CreateCollectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCollectionInput, CreateCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCollectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateCollectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateCollectionInput, CreateCollectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateCollectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCollectionInput, CreateCollectionOutput>(xAmzTarget: "RekognitionService.CreateCollection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCollectionInput, CreateCollectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCollectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateCollectionInput, CreateCollectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateCollectionInput, CreateCollectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCollectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateCollectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCollectionOutput>(CreateCollectionOutput.httpOutput(from:), CreateCollectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCollectionInput, CreateCollectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateCollectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCollectionInput, CreateCollectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCollectionInput, CreateCollectionOutput>(xAmzTarget: "RekognitionService.CreateCollection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCollectionInput, CreateCollectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCollectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCollectionInput, CreateCollectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCollectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCollectionInput, CreateCollectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCollectionInput, CreateCollectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCollection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateDataset` operation on the `RekognitionService` service.
@@ -450,23 +533,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDatasetInput, CreateDatasetOutput>(id: "createDataset")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatasetInput, CreateDatasetOutput>(CreateDatasetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatasetInput, CreateDatasetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDatasetInput, CreateDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateDatasetInput, CreateDatasetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDatasetInput, CreateDatasetOutput>(CreateDatasetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDatasetInput, CreateDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateDatasetInput, CreateDatasetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateDatasetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDatasetInput, CreateDatasetOutput>(xAmzTarget: "RekognitionService.CreateDataset"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateDatasetInput, CreateDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatasetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateDatasetInput, CreateDatasetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDatasetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDatasetInput, CreateDatasetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDatasetInput, CreateDatasetOutput>(xAmzTarget: "RekognitionService.CreateDataset"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDatasetInput, CreateDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatasetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatasetInput, CreateDatasetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatasetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDatasetInput, CreateDatasetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDatasetInput, CreateDatasetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDataset")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateFaceLivenessSession` operation on the `RekognitionService` service.
@@ -503,23 +605,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(id: "createFaceLivenessSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(CreateFaceLivenessSessionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(CreateFaceLivenessSessionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFaceLivenessSessionOutput>(CreateFaceLivenessSessionOutput.httpOutput(from:), CreateFaceLivenessSessionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateFaceLivenessSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateFaceLivenessSessionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateFaceLivenessSessionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(xAmzTarget: "RekognitionService.CreateFaceLivenessSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFaceLivenessSessionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFaceLivenessSessionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateFaceLivenessSessionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFaceLivenessSessionOutput>(CreateFaceLivenessSessionOutput.httpOutput(from:), CreateFaceLivenessSessionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateFaceLivenessSessionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(xAmzTarget: "RekognitionService.CreateFaceLivenessSession"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFaceLivenessSessionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFaceLivenessSessionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateFaceLivenessSession")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateProject` operation on the `RekognitionService` service.
@@ -558,23 +679,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutput>(id: "createProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutput>(CreateProjectInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateProjectInput, CreateProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateProjectInput, CreateProjectOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutput>(CreateProjectInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateProjectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateProjectInput, CreateProjectOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateProjectOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProjectInput, CreateProjectOutput>(xAmzTarget: "RekognitionService.CreateProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateProjectInput, CreateProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProjectInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateProjectOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateProjectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProjectInput, CreateProjectOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProjectInput, CreateProjectOutput>(xAmzTarget: "RekognitionService.CreateProject"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateProjectInput, CreateProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProjectInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProjectOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProjectInput, CreateProjectOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProjectInput, CreateProjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProject")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateProjectVersion` operation on the `RekognitionService` service.
@@ -615,23 +755,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProjectVersionInput, CreateProjectVersionOutput>(id: "createProjectVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(CreateProjectVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateProjectVersionInput, CreateProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateProjectVersionInput, CreateProjectVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(CreateProjectVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectVersionOutput>(CreateProjectVersionOutput.httpOutput(from:), CreateProjectVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateProjectVersionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(xAmzTarget: "RekognitionService.CreateProjectVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProjectVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateProjectVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectVersionOutput>(CreateProjectVersionOutput.httpOutput(from:), CreateProjectVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(xAmzTarget: "RekognitionService.CreateProjectVersion"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProjectVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProjectVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateStreamProcessor` operation on the `RekognitionService` service.
@@ -678,23 +837,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateStreamProcessorInput, CreateStreamProcessorOutput>(id: "createStreamProcessor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(CreateStreamProcessorInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateStreamProcessorInput, CreateStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateStreamProcessorInput, CreateStreamProcessorOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(CreateStreamProcessorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamProcessorOutput>(CreateStreamProcessorOutput.httpOutput(from:), CreateStreamProcessorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamProcessorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateStreamProcessorOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(xAmzTarget: "RekognitionService.CreateStreamProcessor"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStreamProcessorInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStreamProcessorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateStreamProcessorOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamProcessorOutput>(CreateStreamProcessorOutput.httpOutput(from:), CreateStreamProcessorOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(xAmzTarget: "RekognitionService.CreateStreamProcessor"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStreamProcessorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateStreamProcessor")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateUser` operation on the `RekognitionService` service.
@@ -735,24 +913,43 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutput>(id: "createUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateUserInput, CreateUserOutput>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput>(CreateUserInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateUserInput, CreateUserOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateUserInput, CreateUserOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateUserInput, CreateUserOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput>(CreateUserInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateUserOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateUserInput, CreateUserOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateUserOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateUserInput, CreateUserOutput>(xAmzTarget: "RekognitionService.CreateUser"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateUserInput, CreateUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateUserOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateUserOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateUserInput, CreateUserOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateUserInput, CreateUserOutput>(xAmzTarget: "RekognitionService.CreateUser"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateUserInput, CreateUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserInput, CreateUserOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUserInput, CreateUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateUser")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteCollection` operation on the `RekognitionService` service.
@@ -790,23 +987,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteCollectionInput, DeleteCollectionOutput>(id: "deleteCollection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(DeleteCollectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCollectionInput, DeleteCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteCollectionInput, DeleteCollectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(DeleteCollectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCollectionOutput>(DeleteCollectionOutput.httpOutput(from:), DeleteCollectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCollectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteCollectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteCollectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(xAmzTarget: "RekognitionService.DeleteCollection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCollectionInput, DeleteCollectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCollectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCollectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteCollectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCollectionOutput>(DeleteCollectionOutput.httpOutput(from:), DeleteCollectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteCollectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(xAmzTarget: "RekognitionService.DeleteCollection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCollectionInput, DeleteCollectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCollectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCollectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCollection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteDataset` operation on the `RekognitionService` service.
@@ -846,23 +1062,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDatasetInput, DeleteDatasetOutput>(id: "deleteDataset")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(DeleteDatasetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteDatasetInput, DeleteDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteDatasetInput, DeleteDatasetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(DeleteDatasetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteDatasetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(xAmzTarget: "RekognitionService.DeleteDataset"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteDatasetInput, DeleteDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDatasetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDatasetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(xAmzTarget: "RekognitionService.DeleteDataset"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDatasetInput, DeleteDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDatasetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDatasetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDataset")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteFaces` operation on the `RekognitionService` service.
@@ -900,23 +1135,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFacesInput, DeleteFacesOutput>(id: "deleteFaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFacesInput, DeleteFacesOutput>(DeleteFacesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFacesInput, DeleteFacesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteFacesInput, DeleteFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteFacesInput, DeleteFacesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFacesInput, DeleteFacesOutput>(DeleteFacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFacesInput, DeleteFacesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFacesInput, DeleteFacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFacesOutput>(DeleteFacesOutput.httpOutput(from:), DeleteFacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFacesInput, DeleteFacesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteFacesInput, DeleteFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteFacesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteFacesInput, DeleteFacesOutput>(xAmzTarget: "RekognitionService.DeleteFaces"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteFacesInput, DeleteFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFacesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteFacesInput, DeleteFacesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteFacesInput, DeleteFacesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFacesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteFacesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFacesOutput>(DeleteFacesOutput.httpOutput(from:), DeleteFacesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFacesInput, DeleteFacesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFacesInput, DeleteFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteFacesInput, DeleteFacesOutput>(xAmzTarget: "RekognitionService.DeleteFaces"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFacesInput, DeleteFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFacesInput, DeleteFacesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFacesInput, DeleteFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFacesInput, DeleteFacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteFaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteProject` operation on the `RekognitionService` service.
@@ -955,23 +1209,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutput>(id: "deleteProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutput>(DeleteProjectInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProjectInput, DeleteProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteProjectInput, DeleteProjectOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutput>(DeleteProjectInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteProjectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteProjectInput, DeleteProjectOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteProjectOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectInput, DeleteProjectOutput>(xAmzTarget: "RekognitionService.DeleteProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteProjectInput, DeleteProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteProjectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProjectInput, DeleteProjectOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectInput, DeleteProjectOutput>(xAmzTarget: "RekognitionService.DeleteProject"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProjectInput, DeleteProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProjectOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProjectInput, DeleteProjectOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProjectInput, DeleteProjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProject")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteProjectPolicy` operation on the `RekognitionService` service.
@@ -1010,23 +1283,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(id: "deleteProjectPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(DeleteProjectPolicyInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProjectPolicyInput, DeleteProjectPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteProjectPolicyInput, DeleteProjectPolicyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(DeleteProjectPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectPolicyOutput>(DeleteProjectPolicyOutput.httpOutput(from:), DeleteProjectPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteProjectPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteProjectPolicyOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(xAmzTarget: "RekognitionService.DeleteProjectPolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectPolicyInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectPolicyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteProjectPolicyOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectPolicyOutput>(DeleteProjectPolicyOutput.httpOutput(from:), DeleteProjectPolicyOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteProjectPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(xAmzTarget: "RekognitionService.DeleteProjectPolicy"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProjectPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProjectPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteProjectVersion` operation on the `RekognitionService` service.
@@ -1065,23 +1357,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProjectVersionInput, DeleteProjectVersionOutput>(id: "deleteProjectVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(DeleteProjectVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProjectVersionInput, DeleteProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteProjectVersionInput, DeleteProjectVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(DeleteProjectVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectVersionOutput>(DeleteProjectVersionOutput.httpOutput(from:), DeleteProjectVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteProjectVersionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(xAmzTarget: "RekognitionService.DeleteProjectVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteProjectVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectVersionOutput>(DeleteProjectVersionOutput.httpOutput(from:), DeleteProjectVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(xAmzTarget: "RekognitionService.DeleteProjectVersion"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProjectVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteStreamProcessor` operation on the `RekognitionService` service.
@@ -1120,23 +1431,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(id: "deleteStreamProcessor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(DeleteStreamProcessorInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteStreamProcessorInput, DeleteStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteStreamProcessorInput, DeleteStreamProcessorOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(DeleteStreamProcessorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamProcessorOutput>(DeleteStreamProcessorOutput.httpOutput(from:), DeleteStreamProcessorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStreamProcessorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteStreamProcessorOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(xAmzTarget: "RekognitionService.DeleteStreamProcessor"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStreamProcessorInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStreamProcessorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteStreamProcessorOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStreamProcessorOutput>(DeleteStreamProcessorOutput.httpOutput(from:), DeleteStreamProcessorOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(xAmzTarget: "RekognitionService.DeleteStreamProcessor"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStreamProcessorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteStreamProcessor")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteUser` operation on the `RekognitionService` service.
@@ -1176,24 +1506,43 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutput>(id: "deleteUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteUserInput, DeleteUserOutput>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput>(DeleteUserInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteUserInput, DeleteUserOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteUserInput, DeleteUserOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteUserInput, DeleteUserOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput>(DeleteUserInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteUserOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteUserInput, DeleteUserOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteUserOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteUserInput, DeleteUserOutput>(xAmzTarget: "RekognitionService.DeleteUser"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteUserInput, DeleteUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteUserOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteUserOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserInput, DeleteUserOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteUserInput, DeleteUserOutput>(xAmzTarget: "RekognitionService.DeleteUser"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserInput, DeleteUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserInput, DeleteUserOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserInput, DeleteUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteUser")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeCollection` operation on the `RekognitionService` service.
@@ -1231,23 +1580,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCollectionInput, DescribeCollectionOutput>(id: "describeCollection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(DescribeCollectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCollectionInput, DescribeCollectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCollectionInput, DescribeCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeCollectionInput, DescribeCollectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(DescribeCollectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCollectionInput, DescribeCollectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCollectionInput, DescribeCollectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCollectionOutput>(DescribeCollectionOutput.httpOutput(from:), DescribeCollectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCollectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeCollectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeCollectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(xAmzTarget: "RekognitionService.DescribeCollection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeCollectionInput, DescribeCollectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCollectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeCollectionInput, DescribeCollectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCollectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeCollectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCollectionOutput>(DescribeCollectionOutput.httpOutput(from:), DescribeCollectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeCollectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(xAmzTarget: "RekognitionService.DescribeCollection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCollectionInput, DescribeCollectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCollectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCollectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCollectionInput, DescribeCollectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCollection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeDataset` operation on the `RekognitionService` service.
@@ -1285,23 +1653,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDatasetInput, DescribeDatasetOutput>(id: "describeDataset")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(DescribeDatasetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeDatasetInput, DescribeDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeDatasetInput, DescribeDatasetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(DescribeDatasetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeDatasetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(xAmzTarget: "RekognitionService.DescribeDataset"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeDatasetInput, DescribeDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatasetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDatasetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(xAmzTarget: "RekognitionService.DescribeDataset"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDatasetInput, DescribeDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatasetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDatasetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDataset")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeProjectVersions` operation on the `RekognitionService` service.
@@ -1340,23 +1727,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(id: "describeProjectVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(DescribeProjectVersionsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeProjectVersionsInput, DescribeProjectVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeProjectVersionsInput, DescribeProjectVersionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(DescribeProjectVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProjectVersionsOutput>(DescribeProjectVersionsOutput.httpOutput(from:), DescribeProjectVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProjectVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeProjectVersionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeProjectVersionsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(xAmzTarget: "RekognitionService.DescribeProjectVersions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProjectVersionsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProjectVersionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeProjectVersionsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProjectVersionsOutput>(DescribeProjectVersionsOutput.httpOutput(from:), DescribeProjectVersionsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeProjectVersionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(xAmzTarget: "RekognitionService.DescribeProjectVersions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProjectVersionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProjectVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeProjectVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeProjects` operation on the `RekognitionService` service.
@@ -1394,23 +1800,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeProjectsInput, DescribeProjectsOutput>(id: "describeProjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(DescribeProjectsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProjectsInput, DescribeProjectsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeProjectsInput, DescribeProjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeProjectsInput, DescribeProjectsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(DescribeProjectsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProjectsInput, DescribeProjectsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProjectsInput, DescribeProjectsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProjectsOutput>(DescribeProjectsOutput.httpOutput(from:), DescribeProjectsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProjectsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeProjectsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeProjectsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(xAmzTarget: "RekognitionService.DescribeProjects"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeProjectsInput, DescribeProjectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProjectsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeProjectsInput, DescribeProjectsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProjectsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeProjectsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProjectsOutput>(DescribeProjectsOutput.httpOutput(from:), DescribeProjectsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeProjectsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(xAmzTarget: "RekognitionService.DescribeProjects"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProjectsInput, DescribeProjectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProjectsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProjectsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProjectsInput, DescribeProjectsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeProjects")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeStreamProcessor` operation on the `RekognitionService` service.
@@ -1448,23 +1873,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(id: "describeStreamProcessor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(DescribeStreamProcessorInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeStreamProcessorInput, DescribeStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeStreamProcessorInput, DescribeStreamProcessorOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(DescribeStreamProcessorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamProcessorOutput>(DescribeStreamProcessorOutput.httpOutput(from:), DescribeStreamProcessorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamProcessorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeStreamProcessorOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(xAmzTarget: "RekognitionService.DescribeStreamProcessor"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamProcessorInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStreamProcessorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeStreamProcessorOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStreamProcessorOutput>(DescribeStreamProcessorOutput.httpOutput(from:), DescribeStreamProcessorOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(xAmzTarget: "RekognitionService.DescribeStreamProcessor"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamProcessorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStreamProcessor")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DetectCustomLabels` operation on the `RekognitionService` service.
@@ -1510,23 +1954,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetectCustomLabelsInput, DetectCustomLabelsOutput>(id: "detectCustomLabels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(DetectCustomLabelsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DetectCustomLabelsInput, DetectCustomLabelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DetectCustomLabelsInput, DetectCustomLabelsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(DetectCustomLabelsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectCustomLabelsOutput>(DetectCustomLabelsOutput.httpOutput(from:), DetectCustomLabelsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetectCustomLabelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DetectCustomLabelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DetectCustomLabelsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(xAmzTarget: "RekognitionService.DetectCustomLabels"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectCustomLabelsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectCustomLabelsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DetectCustomLabelsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectCustomLabelsOutput>(DetectCustomLabelsOutput.httpOutput(from:), DetectCustomLabelsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DetectCustomLabelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(xAmzTarget: "RekognitionService.DetectCustomLabels"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectCustomLabelsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectCustomLabelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetectCustomLabels")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DetectFaces` operation on the `RekognitionService` service.
@@ -1566,23 +2029,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetectFacesInput, DetectFacesOutput>(id: "detectFaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectFacesInput, DetectFacesOutput>(DetectFacesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectFacesInput, DetectFacesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DetectFacesInput, DetectFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DetectFacesInput, DetectFacesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectFacesInput, DetectFacesOutput>(DetectFacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectFacesInput, DetectFacesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectFacesInput, DetectFacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectFacesOutput>(DetectFacesOutput.httpOutput(from:), DetectFacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectFacesInput, DetectFacesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetectFacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DetectFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DetectFacesInput, DetectFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DetectFacesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectFacesInput, DetectFacesOutput>(xAmzTarget: "RekognitionService.DetectFaces"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetectFacesInput, DetectFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectFacesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DetectFacesInput, DetectFacesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DetectFacesInput, DetectFacesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectFacesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DetectFacesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectFacesOutput>(DetectFacesOutput.httpOutput(from:), DetectFacesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectFacesInput, DetectFacesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DetectFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectFacesInput, DetectFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectFacesInput, DetectFacesOutput>(xAmzTarget: "RekognitionService.DetectFaces"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetectFacesInput, DetectFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectFacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectFacesInput, DetectFacesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectFacesInput, DetectFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectFacesInput, DetectFacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetectFaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DetectLabels` operation on the `RekognitionService` service.
@@ -1654,23 +2136,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetectLabelsInput, DetectLabelsOutput>(id: "detectLabels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectLabelsInput, DetectLabelsOutput>(DetectLabelsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectLabelsInput, DetectLabelsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DetectLabelsInput, DetectLabelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DetectLabelsInput, DetectLabelsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectLabelsInput, DetectLabelsOutput>(DetectLabelsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectLabelsInput, DetectLabelsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectLabelsInput, DetectLabelsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectLabelsOutput>(DetectLabelsOutput.httpOutput(from:), DetectLabelsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectLabelsInput, DetectLabelsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetectLabelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DetectLabelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DetectLabelsInput, DetectLabelsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DetectLabelsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectLabelsInput, DetectLabelsOutput>(xAmzTarget: "RekognitionService.DetectLabels"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetectLabelsInput, DetectLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectLabelsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DetectLabelsInput, DetectLabelsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DetectLabelsInput, DetectLabelsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectLabelsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DetectLabelsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectLabelsOutput>(DetectLabelsOutput.httpOutput(from:), DetectLabelsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectLabelsInput, DetectLabelsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DetectLabelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectLabelsInput, DetectLabelsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectLabelsInput, DetectLabelsOutput>(xAmzTarget: "RekognitionService.DetectLabels"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetectLabelsInput, DetectLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectLabelsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectLabelsInput, DetectLabelsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectLabelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectLabelsInput, DetectLabelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectLabelsInput, DetectLabelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetectLabels")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DetectModerationLabels` operation on the `RekognitionService` service.
@@ -1716,23 +2217,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetectModerationLabelsInput, DetectModerationLabelsOutput>(id: "detectModerationLabels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(DetectModerationLabelsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DetectModerationLabelsInput, DetectModerationLabelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DetectModerationLabelsInput, DetectModerationLabelsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(DetectModerationLabelsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectModerationLabelsOutput>(DetectModerationLabelsOutput.httpOutput(from:), DetectModerationLabelsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetectModerationLabelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DetectModerationLabelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DetectModerationLabelsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(xAmzTarget: "RekognitionService.DetectModerationLabels"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectModerationLabelsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectModerationLabelsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DetectModerationLabelsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectModerationLabelsOutput>(DetectModerationLabelsOutput.httpOutput(from:), DetectModerationLabelsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DetectModerationLabelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(xAmzTarget: "RekognitionService.DetectModerationLabels"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectModerationLabelsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectModerationLabelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetectModerationLabels")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DetectProtectiveEquipment` operation on the `RekognitionService` service.
@@ -1790,23 +2310,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(id: "detectProtectiveEquipment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(DetectProtectiveEquipmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(DetectProtectiveEquipmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectProtectiveEquipmentOutput>(DetectProtectiveEquipmentOutput.httpOutput(from:), DetectProtectiveEquipmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetectProtectiveEquipmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DetectProtectiveEquipmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DetectProtectiveEquipmentOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(xAmzTarget: "RekognitionService.DetectProtectiveEquipment"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectProtectiveEquipmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectProtectiveEquipmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DetectProtectiveEquipmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectProtectiveEquipmentOutput>(DetectProtectiveEquipmentOutput.httpOutput(from:), DetectProtectiveEquipmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DetectProtectiveEquipmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(xAmzTarget: "RekognitionService.DetectProtectiveEquipment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectProtectiveEquipmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectProtectiveEquipmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetectProtectiveEquipment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DetectText` operation on the `RekognitionService` service.
@@ -1846,23 +2385,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetectTextInput, DetectTextOutput>(id: "detectText")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectTextInput, DetectTextOutput>(DetectTextInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectTextInput, DetectTextOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DetectTextInput, DetectTextOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DetectTextInput, DetectTextOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectTextInput, DetectTextOutput>(DetectTextInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectTextInput, DetectTextOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectTextInput, DetectTextOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectTextOutput>(DetectTextOutput.httpOutput(from:), DetectTextOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectTextInput, DetectTextOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetectTextOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DetectTextOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DetectTextInput, DetectTextOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DetectTextOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectTextInput, DetectTextOutput>(xAmzTarget: "RekognitionService.DetectText"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetectTextInput, DetectTextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectTextInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DetectTextInput, DetectTextOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DetectTextInput, DetectTextOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectTextOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DetectTextOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectTextOutput>(DetectTextOutput.httpOutput(from:), DetectTextOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectTextInput, DetectTextOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DetectTextOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectTextInput, DetectTextOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetectTextInput, DetectTextOutput>(xAmzTarget: "RekognitionService.DetectText"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetectTextInput, DetectTextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectTextInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectTextInput, DetectTextOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectTextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectTextInput, DetectTextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectTextInput, DetectTextOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetectText")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DisassociateFaces` operation on the `RekognitionService` service.
@@ -1902,24 +2460,43 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateFacesInput, DisassociateFacesOutput>(id: "disassociateFaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(DisassociateFacesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateFacesInput, DisassociateFacesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateFacesInput, DisassociateFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DisassociateFacesInput, DisassociateFacesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(DisassociateFacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFacesInput, DisassociateFacesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFacesInput, DisassociateFacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFacesOutput>(DisassociateFacesOutput.httpOutput(from:), DisassociateFacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DisassociateFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisassociateFacesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(xAmzTarget: "RekognitionService.DisassociateFaces"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateFacesInput, DisassociateFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateFacesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DisassociateFacesInput, DisassociateFacesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateFacesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisassociateFacesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateFacesOutput>(DisassociateFacesOutput.httpOutput(from:), DisassociateFacesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(xAmzTarget: "RekognitionService.DisassociateFaces"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateFacesInput, DisassociateFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateFacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFacesInput, DisassociateFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateFaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DistributeDatasetEntries` operation on the `RekognitionService` service.
@@ -1961,23 +2538,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(id: "distributeDatasetEntries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(DistributeDatasetEntriesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(DistributeDatasetEntriesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DistributeDatasetEntriesOutput>(DistributeDatasetEntriesOutput.httpOutput(from:), DistributeDatasetEntriesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DistributeDatasetEntriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DistributeDatasetEntriesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DistributeDatasetEntriesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(xAmzTarget: "RekognitionService.DistributeDatasetEntries"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DistributeDatasetEntriesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DistributeDatasetEntriesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DistributeDatasetEntriesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DistributeDatasetEntriesOutput>(DistributeDatasetEntriesOutput.httpOutput(from:), DistributeDatasetEntriesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DistributeDatasetEntriesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(xAmzTarget: "RekognitionService.DistributeDatasetEntries"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DistributeDatasetEntriesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DistributeDatasetEntriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DistributeDatasetEntries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetCelebrityInfo` operation on the `RekognitionService` service.
@@ -2015,23 +2611,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCelebrityInfoInput, GetCelebrityInfoOutput>(id: "getCelebrityInfo")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(GetCelebrityInfoInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetCelebrityInfoInput, GetCelebrityInfoOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetCelebrityInfoInput, GetCelebrityInfoOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(GetCelebrityInfoInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCelebrityInfoOutput>(GetCelebrityInfoOutput.httpOutput(from:), GetCelebrityInfoOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCelebrityInfoOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetCelebrityInfoOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetCelebrityInfoOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(xAmzTarget: "RekognitionService.GetCelebrityInfo"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCelebrityInfoInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCelebrityInfoOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetCelebrityInfoOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCelebrityInfoOutput>(GetCelebrityInfoOutput.httpOutput(from:), GetCelebrityInfoOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetCelebrityInfoOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(xAmzTarget: "RekognitionService.GetCelebrityInfo"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCelebrityInfoInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCelebrityInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCelebrityInfo")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetCelebrityRecognition` operation on the `RekognitionService` service.
@@ -2070,23 +2685,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(id: "getCelebrityRecognition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(GetCelebrityRecognitionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(GetCelebrityRecognitionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCelebrityRecognitionOutput>(GetCelebrityRecognitionOutput.httpOutput(from:), GetCelebrityRecognitionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCelebrityRecognitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetCelebrityRecognitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetCelebrityRecognitionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(xAmzTarget: "RekognitionService.GetCelebrityRecognition"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCelebrityRecognitionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCelebrityRecognitionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetCelebrityRecognitionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCelebrityRecognitionOutput>(GetCelebrityRecognitionOutput.httpOutput(from:), GetCelebrityRecognitionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetCelebrityRecognitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(xAmzTarget: "RekognitionService.GetCelebrityRecognition"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCelebrityRecognitionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCelebrityRecognitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCelebrityRecognition")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetContentModeration` operation on the `RekognitionService` service.
@@ -2125,23 +2759,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetContentModerationInput, GetContentModerationOutput>(id: "getContentModeration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContentModerationInput, GetContentModerationOutput>(GetContentModerationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContentModerationInput, GetContentModerationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetContentModerationInput, GetContentModerationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetContentModerationInput, GetContentModerationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetContentModerationInput, GetContentModerationOutput>(GetContentModerationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContentModerationInput, GetContentModerationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContentModerationInput, GetContentModerationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContentModerationOutput>(GetContentModerationOutput.httpOutput(from:), GetContentModerationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContentModerationInput, GetContentModerationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetContentModerationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetContentModerationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetContentModerationInput, GetContentModerationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetContentModerationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetContentModerationInput, GetContentModerationOutput>(xAmzTarget: "RekognitionService.GetContentModeration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetContentModerationInput, GetContentModerationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContentModerationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetContentModerationInput, GetContentModerationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetContentModerationInput, GetContentModerationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContentModerationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetContentModerationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContentModerationOutput>(GetContentModerationOutput.httpOutput(from:), GetContentModerationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContentModerationInput, GetContentModerationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetContentModerationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetContentModerationInput, GetContentModerationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContentModerationInput, GetContentModerationOutput>(xAmzTarget: "RekognitionService.GetContentModeration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetContentModerationInput, GetContentModerationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContentModerationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContentModerationInput, GetContentModerationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContentModerationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetContentModerationInput, GetContentModerationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetContentModerationInput, GetContentModerationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetContentModeration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetFaceDetection` operation on the `RekognitionService` service.
@@ -2180,23 +2833,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFaceDetectionInput, GetFaceDetectionOutput>(id: "getFaceDetection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(GetFaceDetectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetFaceDetectionInput, GetFaceDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetFaceDetectionInput, GetFaceDetectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(GetFaceDetectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFaceDetectionOutput>(GetFaceDetectionOutput.httpOutput(from:), GetFaceDetectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetFaceDetectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetFaceDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetFaceDetectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(xAmzTarget: "RekognitionService.GetFaceDetection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFaceDetectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFaceDetectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetFaceDetectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFaceDetectionOutput>(GetFaceDetectionOutput.httpOutput(from:), GetFaceDetectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetFaceDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(xAmzTarget: "RekognitionService.GetFaceDetection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFaceDetectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFaceDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFaceDetection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetFaceLivenessSessionResults` operation on the `RekognitionService` service.
@@ -2234,23 +2906,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(id: "getFaceLivenessSessionResults")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(GetFaceLivenessSessionResultsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(GetFaceLivenessSessionResultsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFaceLivenessSessionResultsOutput>(GetFaceLivenessSessionResultsOutput.httpOutput(from:), GetFaceLivenessSessionResultsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetFaceLivenessSessionResultsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetFaceLivenessSessionResultsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetFaceLivenessSessionResultsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(xAmzTarget: "RekognitionService.GetFaceLivenessSessionResults"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFaceLivenessSessionResultsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFaceLivenessSessionResultsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetFaceLivenessSessionResultsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFaceLivenessSessionResultsOutput>(GetFaceLivenessSessionResultsOutput.httpOutput(from:), GetFaceLivenessSessionResultsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetFaceLivenessSessionResultsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(xAmzTarget: "RekognitionService.GetFaceLivenessSessionResults"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFaceLivenessSessionResultsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFaceLivenessSessionResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFaceLivenessSessionResults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetFaceSearch` operation on the `RekognitionService` service.
@@ -2289,23 +2980,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFaceSearchInput, GetFaceSearchOutput>(id: "getFaceSearch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(GetFaceSearchInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFaceSearchInput, GetFaceSearchOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetFaceSearchInput, GetFaceSearchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetFaceSearchInput, GetFaceSearchOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(GetFaceSearchInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFaceSearchInput, GetFaceSearchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFaceSearchInput, GetFaceSearchOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFaceSearchOutput>(GetFaceSearchOutput.httpOutput(from:), GetFaceSearchOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetFaceSearchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetFaceSearchOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetFaceSearchOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(xAmzTarget: "RekognitionService.GetFaceSearch"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetFaceSearchInput, GetFaceSearchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFaceSearchInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetFaceSearchInput, GetFaceSearchOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFaceSearchOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetFaceSearchOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFaceSearchOutput>(GetFaceSearchOutput.httpOutput(from:), GetFaceSearchOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetFaceSearchOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(xAmzTarget: "RekognitionService.GetFaceSearch"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetFaceSearchInput, GetFaceSearchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFaceSearchInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFaceSearchOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFaceSearchInput, GetFaceSearchOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFaceSearch")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetLabelDetection` operation on the `RekognitionService` service.
@@ -2361,23 +3071,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetLabelDetectionInput, GetLabelDetectionOutput>(id: "getLabelDetection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(GetLabelDetectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetLabelDetectionInput, GetLabelDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetLabelDetectionInput, GetLabelDetectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(GetLabelDetectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLabelDetectionOutput>(GetLabelDetectionOutput.httpOutput(from:), GetLabelDetectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetLabelDetectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetLabelDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetLabelDetectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(xAmzTarget: "RekognitionService.GetLabelDetection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLabelDetectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLabelDetectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetLabelDetectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLabelDetectionOutput>(GetLabelDetectionOutput.httpOutput(from:), GetLabelDetectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetLabelDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(xAmzTarget: "RekognitionService.GetLabelDetection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLabelDetectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLabelDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLabelDetection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetMediaAnalysisJob` operation on the `RekognitionService` service.
@@ -2415,23 +3144,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(id: "getMediaAnalysisJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(GetMediaAnalysisJobInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(GetMediaAnalysisJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMediaAnalysisJobOutput>(GetMediaAnalysisJobOutput.httpOutput(from:), GetMediaAnalysisJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetMediaAnalysisJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetMediaAnalysisJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetMediaAnalysisJobOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(xAmzTarget: "RekognitionService.GetMediaAnalysisJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMediaAnalysisJobInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMediaAnalysisJobOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetMediaAnalysisJobOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaAnalysisJobOutput>(GetMediaAnalysisJobOutput.httpOutput(from:), GetMediaAnalysisJobOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetMediaAnalysisJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(xAmzTarget: "RekognitionService.GetMediaAnalysisJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMediaAnalysisJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMediaAnalysisJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetMediaAnalysisJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetPersonTracking` operation on the `RekognitionService` service.
@@ -2470,23 +3218,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPersonTrackingInput, GetPersonTrackingOutput>(id: "getPersonTracking")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(GetPersonTrackingInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetPersonTrackingInput, GetPersonTrackingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetPersonTrackingInput, GetPersonTrackingOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(GetPersonTrackingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPersonTrackingOutput>(GetPersonTrackingOutput.httpOutput(from:), GetPersonTrackingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPersonTrackingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetPersonTrackingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetPersonTrackingOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(xAmzTarget: "RekognitionService.GetPersonTracking"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPersonTrackingInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPersonTrackingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetPersonTrackingOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPersonTrackingOutput>(GetPersonTrackingOutput.httpOutput(from:), GetPersonTrackingOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetPersonTrackingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(xAmzTarget: "RekognitionService.GetPersonTracking"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPersonTrackingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPersonTrackingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPersonTracking")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSegmentDetection` operation on the `RekognitionService` service.
@@ -2525,23 +3292,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSegmentDetectionInput, GetSegmentDetectionOutput>(id: "getSegmentDetection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(GetSegmentDetectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSegmentDetectionInput, GetSegmentDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSegmentDetectionInput, GetSegmentDetectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(GetSegmentDetectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentDetectionOutput>(GetSegmentDetectionOutput.httpOutput(from:), GetSegmentDetectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentDetectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSegmentDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSegmentDetectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(xAmzTarget: "RekognitionService.GetSegmentDetection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSegmentDetectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSegmentDetectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSegmentDetectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSegmentDetectionOutput>(GetSegmentDetectionOutput.httpOutput(from:), GetSegmentDetectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSegmentDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(xAmzTarget: "RekognitionService.GetSegmentDetection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSegmentDetectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSegmentDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSegmentDetection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetTextDetection` operation on the `RekognitionService` service.
@@ -2580,23 +3366,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTextDetectionInput, GetTextDetectionOutput>(id: "getTextDetection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(GetTextDetectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTextDetectionInput, GetTextDetectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetTextDetectionInput, GetTextDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetTextDetectionInput, GetTextDetectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(GetTextDetectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTextDetectionInput, GetTextDetectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTextDetectionInput, GetTextDetectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTextDetectionOutput>(GetTextDetectionOutput.httpOutput(from:), GetTextDetectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTextDetectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetTextDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetTextDetectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(xAmzTarget: "RekognitionService.GetTextDetection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetTextDetectionInput, GetTextDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTextDetectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetTextDetectionInput, GetTextDetectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTextDetectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetTextDetectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTextDetectionOutput>(GetTextDetectionOutput.httpOutput(from:), GetTextDetectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetTextDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(xAmzTarget: "RekognitionService.GetTextDetection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTextDetectionInput, GetTextDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTextDetectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTextDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTextDetectionInput, GetTextDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTextDetection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `IndexFaces` operation on the `RekognitionService` service.
@@ -2664,23 +3469,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<IndexFacesInput, IndexFacesOutput>(id: "indexFaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IndexFacesInput, IndexFacesOutput>(IndexFacesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IndexFacesInput, IndexFacesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<IndexFacesInput, IndexFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<IndexFacesInput, IndexFacesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<IndexFacesInput, IndexFacesOutput>(IndexFacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<IndexFacesInput, IndexFacesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IndexFacesInput, IndexFacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<IndexFacesOutput>(IndexFacesOutput.httpOutput(from:), IndexFacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<IndexFacesInput, IndexFacesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<IndexFacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<IndexFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<IndexFacesInput, IndexFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<IndexFacesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<IndexFacesInput, IndexFacesOutput>(xAmzTarget: "RekognitionService.IndexFaces"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<IndexFacesInput, IndexFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: IndexFacesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<IndexFacesInput, IndexFacesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<IndexFacesInput, IndexFacesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IndexFacesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<IndexFacesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IndexFacesOutput>(IndexFacesOutput.httpOutput(from:), IndexFacesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IndexFacesInput, IndexFacesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<IndexFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<IndexFacesInput, IndexFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<IndexFacesInput, IndexFacesOutput>(xAmzTarget: "RekognitionService.IndexFaces"))
+        builder.serialize(ClientRuntime.BodyMiddleware<IndexFacesInput, IndexFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: IndexFacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<IndexFacesInput, IndexFacesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<IndexFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<IndexFacesInput, IndexFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<IndexFacesInput, IndexFacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "IndexFaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListCollections` operation on the `RekognitionService` service.
@@ -2719,23 +3543,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCollectionsInput, ListCollectionsOutput>(id: "listCollections")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCollectionsInput, ListCollectionsOutput>(ListCollectionsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCollectionsInput, ListCollectionsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListCollectionsInput, ListCollectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListCollectionsInput, ListCollectionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCollectionsInput, ListCollectionsOutput>(ListCollectionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCollectionsInput, ListCollectionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCollectionsInput, ListCollectionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollectionsOutput>(ListCollectionsOutput.httpOutput(from:), ListCollectionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollectionsInput, ListCollectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCollectionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListCollectionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListCollectionsInput, ListCollectionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListCollectionsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCollectionsInput, ListCollectionsOutput>(xAmzTarget: "RekognitionService.ListCollections"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCollectionsInput, ListCollectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCollectionsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListCollectionsInput, ListCollectionsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListCollectionsInput, ListCollectionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCollectionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListCollectionsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCollectionsOutput>(ListCollectionsOutput.httpOutput(from:), ListCollectionsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCollectionsInput, ListCollectionsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListCollectionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollectionsInput, ListCollectionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCollectionsInput, ListCollectionsOutput>(xAmzTarget: "RekognitionService.ListCollections"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCollectionsInput, ListCollectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCollectionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCollectionsInput, ListCollectionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollectionsInput, ListCollectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollectionsInput, ListCollectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCollections")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListDatasetEntries` operation on the `RekognitionService` service.
@@ -2779,23 +3622,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDatasetEntriesInput, ListDatasetEntriesOutput>(id: "listDatasetEntries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(ListDatasetEntriesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListDatasetEntriesInput, ListDatasetEntriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListDatasetEntriesInput, ListDatasetEntriesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(ListDatasetEntriesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetEntriesOutput>(ListDatasetEntriesOutput.httpOutput(from:), ListDatasetEntriesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetEntriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListDatasetEntriesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListDatasetEntriesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(xAmzTarget: "RekognitionService.ListDatasetEntries"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetEntriesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDatasetEntriesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListDatasetEntriesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetEntriesOutput>(ListDatasetEntriesOutput.httpOutput(from:), ListDatasetEntriesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDatasetEntriesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(xAmzTarget: "RekognitionService.ListDatasetEntries"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetEntriesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetEntriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDatasetEntries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListDatasetLabels` operation on the `RekognitionService` service.
@@ -2839,23 +3701,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDatasetLabelsInput, ListDatasetLabelsOutput>(id: "listDatasetLabels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(ListDatasetLabelsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListDatasetLabelsInput, ListDatasetLabelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListDatasetLabelsInput, ListDatasetLabelsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(ListDatasetLabelsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetLabelsOutput>(ListDatasetLabelsOutput.httpOutput(from:), ListDatasetLabelsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetLabelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListDatasetLabelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListDatasetLabelsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(xAmzTarget: "RekognitionService.ListDatasetLabels"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetLabelsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDatasetLabelsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListDatasetLabelsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetLabelsOutput>(ListDatasetLabelsOutput.httpOutput(from:), ListDatasetLabelsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDatasetLabelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(xAmzTarget: "RekognitionService.ListDatasetLabels"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetLabelsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetLabelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDatasetLabels")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListFaces` operation on the `RekognitionService` service.
@@ -2894,23 +3775,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFacesInput, ListFacesOutput>(id: "listFaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFacesInput, ListFacesOutput>(ListFacesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFacesInput, ListFacesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListFacesInput, ListFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListFacesInput, ListFacesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFacesInput, ListFacesOutput>(ListFacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFacesInput, ListFacesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFacesInput, ListFacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFacesOutput>(ListFacesOutput.httpOutput(from:), ListFacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFacesInput, ListFacesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListFacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListFacesInput, ListFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListFacesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListFacesInput, ListFacesOutput>(xAmzTarget: "RekognitionService.ListFaces"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListFacesInput, ListFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFacesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListFacesInput, ListFacesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListFacesInput, ListFacesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFacesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListFacesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFacesOutput>(ListFacesOutput.httpOutput(from:), ListFacesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFacesInput, ListFacesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFacesInput, ListFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFacesInput, ListFacesOutput>(xAmzTarget: "RekognitionService.ListFaces"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListFacesInput, ListFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFacesInput, ListFacesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFacesInput, ListFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFacesInput, ListFacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListMediaAnalysisJobs` operation on the `RekognitionService` service.
@@ -2948,23 +3848,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(id: "listMediaAnalysisJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(ListMediaAnalysisJobsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(ListMediaAnalysisJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMediaAnalysisJobsOutput>(ListMediaAnalysisJobsOutput.httpOutput(from:), ListMediaAnalysisJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMediaAnalysisJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListMediaAnalysisJobsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListMediaAnalysisJobsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(xAmzTarget: "RekognitionService.ListMediaAnalysisJobs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMediaAnalysisJobsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMediaAnalysisJobsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListMediaAnalysisJobsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMediaAnalysisJobsOutput>(ListMediaAnalysisJobsOutput.httpOutput(from:), ListMediaAnalysisJobsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListMediaAnalysisJobsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(xAmzTarget: "RekognitionService.ListMediaAnalysisJobs"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMediaAnalysisJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMediaAnalysisJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMediaAnalysisJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListProjectPolicies` operation on the `RekognitionService` service.
@@ -3003,23 +3922,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProjectPoliciesInput, ListProjectPoliciesOutput>(id: "listProjectPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(ListProjectPoliciesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListProjectPoliciesInput, ListProjectPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListProjectPoliciesInput, ListProjectPoliciesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(ListProjectPoliciesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectPoliciesOutput>(ListProjectPoliciesOutput.httpOutput(from:), ListProjectPoliciesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListProjectPoliciesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListProjectPoliciesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(xAmzTarget: "RekognitionService.ListProjectPolicies"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProjectPoliciesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProjectPoliciesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListProjectPoliciesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectPoliciesOutput>(ListProjectPoliciesOutput.httpOutput(from:), ListProjectPoliciesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListProjectPoliciesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(xAmzTarget: "RekognitionService.ListProjectPolicies"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProjectPoliciesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProjectPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProjectPolicies")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListStreamProcessors` operation on the `RekognitionService` service.
@@ -3057,23 +3995,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStreamProcessorsInput, ListStreamProcessorsOutput>(id: "listStreamProcessors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(ListStreamProcessorsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListStreamProcessorsInput, ListStreamProcessorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListStreamProcessorsInput, ListStreamProcessorsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(ListStreamProcessorsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamProcessorsOutput>(ListStreamProcessorsOutput.httpOutput(from:), ListStreamProcessorsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamProcessorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListStreamProcessorsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListStreamProcessorsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(xAmzTarget: "RekognitionService.ListStreamProcessors"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStreamProcessorsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStreamProcessorsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListStreamProcessorsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamProcessorsOutput>(ListStreamProcessorsOutput.httpOutput(from:), ListStreamProcessorsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListStreamProcessorsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(xAmzTarget: "RekognitionService.ListStreamProcessors"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStreamProcessorsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStreamProcessorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStreamProcessors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListTagsForResource` operation on the `RekognitionService` service.
@@ -3111,23 +4068,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "RekognitionService.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "RekognitionService.ListTagsForResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListUsers` operation on the `RekognitionService` service.
@@ -3166,23 +4142,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutput>(id: "listUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListUsersInput, ListUsersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListUsersInput, ListUsersOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListUsersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListUsersInput, ListUsersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListUsersOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListUsersInput, ListUsersOutput>(xAmzTarget: "RekognitionService.ListUsers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListUsersInput, ListUsersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUsersInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListUsersInput, ListUsersOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUsersOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListUsersOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListUsersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUsersInput, ListUsersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListUsersInput, ListUsersOutput>(xAmzTarget: "RekognitionService.ListUsers"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListUsersInput, ListUsersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUsersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUsersInput, ListUsersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUsersInput, ListUsersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUsersInput, ListUsersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListUsers")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutProjectPolicy` operation on the `RekognitionService` service.
@@ -3225,23 +4220,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutProjectPolicyInput, PutProjectPolicyOutput>(id: "putProjectPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(PutProjectPolicyInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutProjectPolicyInput, PutProjectPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutProjectPolicyInput, PutProjectPolicyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(PutProjectPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProjectPolicyOutput>(PutProjectPolicyOutput.httpOutput(from:), PutProjectPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutProjectPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutProjectPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutProjectPolicyOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(xAmzTarget: "RekognitionService.PutProjectPolicy"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutProjectPolicyInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutProjectPolicyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutProjectPolicyOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutProjectPolicyOutput>(PutProjectPolicyOutput.httpOutput(from:), PutProjectPolicyOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutProjectPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(xAmzTarget: "RekognitionService.PutProjectPolicy"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutProjectPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutProjectPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutProjectPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `RecognizeCelebrities` operation on the `RekognitionService` service.
@@ -3281,23 +4295,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(id: "recognizeCelebrities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(RecognizeCelebritiesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<RecognizeCelebritiesInput, RecognizeCelebritiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<RecognizeCelebritiesInput, RecognizeCelebritiesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(RecognizeCelebritiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RecognizeCelebritiesOutput>(RecognizeCelebritiesOutput.httpOutput(from:), RecognizeCelebritiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RecognizeCelebritiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<RecognizeCelebritiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RecognizeCelebritiesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(xAmzTarget: "RekognitionService.RecognizeCelebrities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RecognizeCelebritiesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RecognizeCelebritiesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RecognizeCelebritiesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RecognizeCelebritiesOutput>(RecognizeCelebritiesOutput.httpOutput(from:), RecognizeCelebritiesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RecognizeCelebritiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(xAmzTarget: "RekognitionService.RecognizeCelebrities"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RecognizeCelebritiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RecognizeCelebritiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RecognizeCelebrities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `SearchFaces` operation on the `RekognitionService` service.
@@ -3335,23 +4368,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchFacesInput, SearchFacesOutput>(id: "searchFaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchFacesInput, SearchFacesOutput>(SearchFacesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchFacesInput, SearchFacesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<SearchFacesInput, SearchFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SearchFacesInput, SearchFacesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchFacesInput, SearchFacesOutput>(SearchFacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchFacesInput, SearchFacesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFacesInput, SearchFacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFacesOutput>(SearchFacesOutput.httpOutput(from:), SearchFacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFacesInput, SearchFacesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchFacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<SearchFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<SearchFacesInput, SearchFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SearchFacesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchFacesInput, SearchFacesOutput>(xAmzTarget: "RekognitionService.SearchFaces"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SearchFacesInput, SearchFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchFacesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<SearchFacesInput, SearchFacesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<SearchFacesInput, SearchFacesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchFacesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SearchFacesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchFacesOutput>(SearchFacesOutput.httpOutput(from:), SearchFacesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchFacesInput, SearchFacesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SearchFacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchFacesInput, SearchFacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchFacesInput, SearchFacesOutput>(xAmzTarget: "RekognitionService.SearchFaces"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchFacesInput, SearchFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchFacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchFacesInput, SearchFacesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchFacesInput, SearchFacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchFacesInput, SearchFacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchFaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `SearchFacesByImage` operation on the `RekognitionService` service.
@@ -3392,23 +4444,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchFacesByImageInput, SearchFacesByImageOutput>(id: "searchFacesByImage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(SearchFacesByImageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<SearchFacesByImageInput, SearchFacesByImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SearchFacesByImageInput, SearchFacesByImageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(SearchFacesByImageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFacesByImageOutput>(SearchFacesByImageOutput.httpOutput(from:), SearchFacesByImageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchFacesByImageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<SearchFacesByImageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SearchFacesByImageOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(xAmzTarget: "RekognitionService.SearchFacesByImage"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchFacesByImageInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchFacesByImageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SearchFacesByImageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchFacesByImageOutput>(SearchFacesByImageOutput.httpOutput(from:), SearchFacesByImageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SearchFacesByImageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(xAmzTarget: "RekognitionService.SearchFacesByImage"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchFacesByImageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchFacesByImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchFacesByImage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `SearchUsers` operation on the `RekognitionService` service.
@@ -3446,23 +4517,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchUsersInput, SearchUsersOutput>(id: "searchUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchUsersInput, SearchUsersOutput>(SearchUsersInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchUsersInput, SearchUsersOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<SearchUsersInput, SearchUsersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SearchUsersInput, SearchUsersOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchUsersInput, SearchUsersOutput>(SearchUsersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchUsersInput, SearchUsersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUsersInput, SearchUsersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUsersOutput>(SearchUsersOutput.httpOutput(from:), SearchUsersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUsersInput, SearchUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<SearchUsersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<SearchUsersInput, SearchUsersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SearchUsersOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchUsersInput, SearchUsersOutput>(xAmzTarget: "RekognitionService.SearchUsers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SearchUsersInput, SearchUsersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchUsersInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<SearchUsersInput, SearchUsersOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<SearchUsersInput, SearchUsersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchUsersOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SearchUsersOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchUsersOutput>(SearchUsersOutput.httpOutput(from:), SearchUsersOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchUsersInput, SearchUsersOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SearchUsersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchUsersInput, SearchUsersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchUsersInput, SearchUsersOutput>(xAmzTarget: "RekognitionService.SearchUsers"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchUsersInput, SearchUsersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchUsersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchUsersInput, SearchUsersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchUsersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchUsersInput, SearchUsersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchUsersInput, SearchUsersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchUsers")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `SearchUsersByImage` operation on the `RekognitionService` service.
@@ -3503,23 +4593,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchUsersByImageInput, SearchUsersByImageOutput>(id: "searchUsersByImage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(SearchUsersByImageInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<SearchUsersByImageInput, SearchUsersByImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SearchUsersByImageInput, SearchUsersByImageOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(SearchUsersByImageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUsersByImageOutput>(SearchUsersByImageOutput.httpOutput(from:), SearchUsersByImageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchUsersByImageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<SearchUsersByImageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SearchUsersByImageOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(xAmzTarget: "RekognitionService.SearchUsersByImage"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchUsersByImageInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchUsersByImageOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SearchUsersByImageOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchUsersByImageOutput>(SearchUsersByImageOutput.httpOutput(from:), SearchUsersByImageOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SearchUsersByImageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(xAmzTarget: "RekognitionService.SearchUsersByImage"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchUsersByImageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchUsersByImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchUsersByImage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartCelebrityRecognition` operation on the `RekognitionService` service.
@@ -3560,23 +4669,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(id: "startCelebrityRecognition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(StartCelebrityRecognitionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(StartCelebrityRecognitionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCelebrityRecognitionOutput>(StartCelebrityRecognitionOutput.httpOutput(from:), StartCelebrityRecognitionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartCelebrityRecognitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartCelebrityRecognitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartCelebrityRecognitionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(xAmzTarget: "RekognitionService.StartCelebrityRecognition"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCelebrityRecognitionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartCelebrityRecognitionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartCelebrityRecognitionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCelebrityRecognitionOutput>(StartCelebrityRecognitionOutput.httpOutput(from:), StartCelebrityRecognitionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartCelebrityRecognitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(xAmzTarget: "RekognitionService.StartCelebrityRecognition"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCelebrityRecognitionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCelebrityRecognitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartCelebrityRecognition")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartContentModeration` operation on the `RekognitionService` service.
@@ -3617,23 +4745,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartContentModerationInput, StartContentModerationOutput>(id: "startContentModeration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartContentModerationInput, StartContentModerationOutput>(StartContentModerationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartContentModerationInput, StartContentModerationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartContentModerationInput, StartContentModerationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartContentModerationInput, StartContentModerationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartContentModerationInput, StartContentModerationOutput>(StartContentModerationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartContentModerationInput, StartContentModerationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContentModerationInput, StartContentModerationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContentModerationOutput>(StartContentModerationOutput.httpOutput(from:), StartContentModerationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContentModerationInput, StartContentModerationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartContentModerationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartContentModerationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartContentModerationInput, StartContentModerationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartContentModerationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartContentModerationInput, StartContentModerationOutput>(xAmzTarget: "RekognitionService.StartContentModeration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartContentModerationInput, StartContentModerationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartContentModerationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartContentModerationInput, StartContentModerationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartContentModerationInput, StartContentModerationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartContentModerationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartContentModerationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartContentModerationOutput>(StartContentModerationOutput.httpOutput(from:), StartContentModerationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartContentModerationInput, StartContentModerationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartContentModerationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartContentModerationInput, StartContentModerationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartContentModerationInput, StartContentModerationOutput>(xAmzTarget: "RekognitionService.StartContentModeration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartContentModerationInput, StartContentModerationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartContentModerationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartContentModerationInput, StartContentModerationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartContentModerationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartContentModerationInput, StartContentModerationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartContentModerationInput, StartContentModerationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartContentModeration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartFaceDetection` operation on the `RekognitionService` service.
@@ -3674,23 +4821,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartFaceDetectionInput, StartFaceDetectionOutput>(id: "startFaceDetection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(StartFaceDetectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartFaceDetectionInput, StartFaceDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartFaceDetectionInput, StartFaceDetectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(StartFaceDetectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFaceDetectionOutput>(StartFaceDetectionOutput.httpOutput(from:), StartFaceDetectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartFaceDetectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartFaceDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartFaceDetectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(xAmzTarget: "RekognitionService.StartFaceDetection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFaceDetectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartFaceDetectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartFaceDetectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartFaceDetectionOutput>(StartFaceDetectionOutput.httpOutput(from:), StartFaceDetectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartFaceDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(xAmzTarget: "RekognitionService.StartFaceDetection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFaceDetectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFaceDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartFaceDetection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartFaceSearch` operation on the `RekognitionService` service.
@@ -3732,23 +4898,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartFaceSearchInput, StartFaceSearchOutput>(id: "startFaceSearch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(StartFaceSearchInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartFaceSearchInput, StartFaceSearchOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartFaceSearchInput, StartFaceSearchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartFaceSearchInput, StartFaceSearchOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(StartFaceSearchInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFaceSearchInput, StartFaceSearchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFaceSearchInput, StartFaceSearchOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFaceSearchOutput>(StartFaceSearchOutput.httpOutput(from:), StartFaceSearchOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartFaceSearchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartFaceSearchOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartFaceSearchOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(xAmzTarget: "RekognitionService.StartFaceSearch"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartFaceSearchInput, StartFaceSearchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFaceSearchInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartFaceSearchInput, StartFaceSearchOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartFaceSearchOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartFaceSearchOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartFaceSearchOutput>(StartFaceSearchOutput.httpOutput(from:), StartFaceSearchOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartFaceSearchOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(xAmzTarget: "RekognitionService.StartFaceSearch"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartFaceSearchInput, StartFaceSearchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFaceSearchInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFaceSearchOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFaceSearchInput, StartFaceSearchOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartFaceSearch")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartLabelDetection` operation on the `RekognitionService` service.
@@ -3789,23 +4974,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartLabelDetectionInput, StartLabelDetectionOutput>(id: "startLabelDetection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(StartLabelDetectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartLabelDetectionInput, StartLabelDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartLabelDetectionInput, StartLabelDetectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(StartLabelDetectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLabelDetectionOutput>(StartLabelDetectionOutput.httpOutput(from:), StartLabelDetectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartLabelDetectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartLabelDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartLabelDetectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(xAmzTarget: "RekognitionService.StartLabelDetection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartLabelDetectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartLabelDetectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartLabelDetectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLabelDetectionOutput>(StartLabelDetectionOutput.httpOutput(from:), StartLabelDetectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartLabelDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(xAmzTarget: "RekognitionService.StartLabelDetection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartLabelDetectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartLabelDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartLabelDetection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartMediaAnalysisJob` operation on the `RekognitionService` service.
@@ -3851,24 +5055,43 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(id: "startMediaAnalysisJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(StartMediaAnalysisJobInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(StartMediaAnalysisJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMediaAnalysisJobOutput>(StartMediaAnalysisJobOutput.httpOutput(from:), StartMediaAnalysisJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartMediaAnalysisJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartMediaAnalysisJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartMediaAnalysisJobOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(xAmzTarget: "RekognitionService.StartMediaAnalysisJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMediaAnalysisJobInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMediaAnalysisJobOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartMediaAnalysisJobOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMediaAnalysisJobOutput>(StartMediaAnalysisJobOutput.httpOutput(from:), StartMediaAnalysisJobOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartMediaAnalysisJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(xAmzTarget: "RekognitionService.StartMediaAnalysisJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMediaAnalysisJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMediaAnalysisJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMediaAnalysisJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartPersonTracking` operation on the `RekognitionService` service.
@@ -3909,23 +5132,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartPersonTrackingInput, StartPersonTrackingOutput>(id: "startPersonTracking")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(StartPersonTrackingInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartPersonTrackingInput, StartPersonTrackingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartPersonTrackingInput, StartPersonTrackingOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(StartPersonTrackingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPersonTrackingOutput>(StartPersonTrackingOutput.httpOutput(from:), StartPersonTrackingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartPersonTrackingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartPersonTrackingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartPersonTrackingOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(xAmzTarget: "RekognitionService.StartPersonTracking"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartPersonTrackingInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartPersonTrackingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartPersonTrackingOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPersonTrackingOutput>(StartPersonTrackingOutput.httpOutput(from:), StartPersonTrackingOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartPersonTrackingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(xAmzTarget: "RekognitionService.StartPersonTracking"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartPersonTrackingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartPersonTrackingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartPersonTracking")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartProjectVersion` operation on the `RekognitionService` service.
@@ -3965,23 +5207,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartProjectVersionInput, StartProjectVersionOutput>(id: "startProjectVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(StartProjectVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartProjectVersionInput, StartProjectVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartProjectVersionInput, StartProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartProjectVersionInput, StartProjectVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(StartProjectVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartProjectVersionInput, StartProjectVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartProjectVersionInput, StartProjectVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProjectVersionOutput>(StartProjectVersionOutput.httpOutput(from:), StartProjectVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartProjectVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartProjectVersionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(xAmzTarget: "RekognitionService.StartProjectVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartProjectVersionInput, StartProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartProjectVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartProjectVersionInput, StartProjectVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartProjectVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartProjectVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartProjectVersionOutput>(StartProjectVersionOutput.httpOutput(from:), StartProjectVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(xAmzTarget: "RekognitionService.StartProjectVersion"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartProjectVersionInput, StartProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartProjectVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartProjectVersionInput, StartProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartProjectVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartSegmentDetection` operation on the `RekognitionService` service.
@@ -4022,23 +5283,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartSegmentDetectionInput, StartSegmentDetectionOutput>(id: "startSegmentDetection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(StartSegmentDetectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartSegmentDetectionInput, StartSegmentDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartSegmentDetectionInput, StartSegmentDetectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(StartSegmentDetectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSegmentDetectionOutput>(StartSegmentDetectionOutput.httpOutput(from:), StartSegmentDetectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartSegmentDetectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartSegmentDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartSegmentDetectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(xAmzTarget: "RekognitionService.StartSegmentDetection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSegmentDetectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSegmentDetectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartSegmentDetectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSegmentDetectionOutput>(StartSegmentDetectionOutput.httpOutput(from:), StartSegmentDetectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartSegmentDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(xAmzTarget: "RekognitionService.StartSegmentDetection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSegmentDetectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSegmentDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartSegmentDetection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartStreamProcessor` operation on the `RekognitionService` service.
@@ -4077,23 +5357,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartStreamProcessorInput, StartStreamProcessorOutput>(id: "startStreamProcessor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(StartStreamProcessorInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartStreamProcessorInput, StartStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartStreamProcessorInput, StartStreamProcessorOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(StartStreamProcessorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamProcessorOutput>(StartStreamProcessorOutput.httpOutput(from:), StartStreamProcessorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamProcessorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartStreamProcessorOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(xAmzTarget: "RekognitionService.StartStreamProcessor"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartStreamProcessorInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartStreamProcessorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartStreamProcessorOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartStreamProcessorOutput>(StartStreamProcessorOutput.httpOutput(from:), StartStreamProcessorOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(xAmzTarget: "RekognitionService.StartStreamProcessor"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartStreamProcessorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartStreamProcessor")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartTextDetection` operation on the `RekognitionService` service.
@@ -4134,23 +5433,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartTextDetectionInput, StartTextDetectionOutput>(id: "startTextDetection")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(StartTextDetectionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTextDetectionInput, StartTextDetectionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartTextDetectionInput, StartTextDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartTextDetectionInput, StartTextDetectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(StartTextDetectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTextDetectionInput, StartTextDetectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTextDetectionInput, StartTextDetectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTextDetectionOutput>(StartTextDetectionOutput.httpOutput(from:), StartTextDetectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartTextDetectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartTextDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartTextDetectionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(xAmzTarget: "RekognitionService.StartTextDetection"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartTextDetectionInput, StartTextDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTextDetectionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartTextDetectionInput, StartTextDetectionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartTextDetectionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartTextDetectionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTextDetectionOutput>(StartTextDetectionOutput.httpOutput(from:), StartTextDetectionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartTextDetectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(xAmzTarget: "RekognitionService.StartTextDetection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartTextDetectionInput, StartTextDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTextDetectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTextDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartTextDetectionInput, StartTextDetectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartTextDetection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StopProjectVersion` operation on the `RekognitionService` service.
@@ -4189,23 +5507,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopProjectVersionInput, StopProjectVersionOutput>(id: "stopProjectVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(StopProjectVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopProjectVersionInput, StopProjectVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StopProjectVersionInput, StopProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StopProjectVersionInput, StopProjectVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(StopProjectVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopProjectVersionInput, StopProjectVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopProjectVersionInput, StopProjectVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopProjectVersionOutput>(StopProjectVersionOutput.httpOutput(from:), StopProjectVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopProjectVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StopProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StopProjectVersionOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(xAmzTarget: "RekognitionService.StopProjectVersion"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StopProjectVersionInput, StopProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopProjectVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StopProjectVersionInput, StopProjectVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopProjectVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StopProjectVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopProjectVersionOutput>(StopProjectVersionOutput.httpOutput(from:), StopProjectVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopProjectVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(xAmzTarget: "RekognitionService.StopProjectVersion"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopProjectVersionInput, StopProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopProjectVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopProjectVersionInput, StopProjectVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopProjectVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StopStreamProcessor` operation on the `RekognitionService` service.
@@ -4244,23 +5581,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopStreamProcessorInput, StopStreamProcessorOutput>(id: "stopStreamProcessor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(StopStreamProcessorInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StopStreamProcessorInput, StopStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StopStreamProcessorInput, StopStreamProcessorOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(StopStreamProcessorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopStreamProcessorOutput>(StopStreamProcessorOutput.httpOutput(from:), StopStreamProcessorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopStreamProcessorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StopStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StopStreamProcessorOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(xAmzTarget: "RekognitionService.StopStreamProcessor"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopStreamProcessorInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopStreamProcessorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StopStreamProcessorOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopStreamProcessorOutput>(StopStreamProcessorOutput.httpOutput(from:), StopStreamProcessorOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(xAmzTarget: "RekognitionService.StopStreamProcessor"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopStreamProcessorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopStreamProcessor")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `TagResource` operation on the `RekognitionService` service.
@@ -4299,23 +5655,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "RekognitionService.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "RekognitionService.TagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UntagResource` operation on the `RekognitionService` service.
@@ -4353,23 +5728,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "RekognitionService.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "RekognitionService.UntagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateDatasetEntries` operation on the `RekognitionService` service.
@@ -4409,23 +5803,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(id: "updateDatasetEntries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(UpdateDatasetEntriesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(UpdateDatasetEntriesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetEntriesOutput>(UpdateDatasetEntriesOutput.httpOutput(from:), UpdateDatasetEntriesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatasetEntriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateDatasetEntriesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateDatasetEntriesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(xAmzTarget: "RekognitionService.UpdateDatasetEntries"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDatasetEntriesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDatasetEntriesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateDatasetEntriesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDatasetEntriesOutput>(UpdateDatasetEntriesOutput.httpOutput(from:), UpdateDatasetEntriesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateDatasetEntriesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(xAmzTarget: "RekognitionService.UpdateDatasetEntries"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDatasetEntriesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDatasetEntriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDatasetEntries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateStreamProcessor` operation on the `RekognitionService` service.
@@ -4464,23 +5877,42 @@ extension RekognitionClient {
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(id: "updateStreamProcessor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(UpdateStreamProcessorInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateStreamProcessorInput, UpdateStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateStreamProcessorInput, UpdateStreamProcessorOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(UpdateStreamProcessorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamProcessorOutput>(UpdateStreamProcessorOutput.httpOutput(from:), UpdateStreamProcessorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamProcessorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateStreamProcessorOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(xAmzTarget: "RekognitionService.UpdateStreamProcessor"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStreamProcessorInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStreamProcessorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateStreamProcessorOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStreamProcessorOutput>(UpdateStreamProcessorOutput.httpOutput(from:), UpdateStreamProcessorOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateStreamProcessorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(xAmzTarget: "RekognitionService.UpdateStreamProcessor"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStreamProcessorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Rekognition")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStreamProcessor")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
 }

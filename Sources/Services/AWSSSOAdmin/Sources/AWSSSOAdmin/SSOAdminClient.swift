@@ -9,22 +9,29 @@
 
 import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
+import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
+import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
+import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -34,6 +41,7 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct AWSClientRuntime.AWSUserAgentMetadata
+import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
@@ -45,11 +53,10 @@ import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
-import struct ClientRuntime.OperationStack
-import struct ClientRuntime.RetryMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -216,23 +223,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(id: "attachCustomerManagedPolicyReferenceToPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(AttachCustomerManagedPolicyReferenceToPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(AttachCustomerManagedPolicyReferenceToPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(AttachCustomerManagedPolicyReferenceToPermissionSetOutput.httpOutput(from:), AttachCustomerManagedPolicyReferenceToPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(xAmzTarget: "SWBExternalService.AttachCustomerManagedPolicyReferenceToPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachCustomerManagedPolicyReferenceToPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(AttachCustomerManagedPolicyReferenceToPermissionSetOutput.httpOutput(from:), AttachCustomerManagedPolicyReferenceToPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(xAmzTarget: "SWBExternalService.AttachCustomerManagedPolicyReferenceToPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachCustomerManagedPolicyReferenceToPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachCustomerManagedPolicyReferenceToPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `AttachManagedPolicyToPermissionSet` operation on the `SWBExternalService` service.
@@ -271,23 +297,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(id: "attachManagedPolicyToPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(AttachManagedPolicyToPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(AttachManagedPolicyToPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachManagedPolicyToPermissionSetOutput>(AttachManagedPolicyToPermissionSetOutput.httpOutput(from:), AttachManagedPolicyToPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AttachManagedPolicyToPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<AttachManagedPolicyToPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AttachManagedPolicyToPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(xAmzTarget: "SWBExternalService.AttachManagedPolicyToPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachManagedPolicyToPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachManagedPolicyToPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AttachManagedPolicyToPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachManagedPolicyToPermissionSetOutput>(AttachManagedPolicyToPermissionSetOutput.httpOutput(from:), AttachManagedPolicyToPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AttachManagedPolicyToPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(xAmzTarget: "SWBExternalService.AttachManagedPolicyToPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachManagedPolicyToPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachManagedPolicyToPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachManagedPolicyToPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateAccountAssignment` operation on the `SWBExternalService` service.
@@ -326,23 +371,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(id: "createAccountAssignment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(CreateAccountAssignmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAccountAssignmentInput, CreateAccountAssignmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateAccountAssignmentInput, CreateAccountAssignmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(CreateAccountAssignmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccountAssignmentOutput>(CreateAccountAssignmentOutput.httpOutput(from:), CreateAccountAssignmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountAssignmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateAccountAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateAccountAssignmentOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(xAmzTarget: "SWBExternalService.CreateAccountAssignment"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAccountAssignmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccountAssignmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateAccountAssignmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountAssignmentOutput>(CreateAccountAssignmentOutput.httpOutput(from:), CreateAccountAssignmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateAccountAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(xAmzTarget: "SWBExternalService.CreateAccountAssignment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAccountAssignmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAccountAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAccountAssignment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateApplication` operation on the `SWBExternalService` service.
@@ -381,24 +445,43 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateApplicationInput, CreateApplicationOutput>(id: "createApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateApplicationInput, CreateApplicationOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApplicationInput, CreateApplicationOutput>(CreateApplicationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateApplicationInput, CreateApplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateApplicationInput, CreateApplicationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateApplicationInput, CreateApplicationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateApplicationInput, CreateApplicationOutput>(CreateApplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateApplicationInput, CreateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateApplicationInput, CreateApplicationOutput>(xAmzTarget: "SWBExternalService.CreateApplication"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateApplicationInput, CreateApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateApplicationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationInput, CreateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateApplicationInput, CreateApplicationOutput>(xAmzTarget: "SWBExternalService.CreateApplication"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateApplicationInput, CreateApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationInput, CreateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateApplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateApplicationAssignment` operation on the `SWBExternalService` service.
@@ -437,23 +520,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(id: "createApplicationAssignment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(CreateApplicationAssignmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(CreateApplicationAssignmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationAssignmentOutput>(CreateApplicationAssignmentOutput.httpOutput(from:), CreateApplicationAssignmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationAssignmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateApplicationAssignmentOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(xAmzTarget: "SWBExternalService.CreateApplicationAssignment"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationAssignmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateApplicationAssignmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateApplicationAssignmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationAssignmentOutput>(CreateApplicationAssignmentOutput.httpOutput(from:), CreateApplicationAssignmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(xAmzTarget: "SWBExternalService.CreateApplicationAssignment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationAssignmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateApplicationAssignment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateInstance` operation on the `SWBExternalService` service.
@@ -495,24 +597,43 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateInstanceInput, CreateInstanceOutput>(id: "createInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateInstanceInput, CreateInstanceOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceInput, CreateInstanceOutput>(CreateInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceInput, CreateInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateInstanceInput, CreateInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateInstanceInput, CreateInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateInstanceInput, CreateInstanceOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateInstanceInput, CreateInstanceOutput>(CreateInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateInstanceInput, CreateInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstanceInput, CreateInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceOutput>(CreateInstanceOutput.httpOutput(from:), CreateInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceInput, CreateInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateInstanceInput, CreateInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateInstanceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateInstanceInput, CreateInstanceOutput>(xAmzTarget: "SWBExternalService.CreateInstance"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateInstanceInput, CreateInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInstanceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateInstanceInput, CreateInstanceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateInstanceInput, CreateInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceOutput>(CreateInstanceOutput.httpOutput(from:), CreateInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceInput, CreateInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInstanceInput, CreateInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInstanceInput, CreateInstanceOutput>(xAmzTarget: "SWBExternalService.CreateInstance"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateInstanceInput, CreateInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInstanceInput, CreateInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateInstanceInput, CreateInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateInstanceInput, CreateInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
@@ -550,23 +671,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(id: "createInstanceAccessControlAttributeConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(CreateInstanceAccessControlAttributeConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(CreateInstanceAccessControlAttributeConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>(CreateInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), CreateInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.CreateInstanceAccessControlAttributeConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInstanceAccessControlAttributeConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInstanceAccessControlAttributeConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>(CreateInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), CreateInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.CreateInstanceAccessControlAttributeConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInstanceAccessControlAttributeConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateInstanceAccessControlAttributeConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreatePermissionSet` operation on the `SWBExternalService` service.
@@ -605,23 +745,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePermissionSetInput, CreatePermissionSetOutput>(id: "createPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(CreatePermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePermissionSetInput, CreatePermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreatePermissionSetInput, CreatePermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(CreatePermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePermissionSetOutput>(CreatePermissionSetOutput.httpOutput(from:), CreatePermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreatePermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreatePermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(xAmzTarget: "SWBExternalService.CreatePermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreatePermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePermissionSetOutput>(CreatePermissionSetOutput.httpOutput(from:), CreatePermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreatePermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(xAmzTarget: "SWBExternalService.CreatePermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateTrustedTokenIssuer` operation on the `SWBExternalService` service.
@@ -659,24 +818,43 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(id: "createTrustedTokenIssuer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(CreateTrustedTokenIssuerInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(CreateTrustedTokenIssuerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrustedTokenIssuerOutput>(CreateTrustedTokenIssuerOutput.httpOutput(from:), CreateTrustedTokenIssuerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrustedTokenIssuerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateTrustedTokenIssuerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateTrustedTokenIssuerOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(xAmzTarget: "SWBExternalService.CreateTrustedTokenIssuer"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTrustedTokenIssuerInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrustedTokenIssuerOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateTrustedTokenIssuerOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustedTokenIssuerOutput>(CreateTrustedTokenIssuerOutput.httpOutput(from:), CreateTrustedTokenIssuerOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateTrustedTokenIssuerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(xAmzTarget: "SWBExternalService.CreateTrustedTokenIssuer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTrustedTokenIssuerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTrustedTokenIssuerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTrustedTokenIssuer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteAccountAssignment` operation on the `SWBExternalService` service.
@@ -714,23 +892,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(id: "deleteAccountAssignment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(DeleteAccountAssignmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(DeleteAccountAssignmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountAssignmentOutput>(DeleteAccountAssignmentOutput.httpOutput(from:), DeleteAccountAssignmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountAssignmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteAccountAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteAccountAssignmentOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(xAmzTarget: "SWBExternalService.DeleteAccountAssignment"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccountAssignmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountAssignmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteAccountAssignmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAssignmentOutput>(DeleteAccountAssignmentOutput.httpOutput(from:), DeleteAccountAssignmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteAccountAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(xAmzTarget: "SWBExternalService.DeleteAccountAssignment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccountAssignmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAccountAssignment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteApplication` operation on the `SWBExternalService` service.
@@ -768,23 +965,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteApplicationInput, DeleteApplicationOutput>(id: "deleteApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(DeleteApplicationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteApplicationInput, DeleteApplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteApplicationInput, DeleteApplicationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(DeleteApplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteApplicationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(xAmzTarget: "SWBExternalService.DeleteApplication"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteApplicationInput, DeleteApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApplicationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(xAmzTarget: "SWBExternalService.DeleteApplication"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteApplicationInput, DeleteApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteApplicationAccessScope` operation on the `SWBExternalService` service.
@@ -822,23 +1038,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(id: "deleteApplicationAccessScope")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(DeleteApplicationAccessScopeInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(DeleteApplicationAccessScopeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationAccessScopeOutput>(DeleteApplicationAccessScopeOutput.httpOutput(from:), DeleteApplicationAccessScopeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationAccessScopeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationAccessScopeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteApplicationAccessScopeOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(xAmzTarget: "SWBExternalService.DeleteApplicationAccessScope"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationAccessScopeInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApplicationAccessScopeOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteApplicationAccessScopeOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationAccessScopeOutput>(DeleteApplicationAccessScopeOutput.httpOutput(from:), DeleteApplicationAccessScopeOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationAccessScopeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(xAmzTarget: "SWBExternalService.DeleteApplicationAccessScope"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationAccessScopeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationAccessScopeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApplicationAccessScope")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteApplicationAssignment` operation on the `SWBExternalService` service.
@@ -876,23 +1111,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(id: "deleteApplicationAssignment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(DeleteApplicationAssignmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(DeleteApplicationAssignmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationAssignmentOutput>(DeleteApplicationAssignmentOutput.httpOutput(from:), DeleteApplicationAssignmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationAssignmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteApplicationAssignmentOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(xAmzTarget: "SWBExternalService.DeleteApplicationAssignment"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationAssignmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApplicationAssignmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteApplicationAssignmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationAssignmentOutput>(DeleteApplicationAssignmentOutput.httpOutput(from:), DeleteApplicationAssignmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(xAmzTarget: "SWBExternalService.DeleteApplicationAssignment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationAssignmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApplicationAssignment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteApplicationAuthenticationMethod` operation on the `SWBExternalService` service.
@@ -930,23 +1184,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(id: "deleteApplicationAuthenticationMethod")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(DeleteApplicationAuthenticationMethodInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(DeleteApplicationAuthenticationMethodInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationAuthenticationMethodOutput>(DeleteApplicationAuthenticationMethodOutput.httpOutput(from:), DeleteApplicationAuthenticationMethodOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationAuthenticationMethodOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationAuthenticationMethodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteApplicationAuthenticationMethodOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(xAmzTarget: "SWBExternalService.DeleteApplicationAuthenticationMethod"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationAuthenticationMethodInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApplicationAuthenticationMethodOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteApplicationAuthenticationMethodOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationAuthenticationMethodOutput>(DeleteApplicationAuthenticationMethodOutput.httpOutput(from:), DeleteApplicationAuthenticationMethodOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationAuthenticationMethodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(xAmzTarget: "SWBExternalService.DeleteApplicationAuthenticationMethod"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationAuthenticationMethodInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationAuthenticationMethodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApplicationAuthenticationMethod")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteApplicationGrant` operation on the `SWBExternalService` service.
@@ -984,23 +1257,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(id: "deleteApplicationGrant")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(DeleteApplicationGrantInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteApplicationGrantInput, DeleteApplicationGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteApplicationGrantInput, DeleteApplicationGrantOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(DeleteApplicationGrantInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationGrantOutput>(DeleteApplicationGrantOutput.httpOutput(from:), DeleteApplicationGrantOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationGrantOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationGrantOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteApplicationGrantOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(xAmzTarget: "SWBExternalService.DeleteApplicationGrant"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationGrantInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApplicationGrantOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteApplicationGrantOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationGrantOutput>(DeleteApplicationGrantOutput.httpOutput(from:), DeleteApplicationGrantOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationGrantOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(xAmzTarget: "SWBExternalService.DeleteApplicationGrant"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationGrantInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationGrantOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApplicationGrant")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteInlinePolicyFromPermissionSet` operation on the `SWBExternalService` service.
@@ -1038,23 +1330,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(id: "deleteInlinePolicyFromPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(DeleteInlinePolicyFromPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(DeleteInlinePolicyFromPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInlinePolicyFromPermissionSetOutput>(DeleteInlinePolicyFromPermissionSetOutput.httpOutput(from:), DeleteInlinePolicyFromPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInlinePolicyFromPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteInlinePolicyFromPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteInlinePolicyFromPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DeleteInlinePolicyFromPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInlinePolicyFromPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInlinePolicyFromPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteInlinePolicyFromPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInlinePolicyFromPermissionSetOutput>(DeleteInlinePolicyFromPermissionSetOutput.httpOutput(from:), DeleteInlinePolicyFromPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteInlinePolicyFromPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DeleteInlinePolicyFromPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInlinePolicyFromPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInlinePolicyFromPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteInlinePolicyFromPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteInstance` operation on the `SWBExternalService` service.
@@ -1091,23 +1402,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInstanceInput, DeleteInstanceOutput>(id: "deleteInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(DeleteInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceInput, DeleteInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteInstanceInput, DeleteInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteInstanceInput, DeleteInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(DeleteInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInstanceInput, DeleteInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInstanceInput, DeleteInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceOutput>(DeleteInstanceOutput.httpOutput(from:), DeleteInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteInstanceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(xAmzTarget: "SWBExternalService.DeleteInstance"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteInstanceInput, DeleteInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInstanceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteInstanceInput, DeleteInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceOutput>(DeleteInstanceOutput.httpOutput(from:), DeleteInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(xAmzTarget: "SWBExternalService.DeleteInstance"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteInstanceInput, DeleteInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInstanceInput, DeleteInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
@@ -1145,23 +1475,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(id: "deleteInstanceAccessControlAttributeConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(DeleteInstanceAccessControlAttributeConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(DeleteInstanceAccessControlAttributeConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>(DeleteInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), DeleteInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.DeleteInstanceAccessControlAttributeConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInstanceAccessControlAttributeConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInstanceAccessControlAttributeConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>(DeleteInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), DeleteInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.DeleteInstanceAccessControlAttributeConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInstanceAccessControlAttributeConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteInstanceAccessControlAttributeConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeletePermissionSet` operation on the `SWBExternalService` service.
@@ -1199,23 +1548,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePermissionSetInput, DeletePermissionSetOutput>(id: "deletePermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(DeletePermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePermissionSetInput, DeletePermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeletePermissionSetInput, DeletePermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(DeletePermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionSetOutput>(DeletePermissionSetOutput.httpOutput(from:), DeletePermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeletePermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeletePermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(xAmzTarget: "SWBExternalService.DeletePermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeletePermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePermissionSetOutput>(DeletePermissionSetOutput.httpOutput(from:), DeletePermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeletePermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(xAmzTarget: "SWBExternalService.DeletePermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeletePermissionsBoundaryFromPermissionSet` operation on the `SWBExternalService` service.
@@ -1253,23 +1621,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(id: "deletePermissionsBoundaryFromPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(DeletePermissionsBoundaryFromPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(DeletePermissionsBoundaryFromPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>(DeletePermissionsBoundaryFromPermissionSetOutput.httpOutput(from:), DeletePermissionsBoundaryFromPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DeletePermissionsBoundaryFromPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePermissionsBoundaryFromPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePermissionsBoundaryFromPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>(DeletePermissionsBoundaryFromPermissionSetOutput.httpOutput(from:), DeletePermissionsBoundaryFromPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DeletePermissionsBoundaryFromPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePermissionsBoundaryFromPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePermissionsBoundaryFromPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteTrustedTokenIssuer` operation on the `SWBExternalService` service.
@@ -1307,23 +1694,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(id: "deleteTrustedTokenIssuer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(DeleteTrustedTokenIssuerInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(DeleteTrustedTokenIssuerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrustedTokenIssuerOutput>(DeleteTrustedTokenIssuerOutput.httpOutput(from:), DeleteTrustedTokenIssuerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrustedTokenIssuerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteTrustedTokenIssuerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteTrustedTokenIssuerOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(xAmzTarget: "SWBExternalService.DeleteTrustedTokenIssuer"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTrustedTokenIssuerInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrustedTokenIssuerOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteTrustedTokenIssuerOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustedTokenIssuerOutput>(DeleteTrustedTokenIssuerOutput.httpOutput(from:), DeleteTrustedTokenIssuerOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteTrustedTokenIssuerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(xAmzTarget: "SWBExternalService.DeleteTrustedTokenIssuer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTrustedTokenIssuerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTrustedTokenIssuerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTrustedTokenIssuer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeAccountAssignmentCreationStatus` operation on the `SWBExternalService` service.
@@ -1360,23 +1766,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(id: "describeAccountAssignmentCreationStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(DescribeAccountAssignmentCreationStatusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(DescribeAccountAssignmentCreationStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentCreationStatusOutput>(DescribeAccountAssignmentCreationStatusOutput.httpOutput(from:), DescribeAccountAssignmentCreationStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAssignmentCreationStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeAccountAssignmentCreationStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeAccountAssignmentCreationStatusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(xAmzTarget: "SWBExternalService.DescribeAccountAssignmentCreationStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountAssignmentCreationStatusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountAssignmentCreationStatusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeAccountAssignmentCreationStatusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentCreationStatusOutput>(DescribeAccountAssignmentCreationStatusOutput.httpOutput(from:), DescribeAccountAssignmentCreationStatusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAccountAssignmentCreationStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(xAmzTarget: "SWBExternalService.DescribeAccountAssignmentCreationStatus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountAssignmentCreationStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountAssignmentCreationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountAssignmentCreationStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeAccountAssignmentDeletionStatus` operation on the `SWBExternalService` service.
@@ -1413,23 +1838,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(id: "describeAccountAssignmentDeletionStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(DescribeAccountAssignmentDeletionStatusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(DescribeAccountAssignmentDeletionStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentDeletionStatusOutput>(DescribeAccountAssignmentDeletionStatusOutput.httpOutput(from:), DescribeAccountAssignmentDeletionStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAssignmentDeletionStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeAccountAssignmentDeletionStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeAccountAssignmentDeletionStatusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(xAmzTarget: "SWBExternalService.DescribeAccountAssignmentDeletionStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountAssignmentDeletionStatusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountAssignmentDeletionStatusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeAccountAssignmentDeletionStatusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentDeletionStatusOutput>(DescribeAccountAssignmentDeletionStatusOutput.httpOutput(from:), DescribeAccountAssignmentDeletionStatusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAccountAssignmentDeletionStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(xAmzTarget: "SWBExternalService.DescribeAccountAssignmentDeletionStatus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountAssignmentDeletionStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountAssignmentDeletionStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountAssignmentDeletionStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeApplication` operation on the `SWBExternalService` service.
@@ -1466,23 +1910,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeApplicationInput, DescribeApplicationOutput>(id: "describeApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(DescribeApplicationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationInput, DescribeApplicationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeApplicationInput, DescribeApplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeApplicationInput, DescribeApplicationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(DescribeApplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationInput, DescribeApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationInput, DescribeApplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationOutput>(DescribeApplicationOutput.httpOutput(from:), DescribeApplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeApplicationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(xAmzTarget: "SWBExternalService.DescribeApplication"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeApplicationInput, DescribeApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeApplicationInput, DescribeApplicationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeApplicationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeApplicationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicationOutput>(DescribeApplicationOutput.httpOutput(from:), DescribeApplicationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(xAmzTarget: "SWBExternalService.DescribeApplication"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeApplicationInput, DescribeApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationInput, DescribeApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeApplicationAssignment` operation on the `SWBExternalService` service.
@@ -1519,23 +1982,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(id: "describeApplicationAssignment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(DescribeApplicationAssignmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(DescribeApplicationAssignmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationAssignmentOutput>(DescribeApplicationAssignmentOutput.httpOutput(from:), DescribeApplicationAssignmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationAssignmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeApplicationAssignmentOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(xAmzTarget: "SWBExternalService.DescribeApplicationAssignment"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationAssignmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeApplicationAssignmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeApplicationAssignmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicationAssignmentOutput>(DescribeApplicationAssignmentOutput.httpOutput(from:), DescribeApplicationAssignmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationAssignmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(xAmzTarget: "SWBExternalService.DescribeApplicationAssignment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationAssignmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApplicationAssignment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeApplicationProvider` operation on the `SWBExternalService` service.
@@ -1572,23 +2054,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(id: "describeApplicationProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(DescribeApplicationProviderInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeApplicationProviderInput, DescribeApplicationProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeApplicationProviderInput, DescribeApplicationProviderOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(DescribeApplicationProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationProviderOutput>(DescribeApplicationProviderOutput.httpOutput(from:), DescribeApplicationProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationProviderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeApplicationProviderOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(xAmzTarget: "SWBExternalService.DescribeApplicationProvider"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationProviderInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeApplicationProviderOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeApplicationProviderOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicationProviderOutput>(DescribeApplicationProviderOutput.httpOutput(from:), DescribeApplicationProviderOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationProviderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(xAmzTarget: "SWBExternalService.DescribeApplicationProvider"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApplicationProvider")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeInstance` operation on the `SWBExternalService` service.
@@ -1630,23 +2131,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeInstanceInput, DescribeInstanceOutput>(id: "describeInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(DescribeInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstanceInput, DescribeInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeInstanceInput, DescribeInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeInstanceInput, DescribeInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(DescribeInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInstanceInput, DescribeInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceInput, DescribeInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceOutput>(DescribeInstanceOutput.httpOutput(from:), DescribeInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeInstanceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(xAmzTarget: "SWBExternalService.DescribeInstance"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeInstanceInput, DescribeInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInstanceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeInstanceInput, DescribeInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceOutput>(DescribeInstanceOutput.httpOutput(from:), DescribeInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(xAmzTarget: "SWBExternalService.DescribeInstance"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeInstanceInput, DescribeInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstanceInput, DescribeInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
@@ -1683,23 +2203,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(id: "describeInstanceAccessControlAttributeConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(DescribeInstanceAccessControlAttributeConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(DescribeInstanceAccessControlAttributeConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>(DescribeInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), DescribeInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.DescribeInstanceAccessControlAttributeConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInstanceAccessControlAttributeConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInstanceAccessControlAttributeConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>(DescribeInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), DescribeInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.DescribeInstanceAccessControlAttributeConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInstanceAccessControlAttributeConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceAccessControlAttributeConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribePermissionSet` operation on the `SWBExternalService` service.
@@ -1736,23 +2275,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePermissionSetInput, DescribePermissionSetOutput>(id: "describePermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(DescribePermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribePermissionSetInput, DescribePermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribePermissionSetInput, DescribePermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(DescribePermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePermissionSetOutput>(DescribePermissionSetOutput.httpOutput(from:), DescribePermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribePermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribePermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribePermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(xAmzTarget: "SWBExternalService.DescribePermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribePermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePermissionSetOutput>(DescribePermissionSetOutput.httpOutput(from:), DescribePermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribePermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(xAmzTarget: "SWBExternalService.DescribePermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribePermissionSetProvisioningStatus` operation on the `SWBExternalService` service.
@@ -1789,23 +2347,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(id: "describePermissionSetProvisioningStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(DescribePermissionSetProvisioningStatusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(DescribePermissionSetProvisioningStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePermissionSetProvisioningStatusOutput>(DescribePermissionSetProvisioningStatusOutput.httpOutput(from:), DescribePermissionSetProvisioningStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribePermissionSetProvisioningStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribePermissionSetProvisioningStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribePermissionSetProvisioningStatusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(xAmzTarget: "SWBExternalService.DescribePermissionSetProvisioningStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePermissionSetProvisioningStatusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePermissionSetProvisioningStatusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribePermissionSetProvisioningStatusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePermissionSetProvisioningStatusOutput>(DescribePermissionSetProvisioningStatusOutput.httpOutput(from:), DescribePermissionSetProvisioningStatusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribePermissionSetProvisioningStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(xAmzTarget: "SWBExternalService.DescribePermissionSetProvisioningStatus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePermissionSetProvisioningStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePermissionSetProvisioningStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePermissionSetProvisioningStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeTrustedTokenIssuer` operation on the `SWBExternalService` service.
@@ -1842,23 +2419,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(id: "describeTrustedTokenIssuer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(DescribeTrustedTokenIssuerInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(DescribeTrustedTokenIssuerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrustedTokenIssuerOutput>(DescribeTrustedTokenIssuerOutput.httpOutput(from:), DescribeTrustedTokenIssuerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrustedTokenIssuerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeTrustedTokenIssuerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeTrustedTokenIssuerOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(xAmzTarget: "SWBExternalService.DescribeTrustedTokenIssuer"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrustedTokenIssuerInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTrustedTokenIssuerOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeTrustedTokenIssuerOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedTokenIssuerOutput>(DescribeTrustedTokenIssuerOutput.httpOutput(from:), DescribeTrustedTokenIssuerOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTrustedTokenIssuerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(xAmzTarget: "SWBExternalService.DescribeTrustedTokenIssuer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrustedTokenIssuerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrustedTokenIssuerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTrustedTokenIssuer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DetachCustomerManagedPolicyReferenceFromPermissionSet` operation on the `SWBExternalService` service.
@@ -1896,23 +2492,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(id: "detachCustomerManagedPolicyReferenceFromPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(DetachCustomerManagedPolicyReferenceFromPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(DetachCustomerManagedPolicyReferenceFromPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(DetachCustomerManagedPolicyReferenceFromPermissionSetOutput.httpOutput(from:), DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DetachCustomerManagedPolicyReferenceFromPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachCustomerManagedPolicyReferenceFromPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(DetachCustomerManagedPolicyReferenceFromPermissionSetOutput.httpOutput(from:), DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DetachCustomerManagedPolicyReferenceFromPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachCustomerManagedPolicyReferenceFromPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachCustomerManagedPolicyReferenceFromPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DetachManagedPolicyFromPermissionSet` operation on the `SWBExternalService` service.
@@ -1950,23 +2565,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(id: "detachManagedPolicyFromPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(DetachManagedPolicyFromPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(DetachManagedPolicyFromPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachManagedPolicyFromPermissionSetOutput>(DetachManagedPolicyFromPermissionSetOutput.httpOutput(from:), DetachManagedPolicyFromPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetachManagedPolicyFromPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DetachManagedPolicyFromPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DetachManagedPolicyFromPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DetachManagedPolicyFromPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachManagedPolicyFromPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachManagedPolicyFromPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DetachManagedPolicyFromPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachManagedPolicyFromPermissionSetOutput>(DetachManagedPolicyFromPermissionSetOutput.httpOutput(from:), DetachManagedPolicyFromPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DetachManagedPolicyFromPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DetachManagedPolicyFromPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachManagedPolicyFromPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachManagedPolicyFromPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachManagedPolicyFromPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetApplicationAccessScope` operation on the `SWBExternalService` service.
@@ -2003,23 +2637,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(id: "getApplicationAccessScope")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(GetApplicationAccessScopeInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(GetApplicationAccessScopeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationAccessScopeOutput>(GetApplicationAccessScopeOutput.httpOutput(from:), GetApplicationAccessScopeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationAccessScopeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetApplicationAccessScopeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetApplicationAccessScopeOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(xAmzTarget: "SWBExternalService.GetApplicationAccessScope"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApplicationAccessScopeInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApplicationAccessScopeOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetApplicationAccessScopeOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationAccessScopeOutput>(GetApplicationAccessScopeOutput.httpOutput(from:), GetApplicationAccessScopeOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetApplicationAccessScopeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(xAmzTarget: "SWBExternalService.GetApplicationAccessScope"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApplicationAccessScopeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApplicationAccessScopeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetApplicationAccessScope")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetApplicationAssignmentConfiguration` operation on the `SWBExternalService` service.
@@ -2056,23 +2709,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(id: "getApplicationAssignmentConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(GetApplicationAssignmentConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(GetApplicationAssignmentConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationAssignmentConfigurationOutput>(GetApplicationAssignmentConfigurationOutput.httpOutput(from:), GetApplicationAssignmentConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationAssignmentConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetApplicationAssignmentConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetApplicationAssignmentConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(xAmzTarget: "SWBExternalService.GetApplicationAssignmentConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApplicationAssignmentConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApplicationAssignmentConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetApplicationAssignmentConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationAssignmentConfigurationOutput>(GetApplicationAssignmentConfigurationOutput.httpOutput(from:), GetApplicationAssignmentConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetApplicationAssignmentConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(xAmzTarget: "SWBExternalService.GetApplicationAssignmentConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApplicationAssignmentConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApplicationAssignmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetApplicationAssignmentConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetApplicationAuthenticationMethod` operation on the `SWBExternalService` service.
@@ -2109,23 +2781,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(id: "getApplicationAuthenticationMethod")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(GetApplicationAuthenticationMethodInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(GetApplicationAuthenticationMethodInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationAuthenticationMethodOutput>(GetApplicationAuthenticationMethodOutput.httpOutput(from:), GetApplicationAuthenticationMethodOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationAuthenticationMethodOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetApplicationAuthenticationMethodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetApplicationAuthenticationMethodOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(xAmzTarget: "SWBExternalService.GetApplicationAuthenticationMethod"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApplicationAuthenticationMethodInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApplicationAuthenticationMethodOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetApplicationAuthenticationMethodOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationAuthenticationMethodOutput>(GetApplicationAuthenticationMethodOutput.httpOutput(from:), GetApplicationAuthenticationMethodOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetApplicationAuthenticationMethodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(xAmzTarget: "SWBExternalService.GetApplicationAuthenticationMethod"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApplicationAuthenticationMethodInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApplicationAuthenticationMethodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetApplicationAuthenticationMethod")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetApplicationGrant` operation on the `SWBExternalService` service.
@@ -2162,23 +2853,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetApplicationGrantInput, GetApplicationGrantOutput>(id: "getApplicationGrant")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(GetApplicationGrantInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetApplicationGrantInput, GetApplicationGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetApplicationGrantInput, GetApplicationGrantOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(GetApplicationGrantInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationGrantOutput>(GetApplicationGrantOutput.httpOutput(from:), GetApplicationGrantOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationGrantOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetApplicationGrantOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetApplicationGrantOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(xAmzTarget: "SWBExternalService.GetApplicationGrant"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApplicationGrantInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApplicationGrantOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetApplicationGrantOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationGrantOutput>(GetApplicationGrantOutput.httpOutput(from:), GetApplicationGrantOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetApplicationGrantOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(xAmzTarget: "SWBExternalService.GetApplicationGrant"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApplicationGrantInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApplicationGrantOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetApplicationGrant")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetInlinePolicyForPermissionSet` operation on the `SWBExternalService` service.
@@ -2215,23 +2925,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(id: "getInlinePolicyForPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(GetInlinePolicyForPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(GetInlinePolicyForPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInlinePolicyForPermissionSetOutput>(GetInlinePolicyForPermissionSetOutput.httpOutput(from:), GetInlinePolicyForPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetInlinePolicyForPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetInlinePolicyForPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetInlinePolicyForPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(xAmzTarget: "SWBExternalService.GetInlinePolicyForPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInlinePolicyForPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInlinePolicyForPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetInlinePolicyForPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInlinePolicyForPermissionSetOutput>(GetInlinePolicyForPermissionSetOutput.httpOutput(from:), GetInlinePolicyForPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetInlinePolicyForPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(xAmzTarget: "SWBExternalService.GetInlinePolicyForPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInlinePolicyForPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInlinePolicyForPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetInlinePolicyForPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetPermissionsBoundaryForPermissionSet` operation on the `SWBExternalService` service.
@@ -2268,23 +2997,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(id: "getPermissionsBoundaryForPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(GetPermissionsBoundaryForPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(GetPermissionsBoundaryForPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPermissionsBoundaryForPermissionSetOutput>(GetPermissionsBoundaryForPermissionSetOutput.httpOutput(from:), GetPermissionsBoundaryForPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPermissionsBoundaryForPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetPermissionsBoundaryForPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetPermissionsBoundaryForPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(xAmzTarget: "SWBExternalService.GetPermissionsBoundaryForPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPermissionsBoundaryForPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPermissionsBoundaryForPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetPermissionsBoundaryForPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPermissionsBoundaryForPermissionSetOutput>(GetPermissionsBoundaryForPermissionSetOutput.httpOutput(from:), GetPermissionsBoundaryForPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetPermissionsBoundaryForPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(xAmzTarget: "SWBExternalService.GetPermissionsBoundaryForPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPermissionsBoundaryForPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPermissionsBoundaryForPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPermissionsBoundaryForPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListAccountAssignmentCreationStatus` operation on the `SWBExternalService` service.
@@ -2321,23 +3069,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(id: "listAccountAssignmentCreationStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(ListAccountAssignmentCreationStatusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(ListAccountAssignmentCreationStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssignmentCreationStatusOutput>(ListAccountAssignmentCreationStatusOutput.httpOutput(from:), ListAccountAssignmentCreationStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssignmentCreationStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListAccountAssignmentCreationStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAccountAssignmentCreationStatusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignmentCreationStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountAssignmentCreationStatusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentCreationStatusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAccountAssignmentCreationStatusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentCreationStatusOutput>(ListAccountAssignmentCreationStatusOutput.httpOutput(from:), ListAccountAssignmentCreationStatusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccountAssignmentCreationStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignmentCreationStatus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountAssignmentCreationStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountAssignmentCreationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAccountAssignmentCreationStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListAccountAssignmentDeletionStatus` operation on the `SWBExternalService` service.
@@ -2374,23 +3141,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(id: "listAccountAssignmentDeletionStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(ListAccountAssignmentDeletionStatusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(ListAccountAssignmentDeletionStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssignmentDeletionStatusOutput>(ListAccountAssignmentDeletionStatusOutput.httpOutput(from:), ListAccountAssignmentDeletionStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssignmentDeletionStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListAccountAssignmentDeletionStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAccountAssignmentDeletionStatusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignmentDeletionStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountAssignmentDeletionStatusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentDeletionStatusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAccountAssignmentDeletionStatusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentDeletionStatusOutput>(ListAccountAssignmentDeletionStatusOutput.httpOutput(from:), ListAccountAssignmentDeletionStatusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccountAssignmentDeletionStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignmentDeletionStatus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountAssignmentDeletionStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountAssignmentDeletionStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAccountAssignmentDeletionStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListAccountAssignments` operation on the `SWBExternalService` service.
@@ -2427,23 +3213,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(id: "listAccountAssignments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(ListAccountAssignmentsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListAccountAssignmentsInput, ListAccountAssignmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListAccountAssignmentsInput, ListAccountAssignmentsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(ListAccountAssignmentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssignmentsOutput>(ListAccountAssignmentsOutput.httpOutput(from:), ListAccountAssignmentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssignmentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListAccountAssignmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAccountAssignmentsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignments"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountAssignmentsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAccountAssignmentsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentsOutput>(ListAccountAssignmentsOutput.httpOutput(from:), ListAccountAssignmentsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccountAssignmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignments"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountAssignmentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountAssignmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAccountAssignments")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListAccountAssignmentsForPrincipal` operation on the `SWBExternalService` service.
@@ -2480,23 +3285,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(id: "listAccountAssignmentsForPrincipal")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(ListAccountAssignmentsForPrincipalInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(ListAccountAssignmentsForPrincipalInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssignmentsForPrincipalOutput>(ListAccountAssignmentsForPrincipalOutput.httpOutput(from:), ListAccountAssignmentsForPrincipalOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssignmentsForPrincipalOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListAccountAssignmentsForPrincipalOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAccountAssignmentsForPrincipalOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignmentsForPrincipal"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountAssignmentsForPrincipalInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentsForPrincipalOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAccountAssignmentsForPrincipalOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentsForPrincipalOutput>(ListAccountAssignmentsForPrincipalOutput.httpOutput(from:), ListAccountAssignmentsForPrincipalOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccountAssignmentsForPrincipalOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignmentsForPrincipal"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountAssignmentsForPrincipalInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountAssignmentsForPrincipalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAccountAssignmentsForPrincipal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListAccountsForProvisionedPermissionSet` operation on the `SWBExternalService` service.
@@ -2533,23 +3357,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(id: "listAccountsForProvisionedPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(ListAccountsForProvisionedPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(ListAccountsForProvisionedPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountsForProvisionedPermissionSetOutput>(ListAccountsForProvisionedPermissionSetOutput.httpOutput(from:), ListAccountsForProvisionedPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsForProvisionedPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListAccountsForProvisionedPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAccountsForProvisionedPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(xAmzTarget: "SWBExternalService.ListAccountsForProvisionedPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountsForProvisionedPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountsForProvisionedPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAccountsForProvisionedPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsForProvisionedPermissionSetOutput>(ListAccountsForProvisionedPermissionSetOutput.httpOutput(from:), ListAccountsForProvisionedPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccountsForProvisionedPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(xAmzTarget: "SWBExternalService.ListAccountsForProvisionedPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountsForProvisionedPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountsForProvisionedPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAccountsForProvisionedPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListApplicationAccessScopes` operation on the `SWBExternalService` service.
@@ -2586,23 +3429,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(id: "listApplicationAccessScopes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(ListApplicationAccessScopesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(ListApplicationAccessScopesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationAccessScopesOutput>(ListApplicationAccessScopesOutput.httpOutput(from:), ListApplicationAccessScopesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationAccessScopesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListApplicationAccessScopesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListApplicationAccessScopesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(xAmzTarget: "SWBExternalService.ListApplicationAccessScopes"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationAccessScopesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationAccessScopesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListApplicationAccessScopesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationAccessScopesOutput>(ListApplicationAccessScopesOutput.httpOutput(from:), ListApplicationAccessScopesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListApplicationAccessScopesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(xAmzTarget: "SWBExternalService.ListApplicationAccessScopes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationAccessScopesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationAccessScopesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplicationAccessScopes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListApplicationAssignments` operation on the `SWBExternalService` service.
@@ -2639,23 +3501,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(id: "listApplicationAssignments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(ListApplicationAssignmentsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(ListApplicationAssignmentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationAssignmentsOutput>(ListApplicationAssignmentsOutput.httpOutput(from:), ListApplicationAssignmentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationAssignmentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListApplicationAssignmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListApplicationAssignmentsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(xAmzTarget: "SWBExternalService.ListApplicationAssignments"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationAssignmentsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationAssignmentsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListApplicationAssignmentsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationAssignmentsOutput>(ListApplicationAssignmentsOutput.httpOutput(from:), ListApplicationAssignmentsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListApplicationAssignmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(xAmzTarget: "SWBExternalService.ListApplicationAssignments"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationAssignmentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationAssignmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplicationAssignments")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListApplicationAssignmentsForPrincipal` operation on the `SWBExternalService` service.
@@ -2692,23 +3573,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(id: "listApplicationAssignmentsForPrincipal")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(ListApplicationAssignmentsForPrincipalInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(ListApplicationAssignmentsForPrincipalInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationAssignmentsForPrincipalOutput>(ListApplicationAssignmentsForPrincipalOutput.httpOutput(from:), ListApplicationAssignmentsForPrincipalOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationAssignmentsForPrincipalOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListApplicationAssignmentsForPrincipalOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListApplicationAssignmentsForPrincipalOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(xAmzTarget: "SWBExternalService.ListApplicationAssignmentsForPrincipal"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationAssignmentsForPrincipalInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationAssignmentsForPrincipalOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListApplicationAssignmentsForPrincipalOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationAssignmentsForPrincipalOutput>(ListApplicationAssignmentsForPrincipalOutput.httpOutput(from:), ListApplicationAssignmentsForPrincipalOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListApplicationAssignmentsForPrincipalOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(xAmzTarget: "SWBExternalService.ListApplicationAssignmentsForPrincipal"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationAssignmentsForPrincipalInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationAssignmentsForPrincipalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplicationAssignmentsForPrincipal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListApplicationAuthenticationMethods` operation on the `SWBExternalService` service.
@@ -2745,23 +3645,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(id: "listApplicationAuthenticationMethods")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(ListApplicationAuthenticationMethodsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(ListApplicationAuthenticationMethodsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationAuthenticationMethodsOutput>(ListApplicationAuthenticationMethodsOutput.httpOutput(from:), ListApplicationAuthenticationMethodsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationAuthenticationMethodsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListApplicationAuthenticationMethodsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListApplicationAuthenticationMethodsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(xAmzTarget: "SWBExternalService.ListApplicationAuthenticationMethods"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationAuthenticationMethodsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationAuthenticationMethodsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListApplicationAuthenticationMethodsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationAuthenticationMethodsOutput>(ListApplicationAuthenticationMethodsOutput.httpOutput(from:), ListApplicationAuthenticationMethodsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListApplicationAuthenticationMethodsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(xAmzTarget: "SWBExternalService.ListApplicationAuthenticationMethods"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationAuthenticationMethodsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationAuthenticationMethodsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplicationAuthenticationMethods")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListApplicationGrants` operation on the `SWBExternalService` service.
@@ -2798,23 +3717,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListApplicationGrantsInput, ListApplicationGrantsOutput>(id: "listApplicationGrants")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(ListApplicationGrantsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListApplicationGrantsInput, ListApplicationGrantsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListApplicationGrantsInput, ListApplicationGrantsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(ListApplicationGrantsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationGrantsOutput>(ListApplicationGrantsOutput.httpOutput(from:), ListApplicationGrantsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationGrantsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListApplicationGrantsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListApplicationGrantsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(xAmzTarget: "SWBExternalService.ListApplicationGrants"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationGrantsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationGrantsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListApplicationGrantsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationGrantsOutput>(ListApplicationGrantsOutput.httpOutput(from:), ListApplicationGrantsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListApplicationGrantsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(xAmzTarget: "SWBExternalService.ListApplicationGrants"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationGrantsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationGrantsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplicationGrants")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListApplicationProviders` operation on the `SWBExternalService` service.
@@ -2850,23 +3788,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListApplicationProvidersInput, ListApplicationProvidersOutput>(id: "listApplicationProviders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(ListApplicationProvidersInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListApplicationProvidersInput, ListApplicationProvidersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListApplicationProvidersInput, ListApplicationProvidersOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(ListApplicationProvidersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationProvidersOutput>(ListApplicationProvidersOutput.httpOutput(from:), ListApplicationProvidersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationProvidersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListApplicationProvidersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListApplicationProvidersOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(xAmzTarget: "SWBExternalService.ListApplicationProviders"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationProvidersInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationProvidersOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListApplicationProvidersOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationProvidersOutput>(ListApplicationProvidersOutput.httpOutput(from:), ListApplicationProvidersOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListApplicationProvidersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(xAmzTarget: "SWBExternalService.ListApplicationProviders"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationProvidersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplicationProviders")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListApplications` operation on the `SWBExternalService` service.
@@ -2902,23 +3859,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListApplicationsInput, ListApplicationsOutput>(id: "listApplications")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationsInput, ListApplicationsOutput>(ListApplicationsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationsInput, ListApplicationsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListApplicationsInput, ListApplicationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListApplicationsInput, ListApplicationsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListApplicationsInput, ListApplicationsOutput>(ListApplicationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationsInput, ListApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationsInput, ListApplicationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListApplicationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListApplicationsInput, ListApplicationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListApplicationsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApplicationsInput, ListApplicationsOutput>(xAmzTarget: "SWBExternalService.ListApplications"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListApplicationsInput, ListApplicationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListApplicationsInput, ListApplicationsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListApplicationsInput, ListApplicationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListApplicationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationsInput, ListApplicationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListApplicationsInput, ListApplicationsOutput>(xAmzTarget: "SWBExternalService.ListApplications"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListApplicationsInput, ListApplicationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationsInput, ListApplicationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationsInput, ListApplicationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationsInput, ListApplicationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplications")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListCustomerManagedPolicyReferencesInPermissionSet` operation on the `SWBExternalService` service.
@@ -2955,23 +3931,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(id: "listCustomerManagedPolicyReferencesInPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(ListCustomerManagedPolicyReferencesInPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(ListCustomerManagedPolicyReferencesInPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>(ListCustomerManagedPolicyReferencesInPermissionSetOutput.httpOutput(from:), ListCustomerManagedPolicyReferencesInPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(xAmzTarget: "SWBExternalService.ListCustomerManagedPolicyReferencesInPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCustomerManagedPolicyReferencesInPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>(ListCustomerManagedPolicyReferencesInPermissionSetOutput.httpOutput(from:), ListCustomerManagedPolicyReferencesInPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(xAmzTarget: "SWBExternalService.ListCustomerManagedPolicyReferencesInPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCustomerManagedPolicyReferencesInPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCustomerManagedPolicyReferencesInPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListInstances` operation on the `SWBExternalService` service.
@@ -3007,23 +4002,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutput>(id: "listInstances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutput>(ListInstancesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListInstancesInput, ListInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListInstancesInput, ListInstancesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutput>(ListInstancesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstancesInput, ListInstancesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstancesOutput>(ListInstancesOutput.httpOutput(from:), ListInstancesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstancesInput, ListInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListInstancesInput, ListInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListInstancesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInstancesInput, ListInstancesOutput>(xAmzTarget: "SWBExternalService.ListInstances"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListInstancesInput, ListInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInstancesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListInstancesInput, ListInstancesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListInstancesInput, ListInstancesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstancesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListInstancesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstancesOutput>(ListInstancesOutput.httpOutput(from:), ListInstancesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstancesInput, ListInstancesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInstancesInput, ListInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInstancesInput, ListInstancesOutput>(xAmzTarget: "SWBExternalService.ListInstances"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListInstancesInput, ListInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInstancesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInstancesInput, ListInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInstancesInput, ListInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInstancesInput, ListInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListInstances")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListManagedPoliciesInPermissionSet` operation on the `SWBExternalService` service.
@@ -3060,23 +4074,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(id: "listManagedPoliciesInPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(ListManagedPoliciesInPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(ListManagedPoliciesInPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedPoliciesInPermissionSetOutput>(ListManagedPoliciesInPermissionSetOutput.httpOutput(from:), ListManagedPoliciesInPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedPoliciesInPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListManagedPoliciesInPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListManagedPoliciesInPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(xAmzTarget: "SWBExternalService.ListManagedPoliciesInPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListManagedPoliciesInPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListManagedPoliciesInPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListManagedPoliciesInPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListManagedPoliciesInPermissionSetOutput>(ListManagedPoliciesInPermissionSetOutput.httpOutput(from:), ListManagedPoliciesInPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListManagedPoliciesInPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(xAmzTarget: "SWBExternalService.ListManagedPoliciesInPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListManagedPoliciesInPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListManagedPoliciesInPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListManagedPoliciesInPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListPermissionSetProvisioningStatus` operation on the `SWBExternalService` service.
@@ -3113,23 +4146,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(id: "listPermissionSetProvisioningStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(ListPermissionSetProvisioningStatusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(ListPermissionSetProvisioningStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionSetProvisioningStatusOutput>(ListPermissionSetProvisioningStatusOutput.httpOutput(from:), ListPermissionSetProvisioningStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionSetProvisioningStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListPermissionSetProvisioningStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListPermissionSetProvisioningStatusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(xAmzTarget: "SWBExternalService.ListPermissionSetProvisioningStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPermissionSetProvisioningStatusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPermissionSetProvisioningStatusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListPermissionSetProvisioningStatusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetProvisioningStatusOutput>(ListPermissionSetProvisioningStatusOutput.httpOutput(from:), ListPermissionSetProvisioningStatusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPermissionSetProvisioningStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(xAmzTarget: "SWBExternalService.ListPermissionSetProvisioningStatus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPermissionSetProvisioningStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPermissionSetProvisioningStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPermissionSetProvisioningStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListPermissionSets` operation on the `SWBExternalService` service.
@@ -3166,23 +4218,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPermissionSetsInput, ListPermissionSetsOutput>(id: "listPermissionSets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(ListPermissionSetsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListPermissionSetsInput, ListPermissionSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListPermissionSetsInput, ListPermissionSetsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(ListPermissionSetsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionSetsOutput>(ListPermissionSetsOutput.httpOutput(from:), ListPermissionSetsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionSetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListPermissionSetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListPermissionSetsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(xAmzTarget: "SWBExternalService.ListPermissionSets"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPermissionSetsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPermissionSetsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListPermissionSetsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetsOutput>(ListPermissionSetsOutput.httpOutput(from:), ListPermissionSetsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPermissionSetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(xAmzTarget: "SWBExternalService.ListPermissionSets"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPermissionSetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPermissionSetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPermissionSets")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListPermissionSetsProvisionedToAccount` operation on the `SWBExternalService` service.
@@ -3219,23 +4290,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(id: "listPermissionSetsProvisionedToAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(ListPermissionSetsProvisionedToAccountInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(ListPermissionSetsProvisionedToAccountInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionSetsProvisionedToAccountOutput>(ListPermissionSetsProvisionedToAccountOutput.httpOutput(from:), ListPermissionSetsProvisionedToAccountOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionSetsProvisionedToAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListPermissionSetsProvisionedToAccountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListPermissionSetsProvisionedToAccountOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(xAmzTarget: "SWBExternalService.ListPermissionSetsProvisionedToAccount"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPermissionSetsProvisionedToAccountInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPermissionSetsProvisionedToAccountOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListPermissionSetsProvisionedToAccountOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetsProvisionedToAccountOutput>(ListPermissionSetsProvisionedToAccountOutput.httpOutput(from:), ListPermissionSetsProvisionedToAccountOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPermissionSetsProvisionedToAccountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(xAmzTarget: "SWBExternalService.ListPermissionSetsProvisionedToAccount"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPermissionSetsProvisionedToAccountInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPermissionSetsProvisionedToAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPermissionSetsProvisionedToAccount")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListTagsForResource` operation on the `SWBExternalService` service.
@@ -3272,23 +4362,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "SWBExternalService.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "SWBExternalService.ListTagsForResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListTrustedTokenIssuers` operation on the `SWBExternalService` service.
@@ -3324,23 +4433,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(id: "listTrustedTokenIssuers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(ListTrustedTokenIssuersInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(ListTrustedTokenIssuersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrustedTokenIssuersOutput>(ListTrustedTokenIssuersOutput.httpOutput(from:), ListTrustedTokenIssuersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTrustedTokenIssuersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListTrustedTokenIssuersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTrustedTokenIssuersOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(xAmzTarget: "SWBExternalService.ListTrustedTokenIssuers"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTrustedTokenIssuersInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrustedTokenIssuersOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTrustedTokenIssuersOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustedTokenIssuersOutput>(ListTrustedTokenIssuersOutput.httpOutput(from:), ListTrustedTokenIssuersOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTrustedTokenIssuersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(xAmzTarget: "SWBExternalService.ListTrustedTokenIssuers"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTrustedTokenIssuersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTrustedTokenIssuersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTrustedTokenIssuers")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ProvisionPermissionSet` operation on the `SWBExternalService` service.
@@ -3378,23 +4506,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(id: "provisionPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(ProvisionPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ProvisionPermissionSetInput, ProvisionPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ProvisionPermissionSetInput, ProvisionPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(ProvisionPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvisionPermissionSetOutput>(ProvisionPermissionSetOutput.httpOutput(from:), ProvisionPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ProvisionPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ProvisionPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ProvisionPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(xAmzTarget: "SWBExternalService.ProvisionPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ProvisionPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ProvisionPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ProvisionPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionPermissionSetOutput>(ProvisionPermissionSetOutput.httpOutput(from:), ProvisionPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ProvisionPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(xAmzTarget: "SWBExternalService.ProvisionPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ProvisionPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ProvisionPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ProvisionPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutApplicationAccessScope` operation on the `SWBExternalService` service.
@@ -3432,23 +4579,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(id: "putApplicationAccessScope")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(PutApplicationAccessScopeInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(PutApplicationAccessScopeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationAccessScopeOutput>(PutApplicationAccessScopeOutput.httpOutput(from:), PutApplicationAccessScopeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationAccessScopeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutApplicationAccessScopeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutApplicationAccessScopeOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(xAmzTarget: "SWBExternalService.PutApplicationAccessScope"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutApplicationAccessScopeInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutApplicationAccessScopeOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutApplicationAccessScopeOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutApplicationAccessScopeOutput>(PutApplicationAccessScopeOutput.httpOutput(from:), PutApplicationAccessScopeOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutApplicationAccessScopeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(xAmzTarget: "SWBExternalService.PutApplicationAccessScope"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutApplicationAccessScopeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutApplicationAccessScopeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutApplicationAccessScope")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutApplicationAssignmentConfiguration` operation on the `SWBExternalService` service.
@@ -3486,23 +4652,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(id: "putApplicationAssignmentConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(PutApplicationAssignmentConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(PutApplicationAssignmentConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationAssignmentConfigurationOutput>(PutApplicationAssignmentConfigurationOutput.httpOutput(from:), PutApplicationAssignmentConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationAssignmentConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutApplicationAssignmentConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutApplicationAssignmentConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(xAmzTarget: "SWBExternalService.PutApplicationAssignmentConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutApplicationAssignmentConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutApplicationAssignmentConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutApplicationAssignmentConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutApplicationAssignmentConfigurationOutput>(PutApplicationAssignmentConfigurationOutput.httpOutput(from:), PutApplicationAssignmentConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutApplicationAssignmentConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(xAmzTarget: "SWBExternalService.PutApplicationAssignmentConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutApplicationAssignmentConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutApplicationAssignmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutApplicationAssignmentConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutApplicationAuthenticationMethod` operation on the `SWBExternalService` service.
@@ -3540,23 +4725,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(id: "putApplicationAuthenticationMethod")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(PutApplicationAuthenticationMethodInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(PutApplicationAuthenticationMethodInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationAuthenticationMethodOutput>(PutApplicationAuthenticationMethodOutput.httpOutput(from:), PutApplicationAuthenticationMethodOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationAuthenticationMethodOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutApplicationAuthenticationMethodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutApplicationAuthenticationMethodOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(xAmzTarget: "SWBExternalService.PutApplicationAuthenticationMethod"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutApplicationAuthenticationMethodInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutApplicationAuthenticationMethodOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutApplicationAuthenticationMethodOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutApplicationAuthenticationMethodOutput>(PutApplicationAuthenticationMethodOutput.httpOutput(from:), PutApplicationAuthenticationMethodOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutApplicationAuthenticationMethodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(xAmzTarget: "SWBExternalService.PutApplicationAuthenticationMethod"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutApplicationAuthenticationMethodInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutApplicationAuthenticationMethodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutApplicationAuthenticationMethod")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutApplicationGrant` operation on the `SWBExternalService` service.
@@ -3594,23 +4798,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutApplicationGrantInput, PutApplicationGrantOutput>(id: "putApplicationGrant")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(PutApplicationGrantInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutApplicationGrantInput, PutApplicationGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutApplicationGrantInput, PutApplicationGrantOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(PutApplicationGrantInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationGrantOutput>(PutApplicationGrantOutput.httpOutput(from:), PutApplicationGrantOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationGrantOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutApplicationGrantOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutApplicationGrantOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(xAmzTarget: "SWBExternalService.PutApplicationGrant"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutApplicationGrantInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutApplicationGrantOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutApplicationGrantOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutApplicationGrantOutput>(PutApplicationGrantOutput.httpOutput(from:), PutApplicationGrantOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutApplicationGrantOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(xAmzTarget: "SWBExternalService.PutApplicationGrant"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutApplicationGrantInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutApplicationGrantOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutApplicationGrant")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutInlinePolicyToPermissionSet` operation on the `SWBExternalService` service.
@@ -3649,23 +4872,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(id: "putInlinePolicyToPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(PutInlinePolicyToPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(PutInlinePolicyToPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInlinePolicyToPermissionSetOutput>(PutInlinePolicyToPermissionSetOutput.httpOutput(from:), PutInlinePolicyToPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutInlinePolicyToPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutInlinePolicyToPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutInlinePolicyToPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(xAmzTarget: "SWBExternalService.PutInlinePolicyToPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutInlinePolicyToPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutInlinePolicyToPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutInlinePolicyToPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInlinePolicyToPermissionSetOutput>(PutInlinePolicyToPermissionSetOutput.httpOutput(from:), PutInlinePolicyToPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutInlinePolicyToPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(xAmzTarget: "SWBExternalService.PutInlinePolicyToPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutInlinePolicyToPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutInlinePolicyToPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutInlinePolicyToPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutPermissionsBoundaryToPermissionSet` operation on the `SWBExternalService` service.
@@ -3703,23 +4945,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(id: "putPermissionsBoundaryToPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(PutPermissionsBoundaryToPermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(PutPermissionsBoundaryToPermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPermissionsBoundaryToPermissionSetOutput>(PutPermissionsBoundaryToPermissionSetOutput.httpOutput(from:), PutPermissionsBoundaryToPermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutPermissionsBoundaryToPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutPermissionsBoundaryToPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutPermissionsBoundaryToPermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(xAmzTarget: "SWBExternalService.PutPermissionsBoundaryToPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPermissionsBoundaryToPermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPermissionsBoundaryToPermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutPermissionsBoundaryToPermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPermissionsBoundaryToPermissionSetOutput>(PutPermissionsBoundaryToPermissionSetOutput.httpOutput(from:), PutPermissionsBoundaryToPermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutPermissionsBoundaryToPermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(xAmzTarget: "SWBExternalService.PutPermissionsBoundaryToPermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPermissionsBoundaryToPermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPermissionsBoundaryToPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutPermissionsBoundaryToPermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `TagResource` operation on the `SWBExternalService` service.
@@ -3758,23 +5019,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "SWBExternalService.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "SWBExternalService.TagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UntagResource` operation on the `SWBExternalService` service.
@@ -3812,23 +5092,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "SWBExternalService.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "SWBExternalService.UntagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateApplication` operation on the `SWBExternalService` service.
@@ -3866,23 +5165,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateApplicationInput, UpdateApplicationOutput>(id: "updateApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(UpdateApplicationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateApplicationInput, UpdateApplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateApplicationInput, UpdateApplicationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(UpdateApplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(xAmzTarget: "SWBExternalService.UpdateApplication"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateApplicationInput, UpdateApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApplicationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApplicationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(xAmzTarget: "SWBExternalService.UpdateApplication"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateApplicationInput, UpdateApplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateApplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateInstance` operation on the `SWBExternalService` service.
@@ -3919,23 +5237,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateInstanceInput, UpdateInstanceOutput>(id: "updateInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(UpdateInstanceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceInput, UpdateInstanceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateInstanceInput, UpdateInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateInstanceInput, UpdateInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(UpdateInstanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateInstanceInput, UpdateInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInstanceInput, UpdateInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInstanceOutput>(UpdateInstanceOutput.httpOutput(from:), UpdateInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateInstanceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(xAmzTarget: "SWBExternalService.UpdateInstance"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateInstanceInput, UpdateInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInstanceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateInstanceInput, UpdateInstanceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInstanceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateInstanceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceOutput>(UpdateInstanceOutput.httpOutput(from:), UpdateInstanceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(xAmzTarget: "SWBExternalService.UpdateInstance"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateInstanceInput, UpdateInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateInstanceInput, UpdateInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
@@ -3973,23 +5310,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(id: "updateInstanceAccessControlAttributeConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(UpdateInstanceAccessControlAttributeConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(UpdateInstanceAccessControlAttributeConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>(UpdateInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), UpdateInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.UpdateInstanceAccessControlAttributeConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInstanceAccessControlAttributeConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInstanceAccessControlAttributeConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>(UpdateInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), UpdateInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.UpdateInstanceAccessControlAttributeConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInstanceAccessControlAttributeConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateInstanceAccessControlAttributeConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdatePermissionSet` operation on the `SWBExternalService` service.
@@ -4027,23 +5383,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePermissionSetInput, UpdatePermissionSetOutput>(id: "updatePermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(UpdatePermissionSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdatePermissionSetInput, UpdatePermissionSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdatePermissionSetInput, UpdatePermissionSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(UpdatePermissionSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePermissionSetOutput>(UpdatePermissionSetOutput.httpOutput(from:), UpdatePermissionSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdatePermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdatePermissionSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(xAmzTarget: "SWBExternalService.UpdatePermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePermissionSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePermissionSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdatePermissionSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePermissionSetOutput>(UpdatePermissionSetOutput.httpOutput(from:), UpdatePermissionSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdatePermissionSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(xAmzTarget: "SWBExternalService.UpdatePermissionSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePermissionSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePermissionSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateTrustedTokenIssuer` operation on the `SWBExternalService` service.
@@ -4081,23 +5456,42 @@ extension SSOAdminClient {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(id: "updateTrustedTokenIssuer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(UpdateTrustedTokenIssuerInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(UpdateTrustedTokenIssuerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrustedTokenIssuerOutput>(UpdateTrustedTokenIssuerOutput.httpOutput(from:), UpdateTrustedTokenIssuerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrustedTokenIssuerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateTrustedTokenIssuerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateTrustedTokenIssuerOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(xAmzTarget: "SWBExternalService.UpdateTrustedTokenIssuer"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTrustedTokenIssuerInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrustedTokenIssuerOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateTrustedTokenIssuerOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustedTokenIssuerOutput>(UpdateTrustedTokenIssuerOutput.httpOutput(from:), UpdateTrustedTokenIssuerOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTrustedTokenIssuerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(xAmzTarget: "SWBExternalService.UpdateTrustedTokenIssuer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTrustedTokenIssuerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTrustedTokenIssuerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTrustedTokenIssuer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
 }

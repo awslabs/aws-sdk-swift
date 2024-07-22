@@ -9,22 +9,29 @@
 
 import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
+import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
+import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
+import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -34,6 +41,7 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct AWSClientRuntime.AWSUserAgentMetadata
+import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
@@ -45,11 +53,10 @@ import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
-import struct ClientRuntime.OperationStack
-import struct ClientRuntime.RetryMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -215,23 +222,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(id: "associateEntitiesToExperience")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(AssociateEntitiesToExperienceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(AssociateEntitiesToExperienceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEntitiesToExperienceOutput>(AssociateEntitiesToExperienceOutput.httpOutput(from:), AssociateEntitiesToExperienceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEntitiesToExperienceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<AssociateEntitiesToExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AssociateEntitiesToExperienceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.AssociateEntitiesToExperience"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEntitiesToExperienceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateEntitiesToExperienceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AssociateEntitiesToExperienceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateEntitiesToExperienceOutput>(AssociateEntitiesToExperienceOutput.httpOutput(from:), AssociateEntitiesToExperienceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateEntitiesToExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.AssociateEntitiesToExperience"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEntitiesToExperienceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateEntitiesToExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateEntitiesToExperience")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `AssociatePersonasToEntities` operation on the `AWSKendraFrontendService` service.
@@ -269,23 +295,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(id: "associatePersonasToEntities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(AssociatePersonasToEntitiesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(AssociatePersonasToEntitiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePersonasToEntitiesOutput>(AssociatePersonasToEntitiesOutput.httpOutput(from:), AssociatePersonasToEntitiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePersonasToEntitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<AssociatePersonasToEntitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AssociatePersonasToEntitiesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(xAmzTarget: "AWSKendraFrontendService.AssociatePersonasToEntities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociatePersonasToEntitiesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociatePersonasToEntitiesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AssociatePersonasToEntitiesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePersonasToEntitiesOutput>(AssociatePersonasToEntitiesOutput.httpOutput(from:), AssociatePersonasToEntitiesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociatePersonasToEntitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(xAmzTarget: "AWSKendraFrontendService.AssociatePersonasToEntities"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociatePersonasToEntitiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociatePersonasToEntitiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociatePersonasToEntities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `BatchDeleteDocument` operation on the `AWSKendraFrontendService` service.
@@ -323,23 +368,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(id: "batchDeleteDocument")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(BatchDeleteDocumentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteDocumentInput, BatchDeleteDocumentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<BatchDeleteDocumentInput, BatchDeleteDocumentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(BatchDeleteDocumentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteDocumentOutput>(BatchDeleteDocumentOutput.httpOutput(from:), BatchDeleteDocumentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteDocumentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<BatchDeleteDocumentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchDeleteDocumentOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(xAmzTarget: "AWSKendraFrontendService.BatchDeleteDocument"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteDocumentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteDocumentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchDeleteDocumentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteDocumentOutput>(BatchDeleteDocumentOutput.httpOutput(from:), BatchDeleteDocumentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchDeleteDocumentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(xAmzTarget: "AWSKendraFrontendService.BatchDeleteDocument"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteDocumentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteDocumentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteDocument")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `BatchDeleteFeaturedResultsSet` operation on the `AWSKendraFrontendService` service.
@@ -376,23 +440,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(id: "batchDeleteFeaturedResultsSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(BatchDeleteFeaturedResultsSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(BatchDeleteFeaturedResultsSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteFeaturedResultsSetOutput>(BatchDeleteFeaturedResultsSetOutput.httpOutput(from:), BatchDeleteFeaturedResultsSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteFeaturedResultsSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<BatchDeleteFeaturedResultsSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchDeleteFeaturedResultsSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.BatchDeleteFeaturedResultsSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteFeaturedResultsSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteFeaturedResultsSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchDeleteFeaturedResultsSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteFeaturedResultsSetOutput>(BatchDeleteFeaturedResultsSetOutput.httpOutput(from:), BatchDeleteFeaturedResultsSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchDeleteFeaturedResultsSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.BatchDeleteFeaturedResultsSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteFeaturedResultsSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteFeaturedResultsSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteFeaturedResultsSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `BatchGetDocumentStatus` operation on the `AWSKendraFrontendService` service.
@@ -430,23 +513,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(id: "batchGetDocumentStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(BatchGetDocumentStatusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(BatchGetDocumentStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetDocumentStatusOutput>(BatchGetDocumentStatusOutput.httpOutput(from:), BatchGetDocumentStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDocumentStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<BatchGetDocumentStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchGetDocumentStatusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(xAmzTarget: "AWSKendraFrontendService.BatchGetDocumentStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetDocumentStatusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetDocumentStatusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchGetDocumentStatusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetDocumentStatusOutput>(BatchGetDocumentStatusOutput.httpOutput(from:), BatchGetDocumentStatusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchGetDocumentStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(xAmzTarget: "AWSKendraFrontendService.BatchGetDocumentStatus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetDocumentStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDocumentStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetDocumentStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `BatchPutDocument` operation on the `AWSKendraFrontendService` service.
@@ -485,23 +587,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchPutDocumentInput, BatchPutDocumentOutput>(id: "batchPutDocument")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(BatchPutDocumentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<BatchPutDocumentInput, BatchPutDocumentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<BatchPutDocumentInput, BatchPutDocumentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(BatchPutDocumentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutDocumentOutput>(BatchPutDocumentOutput.httpOutput(from:), BatchPutDocumentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutDocumentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<BatchPutDocumentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchPutDocumentOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(xAmzTarget: "AWSKendraFrontendService.BatchPutDocument"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchPutDocumentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchPutDocumentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchPutDocumentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchPutDocumentOutput>(BatchPutDocumentOutput.httpOutput(from:), BatchPutDocumentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchPutDocumentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(xAmzTarget: "AWSKendraFrontendService.BatchPutDocument"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchPutDocumentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchPutDocumentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchPutDocument")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ClearQuerySuggestions` operation on the `AWSKendraFrontendService` service.
@@ -539,23 +660,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(id: "clearQuerySuggestions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(ClearQuerySuggestionsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(ClearQuerySuggestionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ClearQuerySuggestionsOutput>(ClearQuerySuggestionsOutput.httpOutput(from:), ClearQuerySuggestionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ClearQuerySuggestionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ClearQuerySuggestionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ClearQuerySuggestionsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(xAmzTarget: "AWSKendraFrontendService.ClearQuerySuggestions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ClearQuerySuggestionsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ClearQuerySuggestionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ClearQuerySuggestionsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ClearQuerySuggestionsOutput>(ClearQuerySuggestionsOutput.httpOutput(from:), ClearQuerySuggestionsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ClearQuerySuggestionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(xAmzTarget: "AWSKendraFrontendService.ClearQuerySuggestions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ClearQuerySuggestionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ClearQuerySuggestionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ClearQuerySuggestions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateAccessControlConfiguration` operation on the `AWSKendraFrontendService` service.
@@ -594,24 +734,43 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(id: "createAccessControlConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(CreateAccessControlConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(CreateAccessControlConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessControlConfigurationOutput>(CreateAccessControlConfigurationOutput.httpOutput(from:), CreateAccessControlConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessControlConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateAccessControlConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateAccessControlConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.CreateAccessControlConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAccessControlConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessControlConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateAccessControlConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessControlConfigurationOutput>(CreateAccessControlConfigurationOutput.httpOutput(from:), CreateAccessControlConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateAccessControlConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.CreateAccessControlConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAccessControlConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAccessControlConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAccessControlConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateDataSource` operation on the `AWSKendraFrontendService` service.
@@ -651,24 +810,43 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDataSourceInput, CreateDataSourceOutput>(id: "createDataSource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(CreateDataSourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDataSourceInput, CreateDataSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateDataSourceInput, CreateDataSourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(CreateDataSourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataSourceOutput>(CreateDataSourceOutput.httpOutput(from:), CreateDataSourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataSourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateDataSourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateDataSourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.CreateDataSource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateDataSourceInput, CreateDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataSourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDataSourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateDataSourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataSourceOutput>(CreateDataSourceOutput.httpOutput(from:), CreateDataSourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDataSourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.CreateDataSource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDataSourceInput, CreateDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataSourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDataSource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateExperience` operation on the `AWSKendraFrontendService` service.
@@ -707,24 +885,43 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateExperienceInput, CreateExperienceOutput>(id: "createExperience")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateExperienceInput, CreateExperienceOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateExperienceInput, CreateExperienceOutput>(CreateExperienceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateExperienceInput, CreateExperienceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateExperienceInput, CreateExperienceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateExperienceInput, CreateExperienceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateExperienceInput, CreateExperienceOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateExperienceInput, CreateExperienceOutput>(CreateExperienceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateExperienceInput, CreateExperienceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExperienceInput, CreateExperienceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExperienceOutput>(CreateExperienceOutput.httpOutput(from:), CreateExperienceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExperienceInput, CreateExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateExperienceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateExperienceInput, CreateExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateExperienceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateExperienceInput, CreateExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.CreateExperience"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateExperienceInput, CreateExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateExperienceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateExperienceInput, CreateExperienceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateExperienceInput, CreateExperienceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateExperienceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateExperienceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateExperienceOutput>(CreateExperienceOutput.httpOutput(from:), CreateExperienceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateExperienceInput, CreateExperienceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateExperienceInput, CreateExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateExperienceInput, CreateExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.CreateExperience"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateExperienceInput, CreateExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateExperienceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExperienceInput, CreateExperienceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateExperienceInput, CreateExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateExperienceInput, CreateExperienceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateExperience")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateFaq` operation on the `AWSKendraFrontendService` service.
@@ -763,24 +960,43 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFaqInput, CreateFaqOutput>(id: "createFaq")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFaqInput, CreateFaqOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFaqInput, CreateFaqOutput>(CreateFaqInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFaqInput, CreateFaqOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateFaqInput, CreateFaqOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateFaqInput, CreateFaqOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateFaqInput, CreateFaqOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFaqInput, CreateFaqOutput>(CreateFaqInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFaqInput, CreateFaqOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFaqInput, CreateFaqOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFaqOutput>(CreateFaqOutput.httpOutput(from:), CreateFaqOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFaqInput, CreateFaqOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateFaqOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateFaqOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateFaqInput, CreateFaqOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateFaqOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateFaqInput, CreateFaqOutput>(xAmzTarget: "AWSKendraFrontendService.CreateFaq"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateFaqInput, CreateFaqOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFaqInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateFaqInput, CreateFaqOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateFaqInput, CreateFaqOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFaqOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateFaqOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFaqOutput>(CreateFaqOutput.httpOutput(from:), CreateFaqOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFaqInput, CreateFaqOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateFaqOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFaqInput, CreateFaqOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFaqInput, CreateFaqOutput>(xAmzTarget: "AWSKendraFrontendService.CreateFaq"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateFaqInput, CreateFaqOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFaqInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFaqInput, CreateFaqOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFaqOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFaqInput, CreateFaqOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFaqInput, CreateFaqOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateFaq")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateFeaturedResultsSet` operation on the `AWSKendraFrontendService` service.
@@ -819,23 +1035,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(id: "createFeaturedResultsSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(CreateFeaturedResultsSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(CreateFeaturedResultsSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFeaturedResultsSetOutput>(CreateFeaturedResultsSetOutput.httpOutput(from:), CreateFeaturedResultsSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateFeaturedResultsSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateFeaturedResultsSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateFeaturedResultsSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.CreateFeaturedResultsSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFeaturedResultsSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFeaturedResultsSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateFeaturedResultsSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFeaturedResultsSetOutput>(CreateFeaturedResultsSetOutput.httpOutput(from:), CreateFeaturedResultsSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateFeaturedResultsSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.CreateFeaturedResultsSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFeaturedResultsSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFeaturedResultsSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateFeaturedResultsSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateIndex` operation on the `AWSKendraFrontendService` service.
@@ -874,24 +1109,43 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateIndexInput, CreateIndexOutput>(id: "createIndex")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateIndexInput, CreateIndexOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIndexInput, CreateIndexOutput>(CreateIndexInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIndexInput, CreateIndexOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateIndexInput, CreateIndexOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateIndexInput, CreateIndexOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateIndexInput, CreateIndexOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateIndexInput, CreateIndexOutput>(CreateIndexInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIndexInput, CreateIndexOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateIndexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateIndexOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateIndexInput, CreateIndexOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateIndexOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateIndexInput, CreateIndexOutput>(xAmzTarget: "AWSKendraFrontendService.CreateIndex"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateIndexInput, CreateIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIndexInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateIndexInput, CreateIndexOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIndexOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateIndexOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateIndexOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIndexInput, CreateIndexOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateIndexInput, CreateIndexOutput>(xAmzTarget: "AWSKendraFrontendService.CreateIndex"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateIndexInput, CreateIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIndexInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIndexInput, CreateIndexOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIndexInput, CreateIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIndexInput, CreateIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateQuerySuggestionsBlockList` operation on the `AWSKendraFrontendService` service.
@@ -930,24 +1184,43 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(id: "createQuerySuggestionsBlockList")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(CreateQuerySuggestionsBlockListInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(CreateQuerySuggestionsBlockListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQuerySuggestionsBlockListOutput>(CreateQuerySuggestionsBlockListOutput.httpOutput(from:), CreateQuerySuggestionsBlockListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateQuerySuggestionsBlockListOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateQuerySuggestionsBlockListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateQuerySuggestionsBlockListOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.CreateQuerySuggestionsBlockList"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateQuerySuggestionsBlockListInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateQuerySuggestionsBlockListOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateQuerySuggestionsBlockListOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateQuerySuggestionsBlockListOutput>(CreateQuerySuggestionsBlockListOutput.httpOutput(from:), CreateQuerySuggestionsBlockListOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateQuerySuggestionsBlockListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.CreateQuerySuggestionsBlockList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateQuerySuggestionsBlockListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateQuerySuggestionsBlockList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateThesaurus` operation on the `AWSKendraFrontendService` service.
@@ -986,24 +1259,43 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateThesaurusInput, CreateThesaurusOutput>(id: "createThesaurus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(CreateThesaurusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateThesaurusInput, CreateThesaurusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateThesaurusInput, CreateThesaurusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateThesaurusInput, CreateThesaurusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(CreateThesaurusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateThesaurusInput, CreateThesaurusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThesaurusInput, CreateThesaurusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThesaurusOutput>(CreateThesaurusOutput.httpOutput(from:), CreateThesaurusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateThesaurusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateThesaurusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateThesaurusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.CreateThesaurus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateThesaurusInput, CreateThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateThesaurusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateThesaurusInput, CreateThesaurusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateThesaurusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateThesaurusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateThesaurusOutput>(CreateThesaurusOutput.httpOutput(from:), CreateThesaurusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateThesaurusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.CreateThesaurus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateThesaurusInput, CreateThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateThesaurusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateThesaurusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateThesaurusInput, CreateThesaurusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateThesaurus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteAccessControlConfiguration` operation on the `AWSKendraFrontendService` service.
@@ -1041,23 +1333,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(id: "deleteAccessControlConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(DeleteAccessControlConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(DeleteAccessControlConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessControlConfigurationOutput>(DeleteAccessControlConfigurationOutput.httpOutput(from:), DeleteAccessControlConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessControlConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteAccessControlConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteAccessControlConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteAccessControlConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccessControlConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessControlConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteAccessControlConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessControlConfigurationOutput>(DeleteAccessControlConfigurationOutput.httpOutput(from:), DeleteAccessControlConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteAccessControlConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteAccessControlConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccessControlConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccessControlConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAccessControlConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteDataSource` operation on the `AWSKendraFrontendService` service.
@@ -1095,23 +1406,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDataSourceInput, DeleteDataSourceOutput>(id: "deleteDataSource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(DeleteDataSourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteDataSourceInput, DeleteDataSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteDataSourceInput, DeleteDataSourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(DeleteDataSourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutput>(DeleteDataSourceOutput.httpOutput(from:), DeleteDataSourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteDataSourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteDataSourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteDataSource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDataSourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDataSourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteDataSourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutput>(DeleteDataSourceOutput.httpOutput(from:), DeleteDataSourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDataSourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteDataSource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDataSourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDataSource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteExperience` operation on the `AWSKendraFrontendService` service.
@@ -1149,23 +1479,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteExperienceInput, DeleteExperienceOutput>(id: "deleteExperience")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(DeleteExperienceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteExperienceInput, DeleteExperienceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteExperienceInput, DeleteExperienceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteExperienceInput, DeleteExperienceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(DeleteExperienceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteExperienceInput, DeleteExperienceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExperienceInput, DeleteExperienceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExperienceOutput>(DeleteExperienceOutput.httpOutput(from:), DeleteExperienceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExperienceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteExperienceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteExperience"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteExperienceInput, DeleteExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteExperienceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteExperienceInput, DeleteExperienceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteExperienceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteExperienceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteExperienceOutput>(DeleteExperienceOutput.httpOutput(from:), DeleteExperienceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteExperience"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteExperienceInput, DeleteExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteExperienceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteExperienceInput, DeleteExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteExperience")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteFaq` operation on the `AWSKendraFrontendService` service.
@@ -1203,23 +1552,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFaqInput, DeleteFaqOutput>(id: "deleteFaq")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFaqInput, DeleteFaqOutput>(DeleteFaqInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFaqInput, DeleteFaqOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteFaqInput, DeleteFaqOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteFaqInput, DeleteFaqOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFaqInput, DeleteFaqOutput>(DeleteFaqInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFaqInput, DeleteFaqOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFaqInput, DeleteFaqOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFaqOutput>(DeleteFaqOutput.httpOutput(from:), DeleteFaqOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFaqInput, DeleteFaqOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFaqOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteFaqOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteFaqInput, DeleteFaqOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteFaqOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteFaqInput, DeleteFaqOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteFaq"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteFaqInput, DeleteFaqOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFaqInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteFaqInput, DeleteFaqOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteFaqInput, DeleteFaqOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFaqOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteFaqOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFaqOutput>(DeleteFaqOutput.httpOutput(from:), DeleteFaqOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFaqInput, DeleteFaqOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteFaqOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFaqInput, DeleteFaqOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteFaqInput, DeleteFaqOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteFaq"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFaqInput, DeleteFaqOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFaqInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFaqInput, DeleteFaqOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFaqOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFaqInput, DeleteFaqOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFaqInput, DeleteFaqOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteFaq")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteIndex` operation on the `AWSKendraFrontendService` service.
@@ -1257,23 +1625,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteIndexInput, DeleteIndexOutput>(id: "deleteIndex")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIndexInput, DeleteIndexOutput>(DeleteIndexInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIndexInput, DeleteIndexOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteIndexInput, DeleteIndexOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteIndexInput, DeleteIndexOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIndexInput, DeleteIndexOutput>(DeleteIndexInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIndexInput, DeleteIndexOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIndexInput, DeleteIndexOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexOutput>(DeleteIndexOutput.httpOutput(from:), DeleteIndexOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexInput, DeleteIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteIndexOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteIndexInput, DeleteIndexOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteIndexOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteIndexInput, DeleteIndexOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteIndex"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteIndexInput, DeleteIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIndexInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteIndexInput, DeleteIndexOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteIndexInput, DeleteIndexOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIndexOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteIndexOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIndexOutput>(DeleteIndexOutput.httpOutput(from:), DeleteIndexOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIndexInput, DeleteIndexOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteIndexOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIndexInput, DeleteIndexOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteIndexInput, DeleteIndexOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteIndex"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteIndexInput, DeleteIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIndexInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIndexInput, DeleteIndexOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIndexInput, DeleteIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIndexInput, DeleteIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeletePrincipalMapping` operation on the `AWSKendraFrontendService` service.
@@ -1311,23 +1698,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(id: "deletePrincipalMapping")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(DeletePrincipalMappingInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePrincipalMappingInput, DeletePrincipalMappingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeletePrincipalMappingInput, DeletePrincipalMappingOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(DeletePrincipalMappingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePrincipalMappingOutput>(DeletePrincipalMappingOutput.httpOutput(from:), DeletePrincipalMappingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePrincipalMappingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeletePrincipalMappingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeletePrincipalMappingOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(xAmzTarget: "AWSKendraFrontendService.DeletePrincipalMapping"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePrincipalMappingInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePrincipalMappingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeletePrincipalMappingOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePrincipalMappingOutput>(DeletePrincipalMappingOutput.httpOutput(from:), DeletePrincipalMappingOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeletePrincipalMappingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(xAmzTarget: "AWSKendraFrontendService.DeletePrincipalMapping"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePrincipalMappingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePrincipalMappingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePrincipalMapping")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteQuerySuggestionsBlockList` operation on the `AWSKendraFrontendService` service.
@@ -1365,23 +1771,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(id: "deleteQuerySuggestionsBlockList")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(DeleteQuerySuggestionsBlockListInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(DeleteQuerySuggestionsBlockListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQuerySuggestionsBlockListOutput>(DeleteQuerySuggestionsBlockListOutput.httpOutput(from:), DeleteQuerySuggestionsBlockListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQuerySuggestionsBlockListOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteQuerySuggestionsBlockListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteQuerySuggestionsBlockListOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteQuerySuggestionsBlockList"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteQuerySuggestionsBlockListInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteQuerySuggestionsBlockListOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteQuerySuggestionsBlockListOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQuerySuggestionsBlockListOutput>(DeleteQuerySuggestionsBlockListOutput.httpOutput(from:), DeleteQuerySuggestionsBlockListOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteQuerySuggestionsBlockListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteQuerySuggestionsBlockList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteQuerySuggestionsBlockListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteQuerySuggestionsBlockList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteThesaurus` operation on the `AWSKendraFrontendService` service.
@@ -1419,23 +1844,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteThesaurusInput, DeleteThesaurusOutput>(id: "deleteThesaurus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(DeleteThesaurusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteThesaurusInput, DeleteThesaurusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteThesaurusInput, DeleteThesaurusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(DeleteThesaurusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThesaurusOutput>(DeleteThesaurusOutput.httpOutput(from:), DeleteThesaurusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThesaurusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteThesaurusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteThesaurusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteThesaurus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteThesaurusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteThesaurusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteThesaurusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteThesaurusOutput>(DeleteThesaurusOutput.httpOutput(from:), DeleteThesaurusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteThesaurusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteThesaurus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteThesaurusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteThesaurusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteThesaurus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeAccessControlConfiguration` operation on the `AWSKendraFrontendService` service.
@@ -1472,23 +1916,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(id: "describeAccessControlConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(DescribeAccessControlConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(DescribeAccessControlConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccessControlConfigurationOutput>(DescribeAccessControlConfigurationOutput.httpOutput(from:), DescribeAccessControlConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccessControlConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeAccessControlConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeAccessControlConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeAccessControlConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccessControlConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccessControlConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeAccessControlConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccessControlConfigurationOutput>(DescribeAccessControlConfigurationOutput.httpOutput(from:), DescribeAccessControlConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAccessControlConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeAccessControlConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccessControlConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccessControlConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccessControlConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeDataSource` operation on the `AWSKendraFrontendService` service.
@@ -1525,23 +1988,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDataSourceInput, DescribeDataSourceOutput>(id: "describeDataSource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(DescribeDataSourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeDataSourceInput, DescribeDataSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeDataSourceInput, DescribeDataSourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(DescribeDataSourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSourceOutput>(DescribeDataSourceOutput.httpOutput(from:), DescribeDataSourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeDataSourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeDataSourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeDataSource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDataSourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDataSourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeDataSourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSourceOutput>(DescribeDataSourceOutput.httpOutput(from:), DescribeDataSourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDataSourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeDataSource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDataSourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDataSource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeExperience` operation on the `AWSKendraFrontendService` service.
@@ -1578,23 +2060,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeExperienceInput, DescribeExperienceOutput>(id: "describeExperience")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(DescribeExperienceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExperienceInput, DescribeExperienceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeExperienceInput, DescribeExperienceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeExperienceInput, DescribeExperienceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(DescribeExperienceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeExperienceInput, DescribeExperienceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExperienceInput, DescribeExperienceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExperienceOutput>(DescribeExperienceOutput.httpOutput(from:), DescribeExperienceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExperienceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeExperienceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeExperience"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeExperienceInput, DescribeExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeExperienceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeExperienceInput, DescribeExperienceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeExperienceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeExperienceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExperienceOutput>(DescribeExperienceOutput.httpOutput(from:), DescribeExperienceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeExperience"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeExperienceInput, DescribeExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeExperienceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeExperienceInput, DescribeExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeExperience")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeFaq` operation on the `AWSKendraFrontendService` service.
@@ -1631,23 +2132,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeFaqInput, DescribeFaqOutput>(id: "describeFaq")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFaqInput, DescribeFaqOutput>(DescribeFaqInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFaqInput, DescribeFaqOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFaqInput, DescribeFaqOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeFaqInput, DescribeFaqOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFaqInput, DescribeFaqOutput>(DescribeFaqInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFaqInput, DescribeFaqOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFaqInput, DescribeFaqOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFaqOutput>(DescribeFaqOutput.httpOutput(from:), DescribeFaqOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFaqInput, DescribeFaqOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFaqOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeFaqOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeFaqInput, DescribeFaqOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeFaqOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeFaqInput, DescribeFaqOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeFaq"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeFaqInput, DescribeFaqOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFaqInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeFaqInput, DescribeFaqOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeFaqInput, DescribeFaqOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFaqOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeFaqOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFaqOutput>(DescribeFaqOutput.httpOutput(from:), DescribeFaqOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFaqInput, DescribeFaqOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeFaqOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFaqInput, DescribeFaqOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFaqInput, DescribeFaqOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeFaq"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFaqInput, DescribeFaqOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFaqInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFaqInput, DescribeFaqOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFaqOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFaqInput, DescribeFaqOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFaqInput, DescribeFaqOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFaq")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeFeaturedResultsSet` operation on the `AWSKendraFrontendService` service.
@@ -1684,23 +2204,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(id: "describeFeaturedResultsSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(DescribeFeaturedResultsSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(DescribeFeaturedResultsSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFeaturedResultsSetOutput>(DescribeFeaturedResultsSetOutput.httpOutput(from:), DescribeFeaturedResultsSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFeaturedResultsSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeFeaturedResultsSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeFeaturedResultsSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeFeaturedResultsSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFeaturedResultsSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFeaturedResultsSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeFeaturedResultsSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFeaturedResultsSetOutput>(DescribeFeaturedResultsSetOutput.httpOutput(from:), DescribeFeaturedResultsSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeFeaturedResultsSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeFeaturedResultsSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFeaturedResultsSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFeaturedResultsSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFeaturedResultsSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeIndex` operation on the `AWSKendraFrontendService` service.
@@ -1737,23 +2276,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeIndexInput, DescribeIndexOutput>(id: "describeIndex")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIndexInput, DescribeIndexOutput>(DescribeIndexInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIndexInput, DescribeIndexOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeIndexInput, DescribeIndexOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeIndexInput, DescribeIndexOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeIndexInput, DescribeIndexOutput>(DescribeIndexInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIndexInput, DescribeIndexOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIndexInput, DescribeIndexOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIndexOutput>(DescribeIndexOutput.httpOutput(from:), DescribeIndexOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIndexInput, DescribeIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIndexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeIndexOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeIndexInput, DescribeIndexOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeIndexOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeIndexInput, DescribeIndexOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeIndex"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeIndexInput, DescribeIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeIndexInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeIndexInput, DescribeIndexOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeIndexInput, DescribeIndexOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIndexOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeIndexOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIndexOutput>(DescribeIndexOutput.httpOutput(from:), DescribeIndexOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIndexInput, DescribeIndexOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeIndexOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeIndexInput, DescribeIndexOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeIndexInput, DescribeIndexOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeIndex"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeIndexInput, DescribeIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeIndexInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeIndexInput, DescribeIndexOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeIndexInput, DescribeIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeIndexInput, DescribeIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribePrincipalMapping` operation on the `AWSKendraFrontendService` service.
@@ -1790,23 +2348,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(id: "describePrincipalMapping")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(DescribePrincipalMappingInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribePrincipalMappingInput, DescribePrincipalMappingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribePrincipalMappingInput, DescribePrincipalMappingOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(DescribePrincipalMappingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePrincipalMappingOutput>(DescribePrincipalMappingOutput.httpOutput(from:), DescribePrincipalMappingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribePrincipalMappingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribePrincipalMappingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribePrincipalMappingOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(xAmzTarget: "AWSKendraFrontendService.DescribePrincipalMapping"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePrincipalMappingInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePrincipalMappingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribePrincipalMappingOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePrincipalMappingOutput>(DescribePrincipalMappingOutput.httpOutput(from:), DescribePrincipalMappingOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribePrincipalMappingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(xAmzTarget: "AWSKendraFrontendService.DescribePrincipalMapping"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePrincipalMappingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePrincipalMappingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePrincipalMapping")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeQuerySuggestionsBlockList` operation on the `AWSKendraFrontendService` service.
@@ -1843,23 +2420,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(id: "describeQuerySuggestionsBlockList")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(DescribeQuerySuggestionsBlockListInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(DescribeQuerySuggestionsBlockListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQuerySuggestionsBlockListOutput>(DescribeQuerySuggestionsBlockListOutput.httpOutput(from:), DescribeQuerySuggestionsBlockListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQuerySuggestionsBlockListOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeQuerySuggestionsBlockListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeQuerySuggestionsBlockListOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeQuerySuggestionsBlockList"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeQuerySuggestionsBlockListInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeQuerySuggestionsBlockListOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeQuerySuggestionsBlockListOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeQuerySuggestionsBlockListOutput>(DescribeQuerySuggestionsBlockListOutput.httpOutput(from:), DescribeQuerySuggestionsBlockListOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeQuerySuggestionsBlockListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeQuerySuggestionsBlockList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeQuerySuggestionsBlockListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeQuerySuggestionsBlockList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeQuerySuggestionsConfig` operation on the `AWSKendraFrontendService` service.
@@ -1896,23 +2492,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(id: "describeQuerySuggestionsConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(DescribeQuerySuggestionsConfigInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(DescribeQuerySuggestionsConfigInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQuerySuggestionsConfigOutput>(DescribeQuerySuggestionsConfigOutput.httpOutput(from:), DescribeQuerySuggestionsConfigOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQuerySuggestionsConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeQuerySuggestionsConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeQuerySuggestionsConfigOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeQuerySuggestionsConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeQuerySuggestionsConfigInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeQuerySuggestionsConfigOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeQuerySuggestionsConfigOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeQuerySuggestionsConfigOutput>(DescribeQuerySuggestionsConfigOutput.httpOutput(from:), DescribeQuerySuggestionsConfigOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeQuerySuggestionsConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeQuerySuggestionsConfig"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeQuerySuggestionsConfigInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeQuerySuggestionsConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeQuerySuggestionsConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeThesaurus` operation on the `AWSKendraFrontendService` service.
@@ -1949,23 +2564,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeThesaurusInput, DescribeThesaurusOutput>(id: "describeThesaurus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(DescribeThesaurusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeThesaurusInput, DescribeThesaurusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeThesaurusInput, DescribeThesaurusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(DescribeThesaurusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThesaurusOutput>(DescribeThesaurusOutput.httpOutput(from:), DescribeThesaurusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThesaurusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeThesaurusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeThesaurusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeThesaurus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeThesaurusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeThesaurusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeThesaurusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeThesaurusOutput>(DescribeThesaurusOutput.httpOutput(from:), DescribeThesaurusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeThesaurusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeThesaurus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeThesaurusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeThesaurusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeThesaurus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DisassociateEntitiesFromExperience` operation on the `AWSKendraFrontendService` service.
@@ -2002,23 +2636,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(id: "disassociateEntitiesFromExperience")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(DisassociateEntitiesFromExperienceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(DisassociateEntitiesFromExperienceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEntitiesFromExperienceOutput>(DisassociateEntitiesFromExperienceOutput.httpOutput(from:), DisassociateEntitiesFromExperienceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEntitiesFromExperienceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DisassociateEntitiesFromExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisassociateEntitiesFromExperienceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.DisassociateEntitiesFromExperience"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEntitiesFromExperienceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateEntitiesFromExperienceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisassociateEntitiesFromExperienceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateEntitiesFromExperienceOutput>(DisassociateEntitiesFromExperienceOutput.httpOutput(from:), DisassociateEntitiesFromExperienceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateEntitiesFromExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.DisassociateEntitiesFromExperience"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEntitiesFromExperienceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateEntitiesFromExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateEntitiesFromExperience")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DisassociatePersonasFromEntities` operation on the `AWSKendraFrontendService` service.
@@ -2055,23 +2708,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(id: "disassociatePersonasFromEntities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(DisassociatePersonasFromEntitiesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(DisassociatePersonasFromEntitiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociatePersonasFromEntitiesOutput>(DisassociatePersonasFromEntitiesOutput.httpOutput(from:), DisassociatePersonasFromEntitiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociatePersonasFromEntitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DisassociatePersonasFromEntitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisassociatePersonasFromEntitiesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(xAmzTarget: "AWSKendraFrontendService.DisassociatePersonasFromEntities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociatePersonasFromEntitiesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociatePersonasFromEntitiesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisassociatePersonasFromEntitiesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePersonasFromEntitiesOutput>(DisassociatePersonasFromEntitiesOutput.httpOutput(from:), DisassociatePersonasFromEntitiesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociatePersonasFromEntitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(xAmzTarget: "AWSKendraFrontendService.DisassociatePersonasFromEntities"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociatePersonasFromEntitiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociatePersonasFromEntitiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociatePersonasFromEntities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetQuerySuggestions` operation on the `AWSKendraFrontendService` service.
@@ -2110,23 +2782,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(id: "getQuerySuggestions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(GetQuerySuggestionsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetQuerySuggestionsInput, GetQuerySuggestionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetQuerySuggestionsInput, GetQuerySuggestionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(GetQuerySuggestionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQuerySuggestionsOutput>(GetQuerySuggestionsOutput.httpOutput(from:), GetQuerySuggestionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetQuerySuggestionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetQuerySuggestionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetQuerySuggestionsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(xAmzTarget: "AWSKendraFrontendService.GetQuerySuggestions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQuerySuggestionsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQuerySuggestionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetQuerySuggestionsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQuerySuggestionsOutput>(GetQuerySuggestionsOutput.httpOutput(from:), GetQuerySuggestionsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetQuerySuggestionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(xAmzTarget: "AWSKendraFrontendService.GetQuerySuggestions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQuerySuggestionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQuerySuggestionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQuerySuggestions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `GetSnapshots` operation on the `AWSKendraFrontendService` service.
@@ -2162,23 +2853,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSnapshotsInput, GetSnapshotsOutput>(id: "getSnapshots")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(GetSnapshotsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSnapshotsInput, GetSnapshotsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<GetSnapshotsInput, GetSnapshotsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetSnapshotsInput, GetSnapshotsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(GetSnapshotsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSnapshotsInput, GetSnapshotsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSnapshotsInput, GetSnapshotsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSnapshotsOutput>(GetSnapshotsOutput.httpOutput(from:), GetSnapshotsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSnapshotsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetSnapshotsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSnapshotsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(xAmzTarget: "AWSKendraFrontendService.GetSnapshots"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetSnapshotsInput, GetSnapshotsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSnapshotsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetSnapshotsInput, GetSnapshotsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSnapshotsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSnapshotsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSnapshotsOutput>(GetSnapshotsOutput.httpOutput(from:), GetSnapshotsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSnapshotsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(xAmzTarget: "AWSKendraFrontendService.GetSnapshots"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetSnapshotsInput, GetSnapshotsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSnapshotsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSnapshotsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSnapshotsInput, GetSnapshotsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSnapshots")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListAccessControlConfigurations` operation on the `AWSKendraFrontendService` service.
@@ -2215,23 +2925,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(id: "listAccessControlConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(ListAccessControlConfigurationsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(ListAccessControlConfigurationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessControlConfigurationsOutput>(ListAccessControlConfigurationsOutput.httpOutput(from:), ListAccessControlConfigurationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessControlConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListAccessControlConfigurationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAccessControlConfigurationsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(xAmzTarget: "AWSKendraFrontendService.ListAccessControlConfigurations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccessControlConfigurationsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessControlConfigurationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAccessControlConfigurationsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessControlConfigurationsOutput>(ListAccessControlConfigurationsOutput.httpOutput(from:), ListAccessControlConfigurationsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccessControlConfigurationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(xAmzTarget: "AWSKendraFrontendService.ListAccessControlConfigurations"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccessControlConfigurationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccessControlConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAccessControlConfigurations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListDataSourceSyncJobs` operation on the `AWSKendraFrontendService` service.
@@ -2269,23 +2998,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(id: "listDataSourceSyncJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(ListDataSourceSyncJobsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(ListDataSourceSyncJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourceSyncJobsOutput>(ListDataSourceSyncJobsOutput.httpOutput(from:), ListDataSourceSyncJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourceSyncJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListDataSourceSyncJobsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListDataSourceSyncJobsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(xAmzTarget: "AWSKendraFrontendService.ListDataSourceSyncJobs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataSourceSyncJobsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDataSourceSyncJobsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListDataSourceSyncJobsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataSourceSyncJobsOutput>(ListDataSourceSyncJobsOutput.httpOutput(from:), ListDataSourceSyncJobsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDataSourceSyncJobsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(xAmzTarget: "AWSKendraFrontendService.ListDataSourceSyncJobs"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataSourceSyncJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataSourceSyncJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataSourceSyncJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListDataSources` operation on the `AWSKendraFrontendService` service.
@@ -2322,23 +3070,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDataSourcesInput, ListDataSourcesOutput>(id: "listDataSources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(ListDataSourcesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataSourcesInput, ListDataSourcesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListDataSourcesInput, ListDataSourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListDataSourcesInput, ListDataSourcesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(ListDataSourcesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataSourcesInput, ListDataSourcesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataSourcesInput, ListDataSourcesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourcesOutput>(ListDataSourcesOutput.httpOutput(from:), ListDataSourcesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListDataSourcesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListDataSourcesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(xAmzTarget: "AWSKendraFrontendService.ListDataSources"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListDataSourcesInput, ListDataSourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataSourcesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListDataSourcesInput, ListDataSourcesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDataSourcesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListDataSourcesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataSourcesOutput>(ListDataSourcesOutput.httpOutput(from:), ListDataSourcesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDataSourcesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(xAmzTarget: "AWSKendraFrontendService.ListDataSources"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDataSourcesInput, ListDataSourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataSourcesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataSourcesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataSourcesInput, ListDataSourcesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataSources")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListEntityPersonas` operation on the `AWSKendraFrontendService` service.
@@ -2375,23 +3142,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEntityPersonasInput, ListEntityPersonasOutput>(id: "listEntityPersonas")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(ListEntityPersonasInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListEntityPersonasInput, ListEntityPersonasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListEntityPersonasInput, ListEntityPersonasOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(ListEntityPersonasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntityPersonasOutput>(ListEntityPersonasOutput.httpOutput(from:), ListEntityPersonasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEntityPersonasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListEntityPersonasOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListEntityPersonasOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(xAmzTarget: "AWSKendraFrontendService.ListEntityPersonas"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntityPersonasInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEntityPersonasOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListEntityPersonasOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntityPersonasOutput>(ListEntityPersonasOutput.httpOutput(from:), ListEntityPersonasOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListEntityPersonasOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(xAmzTarget: "AWSKendraFrontendService.ListEntityPersonas"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntityPersonasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntityPersonasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEntityPersonas")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListExperienceEntities` operation on the `AWSKendraFrontendService` service.
@@ -2428,23 +3214,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(id: "listExperienceEntities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(ListExperienceEntitiesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListExperienceEntitiesInput, ListExperienceEntitiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListExperienceEntitiesInput, ListExperienceEntitiesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(ListExperienceEntitiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperienceEntitiesOutput>(ListExperienceEntitiesOutput.httpOutput(from:), ListExperienceEntitiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListExperienceEntitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListExperienceEntitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListExperienceEntitiesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(xAmzTarget: "AWSKendraFrontendService.ListExperienceEntities"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExperienceEntitiesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListExperienceEntitiesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListExperienceEntitiesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExperienceEntitiesOutput>(ListExperienceEntitiesOutput.httpOutput(from:), ListExperienceEntitiesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListExperienceEntitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(xAmzTarget: "AWSKendraFrontendService.ListExperienceEntities"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExperienceEntitiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExperienceEntitiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListExperienceEntities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListExperiences` operation on the `AWSKendraFrontendService` service.
@@ -2481,23 +3286,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListExperiencesInput, ListExperiencesOutput>(id: "listExperiences")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExperiencesInput, ListExperiencesOutput>(ListExperiencesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExperiencesInput, ListExperiencesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListExperiencesInput, ListExperiencesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListExperiencesInput, ListExperiencesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListExperiencesInput, ListExperiencesOutput>(ListExperiencesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExperiencesInput, ListExperiencesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExperiencesInput, ListExperiencesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperiencesOutput>(ListExperiencesOutput.httpOutput(from:), ListExperiencesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperiencesInput, ListExperiencesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListExperiencesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListExperiencesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListExperiencesInput, ListExperiencesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListExperiencesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListExperiencesInput, ListExperiencesOutput>(xAmzTarget: "AWSKendraFrontendService.ListExperiences"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListExperiencesInput, ListExperiencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExperiencesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListExperiencesInput, ListExperiencesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListExperiencesInput, ListExperiencesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListExperiencesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListExperiencesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExperiencesOutput>(ListExperiencesOutput.httpOutput(from:), ListExperiencesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListExperiencesInput, ListExperiencesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListExperiencesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExperiencesInput, ListExperiencesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListExperiencesInput, ListExperiencesOutput>(xAmzTarget: "AWSKendraFrontendService.ListExperiences"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListExperiencesInput, ListExperiencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExperiencesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExperiencesInput, ListExperiencesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExperiencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExperiencesInput, ListExperiencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExperiencesInput, ListExperiencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListExperiences")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListFaqs` operation on the `AWSKendraFrontendService` service.
@@ -2534,23 +3358,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFaqsInput, ListFaqsOutput>(id: "listFaqs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFaqsInput, ListFaqsOutput>(ListFaqsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFaqsInput, ListFaqsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListFaqsInput, ListFaqsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListFaqsInput, ListFaqsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFaqsInput, ListFaqsOutput>(ListFaqsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFaqsInput, ListFaqsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFaqsInput, ListFaqsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFaqsOutput>(ListFaqsOutput.httpOutput(from:), ListFaqsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFaqsInput, ListFaqsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListFaqsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListFaqsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListFaqsInput, ListFaqsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListFaqsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListFaqsInput, ListFaqsOutput>(xAmzTarget: "AWSKendraFrontendService.ListFaqs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListFaqsInput, ListFaqsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFaqsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListFaqsInput, ListFaqsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListFaqsInput, ListFaqsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFaqsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListFaqsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFaqsOutput>(ListFaqsOutput.httpOutput(from:), ListFaqsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFaqsInput, ListFaqsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListFaqsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFaqsInput, ListFaqsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFaqsInput, ListFaqsOutput>(xAmzTarget: "AWSKendraFrontendService.ListFaqs"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListFaqsInput, ListFaqsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFaqsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFaqsInput, ListFaqsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFaqsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFaqsInput, ListFaqsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFaqsInput, ListFaqsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFaqs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListFeaturedResultsSets` operation on the `AWSKendraFrontendService` service.
@@ -2587,23 +3430,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(id: "listFeaturedResultsSets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(ListFeaturedResultsSetsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(ListFeaturedResultsSetsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFeaturedResultsSetsOutput>(ListFeaturedResultsSetsOutput.httpOutput(from:), ListFeaturedResultsSetsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListFeaturedResultsSetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListFeaturedResultsSetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListFeaturedResultsSetsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(xAmzTarget: "AWSKendraFrontendService.ListFeaturedResultsSets"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFeaturedResultsSetsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFeaturedResultsSetsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListFeaturedResultsSetsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFeaturedResultsSetsOutput>(ListFeaturedResultsSetsOutput.httpOutput(from:), ListFeaturedResultsSetsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListFeaturedResultsSetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(xAmzTarget: "AWSKendraFrontendService.ListFeaturedResultsSets"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFeaturedResultsSetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFeaturedResultsSetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFeaturedResultsSets")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListGroupsOlderThanOrderingId` operation on the `AWSKendraFrontendService` service.
@@ -2641,23 +3503,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(id: "listGroupsOlderThanOrderingId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(ListGroupsOlderThanOrderingIdInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(ListGroupsOlderThanOrderingIdInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOlderThanOrderingIdOutput>(ListGroupsOlderThanOrderingIdOutput.httpOutput(from:), ListGroupsOlderThanOrderingIdOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOlderThanOrderingIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListGroupsOlderThanOrderingIdOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListGroupsOlderThanOrderingIdOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(xAmzTarget: "AWSKendraFrontendService.ListGroupsOlderThanOrderingId"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListGroupsOlderThanOrderingIdInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupsOlderThanOrderingIdOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListGroupsOlderThanOrderingIdOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOlderThanOrderingIdOutput>(ListGroupsOlderThanOrderingIdOutput.httpOutput(from:), ListGroupsOlderThanOrderingIdOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListGroupsOlderThanOrderingIdOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(xAmzTarget: "AWSKendraFrontendService.ListGroupsOlderThanOrderingId"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListGroupsOlderThanOrderingIdInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGroupsOlderThanOrderingIdOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListGroupsOlderThanOrderingId")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListIndices` operation on the `AWSKendraFrontendService` service.
@@ -2693,23 +3574,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListIndicesInput, ListIndicesOutput>(id: "listIndices")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIndicesInput, ListIndicesOutput>(ListIndicesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIndicesInput, ListIndicesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListIndicesInput, ListIndicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListIndicesInput, ListIndicesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListIndicesInput, ListIndicesOutput>(ListIndicesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListIndicesInput, ListIndicesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIndicesInput, ListIndicesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndicesOutput>(ListIndicesOutput.httpOutput(from:), ListIndicesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndicesInput, ListIndicesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListIndicesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListIndicesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListIndicesInput, ListIndicesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListIndicesOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListIndicesInput, ListIndicesOutput>(xAmzTarget: "AWSKendraFrontendService.ListIndices"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListIndicesInput, ListIndicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListIndicesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListIndicesInput, ListIndicesOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListIndicesInput, ListIndicesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIndicesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListIndicesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIndicesOutput>(ListIndicesOutput.httpOutput(from:), ListIndicesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIndicesInput, ListIndicesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListIndicesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIndicesInput, ListIndicesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListIndicesInput, ListIndicesOutput>(xAmzTarget: "AWSKendraFrontendService.ListIndices"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListIndicesInput, ListIndicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListIndicesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIndicesInput, ListIndicesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIndicesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIndicesInput, ListIndicesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIndicesInput, ListIndicesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIndices")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListQuerySuggestionsBlockLists` operation on the `AWSKendraFrontendService` service.
@@ -2746,23 +3646,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(id: "listQuerySuggestionsBlockLists")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(ListQuerySuggestionsBlockListsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(ListQuerySuggestionsBlockListsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQuerySuggestionsBlockListsOutput>(ListQuerySuggestionsBlockListsOutput.httpOutput(from:), ListQuerySuggestionsBlockListsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListQuerySuggestionsBlockListsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListQuerySuggestionsBlockListsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListQuerySuggestionsBlockListsOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(xAmzTarget: "AWSKendraFrontendService.ListQuerySuggestionsBlockLists"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListQuerySuggestionsBlockListsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQuerySuggestionsBlockListsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListQuerySuggestionsBlockListsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQuerySuggestionsBlockListsOutput>(ListQuerySuggestionsBlockListsOutput.httpOutput(from:), ListQuerySuggestionsBlockListsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListQuerySuggestionsBlockListsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(xAmzTarget: "AWSKendraFrontendService.ListQuerySuggestionsBlockLists"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListQuerySuggestionsBlockListsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListQuerySuggestionsBlockListsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListQuerySuggestionsBlockLists")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListTagsForResource` operation on the `AWSKendraFrontendService` service.
@@ -2799,23 +3718,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSKendraFrontendService.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSKendraFrontendService.ListTagsForResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListThesauri` operation on the `AWSKendraFrontendService` service.
@@ -2852,23 +3790,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListThesauriInput, ListThesauriOutput>(id: "listThesauri")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListThesauriInput, ListThesauriOutput>(ListThesauriInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListThesauriInput, ListThesauriOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListThesauriInput, ListThesauriOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListThesauriInput, ListThesauriOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListThesauriInput, ListThesauriOutput>(ListThesauriInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListThesauriInput, ListThesauriOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListThesauriInput, ListThesauriOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThesauriOutput>(ListThesauriOutput.httpOutput(from:), ListThesauriOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThesauriInput, ListThesauriOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListThesauriOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListThesauriOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListThesauriInput, ListThesauriOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListThesauriOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListThesauriInput, ListThesauriOutput>(xAmzTarget: "AWSKendraFrontendService.ListThesauri"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListThesauriInput, ListThesauriOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListThesauriInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListThesauriInput, ListThesauriOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListThesauriInput, ListThesauriOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListThesauriOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListThesauriOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListThesauriOutput>(ListThesauriOutput.httpOutput(from:), ListThesauriOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListThesauriInput, ListThesauriOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListThesauriOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListThesauriInput, ListThesauriOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListThesauriInput, ListThesauriOutput>(xAmzTarget: "AWSKendraFrontendService.ListThesauri"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListThesauriInput, ListThesauriOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListThesauriInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListThesauriInput, ListThesauriOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListThesauriOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListThesauriInput, ListThesauriOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListThesauriInput, ListThesauriOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListThesauri")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `PutPrincipalMapping` operation on the `AWSKendraFrontendService` service.
@@ -2907,23 +3864,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutPrincipalMappingInput, PutPrincipalMappingOutput>(id: "putPrincipalMapping")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(PutPrincipalMappingInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<PutPrincipalMappingInput, PutPrincipalMappingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutPrincipalMappingInput, PutPrincipalMappingOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(PutPrincipalMappingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPrincipalMappingOutput>(PutPrincipalMappingOutput.httpOutput(from:), PutPrincipalMappingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutPrincipalMappingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutPrincipalMappingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutPrincipalMappingOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(xAmzTarget: "AWSKendraFrontendService.PutPrincipalMapping"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPrincipalMappingInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPrincipalMappingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutPrincipalMappingOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPrincipalMappingOutput>(PutPrincipalMappingOutput.httpOutput(from:), PutPrincipalMappingOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutPrincipalMappingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(xAmzTarget: "AWSKendraFrontendService.PutPrincipalMapping"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPrincipalMappingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPrincipalMappingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutPrincipalMapping")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `Query` operation on the `AWSKendraFrontendService` service.
@@ -2971,23 +3947,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<QueryInput, QueryOutput>(id: "query")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<QueryInput, QueryOutput>(QueryInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<QueryInput, QueryOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<QueryInput, QueryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<QueryInput, QueryOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<QueryInput, QueryOutput>(QueryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<QueryInput, QueryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryInput, QueryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryOutput>(QueryOutput.httpOutput(from:), QueryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryInput, QueryOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<QueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<QueryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<QueryInput, QueryOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<QueryOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<QueryInput, QueryOutput>(xAmzTarget: "AWSKendraFrontendService.Query"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<QueryInput, QueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: QueryInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<QueryInput, QueryOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<QueryInput, QueryOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, QueryOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<QueryOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<QueryOutput>(QueryOutput.httpOutput(from:), QueryOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<QueryInput, QueryOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<QueryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<QueryInput, QueryOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<QueryInput, QueryOutput>(xAmzTarget: "AWSKendraFrontendService.Query"))
+        builder.serialize(ClientRuntime.BodyMiddleware<QueryInput, QueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: QueryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<QueryInput, QueryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<QueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<QueryInput, QueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<QueryInput, QueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "Query")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `Retrieve` operation on the `AWSKendraFrontendService` service.
@@ -3037,23 +4032,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RetrieveInput, RetrieveOutput>(id: "retrieve")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetrieveInput, RetrieveOutput>(RetrieveInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetrieveInput, RetrieveOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<RetrieveInput, RetrieveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<RetrieveInput, RetrieveOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetrieveInput, RetrieveOutput>(RetrieveInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetrieveInput, RetrieveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveInput, RetrieveOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveOutput>(RetrieveOutput.httpOutput(from:), RetrieveOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveInput, RetrieveOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<RetrieveOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<RetrieveInput, RetrieveOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RetrieveOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RetrieveInput, RetrieveOutput>(xAmzTarget: "AWSKendraFrontendService.Retrieve"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RetrieveInput, RetrieveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetrieveInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<RetrieveInput, RetrieveOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<RetrieveInput, RetrieveOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RetrieveOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RetrieveOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetrieveOutput>(RetrieveOutput.httpOutput(from:), RetrieveOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetrieveInput, RetrieveOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RetrieveOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RetrieveInput, RetrieveOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RetrieveInput, RetrieveOutput>(xAmzTarget: "AWSKendraFrontendService.Retrieve"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RetrieveInput, RetrieveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetrieveInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveInput, RetrieveOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetrieveOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetrieveInput, RetrieveOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RetrieveInput, RetrieveOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "Retrieve")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StartDataSourceSyncJob` operation on the `AWSKendraFrontendService` service.
@@ -3092,23 +4106,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(id: "startDataSourceSyncJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(StartDataSourceSyncJobInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(StartDataSourceSyncJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataSourceSyncJobOutput>(StartDataSourceSyncJobOutput.httpOutput(from:), StartDataSourceSyncJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartDataSourceSyncJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartDataSourceSyncJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartDataSourceSyncJobOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(xAmzTarget: "AWSKendraFrontendService.StartDataSourceSyncJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDataSourceSyncJobInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDataSourceSyncJobOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartDataSourceSyncJobOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDataSourceSyncJobOutput>(StartDataSourceSyncJobOutput.httpOutput(from:), StartDataSourceSyncJobOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartDataSourceSyncJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(xAmzTarget: "AWSKendraFrontendService.StartDataSourceSyncJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDataSourceSyncJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDataSourceSyncJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartDataSourceSyncJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `StopDataSourceSyncJob` operation on the `AWSKendraFrontendService` service.
@@ -3145,23 +4178,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(id: "stopDataSourceSyncJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(StopDataSourceSyncJobInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(StopDataSourceSyncJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDataSourceSyncJobOutput>(StopDataSourceSyncJobOutput.httpOutput(from:), StopDataSourceSyncJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopDataSourceSyncJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StopDataSourceSyncJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StopDataSourceSyncJobOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(xAmzTarget: "AWSKendraFrontendService.StopDataSourceSyncJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopDataSourceSyncJobInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDataSourceSyncJobOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StopDataSourceSyncJobOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDataSourceSyncJobOutput>(StopDataSourceSyncJobOutput.httpOutput(from:), StopDataSourceSyncJobOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopDataSourceSyncJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(xAmzTarget: "AWSKendraFrontendService.StopDataSourceSyncJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopDataSourceSyncJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopDataSourceSyncJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopDataSourceSyncJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `SubmitFeedback` operation on the `AWSKendraFrontendService` service.
@@ -3199,23 +4251,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SubmitFeedbackInput, SubmitFeedbackOutput>(id: "submitFeedback")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(SubmitFeedbackInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<SubmitFeedbackInput, SubmitFeedbackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SubmitFeedbackInput, SubmitFeedbackOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(SubmitFeedbackInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitFeedbackOutput>(SubmitFeedbackOutput.httpOutput(from:), SubmitFeedbackOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SubmitFeedbackOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<SubmitFeedbackOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SubmitFeedbackOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(xAmzTarget: "AWSKendraFrontendService.SubmitFeedback"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitFeedbackInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SubmitFeedbackOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SubmitFeedbackOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubmitFeedbackOutput>(SubmitFeedbackOutput.httpOutput(from:), SubmitFeedbackOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubmitFeedbackOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(xAmzTarget: "AWSKendraFrontendService.SubmitFeedback"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitFeedbackInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitFeedbackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubmitFeedback")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `TagResource` operation on the `AWSKendraFrontendService` service.
@@ -3252,23 +4323,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSKendraFrontendService.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSKendraFrontendService.TagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UntagResource` operation on the `AWSKendraFrontendService` service.
@@ -3305,23 +4395,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSKendraFrontendService.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSKendraFrontendService.UntagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateAccessControlConfiguration` operation on the `AWSKendraFrontendService` service.
@@ -3360,23 +4469,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(id: "updateAccessControlConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(UpdateAccessControlConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(UpdateAccessControlConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessControlConfigurationOutput>(UpdateAccessControlConfigurationOutput.httpOutput(from:), UpdateAccessControlConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccessControlConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateAccessControlConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateAccessControlConfigurationOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateAccessControlConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAccessControlConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccessControlConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateAccessControlConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccessControlConfigurationOutput>(UpdateAccessControlConfigurationOutput.httpOutput(from:), UpdateAccessControlConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateAccessControlConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateAccessControlConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAccessControlConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAccessControlConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAccessControlConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateDataSource` operation on the `AWSKendraFrontendService` service.
@@ -3414,23 +4542,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDataSourceInput, UpdateDataSourceOutput>(id: "updateDataSource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(UpdateDataSourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateDataSourceInput, UpdateDataSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateDataSourceInput, UpdateDataSourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(UpdateDataSourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutput>(UpdateDataSourceOutput.httpOutput(from:), UpdateDataSourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateDataSourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateDataSourceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateDataSource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDataSourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDataSourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateDataSourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutput>(UpdateDataSourceOutput.httpOutput(from:), UpdateDataSourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateDataSourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateDataSource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDataSourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDataSource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateExperience` operation on the `AWSKendraFrontendService` service.
@@ -3468,23 +4615,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateExperienceInput, UpdateExperienceOutput>(id: "updateExperience")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(UpdateExperienceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateExperienceInput, UpdateExperienceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateExperienceInput, UpdateExperienceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateExperienceInput, UpdateExperienceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(UpdateExperienceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateExperienceInput, UpdateExperienceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExperienceInput, UpdateExperienceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateExperienceOutput>(UpdateExperienceOutput.httpOutput(from:), UpdateExperienceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExperienceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateExperienceOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateExperience"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateExperienceInput, UpdateExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateExperienceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateExperienceInput, UpdateExperienceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateExperienceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateExperienceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateExperienceOutput>(UpdateExperienceOutput.httpOutput(from:), UpdateExperienceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateExperienceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateExperience"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateExperienceInput, UpdateExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateExperienceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateExperienceInput, UpdateExperienceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateExperience")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateFeaturedResultsSet` operation on the `AWSKendraFrontendService` service.
@@ -3522,23 +4688,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(id: "updateFeaturedResultsSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(UpdateFeaturedResultsSetInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(UpdateFeaturedResultsSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFeaturedResultsSetOutput>(UpdateFeaturedResultsSetOutput.httpOutput(from:), UpdateFeaturedResultsSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFeaturedResultsSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateFeaturedResultsSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateFeaturedResultsSetOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateFeaturedResultsSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFeaturedResultsSetInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFeaturedResultsSetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateFeaturedResultsSetOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFeaturedResultsSetOutput>(UpdateFeaturedResultsSetOutput.httpOutput(from:), UpdateFeaturedResultsSetOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateFeaturedResultsSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateFeaturedResultsSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFeaturedResultsSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFeaturedResultsSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateFeaturedResultsSet")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateIndex` operation on the `AWSKendraFrontendService` service.
@@ -3577,23 +4762,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateIndexInput, UpdateIndexOutput>(id: "updateIndex")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIndexInput, UpdateIndexOutput>(UpdateIndexInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIndexInput, UpdateIndexOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateIndexInput, UpdateIndexOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateIndexInput, UpdateIndexOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateIndexInput, UpdateIndexOutput>(UpdateIndexInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateIndexInput, UpdateIndexOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIndexInput, UpdateIndexOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIndexOutput>(UpdateIndexOutput.httpOutput(from:), UpdateIndexOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIndexInput, UpdateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIndexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateIndexOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateIndexInput, UpdateIndexOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateIndexOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateIndexInput, UpdateIndexOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateIndex"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateIndexInput, UpdateIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIndexInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateIndexInput, UpdateIndexOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateIndexInput, UpdateIndexOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIndexOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateIndexOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIndexOutput>(UpdateIndexOutput.httpOutput(from:), UpdateIndexOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIndexInput, UpdateIndexOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateIndexOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIndexInput, UpdateIndexOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateIndexInput, UpdateIndexOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateIndex"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateIndexInput, UpdateIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIndexInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIndexInput, UpdateIndexOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIndexInput, UpdateIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIndexInput, UpdateIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateQuerySuggestionsBlockList` operation on the `AWSKendraFrontendService` service.
@@ -3631,23 +4835,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(id: "updateQuerySuggestionsBlockList")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(UpdateQuerySuggestionsBlockListInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(UpdateQuerySuggestionsBlockListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQuerySuggestionsBlockListOutput>(UpdateQuerySuggestionsBlockListOutput.httpOutput(from:), UpdateQuerySuggestionsBlockListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQuerySuggestionsBlockListOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateQuerySuggestionsBlockListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateQuerySuggestionsBlockListOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateQuerySuggestionsBlockList"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateQuerySuggestionsBlockListInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateQuerySuggestionsBlockListOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateQuerySuggestionsBlockListOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateQuerySuggestionsBlockListOutput>(UpdateQuerySuggestionsBlockListOutput.httpOutput(from:), UpdateQuerySuggestionsBlockListOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateQuerySuggestionsBlockListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateQuerySuggestionsBlockList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateQuerySuggestionsBlockListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateQuerySuggestionsBlockList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateQuerySuggestionsConfig` operation on the `AWSKendraFrontendService` service.
@@ -3685,23 +4908,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(id: "updateQuerySuggestionsConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(UpdateQuerySuggestionsConfigInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(UpdateQuerySuggestionsConfigInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQuerySuggestionsConfigOutput>(UpdateQuerySuggestionsConfigOutput.httpOutput(from:), UpdateQuerySuggestionsConfigOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQuerySuggestionsConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateQuerySuggestionsConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateQuerySuggestionsConfigOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateQuerySuggestionsConfig"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateQuerySuggestionsConfigInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateQuerySuggestionsConfigOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateQuerySuggestionsConfigOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateQuerySuggestionsConfigOutput>(UpdateQuerySuggestionsConfigOutput.httpOutput(from:), UpdateQuerySuggestionsConfigOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateQuerySuggestionsConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateQuerySuggestionsConfig"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateQuerySuggestionsConfigInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateQuerySuggestionsConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateQuerySuggestionsConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateThesaurus` operation on the `AWSKendraFrontendService` service.
@@ -3739,23 +4981,42 @@ extension KendraClient {
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateThesaurusInput, UpdateThesaurusOutput>(id: "updateThesaurus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(UpdateThesaurusInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateThesaurusInput, UpdateThesaurusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateThesaurusInput, UpdateThesaurusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(UpdateThesaurusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThesaurusOutput>(UpdateThesaurusOutput.httpOutput(from:), UpdateThesaurusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThesaurusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateThesaurusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateThesaurusOutput>())
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateThesaurus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateThesaurusInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateThesaurusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateThesaurusOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateThesaurusOutput>(UpdateThesaurusOutput.httpOutput(from:), UpdateThesaurusOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateThesaurusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateThesaurus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateThesaurusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateThesaurusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kendra")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateThesaurus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
 }

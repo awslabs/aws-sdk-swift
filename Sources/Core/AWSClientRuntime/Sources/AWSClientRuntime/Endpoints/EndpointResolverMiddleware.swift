@@ -17,14 +17,8 @@ import struct ClientRuntime.DefaultEndpointsAuthSchemeResolver
 import enum ClientRuntime.EndpointsAuthScheme
 import protocol ClientRuntime.EndpointsAuthSchemeResolver
 import protocol ClientRuntime.EndpointsRequestContextProviding
-import protocol ClientRuntime.Handler
-import protocol ClientRuntime.Middleware
-import struct ClientRuntime.OperationOutput
 
-public struct EndpointResolverMiddleware<OperationStackOutput, Params: EndpointsRequestContextProviding>: Middleware {
-    public typealias MInput = HTTPRequestBuilder
-    public typealias MOutput = ClientRuntime.OperationOutput<OperationStackOutput>
-
+public struct EndpointResolverMiddleware<OperationStackOutput, Params: EndpointsRequestContextProviding> {
     public let id: Swift.String = "EndpointResolverMiddleware"
 
     let endpointResolverBlock: (Params) throws -> Endpoint
@@ -42,30 +36,14 @@ public struct EndpointResolverMiddleware<OperationStackOutput, Params: Endpoints
         self.endpointParams = endpointParams
         self.authSchemeResolver = authSchemeResolver
     }
-
-    public func handle<H>(
-        context: Smithy.Context,
-        input: HTTPRequestBuilder,
-        next: H
-    ) async throws -> ClientRuntime.OperationOutput<OperationStackOutput>
-        where H: Handler,
-              Self.MInput == H.Input,
-              Self.MOutput == H.Output {
-        let selectedAuthScheme = context.selectedAuthScheme
-        let request = input.build()
-        let updatedRequest =
-            try await apply(request: request, selectedAuthScheme: selectedAuthScheme, attributes: context)
-        return try await next.handle(context: context, input: updatedRequest.toBuilder())
-    }
 }
 
 extension EndpointResolverMiddleware: ApplyEndpoint {
-
     public func apply(
-        request: HTTPRequest,
+        request: SmithyHTTPAPI.HTTPRequest,
         selectedAuthScheme: SelectedAuthScheme?,
         attributes: Smithy.Context
-    ) async throws -> HTTPRequest {
+    ) async throws -> SmithyHTTPAPI.HTTPRequest {
         let builder = request.toBuilder()
 
         let endpoint = try endpointResolverBlock(endpointParams)

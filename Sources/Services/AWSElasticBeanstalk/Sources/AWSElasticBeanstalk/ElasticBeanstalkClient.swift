@@ -9,22 +9,29 @@
 
 import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
+import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
+import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyFormURL.Writer
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
+import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -34,6 +41,7 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct AWSClientRuntime.AWSUserAgentMetadata
+import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -43,11 +51,10 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
-import struct ClientRuntime.OperationStack
-import struct ClientRuntime.RetryMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -208,22 +215,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(id: "abortEnvironmentUpdate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(AbortEnvironmentUpdateInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(AbortEnvironmentUpdateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AbortEnvironmentUpdateOutput>(AbortEnvironmentUpdateOutput.httpOutput(from:), AbortEnvironmentUpdateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AbortEnvironmentUpdateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<AbortEnvironmentUpdateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AbortEnvironmentUpdateOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AbortEnvironmentUpdateInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AbortEnvironmentUpdateOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AbortEnvironmentUpdateOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortEnvironmentUpdateOutput>(AbortEnvironmentUpdateOutput.httpOutput(from:), AbortEnvironmentUpdateOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AbortEnvironmentUpdateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AbortEnvironmentUpdateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AbortEnvironmentUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AbortEnvironmentUpdate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ApplyEnvironmentManagedAction` operation on the `AWSElasticBeanstalkService` service.
@@ -257,22 +283,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(id: "applyEnvironmentManagedAction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(ApplyEnvironmentManagedActionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(ApplyEnvironmentManagedActionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyEnvironmentManagedActionOutput>(ApplyEnvironmentManagedActionOutput.httpOutput(from:), ApplyEnvironmentManagedActionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ApplyEnvironmentManagedActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ApplyEnvironmentManagedActionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ApplyEnvironmentManagedActionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ApplyEnvironmentManagedActionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ApplyEnvironmentManagedActionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ApplyEnvironmentManagedActionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplyEnvironmentManagedActionOutput>(ApplyEnvironmentManagedActionOutput.httpOutput(from:), ApplyEnvironmentManagedActionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ApplyEnvironmentManagedActionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ApplyEnvironmentManagedActionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ApplyEnvironmentManagedActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ApplyEnvironmentManagedAction")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `AssociateEnvironmentOperationsRole` operation on the `AWSElasticBeanstalkService` service.
@@ -305,22 +350,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(id: "associateEnvironmentOperationsRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(AssociateEnvironmentOperationsRoleInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(AssociateEnvironmentOperationsRoleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEnvironmentOperationsRoleOutput>(AssociateEnvironmentOperationsRoleOutput.httpOutput(from:), AssociateEnvironmentOperationsRoleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEnvironmentOperationsRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<AssociateEnvironmentOperationsRoleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AssociateEnvironmentOperationsRoleOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEnvironmentOperationsRoleInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateEnvironmentOperationsRoleOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AssociateEnvironmentOperationsRoleOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateEnvironmentOperationsRoleOutput>(AssociateEnvironmentOperationsRoleOutput.httpOutput(from:), AssociateEnvironmentOperationsRoleOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateEnvironmentOperationsRoleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEnvironmentOperationsRoleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateEnvironmentOperationsRoleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateEnvironmentOperationsRole")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CheckDNSAvailability` operation on the `AWSElasticBeanstalkService` service.
@@ -348,22 +412,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(id: "checkDNSAvailability")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(CheckDNSAvailabilityInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(CheckDNSAvailabilityInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckDNSAvailabilityOutput>(CheckDNSAvailabilityOutput.httpOutput(from:), CheckDNSAvailabilityOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CheckDNSAvailabilityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CheckDNSAvailabilityOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CheckDNSAvailabilityOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CheckDNSAvailabilityInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CheckDNSAvailabilityOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CheckDNSAvailabilityOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CheckDNSAvailabilityOutput>(CheckDNSAvailabilityOutput.httpOutput(from:), CheckDNSAvailabilityOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CheckDNSAvailabilityOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CheckDNSAvailabilityInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckDNSAvailabilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CheckDNSAvailability")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ComposeEnvironments` operation on the `AWSElasticBeanstalkService` service.
@@ -397,22 +480,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(id: "composeEnvironments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(ComposeEnvironmentsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ComposeEnvironmentsInput, ComposeEnvironmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ComposeEnvironmentsInput, ComposeEnvironmentsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(ComposeEnvironmentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ComposeEnvironmentsOutput>(ComposeEnvironmentsOutput.httpOutput(from:), ComposeEnvironmentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ComposeEnvironmentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ComposeEnvironmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ComposeEnvironmentsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ComposeEnvironmentsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ComposeEnvironmentsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ComposeEnvironmentsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ComposeEnvironmentsOutput>(ComposeEnvironmentsOutput.httpOutput(from:), ComposeEnvironmentsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ComposeEnvironmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ComposeEnvironmentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ComposeEnvironmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ComposeEnvironments")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateApplication` operation on the `AWSElasticBeanstalkService` service.
@@ -445,22 +547,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateApplicationInput, CreateApplicationOutput>(id: "createApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApplicationInput, CreateApplicationOutput>(CreateApplicationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateApplicationInput, CreateApplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateApplicationInput, CreateApplicationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateApplicationInput, CreateApplicationOutput>(CreateApplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateApplicationInput, CreateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateApplicationInput, CreateApplicationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateApplicationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationInput, CreateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateApplicationInput, CreateApplicationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationInput, CreateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateApplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateApplicationVersion` operation on the `AWSElasticBeanstalkService` service.
@@ -503,22 +624,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateApplicationVersionInput, CreateApplicationVersionOutput>(id: "createApplicationVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(CreateApplicationVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateApplicationVersionInput, CreateApplicationVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateApplicationVersionInput, CreateApplicationVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(CreateApplicationVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationVersionOutput>(CreateApplicationVersionOutput.httpOutput(from:), CreateApplicationVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateApplicationVersionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateApplicationVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateApplicationVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationVersionOutput>(CreateApplicationVersionOutput.httpOutput(from:), CreateApplicationVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateApplicationVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateConfigurationTemplate` operation on the `AWSElasticBeanstalkService` service.
@@ -559,22 +699,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(id: "createConfigurationTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(CreateConfigurationTemplateInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(CreateConfigurationTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationTemplateOutput>(CreateConfigurationTemplateOutput.httpOutput(from:), CreateConfigurationTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateConfigurationTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateConfigurationTemplateOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConfigurationTemplateInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConfigurationTemplateOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateConfigurationTemplateOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationTemplateOutput>(CreateConfigurationTemplateOutput.httpOutput(from:), CreateConfigurationTemplateOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateConfigurationTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConfigurationTemplateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfigurationTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateConfigurationTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateEnvironment` operation on the `AWSElasticBeanstalkService` service.
@@ -608,22 +767,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateEnvironmentInput, CreateEnvironmentOutput>(id: "createEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(CreateEnvironmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateEnvironmentInput, CreateEnvironmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateEnvironmentInput, CreateEnvironmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(CreateEnvironmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateEnvironmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateEnvironmentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEnvironmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateEnvironmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEnvironmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEnvironmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEnvironment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreatePlatformVersion` operation on the `AWSElasticBeanstalkService` service.
@@ -658,22 +836,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePlatformVersionInput, CreatePlatformVersionOutput>(id: "createPlatformVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(CreatePlatformVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePlatformVersionInput, CreatePlatformVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreatePlatformVersionInput, CreatePlatformVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(CreatePlatformVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePlatformVersionOutput>(CreatePlatformVersionOutput.httpOutput(from:), CreatePlatformVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlatformVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreatePlatformVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreatePlatformVersionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePlatformVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePlatformVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreatePlatformVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlatformVersionOutput>(CreatePlatformVersionOutput.httpOutput(from:), CreatePlatformVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreatePlatformVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePlatformVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePlatformVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePlatformVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `CreateStorageLocation` operation on the `AWSElasticBeanstalkService` service.
@@ -708,22 +905,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateStorageLocationInput, CreateStorageLocationOutput>(id: "createStorageLocation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(CreateStorageLocationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<CreateStorageLocationInput, CreateStorageLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateStorageLocationInput, CreateStorageLocationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(CreateStorageLocationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStorageLocationOutput>(CreateStorageLocationOutput.httpOutput(from:), CreateStorageLocationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateStorageLocationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<CreateStorageLocationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateStorageLocationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStorageLocationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStorageLocationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateStorageLocationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStorageLocationOutput>(CreateStorageLocationOutput.httpOutput(from:), CreateStorageLocationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateStorageLocationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStorageLocationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStorageLocationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateStorageLocation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteApplication` operation on the `AWSElasticBeanstalkService` service.
@@ -756,22 +972,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteApplicationInput, DeleteApplicationOutput>(id: "deleteApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(DeleteApplicationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteApplicationInput, DeleteApplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteApplicationInput, DeleteApplicationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(DeleteApplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteApplicationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteApplicationInput, DeleteApplicationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApplicationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteApplicationInput, DeleteApplicationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteApplicationVersion` operation on the `AWSElasticBeanstalkService` service.
@@ -813,22 +1048,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(id: "deleteApplicationVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(DeleteApplicationVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteApplicationVersionInput, DeleteApplicationVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteApplicationVersionInput, DeleteApplicationVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(DeleteApplicationVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationVersionOutput>(DeleteApplicationVersionOutput.httpOutput(from:), DeleteApplicationVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteApplicationVersionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApplicationVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteApplicationVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationVersionOutput>(DeleteApplicationVersionOutput.httpOutput(from:), DeleteApplicationVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApplicationVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteConfigurationTemplate` operation on the `AWSElasticBeanstalkService` service.
@@ -861,22 +1115,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(id: "deleteConfigurationTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(DeleteConfigurationTemplateInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(DeleteConfigurationTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationTemplateOutput>(DeleteConfigurationTemplateOutput.httpOutput(from:), DeleteConfigurationTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteConfigurationTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationTemplateOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConfigurationTemplateInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationTemplateOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteConfigurationTemplateOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationTemplateOutput>(DeleteConfigurationTemplateOutput.httpOutput(from:), DeleteConfigurationTemplateOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteConfigurationTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConfigurationTemplateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConfigurationTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeleteEnvironmentConfiguration` operation on the `AWSElasticBeanstalkService` service.
@@ -904,22 +1177,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(id: "deleteEnvironmentConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(DeleteEnvironmentConfigurationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(DeleteEnvironmentConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentConfigurationOutput>(DeleteEnvironmentConfigurationOutput.httpOutput(from:), DeleteEnvironmentConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteEnvironmentConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteEnvironmentConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEnvironmentConfigurationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEnvironmentConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteEnvironmentConfigurationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEnvironmentConfigurationOutput>(DeleteEnvironmentConfigurationOutput.httpOutput(from:), DeleteEnvironmentConfigurationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteEnvironmentConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEnvironmentConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEnvironmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEnvironmentConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DeletePlatformVersion` operation on the `AWSElasticBeanstalkService` service.
@@ -955,22 +1247,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePlatformVersionInput, DeletePlatformVersionOutput>(id: "deletePlatformVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(DeletePlatformVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePlatformVersionInput, DeletePlatformVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeletePlatformVersionInput, DeletePlatformVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(DeletePlatformVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePlatformVersionOutput>(DeletePlatformVersionOutput.httpOutput(from:), DeletePlatformVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePlatformVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeletePlatformVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeletePlatformVersionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePlatformVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePlatformVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeletePlatformVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePlatformVersionOutput>(DeletePlatformVersionOutput.httpOutput(from:), DeletePlatformVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeletePlatformVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePlatformVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePlatformVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePlatformVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeAccountAttributes` operation on the `AWSElasticBeanstalkService` service.
@@ -1003,22 +1314,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(id: "describeAccountAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(DescribeAccountAttributesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountAttributesInput, DescribeAccountAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeAccountAttributesInput, DescribeAccountAttributesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(DescribeAccountAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutput>(DescribeAccountAttributesOutput.httpOutput(from:), DescribeAccountAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeAccountAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeAccountAttributesOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountAttributesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountAttributesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeAccountAttributesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutput>(DescribeAccountAttributesOutput.httpOutput(from:), DescribeAccountAttributesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAccountAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeApplicationVersions` operation on the `AWSElasticBeanstalkService` service.
@@ -1046,22 +1376,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(id: "describeApplicationVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(DescribeApplicationVersionsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(DescribeApplicationVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationVersionsOutput>(DescribeApplicationVersionsOutput.httpOutput(from:), DescribeApplicationVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationVersionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeApplicationVersionsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationVersionsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeApplicationVersionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeApplicationVersionsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicationVersionsOutput>(DescribeApplicationVersionsOutput.httpOutput(from:), DescribeApplicationVersionsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationVersionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationVersionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApplicationVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeApplications` operation on the `AWSElasticBeanstalkService` service.
@@ -1089,22 +1438,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeApplicationsInput, DescribeApplicationsOutput>(id: "describeApplications")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(DescribeApplicationsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeApplicationsInput, DescribeApplicationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeApplicationsInput, DescribeApplicationsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(DescribeApplicationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationsOutput>(DescribeApplicationsOutput.httpOutput(from:), DescribeApplicationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeApplicationsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeApplicationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeApplicationsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicationsOutput>(DescribeApplicationsOutput.httpOutput(from:), DescribeApplicationsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApplications")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeConfigurationOptions` operation on the `AWSElasticBeanstalkService` service.
@@ -1137,22 +1505,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(id: "describeConfigurationOptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(DescribeConfigurationOptionsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(DescribeConfigurationOptionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationOptionsOutput>(DescribeConfigurationOptionsOutput.httpOutput(from:), DescribeConfigurationOptionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationOptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigurationOptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationOptionsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationOptionsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationOptionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeConfigurationOptionsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationOptionsOutput>(DescribeConfigurationOptionsOutput.httpOutput(from:), DescribeConfigurationOptionsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigurationOptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationOptionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConfigurationOptions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeConfigurationSettings` operation on the `AWSElasticBeanstalkService` service.
@@ -1187,22 +1574,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(id: "describeConfigurationSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(DescribeConfigurationSettingsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(DescribeConfigurationSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationSettingsOutput>(DescribeConfigurationSettingsOutput.httpOutput(from:), DescribeConfigurationSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigurationSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationSettingsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationSettingsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConfigurationSettingsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeConfigurationSettingsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationSettingsOutput>(DescribeConfigurationSettingsOutput.httpOutput(from:), DescribeConfigurationSettingsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigurationSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConfigurationSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeEnvironmentHealth` operation on the `AWSElasticBeanstalkService` service.
@@ -1236,22 +1642,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(id: "describeEnvironmentHealth")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(DescribeEnvironmentHealthInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(DescribeEnvironmentHealthInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentHealthOutput>(DescribeEnvironmentHealthOutput.httpOutput(from:), DescribeEnvironmentHealthOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentHealthOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentHealthOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentHealthOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentHealthInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEnvironmentHealthOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeEnvironmentHealthOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentHealthOutput>(DescribeEnvironmentHealthOutput.httpOutput(from:), DescribeEnvironmentHealthOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentHealthOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentHealthInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentHealthOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEnvironmentHealth")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeEnvironmentManagedActionHistory` operation on the `AWSElasticBeanstalkService` service.
@@ -1284,22 +1709,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(id: "describeEnvironmentManagedActionHistory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(DescribeEnvironmentManagedActionHistoryInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(DescribeEnvironmentManagedActionHistoryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentManagedActionHistoryOutput>(DescribeEnvironmentManagedActionHistoryOutput.httpOutput(from:), DescribeEnvironmentManagedActionHistoryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentManagedActionHistoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentManagedActionHistoryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentManagedActionHistoryOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentManagedActionHistoryInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEnvironmentManagedActionHistoryOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeEnvironmentManagedActionHistoryOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentManagedActionHistoryOutput>(DescribeEnvironmentManagedActionHistoryOutput.httpOutput(from:), DescribeEnvironmentManagedActionHistoryOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentManagedActionHistoryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentManagedActionHistoryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentManagedActionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEnvironmentManagedActionHistory")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeEnvironmentManagedActions` operation on the `AWSElasticBeanstalkService` service.
@@ -1332,22 +1776,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(id: "describeEnvironmentManagedActions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(DescribeEnvironmentManagedActionsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(DescribeEnvironmentManagedActionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentManagedActionsOutput>(DescribeEnvironmentManagedActionsOutput.httpOutput(from:), DescribeEnvironmentManagedActionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentManagedActionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentManagedActionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentManagedActionsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentManagedActionsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEnvironmentManagedActionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeEnvironmentManagedActionsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentManagedActionsOutput>(DescribeEnvironmentManagedActionsOutput.httpOutput(from:), DescribeEnvironmentManagedActionsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentManagedActionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentManagedActionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentManagedActionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEnvironmentManagedActions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeEnvironmentResources` operation on the `AWSElasticBeanstalkService` service.
@@ -1380,22 +1843,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(id: "describeEnvironmentResources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(DescribeEnvironmentResourcesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(DescribeEnvironmentResourcesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentResourcesOutput>(DescribeEnvironmentResourcesOutput.httpOutput(from:), DescribeEnvironmentResourcesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentResourcesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentResourcesOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentResourcesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEnvironmentResourcesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeEnvironmentResourcesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentResourcesOutput>(DescribeEnvironmentResourcesOutput.httpOutput(from:), DescribeEnvironmentResourcesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentResourcesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentResourcesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentResourcesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEnvironmentResources")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeEnvironments` operation on the `AWSElasticBeanstalkService` service.
@@ -1423,22 +1905,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(id: "describeEnvironments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(DescribeEnvironmentsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeEnvironmentsInput, DescribeEnvironmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentsInput, DescribeEnvironmentsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(DescribeEnvironmentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentsOutput>(DescribeEnvironmentsOutput.httpOutput(from:), DescribeEnvironmentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEnvironmentsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeEnvironmentsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentsOutput>(DescribeEnvironmentsOutput.httpOutput(from:), DescribeEnvironmentsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeEnvironmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEnvironmentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEnvironmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEnvironments")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeEvents` operation on the `AWSElasticBeanstalkService` service.
@@ -1466,22 +1967,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutput>(id: "describeEvents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutput>(DescribeEventsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeEventsInput, DescribeEventsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeEventsInput, DescribeEventsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutput>(DescribeEventsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeEventsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeEventsInput, DescribeEventsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeEventsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeEventsInput, DescribeEventsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEventsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeEventsInput, DescribeEventsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEventsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeEventsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEventsInput, DescribeEventsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEventsInput, DescribeEventsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEventsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEventsInput, DescribeEventsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEventsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEventsInput, DescribeEventsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEventsInput, DescribeEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEvents")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribeInstancesHealth` operation on the `AWSElasticBeanstalkService` service.
@@ -1515,22 +2035,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(id: "describeInstancesHealth")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(DescribeInstancesHealthInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeInstancesHealthInput, DescribeInstancesHealthOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeInstancesHealthInput, DescribeInstancesHealthOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(DescribeInstancesHealthInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstancesHealthOutput>(DescribeInstancesHealthOutput.httpOutput(from:), DescribeInstancesHealthOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancesHealthOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribeInstancesHealthOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeInstancesHealthOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInstancesHealthInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInstancesHealthOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeInstancesHealthOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstancesHealthOutput>(DescribeInstancesHealthOutput.httpOutput(from:), DescribeInstancesHealthOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeInstancesHealthOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInstancesHealthInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstancesHealthOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstancesHealth")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DescribePlatformVersion` operation on the `AWSElasticBeanstalkService` service.
@@ -1564,22 +2103,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePlatformVersionInput, DescribePlatformVersionOutput>(id: "describePlatformVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(DescribePlatformVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DescribePlatformVersionInput, DescribePlatformVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribePlatformVersionInput, DescribePlatformVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(DescribePlatformVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePlatformVersionOutput>(DescribePlatformVersionOutput.httpOutput(from:), DescribePlatformVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribePlatformVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DescribePlatformVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribePlatformVersionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePlatformVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePlatformVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribePlatformVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePlatformVersionOutput>(DescribePlatformVersionOutput.httpOutput(from:), DescribePlatformVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribePlatformVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePlatformVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePlatformVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePlatformVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `DisassociateEnvironmentOperationsRole` operation on the `AWSElasticBeanstalkService` service.
@@ -1612,22 +2170,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(id: "disassociateEnvironmentOperationsRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(DisassociateEnvironmentOperationsRoleInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(DisassociateEnvironmentOperationsRoleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEnvironmentOperationsRoleOutput>(DisassociateEnvironmentOperationsRoleOutput.httpOutput(from:), DisassociateEnvironmentOperationsRoleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEnvironmentOperationsRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DisassociateEnvironmentOperationsRoleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisassociateEnvironmentOperationsRoleOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEnvironmentOperationsRoleInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateEnvironmentOperationsRoleOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisassociateEnvironmentOperationsRoleOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateEnvironmentOperationsRoleOutput>(DisassociateEnvironmentOperationsRoleOutput.httpOutput(from:), DisassociateEnvironmentOperationsRoleOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateEnvironmentOperationsRoleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEnvironmentOperationsRoleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateEnvironmentOperationsRoleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateEnvironmentOperationsRole")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListAvailableSolutionStacks` operation on the `AWSElasticBeanstalkService` service.
@@ -1655,22 +2232,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(id: "listAvailableSolutionStacks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(ListAvailableSolutionStacksInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(ListAvailableSolutionStacksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableSolutionStacksOutput>(ListAvailableSolutionStacksOutput.httpOutput(from:), ListAvailableSolutionStacksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableSolutionStacksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListAvailableSolutionStacksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAvailableSolutionStacksOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListAvailableSolutionStacksInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAvailableSolutionStacksOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAvailableSolutionStacksOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAvailableSolutionStacksOutput>(ListAvailableSolutionStacksOutput.httpOutput(from:), ListAvailableSolutionStacksOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAvailableSolutionStacksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListAvailableSolutionStacksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAvailableSolutionStacksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAvailableSolutionStacks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListPlatformBranches` operation on the `AWSElasticBeanstalkService` service.
@@ -1698,22 +2294,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPlatformBranchesInput, ListPlatformBranchesOutput>(id: "listPlatformBranches")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(ListPlatformBranchesInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListPlatformBranchesInput, ListPlatformBranchesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListPlatformBranchesInput, ListPlatformBranchesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(ListPlatformBranchesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlatformBranchesOutput>(ListPlatformBranchesOutput.httpOutput(from:), ListPlatformBranchesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPlatformBranchesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListPlatformBranchesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListPlatformBranchesOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListPlatformBranchesInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPlatformBranchesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListPlatformBranchesOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlatformBranchesOutput>(ListPlatformBranchesOutput.httpOutput(from:), ListPlatformBranchesOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPlatformBranchesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListPlatformBranchesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPlatformBranchesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPlatformBranches")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListPlatformVersions` operation on the `AWSElasticBeanstalkService` service.
@@ -1747,22 +2362,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPlatformVersionsInput, ListPlatformVersionsOutput>(id: "listPlatformVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(ListPlatformVersionsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListPlatformVersionsInput, ListPlatformVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListPlatformVersionsInput, ListPlatformVersionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(ListPlatformVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlatformVersionsOutput>(ListPlatformVersionsOutput.httpOutput(from:), ListPlatformVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPlatformVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListPlatformVersionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListPlatformVersionsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListPlatformVersionsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPlatformVersionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListPlatformVersionsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlatformVersionsOutput>(ListPlatformVersionsOutput.httpOutput(from:), ListPlatformVersionsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPlatformVersionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListPlatformVersionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPlatformVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPlatformVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ListTagsForResource` operation on the `AWSElasticBeanstalkService` service.
@@ -1797,22 +2431,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `RebuildEnvironment` operation on the `AWSElasticBeanstalkService` service.
@@ -1845,22 +2498,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RebuildEnvironmentInput, RebuildEnvironmentOutput>(id: "rebuildEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(RebuildEnvironmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<RebuildEnvironmentInput, RebuildEnvironmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<RebuildEnvironmentInput, RebuildEnvironmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(RebuildEnvironmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RebuildEnvironmentOutput>(RebuildEnvironmentOutput.httpOutput(from:), RebuildEnvironmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RebuildEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<RebuildEnvironmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RebuildEnvironmentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RebuildEnvironmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RebuildEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RebuildEnvironmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebuildEnvironmentOutput>(RebuildEnvironmentOutput.httpOutput(from:), RebuildEnvironmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RebuildEnvironmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RebuildEnvironmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RebuildEnvironmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RebuildEnvironment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `RequestEnvironmentInfo` operation on the `AWSElasticBeanstalkService` service.
@@ -1890,22 +2562,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(id: "requestEnvironmentInfo")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(RequestEnvironmentInfoInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(RequestEnvironmentInfoInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestEnvironmentInfoOutput>(RequestEnvironmentInfoOutput.httpOutput(from:), RequestEnvironmentInfoOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RequestEnvironmentInfoOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<RequestEnvironmentInfoOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RequestEnvironmentInfoOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RequestEnvironmentInfoInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RequestEnvironmentInfoOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RequestEnvironmentInfoOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RequestEnvironmentInfoOutput>(RequestEnvironmentInfoOutput.httpOutput(from:), RequestEnvironmentInfoOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RequestEnvironmentInfoOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RequestEnvironmentInfoInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestEnvironmentInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RequestEnvironmentInfo")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `RestartAppServer` operation on the `AWSElasticBeanstalkService` service.
@@ -1933,22 +2624,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RestartAppServerInput, RestartAppServerOutput>(id: "restartAppServer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestartAppServerInput, RestartAppServerOutput>(RestartAppServerInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestartAppServerInput, RestartAppServerOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<RestartAppServerInput, RestartAppServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<RestartAppServerInput, RestartAppServerOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RestartAppServerInput, RestartAppServerOutput>(RestartAppServerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestartAppServerInput, RestartAppServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestartAppServerInput, RestartAppServerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RestartAppServerOutput>(RestartAppServerOutput.httpOutput(from:), RestartAppServerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestartAppServerInput, RestartAppServerOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RestartAppServerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<RestartAppServerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<RestartAppServerInput, RestartAppServerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RestartAppServerOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RestartAppServerInput, RestartAppServerOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RestartAppServerInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<RestartAppServerInput, RestartAppServerOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<RestartAppServerInput, RestartAppServerOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestartAppServerOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RestartAppServerOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestartAppServerOutput>(RestartAppServerOutput.httpOutput(from:), RestartAppServerOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestartAppServerInput, RestartAppServerOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RestartAppServerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestartAppServerInput, RestartAppServerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<RestartAppServerInput, RestartAppServerOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RestartAppServerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestartAppServerInput, RestartAppServerOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestartAppServerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestartAppServerInput, RestartAppServerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestartAppServerInput, RestartAppServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestartAppServer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `RetrieveEnvironmentInfo` operation on the `AWSElasticBeanstalkService` service.
@@ -1978,22 +2688,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(id: "retrieveEnvironmentInfo")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(RetrieveEnvironmentInfoInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(RetrieveEnvironmentInfoInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveEnvironmentInfoOutput>(RetrieveEnvironmentInfoOutput.httpOutput(from:), RetrieveEnvironmentInfoOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveEnvironmentInfoOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<RetrieveEnvironmentInfoOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RetrieveEnvironmentInfoOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RetrieveEnvironmentInfoInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RetrieveEnvironmentInfoOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RetrieveEnvironmentInfoOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetrieveEnvironmentInfoOutput>(RetrieveEnvironmentInfoOutput.httpOutput(from:), RetrieveEnvironmentInfoOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RetrieveEnvironmentInfoOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RetrieveEnvironmentInfoInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetrieveEnvironmentInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RetrieveEnvironmentInfo")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `SwapEnvironmentCNAMEs` operation on the `AWSElasticBeanstalkService` service.
@@ -2021,22 +2750,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(id: "swapEnvironmentCNAMEs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(SwapEnvironmentCNAMEsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(SwapEnvironmentCNAMEsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SwapEnvironmentCNAMEsOutput>(SwapEnvironmentCNAMEsOutput.httpOutput(from:), SwapEnvironmentCNAMEsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SwapEnvironmentCNAMEsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<SwapEnvironmentCNAMEsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SwapEnvironmentCNAMEsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: SwapEnvironmentCNAMEsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SwapEnvironmentCNAMEsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SwapEnvironmentCNAMEsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SwapEnvironmentCNAMEsOutput>(SwapEnvironmentCNAMEsOutput.httpOutput(from:), SwapEnvironmentCNAMEsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SwapEnvironmentCNAMEsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: SwapEnvironmentCNAMEsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SwapEnvironmentCNAMEsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SwapEnvironmentCNAMEs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `TerminateEnvironment` operation on the `AWSElasticBeanstalkService` service.
@@ -2069,22 +2817,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TerminateEnvironmentInput, TerminateEnvironmentOutput>(id: "terminateEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(TerminateEnvironmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<TerminateEnvironmentInput, TerminateEnvironmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<TerminateEnvironmentInput, TerminateEnvironmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(TerminateEnvironmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateEnvironmentOutput>(TerminateEnvironmentOutput.httpOutput(from:), TerminateEnvironmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TerminateEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<TerminateEnvironmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TerminateEnvironmentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateEnvironmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TerminateEnvironmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateEnvironmentOutput>(TerminateEnvironmentOutput.httpOutput(from:), TerminateEnvironmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TerminateEnvironmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateEnvironmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateEnvironmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TerminateEnvironment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateApplication` operation on the `AWSElasticBeanstalkService` service.
@@ -2112,22 +2879,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateApplicationInput, UpdateApplicationOutput>(id: "updateApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(UpdateApplicationInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateApplicationInput, UpdateApplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateApplicationInput, UpdateApplicationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(UpdateApplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateApplicationInput, UpdateApplicationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApplicationInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApplicationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateApplicationInput, UpdateApplicationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateApplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateApplicationResourceLifecycle` operation on the `AWSElasticBeanstalkService` service.
@@ -2160,22 +2946,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(id: "updateApplicationResourceLifecycle")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(UpdateApplicationResourceLifecycleInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(UpdateApplicationResourceLifecycleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationResourceLifecycleOutput>(UpdateApplicationResourceLifecycleOutput.httpOutput(from:), UpdateApplicationResourceLifecycleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationResourceLifecycleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationResourceLifecycleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateApplicationResourceLifecycleOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApplicationResourceLifecycleInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApplicationResourceLifecycleOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateApplicationResourceLifecycleOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationResourceLifecycleOutput>(UpdateApplicationResourceLifecycleOutput.httpOutput(from:), UpdateApplicationResourceLifecycleOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationResourceLifecycleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApplicationResourceLifecycleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationResourceLifecycleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateApplicationResourceLifecycle")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateApplicationVersion` operation on the `AWSElasticBeanstalkService` service.
@@ -2203,22 +3008,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(id: "updateApplicationVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(UpdateApplicationVersionInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateApplicationVersionInput, UpdateApplicationVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateApplicationVersionInput, UpdateApplicationVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(UpdateApplicationVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationVersionOutput>(UpdateApplicationVersionOutput.httpOutput(from:), UpdateApplicationVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateApplicationVersionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApplicationVersionInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApplicationVersionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateApplicationVersionOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationVersionOutput>(UpdateApplicationVersionOutput.httpOutput(from:), UpdateApplicationVersionOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApplicationVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateApplicationVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateConfigurationTemplate` operation on the `AWSElasticBeanstalkService` service.
@@ -2254,22 +3078,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(id: "updateConfigurationTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(UpdateConfigurationTemplateInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(UpdateConfigurationTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationTemplateOutput>(UpdateConfigurationTemplateOutput.httpOutput(from:), UpdateConfigurationTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateConfigurationTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateConfigurationTemplateOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConfigurationTemplateInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConfigurationTemplateOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateConfigurationTemplateOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationTemplateOutput>(UpdateConfigurationTemplateOutput.httpOutput(from:), UpdateConfigurationTemplateOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateConfigurationTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConfigurationTemplateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConfigurationTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConfigurationTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateEnvironment` operation on the `AWSElasticBeanstalkService` service.
@@ -2303,22 +3146,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateEnvironmentInput, UpdateEnvironmentOutput>(id: "updateEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(UpdateEnvironmentInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateEnvironmentInput, UpdateEnvironmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateEnvironmentInput, UpdateEnvironmentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(UpdateEnvironmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateEnvironmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateEnvironmentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnvironmentInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateEnvironmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnvironmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnvironmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateEnvironment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `UpdateTagsForResource` operation on the `AWSElasticBeanstalkService` service.
@@ -2355,22 +3217,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(id: "updateTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(UpdateTagsForResourceInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTagsForResourceInput, UpdateTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateTagsForResourceInput, UpdateTagsForResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(UpdateTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTagsForResourceOutput>(UpdateTagsForResourceOutput.httpOutput(from:), UpdateTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<UpdateTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateTagsForResourceOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTagsForResourceInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTagsForResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateTagsForResourceOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTagsForResourceOutput>(UpdateTagsForResourceOutput.httpOutput(from:), UpdateTagsForResourceOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTagsForResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
     /// Performs the `ValidateConfigurationSettings` operation on the `AWSElasticBeanstalkService` service.
@@ -2404,22 +3285,41 @@ extension ElasticBeanstalkClient {
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(id: "validateConfigurationSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(ValidateConfigurationSettingsInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>())
+        let builder = ClientRuntime.OrchestratorBuilder<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(ValidateConfigurationSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateConfigurationSettingsOutput>(ValidateConfigurationSettingsOutput.httpOutput(from:), ValidateConfigurationSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ValidateConfigurationSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ValidateConfigurationSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ValidateConfigurationSettingsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ValidateConfigurationSettingsInput.write(value:to:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateConfigurationSettingsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ValidateConfigurationSettingsOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateConfigurationSettingsOutput>(ValidateConfigurationSettingsOutput.httpOutput(from:), ValidateConfigurationSettingsOutputError.httpError(from:)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ValidateConfigurationSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ValidateConfigurationSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateConfigurationSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElasticBeanstalk")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ValidateConfigurationSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
     }
 
 }
