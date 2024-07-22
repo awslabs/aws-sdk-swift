@@ -505,8 +505,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSMigrationHubStrategy](../../../../../swift/api/awsmigrationhubstrategy/latest)
 
-[AWSMobile](../../../../../swift/api/awsmobile/latest)
-
 [AWSMq](../../../../../swift/api/awsmq/latest)
 
 [AWSNeptune](../../../../../swift/api/awsneptune/latest)

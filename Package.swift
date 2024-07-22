@@ -510,7 +510,6 @@ let serviceTargets: [String] = [
     "AWSMigrationHubOrchestrator",
     "AWSMigrationHubRefactorSpaces",
     "AWSMigrationHubStrategy",
-    "AWSMobile",
     "AWSMq",
     "AWSNeptune",
     "AWSNeptuneGraph",
