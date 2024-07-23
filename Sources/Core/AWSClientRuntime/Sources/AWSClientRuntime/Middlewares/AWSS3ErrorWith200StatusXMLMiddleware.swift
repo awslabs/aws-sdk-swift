@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import enum Smithy.ByteStream
 import class Smithy.Context
 import ClientRuntime
 import SmithyHTTPAPI
@@ -22,24 +23,7 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
         let reader = try Reader.from(data: data)
 
         // Use findNode to check if there's an "Error" node in the XML
-        return reader.findNode("Error") != nil
-    }
-
-    private func isErrorWith200Status(response: HTTPResponse) async throws -> Bool {
-        // Check if the status code is OK (200)
-        guard response.statusCode == .ok else {
-            return false
-        }
-
-        // Check if the response body contains an XML Error
-        guard let data = try await response.body.readData() else {
-            return false
-        }
-
-        //response.body = .data(data)
-        //response.body = .stream(BufferedStream(data: data))
-
-        return try isRootErrorElement(data: data)
+        return reader.nodeInfo.name == "Error"
     }
 }
 
@@ -51,9 +35,43 @@ extension AWSS3ErrorWith200StatusXMLMiddleware: HttpInterceptor {
         context: some MutableResponse<Self.InputType, Self.RequestType, Self.ResponseType>
     ) async throws {
         let response = context.getResponse()
-        if try await isErrorWith200Status(response: response) {
-            response.statusCode = errorStatusCode
-            context.updateResponse(updated: response)
+
+        // Check if the status code is OK (200)
+        guard response.statusCode == .ok else {
+            return
+        }
+
+        // Check if the response body contains an XML Error
+        guard let data = try await response.body.readData() else {
+            return
+        }
+
+        // Determine if there is an error in result (500) or keep status (200)
+        let statusCode = try isRootErrorElement(data: data) ? errorStatusCode : response.statusCode
+
+        // For event streams the body needs to be copied as buffered streams are non-seekable
+        let updatedBody = response.body.copy(data: data)
+
+        let updatedResponse = response.copy(
+            body: updatedBody,
+            statusCode: statusCode
+        )
+
+        context.updateResponse(updated: updatedResponse)
+    }
+}
+
+extension ByteStream {
+
+    // Copy an existing ByteStream, optionally with new data
+    public func copy(data: Data?) -> ByteStream {
+        switch self {
+        case .data(let existingData):
+            return .data(data ?? existingData)
+        case .stream(let existingStream):
+            return .stream(data != nil ? BufferedStream(data: data, isClosed: true) : existingStream)
+        case .noStream:
+            return .noStream
         }
     }
 }
