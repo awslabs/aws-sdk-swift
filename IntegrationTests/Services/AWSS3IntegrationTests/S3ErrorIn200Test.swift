@@ -132,11 +132,8 @@ class S3ErrorIn200Test: XCTestCase {
             let actualError = result.errors?.first
             XCTAssertEqual(actualError?.code, "AccessDenied")
             XCTAssertEqual(actualError?.key, "sample2.txt")
-        } catch let error as UnknownAWSHTTPServiceError {
-            // check for the error we added in our mock client
-            XCTFail("Expected success, Error is not at the root element of the XML response.")
-        } catch {
-            XCTFail("Unexpected error: \(error)")
+        } catch let error {
+            XCTFail("Expected success, but received \(error).")
         }
     }
 }
