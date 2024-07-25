@@ -62,7 +62,7 @@ open class AWSAuthUtils(
         }
     }
 
-    override fun addAdditionalSchemes(writer: SwiftWriter, authSchemeList: Array<String>): Array<String> {
+    override fun addAdditionalSchemes(writer: SwiftWriter, authSchemeList: MutableList<String>): List<String> {
         val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
 
         val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
