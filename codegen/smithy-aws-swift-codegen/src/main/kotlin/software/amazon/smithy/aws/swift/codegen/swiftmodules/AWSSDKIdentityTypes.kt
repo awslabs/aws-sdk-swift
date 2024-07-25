@@ -18,6 +18,7 @@ object AWSSDKIdentityTypes {
     val AWSEndpointsRequestContext = runtimeSymbol("AWSEndpointsRequestContext")
     val AuthSchemeResolver = runtimeSymbol("AuthSchemeResolver")
     val DefaultAuthSchemeResolver = runtimeSymbol("DefaultAuthSchemeResolver")
+    val DefaultBearerTokenIdentityResolverChain = runtimeSymbol("DefaultBearerTokenIdentityResolverChain")
 }
 
 private fun runtimeSymbol(name: String, declaration: SwiftDeclaration? = null): Symbol = SwiftSymbol.make(

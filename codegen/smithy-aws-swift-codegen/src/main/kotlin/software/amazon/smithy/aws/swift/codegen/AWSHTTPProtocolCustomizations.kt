@@ -30,8 +30,8 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4a")
         writer.write("  .withRegion(value: config.region)")
-        if (SigV4Utils.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
-            val signingName = SigV4Utils.signingServiceName(serviceShape)
+        if (AWSAuthUtils.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
+            val signingName = AWSAuthUtils.signingServiceName(serviceShape)
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")
         }

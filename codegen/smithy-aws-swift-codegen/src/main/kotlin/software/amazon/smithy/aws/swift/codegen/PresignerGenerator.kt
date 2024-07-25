@@ -32,12 +32,12 @@ class PresignerGenerator : SwiftIntegration {
     override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
-        if (!SigV4Utils.isSupportedAuthentication(ctx.model, service)) return
+        if (!AWSAuthUtils.isSupportedAuthentication(ctx.model, service)) return
         val presignOperations = service.allOperations
             .map { ctx.model.expectShape<OperationShape>(it) }
             .filter { operationShape -> operationShape.hasTrait(Presignable.ID) }
             .map { operationShape ->
-                check(SigV4Utils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
+                check(AWSAuthUtils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
                 PresignableOperation(service.id.toString(), operationShape.id.toString())
             }
         presignOperations.forEach { presignableOperation ->

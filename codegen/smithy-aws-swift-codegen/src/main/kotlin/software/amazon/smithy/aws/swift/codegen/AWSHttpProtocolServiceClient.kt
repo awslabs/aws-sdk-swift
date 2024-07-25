@@ -5,7 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.SigV4Utils.Companion.getModeledAuthSchemesSupportedBySDK
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -14,10 +14,12 @@ import software.amazon.smithy.swift.codegen.config.DefaultProvider
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
+import software.amazon.smithy.swift.codegen.model.toGeneric
 import software.amazon.smithy.swift.codegen.model.toOptional
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyRetriesAPITypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
@@ -45,7 +47,15 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty("authSchemeResolver", SmithyHTTPAuthAPITypes.AuthSchemeResolver, authSchemeResolverDefaultProvider)
                 }
                 "authSchemes" -> {
-                    ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), authSchemesDefaultProvider)
+                    ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), AWSAuthUtils(ctx).authSchemesDefaultProvider)
+                }
+                "bearerTokenIdentityResolver" -> {
+                    ConfigProperty(
+                        "bearerTokenIdentityResolver",
+                        SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
+                        { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
+                        true
+                    )
                 }
                 "retryStrategyOptions" -> {
                     ConfigProperty(
@@ -129,12 +139,6 @@ class AWSHttpProtocolServiceClient(
             writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
         }
     }
-
-    private val authSchemesDefaultProvider = DefaultProvider(
-        { getModeledAuthSchemesSupportedBySDK(ctx, it) },
-        isThrowable = false,
-        isAsync = false
-    )
 
     private val authSchemeResolverDefaultProvider = DefaultProvider(
         { "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()" },
