@@ -7,6 +7,8 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.knowledge.ServiceIndex
+import software.amazon.smithy.model.traits.HttpBearerAuthTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
@@ -50,12 +52,16 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), AWSAuthUtils(ctx).authSchemesDefaultProvider)
                 }
                 "bearerTokenIdentityResolver" -> {
-                    ConfigProperty(
-                        "bearerTokenIdentityResolver",
-                        SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
-                        { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
-                        true
-                    )
+                    if (ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service).contains(HttpBearerAuthTrait.ID)) {
+                        ConfigProperty(
+                            "bearerTokenIdentityResolver",
+                            SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
+                            { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
+                            true
+                        )
+                    } else {
+                        it
+                    }
                 }
                 "retryStrategyOptions" -> {
                     ConfigProperty(
