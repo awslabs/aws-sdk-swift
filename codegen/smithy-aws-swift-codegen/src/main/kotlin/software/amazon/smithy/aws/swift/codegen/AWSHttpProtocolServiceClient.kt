@@ -7,7 +7,6 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -23,6 +22,7 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyRetriesAPITypes
+import software.amazon.smithy.swift.codegen.utils.AuthUtils
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class AWSHttpProtocolServiceClient(
@@ -52,7 +52,7 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), AWSAuthUtils(ctx).authSchemesDefaultProvider)
                 }
                 "bearerTokenIdentityResolver" -> {
-                    if (ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service).contains(HttpBearerAuthTrait.ID)) {
+                    if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                         ConfigProperty(
                             "bearerTokenIdentityResolver",
                             SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
