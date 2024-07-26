@@ -22,7 +22,7 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
     private func isRootErrorElement(data: Data) throws -> Bool {
         let reader = try Reader.from(data: data)
 
-        // Use findNode to check if there's an "Error" node in the XML
+        // Check if there's an "Error" node at the root of the XML response
         return reader.nodeInfo.name == "Error"
     }
 }
@@ -41,12 +41,10 @@ extension AWSS3ErrorWith200StatusXMLMiddleware: HttpInterceptor {
             return
         }
 
-        // Check if the response body contains an XML Error
         guard let data = try await response.body.readData() else {
             return
         }
 
-        // Determine if there is an error in result (500) or keep status (200)
         let statusCode = try isRootErrorElement(data: data) ? errorStatusCode : response.statusCode
 
         // For event streams the body needs to be copied as buffered streams are non-seekable

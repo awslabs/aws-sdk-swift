@@ -44,7 +44,7 @@ extension Target.Dependency {
     static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
-    static var smithyXml: Self { .product(name: "SmithyXML", package: "smithy-swift") }
+    static var smithyXML: Self { .product(name: "SmithyXML", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -80,7 +80,7 @@ let package = Package(
                 .smithyRetries,
                 .smithyEventStreamsAPI,
                 .smithyEventStreamsAuthAPI,
-                .smithyXml,
+                .smithyXML,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity
