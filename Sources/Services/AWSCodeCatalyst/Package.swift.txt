@@ -19,6 +19,10 @@ let package = Package(
             id: "aws-sdk-swift.AWSClientRuntime",
             exact: "0.0.1"
         ),
+        .package(
+            id: "aws-sdk-swift.AWSSDKIdentity",
+            exact: "0.0.1"
+        ),
     ],
     targets: [
         .target(
@@ -51,6 +55,14 @@ let package = Package(
                 .product(
                     name: "SmithyHTTPAPI",
                     package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "SmithyHTTPAuth",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "AWSSDKIdentity",
+                    package: "aws-sdk-swift.AWSSDKIdentity"
                 ),
                 .product(
                     name: "SmithyJSON",
