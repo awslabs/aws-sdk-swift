@@ -28,16 +28,20 @@ class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
             writer.write("private var authSchemes: \$N", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional())
             writer.write("private var authSchemeResolver: \$N", SmithyHTTPAuthAPITypes.AuthSchemeResolver.toOptional())
             writer.write("private var awsCredentialIdentityResolver: \$N", SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional())
+            writer.write("private var bearerTokenIdentityResolver: \$N", SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric().toOptional())
+
             writer.write("")
             writer.openBlock(
-                "public init(authSchemes: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil) {", "}",
+                "public init(authSchemes: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil, bearerTokenIdentityResolver: \$N = nil) {", "}",
                 SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(),
                 AuthSchemeResolverGenerator.getServiceSpecificAuthSchemeResolverName(ctx).toOptional(),
-                SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional()
+                SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional(),
+                SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric().toOptional()
             ) {
                 writer.write("self.authSchemeResolver = authSchemeResolver")
                 writer.write("self.authSchemes = authSchemes")
                 writer.write("self.awsCredentialIdentityResolver = awsCredentialIdentityResolver")
+                writer.write("self.bearerTokenIdentityResolver = bearerTokenIdentityResolver")
             }
             writer.write("")
             writer.openBlock("public func configureClient(clientConfiguration: \$N) throws {", "}", ClientRuntimeTypes.Core.ClientConfiguration) {
@@ -50,6 +54,9 @@ class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
                     }
                     writer.openBlock("if (self.awsCredentialIdentityResolver != nil) {", "}") {
                         writer.write("config.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
+                    }
+                    writer.openBlock("if (self.bearerTokenIdentityResolver != nil) {", "}") {
+                        writer.write("config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
                     }
                 }
             }

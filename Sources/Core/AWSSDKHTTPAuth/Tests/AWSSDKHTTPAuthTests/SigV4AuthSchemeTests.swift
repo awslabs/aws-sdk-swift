@@ -13,7 +13,7 @@ import Smithy
 
 class SigV4AuthSchemeTests: XCTestCase {
     private var contextBuilder: ContextBuilder!
-    private var sigV4AuthScheme: SigV4AuthScheme!
+    private var sigV4AuthScheme: AWSSDKHTTPAuth.SigV4AuthScheme!
 
     override func setUp() async throws {
         try await super.setUp()

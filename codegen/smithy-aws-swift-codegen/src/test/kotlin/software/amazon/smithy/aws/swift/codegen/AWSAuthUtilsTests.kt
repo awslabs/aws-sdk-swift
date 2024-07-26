@@ -13,7 +13,7 @@ import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.model.traits.AuthTrait
 import software.amazon.smithy.model.traits.HttpBasicAuthTrait
 
-class SigV4UtilsTests {
+class AWSAuthUtilsTests {
     @Test
     fun `service has SigV4Trait and operation has auth trait`() {
         val sigV4Trait = SigV4Trait.builder().name("ExampleService").build()
@@ -34,7 +34,7 @@ class SigV4UtilsTests {
             .addShape(operationShape)
             .build()
 
-        val hasAuthScheme = SigV4Utils.hasSigV4AuthScheme(model, serviceShape, operationShape)
+        val hasAuthScheme = AWSAuthUtils.hasSigV4AuthScheme(model, serviceShape, operationShape)
         assertTrue(hasAuthScheme)
     }
 
@@ -58,7 +58,7 @@ class SigV4UtilsTests {
             .addShape(outputShape)
             .build()
 
-        val hasAuthScheme = SigV4Utils.hasSigV4AuthScheme(model, serviceShape, operationShape)
+        val hasAuthScheme = AWSAuthUtils.hasSigV4AuthScheme(model, serviceShape, operationShape)
         assertFalse(hasAuthScheme)
     }
 }
