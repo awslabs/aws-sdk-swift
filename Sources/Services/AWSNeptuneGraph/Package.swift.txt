@@ -23,10 +23,6 @@ let package = Package(
             id: "aws-sdk-swift.AWSSDKHTTPAuth",
             exact: "0.0.1"
         ),
-        .package(
-            id: "aws-sdk-swift.AWSSDKIdentity",
-            exact: "0.0.1"
-        ),
     ],
     targets: [
         .target(
@@ -71,10 +67,6 @@ let package = Package(
                 .product(
                     name: "AWSSDKHTTPAuth",
                     package: "aws-sdk-swift.AWSSDKHTTPAuth"
-                ),
-                .product(
-                    name: "AWSSDKIdentity",
-                    package: "aws-sdk-swift.AWSSDKIdentity"
                 ),
                 .product(
                     name: "SmithyRetries",
