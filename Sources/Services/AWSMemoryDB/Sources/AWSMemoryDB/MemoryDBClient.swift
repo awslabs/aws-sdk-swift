@@ -1374,7 +1374,7 @@ extension MemoryDBClient {
 
     /// Performs the `DescribeEngineVersions` operation on the `AmazonMemoryDB` service.
     ///
-    /// Returns a list of the available Redis engine versions.
+    /// Returns a list of the available Redis OSS engine versions.
     ///
     /// - Parameter DescribeEngineVersionsInput : [no documentation found]
     ///
