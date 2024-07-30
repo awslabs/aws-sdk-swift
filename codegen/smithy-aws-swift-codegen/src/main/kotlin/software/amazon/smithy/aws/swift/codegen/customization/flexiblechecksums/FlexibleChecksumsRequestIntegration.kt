@@ -10,9 +10,7 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
-import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.shapes
@@ -45,10 +43,6 @@ private fun String.lowercaseFirstLetter(): String =
 
 private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
     override val name = "FlexibleChecksumRequestMiddleware"
-
-    override val middlewareStep = MiddlewareStep.SERIALIZESTEP
-
-    override val position = MiddlewarePosition.AFTER
 
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,

@@ -29,7 +29,7 @@ guard let region = config.region else {
     throw Smithy.ClientError.unknownError("Missing required parameter: region")
 }
 let endpointParams = EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.boolFoo, endpoint: config.endpoint, region: region, stringArrayBar: ["five", "six", "seven"], stringBar: "some value", stringBaz: input.buzz, stringFoo: config.stringFoo)
-operationStack.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetThingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
+builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetThingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
 """
         contents.shouldContainOnlyOnce(expected)
     }

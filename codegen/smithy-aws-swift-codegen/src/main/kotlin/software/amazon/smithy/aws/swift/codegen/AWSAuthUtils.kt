@@ -18,8 +18,11 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
+import software.amazon.smithy.swift.codegen.utils.AuthUtils
 
-open class SigV4Utils() {
+open class AWSAuthUtils(
+    private val ctx: ProtocolGenerator.GenerationContext
+) : AuthUtils(ctx) {
     companion object {
         /**
          * Returns if the SigV4Trait is a auth scheme supported by the service.
@@ -57,24 +60,22 @@ open class SigV4Utils() {
             val auth = ServiceIndex.of(model).getEffectiveAuthSchemes(service.id, operation.id)
             return auth.containsKey(SigV4Trait.ID) && !operation.hasTrait<OptionalAuthTrait>()
         }
+    }
 
-        fun getModeledAuthSchemesSupportedBySDK(
-            ctx: ProtocolGenerator.GenerationContext,
-            writer: SwiftWriter,
-        ): String {
-            val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
-            var authSchemeList = arrayOf<String>()
+    override fun addAdditionalSchemes(writer: SwiftWriter, authSchemeList: MutableList<String>): List<String> {
+        val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
 
-            val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
-            val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore")
+        val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
+        val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore")
+        var updatedAuthSchemeList = authSchemeList
 
-            if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
-                authSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AuthScheme)
-            }
-            if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
-                authSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AAuthScheme)
-            }
-            return "[${authSchemeList.joinToString(", ")}]"
+        if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
+            updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AuthScheme)
         }
+        if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
+            updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AAuthScheme)
+        }
+
+        return updatedAuthSchemeList
     }
 }
