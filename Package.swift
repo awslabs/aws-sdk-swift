@@ -157,13 +157,9 @@ func addClientRuntimeDependency(_ version: Version) {
         package.dependencies += [
             .package(path: "../smithy-swift")
         ]
-    case (false, true):
+    default:
         package.dependencies += [
-            .package(url: smithySwiftURL, branch: "main")
-        ]
-    case (false, false):
-        package.dependencies += [
-            .package(url: smithySwiftURL, exact: version)
+            .package(url: smithySwiftURL, branch: "otel-swift")
         ]
     }
 }
