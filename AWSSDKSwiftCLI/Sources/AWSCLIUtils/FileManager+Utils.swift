@@ -36,6 +36,16 @@ public extension FileManager {
             .filter { !$0.hasPrefix(".") }
     }
 
+    /// Returns the list of AWS runtime modules within `Sources/Core`
+    ///
+    /// - Returns: The list of AWS runtime modules.
+    func getAWSRuntimeModules() throws -> [String] {
+        try FileManager.default
+            .contentsOfDirectory(atPath: "Sources/Core")
+            .sorted()
+            .filter { !($0 == "AWSSDKForSwift") } // Ignore documentation module
+    }
+
     /// Returns the list of integration tests.
     ///
     /// - Returns: The list of integration tests.
