@@ -789,7 +789,7 @@ public struct TenantDatabaseNotFoundFault: ClientRuntime.ModeledError, AWSClient
 }
 
 extension RDSClientTypes {
-    /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+    /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public struct Tag {
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds:. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
         public var key: Swift.String?
@@ -1526,7 +1526,7 @@ public struct CopyDBClusterParameterGroupInput {
     /// * Must specify a valid DB cluster parameter group.
     /// This member is required.
     public var sourceDBClusterParameterGroupIdentifier: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// A description for the copied DB cluster parameter group.
     /// This member is required.
@@ -1749,7 +1749,7 @@ public struct CopyDBClusterSnapshotInput {
     /// Example: my-cluster-snapshot1
     /// This member is required.
     public var sourceDBClusterSnapshotIdentifier: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter isn't case-sensitive. Constraints:
     ///
@@ -1839,7 +1839,7 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster snapshot. This setting is only for Aurora DB clusters.
         public var storageType: Swift.String?
-        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// The VPC ID associated with the DB cluster snapshot.
         public var vpcId: Swift.String?
@@ -1923,7 +1923,7 @@ public struct CopyDBParameterGroupInput {
     /// * Must specify a valid DB parameter group.
     /// This member is required.
     public var sourceDBParameterGroupIdentifier: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// A description for the copied DB parameter group.
     /// This member is required.
@@ -2098,7 +2098,7 @@ public struct CopyDBSnapshotInput {
     /// Example: rds:mydb-2012-04-02-00-01 Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
     /// This member is required.
     public var sourceDBSnapshotIdentifier: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The external custom Availability Zone (CAZ) identifier for the target CAZ. Example: rds-caz-aiqhTgQv.
     public var targetCustomAvailabilityZone: Swift.String?
@@ -2259,7 +2259,7 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// Specifies the storage type associated with DB snapshot.
         public var storageType: Swift.String?
-        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// The ARN from the key store with which to associate the instance for TDE encryption.
         public var tdeCredentialArn: Swift.String?
@@ -2439,7 +2439,7 @@ public struct CopyOptionGroupInput {
     /// * Must specify a valid option group.
     /// This member is required.
     public var sourceOptionGroupIdentifier: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The description for the copied option group.
     /// This member is required.
@@ -2972,7 +2972,7 @@ extension RDSClientTypes {
         public var statusDetails: Swift.String?
         /// The details about each source and target resource in the blue/green deployment.
         public var switchoverDetails: [RDSClientTypes.SwitchoverDetail]?
-        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// The target database for the blue/green deployment. Before switchover, the target database is the clone database in the green environment.
         public var target: Swift.String?
@@ -3146,7 +3146,7 @@ public struct CreateCustomDBEngineVersionInput {
     public var manifest: Swift.String?
     /// The ARN of a CEV to use as a source for creating a new CEV. You can specify a different Amazon Machine Imagine (AMI) by using either Source or UseAwsProvidedLatestImage. You can't specify a different JSON manifest when you specify SourceCustomDbEngineVersionIdentifier.
     public var sourceCustomDbEngineVersionIdentifier: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// Specifies whether to use the latest service-provided Amazon Machine Image (AMI) for the CEV. If you specify UseAwsProvidedLatestImage, you can't also specify ImageId.
     public var useAwsProvidedLatestImage: Swift.Bool?
@@ -3361,7 +3361,7 @@ public struct CreateCustomDBEngineVersionOutput {
     public var supportsParallelQuery: Swift.Bool?
     /// Indicates whether the database engine version supports read replicas.
     public var supportsReadReplica: Swift.Bool?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tagList: [RDSClientTypes.Tag]?
     /// A list of engine versions that this database engine version can be upgraded to.
     public var validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
@@ -4091,7 +4091,7 @@ public struct CreateDBClusterInput {
     ///
     /// * Must be at least 30 minutes.
     public var preferredMaintenanceWindow: Swift.String?
-    /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Valid for Cluster Type: Multi-AZ DB clusters only Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
+    /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, the endpoint resolves to the private IP address. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Valid for Cluster Type: Multi-AZ DB clusters only Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
     ///
     /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.
     ///
@@ -4866,7 +4866,7 @@ extension RDSClientTypes {
         public var preferredBackupWindow: Swift.String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
         public var preferredMaintenanceWindow: Swift.String?
-        /// Indicates whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. For more information, see [CreateDBCluster]. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// Indicates whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, the endpoint resolves to the private IP address. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. For more information, see [CreateDBCluster]. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var publiclyAccessible: Swift.Bool?
         /// Reserved for future use.
         public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
@@ -4890,7 +4890,7 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster.
         public var storageType: Swift.String?
-        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// The list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]?
@@ -6011,7 +6011,7 @@ public struct CreateDBInstanceInput {
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// The order of priority in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see [ Fault Tolerance for an Aurora DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Aurora.Managing.FaultTolerance) in the Amazon Aurora User Guide. This setting doesn't apply to RDS Custom DB instances. Default: 1 Valid Values: 0 - 15
     public var promotionTier: Swift.Int?
-    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB instance's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
+    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
     ///
     /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB instance is private.
     ///
@@ -6729,7 +6729,7 @@ extension RDSClientTypes {
         public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
         /// The order of priority in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see [ Fault Tolerance for an Aurora DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Aurora.Managing.FaultTolerance) in the Amazon Aurora User Guide.
         public var promotionTier: Swift.Int?
-        /// Indicates whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
+        /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
         public var publiclyAccessible: Swift.Bool?
         /// The identifiers of Aurora DB clusters to which the RDS DB instance is replicated as a read replica. For example, when you create an Aurora read replica of an RDS for MySQL DB instance, the Aurora MySQL DB cluster for the Aurora read replica is shown. This output doesn't contain information about cross-Region Aurora read replicas. Currently, each RDS DB instance can have only one Aurora read replica.
         public var readReplicaDBClusterIdentifiers: [Swift.String]?
@@ -6753,7 +6753,7 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB instance.
         public var storageType: Swift.String?
-        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
         public var tdeCredentialArn: Swift.String?
@@ -7157,7 +7157,7 @@ public struct CreateDBInstanceReadReplicaInput {
     public var storageThroughput: Swift.Int?
     /// The storage type to associate with the read replica. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1 if the Iops parameter is specified. Otherwise, gp2.
     public var storageType: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// Whether to upgrade the storage file system configuration on the read replica. This option migrates the read replica from the old storage file system layout to the preferred layout.
     public var upgradeStorageConfig: Swift.Bool?
@@ -7891,7 +7891,7 @@ public struct CreateDBProxyEndpointInput {
     /// The name of the DB proxy associated with the DB proxy endpoint that you create.
     /// This member is required.
     public var dbProxyName: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The role of the DB proxy endpoint. The role determines whether the endpoint can be used for read/write or only read operations. The default is READ_WRITE. The only role that proxies for RDS for Microsoft SQL Server support is READ_WRITE.
     public var targetRole: RDSClientTypes.DBProxyEndpointTargetRole?
@@ -8260,6 +8260,8 @@ public struct CreateDBShardGroupInput {
     /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
     /// This member is required.
     public var maxACU: Swift.Double?
+    /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var minACU: Swift.Double?
     /// Specifies whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
     ///
     /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB shard group is private.
@@ -8279,6 +8281,7 @@ public struct CreateDBShardGroupInput {
         dbClusterIdentifier: Swift.String? = nil,
         dbShardGroupIdentifier: Swift.String? = nil,
         maxACU: Swift.Double? = nil,
+        minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil
     )
     {
@@ -8286,6 +8289,7 @@ public struct CreateDBShardGroupInput {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
         self.maxACU = maxACU
+        self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
     }
 }
@@ -8309,6 +8313,8 @@ public struct CreateDBShardGroupOutput {
     public var endpoint: Swift.String?
     /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
     public var maxACU: Swift.Double?
+    /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var minACU: Swift.Double?
     /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
     public var publiclyAccessible: Swift.Bool?
     /// The status of the DB shard group.
@@ -8321,6 +8327,7 @@ public struct CreateDBShardGroupOutput {
         dbShardGroupResourceId: Swift.String? = nil,
         endpoint: Swift.String? = nil,
         maxACU: Swift.Double? = nil,
+        minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         status: Swift.String? = nil
     )
@@ -8331,6 +8338,7 @@ public struct CreateDBShardGroupOutput {
         self.dbShardGroupResourceId = dbShardGroupResourceId
         self.endpoint = endpoint
         self.maxACU = maxACU
+        self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
         self.status = status
     }
@@ -8357,7 +8365,7 @@ public struct CreateDBSnapshotInput {
     /// Example: my-snapshot-id
     /// This member is required.
     public var dbSnapshotIdentifier: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
 
     public init(
@@ -8681,7 +8689,7 @@ public struct CreateEventSubscriptionInput {
     /// The name of the subscription. Constraints: The name must be less than 255 characters.
     /// This member is required.
     public var subscriptionName: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
 
     public init(
@@ -9108,7 +9116,7 @@ public struct CreateIntegrationInput {
     /// The Amazon Resource Name (ARN) of the database to use as the source for replication.
     /// This member is required.
     public var sourceArn: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The ARN of the Redshift data warehouse to use as the target for replication.
     /// This member is required.
@@ -9223,7 +9231,7 @@ public struct CreateIntegrationOutput {
     public var sourceArn: Swift.String?
     /// The current status of the integration.
     public var status: RDSClientTypes.IntegrationStatus?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The ARN of the Redshift data warehouse used as the target for replication.
     public var targetArn: Swift.String?
@@ -9386,7 +9394,7 @@ public struct CreateTenantDatabaseInput {
     public var masterUsername: Swift.String?
     /// The NCHAR value for the tenant database.
     public var ncharCharacterSetName: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The user-supplied name of the tenant database that you want to create in your DB instance. This parameter has the same constraints as DBName in CreateDBInstance.
     /// This member is required.
@@ -9461,7 +9469,7 @@ extension RDSClientTypes {
         public var pendingModifiedValues: RDSClientTypes.TenantDatabasePendingModifiedValues?
         /// The status of the tenant database.
         public var status: Swift.String?
-        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// The database name of the tenant database.
         public var tenantDBName: Swift.String?
@@ -9713,7 +9721,7 @@ public struct DeleteCustomDBEngineVersionOutput {
     public var supportsParallelQuery: Swift.Bool?
     /// Indicates whether the database engine version supports read replicas.
     public var supportsReadReplica: Swift.Bool?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tagList: [RDSClientTypes.Tag]?
     /// A list of engine versions that this database engine version can be upgraded to.
     public var validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
@@ -9825,7 +9833,7 @@ public struct DeleteDBClusterInput {
     public var dbClusterIdentifier: Swift.String?
     /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB cluster is deleted.
     public var deleteAutomatedBackups: Swift.Bool?
-    /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled. Specifying this parameter and also skipping the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter results in an error. Constraints:
+    /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled. If you specify this parameter and also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter, the request results in an error. Constraints:
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
     ///
@@ -9833,7 +9841,7 @@ public struct DeleteDBClusterInput {
     ///
     /// * Can't end with a hyphen or contain two consecutive hyphens
     public var finalDBSnapshotIdentifier: Swift.String?
-    /// Specifies whether to skip the creation of a final DB cluster snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is created. If skip isn't specified, a DB cluster snapshot is created before the DB cluster is deleted. By default, skip isn't specified, and the DB cluster snapshot is created. By default, this parameter is disabled. You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is disabled.
+    /// Specifies whether to skip the creation of a final DB cluster snapshot before RDS deletes the DB cluster. If you set this value to true, RDS doesn't create a final DB cluster snapshot. If you set this value to false or don't specify it, RDS creates a DB cluster snapshot before it deletes the DB cluster. By default, this parameter is disabled, so RDS creates a final DB cluster snapshot. If SkipFinalSnapshot is disabled, you must specify a value for the FinalDBSnapshotIdentifier parameter.
     public var skipFinalSnapshot: Swift.Bool?
 
     public init(
@@ -10771,6 +10779,8 @@ public struct DeleteDBShardGroupOutput {
     public var endpoint: Swift.String?
     /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
     public var maxACU: Swift.Double?
+    /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var minACU: Swift.Double?
     /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
     public var publiclyAccessible: Swift.Bool?
     /// The status of the DB shard group.
@@ -10783,6 +10793,7 @@ public struct DeleteDBShardGroupOutput {
         dbShardGroupResourceId: Swift.String? = nil,
         endpoint: Swift.String? = nil,
         maxACU: Swift.Double? = nil,
+        minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         status: Swift.String? = nil
     )
@@ -10793,6 +10804,7 @@ public struct DeleteDBShardGroupOutput {
         self.dbShardGroupResourceId = dbShardGroupResourceId
         self.endpoint = endpoint
         self.maxACU = maxACU
+        self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
         self.status = status
     }
@@ -10996,7 +11008,7 @@ public struct DeleteIntegrationOutput {
     public var sourceArn: Swift.String?
     /// The current status of the integration.
     public var status: RDSClientTypes.IntegrationStatus?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The ARN of the Redshift data warehouse used as the target for replication.
     public var targetArn: Swift.String?
@@ -12248,7 +12260,7 @@ extension RDSClientTypes {
         public var supportsParallelQuery: Swift.Bool?
         /// Indicates whether the database engine version supports read replicas.
         public var supportsReadReplica: Swift.Bool?
-        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// A list of engine versions that this database engine version can be upgraded to.
         public var validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
@@ -13739,6 +13751,8 @@ extension RDSClientTypes {
         public var endpoint: Swift.String?
         /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
         public var maxACU: Swift.Double?
+        /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+        public var minACU: Swift.Double?
         /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
         public var publiclyAccessible: Swift.Bool?
         /// The status of the DB shard group.
@@ -13751,6 +13765,7 @@ extension RDSClientTypes {
             dbShardGroupResourceId: Swift.String? = nil,
             endpoint: Swift.String? = nil,
             maxACU: Swift.Double? = nil,
+            minACU: Swift.Double? = nil,
             publiclyAccessible: Swift.Bool? = nil,
             status: Swift.String? = nil
         )
@@ -13761,6 +13776,7 @@ extension RDSClientTypes {
             self.dbShardGroupResourceId = dbShardGroupResourceId
             self.endpoint = endpoint
             self.maxACU = maxACU
+            self.minACU = minACU
             self.publiclyAccessible = publiclyAccessible
             self.status = status
         }
@@ -14026,7 +14042,7 @@ extension RDSClientTypes {
         public var ncharCharacterSetName: Swift.String?
         /// The type of DB snapshot.
         public var snapshotType: Swift.String?
-        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// The name of the tenant database.
         public var tenantDBName: Swift.String?
@@ -14836,7 +14852,7 @@ extension RDSClientTypes {
         public var sourceArn: Swift.String?
         /// The current status of the integration.
         public var status: RDSClientTypes.IntegrationStatus?
-        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tags: [RDSClientTypes.Tag]?
         /// The ARN of the Redshift data warehouse used as the target for replication.
         public var targetArn: Swift.String?
@@ -16704,7 +16720,7 @@ public struct ModifyCustomDBEngineVersionOutput {
     public var supportsParallelQuery: Swift.Bool?
     /// Indicates whether the database engine version supports read replicas.
     public var supportsReadReplica: Swift.Bool?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tagList: [RDSClientTypes.Tag]?
     /// A list of engine versions that this database engine version can be upgraded to.
     public var validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
@@ -17614,7 +17630,7 @@ public struct ModifyDBInstanceInput {
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// The order of priority in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see [ Fault Tolerance for an Aurora DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Aurora.Managing.FaultTolerance) in the Amazon Aurora User Guide. This setting doesn't apply to RDS Custom DB instances. Default: 1 Valid Values: 0 - 15
     public var promotionTier: Swift.Int?
-    /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be enabled for it to be publicly accessible. Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter.
+    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be enabled for it to be publicly accessible. Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter.
     public var publiclyAccessible: Swift.Bool?
     /// A value that sets the open mode of a replica database to either mounted or read-only. Currently, this parameter is only supported for Oracle DB instances. Mounted DB replicas are included in Oracle Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
     public var replicaMode: RDSClientTypes.ReplicaMode?
@@ -18057,14 +18073,18 @@ public struct ModifyDBShardGroupInput {
     public var dbShardGroupIdentifier: Swift.String?
     /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
     public var maxACU: Swift.Double?
+    /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var minACU: Swift.Double?
 
     public init(
         dbShardGroupIdentifier: Swift.String? = nil,
-        maxACU: Swift.Double? = nil
+        maxACU: Swift.Double? = nil,
+        minACU: Swift.Double? = nil
     )
     {
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
         self.maxACU = maxACU
+        self.minACU = minACU
     }
 }
 
@@ -18087,6 +18107,8 @@ public struct ModifyDBShardGroupOutput {
     public var endpoint: Swift.String?
     /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
     public var maxACU: Swift.Double?
+    /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var minACU: Swift.Double?
     /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
     public var publiclyAccessible: Swift.Bool?
     /// The status of the DB shard group.
@@ -18099,6 +18121,7 @@ public struct ModifyDBShardGroupOutput {
         dbShardGroupResourceId: Swift.String? = nil,
         endpoint: Swift.String? = nil,
         maxACU: Swift.Double? = nil,
+        minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         status: Swift.String? = nil
     )
@@ -18109,6 +18132,7 @@ public struct ModifyDBShardGroupOutput {
         self.dbShardGroupResourceId = dbShardGroupResourceId
         self.endpoint = endpoint
         self.maxACU = maxACU
+        self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
         self.status = status
     }
@@ -18398,7 +18422,7 @@ public struct ModifyIntegrationOutput {
     public var sourceArn: Swift.String?
     /// The current status of the integration.
     public var status: RDSClientTypes.IntegrationStatus?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The ARN of the Redshift data warehouse used as the target for replication.
     public var targetArn: Swift.String?
@@ -18434,9 +18458,9 @@ public struct ModifyIntegrationOutput {
 }
 
 extension RDSClientTypes {
-    /// A list of all available options
+    /// A list of all available options for an option group.
     public struct OptionConfiguration {
-        /// A list of DBSecurityGroupMembership name strings used for this option.
+        /// A list of DB security groups used for this option.
         public var dbSecurityGroupMemberships: [Swift.String]?
         /// The configuration of options to include in a group.
         /// This member is required.
@@ -18447,7 +18471,7 @@ extension RDSClientTypes {
         public var optionVersion: Swift.String?
         /// The optional port for the option.
         public var port: Swift.Int?
-        /// A list of VpcSecurityGroupMembership name strings used for this option.
+        /// A list of VPC security group names used for this option.
         public var vpcSecurityGroupMemberships: [Swift.String]?
 
         public init(
@@ -18705,7 +18729,7 @@ public struct PurchaseReservedDBInstancesOfferingInput {
     /// The ID of the Reserved DB instance offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
     /// This member is required.
     public var reservedDBInstancesOfferingId: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
 
     public init(
@@ -18825,6 +18849,8 @@ public struct RebootDBShardGroupOutput {
     public var endpoint: Swift.String?
     /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
     public var maxACU: Swift.Double?
+    /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var minACU: Swift.Double?
     /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
     public var publiclyAccessible: Swift.Bool?
     /// The status of the DB shard group.
@@ -18837,6 +18863,7 @@ public struct RebootDBShardGroupOutput {
         dbShardGroupResourceId: Swift.String? = nil,
         endpoint: Swift.String? = nil,
         maxACU: Swift.Double? = nil,
+        minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         status: Swift.String? = nil
     )
@@ -18847,6 +18874,7 @@ public struct RebootDBShardGroupOutput {
         self.dbShardGroupResourceId = dbShardGroupResourceId
         self.endpoint = endpoint
         self.maxACU = maxACU
+        self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
         self.status = status
     }
@@ -19340,7 +19368,7 @@ public struct RestoreDBClusterFromS3Input {
     public var storageEncrypted: Swift.Bool?
     /// Specifies the storage type to be associated with the DB cluster. Valid Values: aurora, aurora-iopt1 Default: aurora Valid for: Aurora DB clusters only
     public var storageType: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// A list of EC2 VPC security groups to associate with the restored DB cluster.
     public var vpcSecurityGroupIds: [Swift.String]?
@@ -19834,7 +19862,7 @@ public struct RestoreDBClusterToPointInTimeInput {
     public var sourceDbClusterResourceId: Swift.String?
     /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid Values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageType: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// Specifies whether to restore the DB cluster to the latest restorable backup time. By default, the DB cluster isn't restored to the latest restorable backup time. Constraints: Can't be specified if RestoreToTime parameter is provided. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var useLatestRestorableTime: Swift.Bool?
@@ -20115,7 +20143,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput {
     public var storageThroughput: Swift.Int?
     /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
     public var storageType: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom.
     public var tdeCredentialArn: Swift.String?
@@ -20777,7 +20805,7 @@ public struct RestoreDBInstanceToPointInTimeInput {
     ///
     /// * If you specify io1, io2, or gp3, you must also include a value for the Iops parameter.
     public var storageType: Swift.String?
-    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The name of the new DB instance to create. Constraints:
     ///
@@ -23240,6 +23268,7 @@ extension CreateDBShardGroupInput {
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBShardGroupIdentifier"].write(value.dbShardGroupIdentifier)
         try writer["MaxACU"].write(value.maxACU)
+        try writer["MinACU"].write(value.minACU)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["Action"].write("CreateDBShardGroup")
         try writer["Version"].write("2014-10-31")
@@ -24568,6 +24597,7 @@ extension ModifyDBShardGroupInput {
         guard let value else { return }
         try writer["DBShardGroupIdentifier"].write(value.dbShardGroupIdentifier)
         try writer["MaxACU"].write(value.maxACU)
+        try writer["MinACU"].write(value.minACU)
         try writer["Action"].write("ModifyDBShardGroup")
         try writer["Version"].write("2014-10-31")
     }
@@ -25638,6 +25668,7 @@ extension CreateDBShardGroupOutput {
         value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
         value.maxACU = try reader["MaxACU"].readIfPresent()
+        value.minACU = try reader["MinACU"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         return value
@@ -25935,6 +25966,7 @@ extension DeleteDBShardGroupOutput {
         value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
         value.maxACU = try reader["MaxACU"].readIfPresent()
+        value.minACU = try reader["MinACU"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         return value
@@ -26920,6 +26952,7 @@ extension ModifyDBShardGroupOutput {
         value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
         value.maxACU = try reader["MaxACU"].readIfPresent()
+        value.minACU = try reader["MinACU"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         return value
@@ -27106,6 +27139,7 @@ extension RebootDBShardGroupOutput {
         value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
         value.maxACU = try reader["MaxACU"].readIfPresent()
+        value.minACU = try reader["MinACU"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         return value
@@ -33668,6 +33702,7 @@ extension RDSClientTypes.DBShardGroup {
         value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
         value.maxACU = try reader["MaxACU"].readIfPresent()
+        value.minACU = try reader["MinACU"].readIfPresent()
         value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()

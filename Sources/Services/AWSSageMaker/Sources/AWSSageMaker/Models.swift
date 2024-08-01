@@ -2761,6 +2761,26 @@ extension SageMakerClientTypes {
         case mlP4de24xlarge
         case mlP4d24xlarge
         case mlP548xlarge
+        case mlR5d12xlarge
+        case mlR5d16xlarge
+        case mlR5d24xlarge
+        case mlR5d2xlarge
+        case mlR5d4xlarge
+        case mlR5d8xlarge
+        case mlR5dLarge
+        case mlR5dXlarge
+        case mlR512xlarge
+        case mlR516xlarge
+        case mlR524xlarge
+        case mlR52xlarge
+        case mlR54xlarge
+        case mlR58xlarge
+        case mlR5Large
+        case mlR5Xlarge
+        case mlT32xlarge
+        case mlT3Large
+        case mlT3Medium
+        case mlT3Xlarge
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
@@ -2834,6 +2854,26 @@ extension SageMakerClientTypes {
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
                 .mlP548xlarge,
+                .mlR5d12xlarge,
+                .mlR5d16xlarge,
+                .mlR5d24xlarge,
+                .mlR5d2xlarge,
+                .mlR5d4xlarge,
+                .mlR5d8xlarge,
+                .mlR5dLarge,
+                .mlR5dXlarge,
+                .mlR512xlarge,
+                .mlR516xlarge,
+                .mlR524xlarge,
+                .mlR52xlarge,
+                .mlR54xlarge,
+                .mlR58xlarge,
+                .mlR5Large,
+                .mlR5Xlarge,
+                .mlT32xlarge,
+                .mlT3Large,
+                .mlT3Medium,
+                .mlT3Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
                 .mlTrn132xlarge
@@ -2913,6 +2953,26 @@ extension SageMakerClientTypes {
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlR5d12xlarge: return "ml.r5d.12xlarge"
+            case .mlR5d16xlarge: return "ml.r5d.16xlarge"
+            case .mlR5d24xlarge: return "ml.r5d.24xlarge"
+            case .mlR5d2xlarge: return "ml.r5d.2xlarge"
+            case .mlR5d4xlarge: return "ml.r5d.4xlarge"
+            case .mlR5d8xlarge: return "ml.r5d.8xlarge"
+            case .mlR5dLarge: return "ml.r5d.large"
+            case .mlR5dXlarge: return "ml.r5d.xlarge"
+            case .mlR512xlarge: return "ml.r5.12xlarge"
+            case .mlR516xlarge: return "ml.r5.16xlarge"
+            case .mlR524xlarge: return "ml.r5.24xlarge"
+            case .mlR52xlarge: return "ml.r5.2xlarge"
+            case .mlR54xlarge: return "ml.r5.4xlarge"
+            case .mlR58xlarge: return "ml.r5.8xlarge"
+            case .mlR5Large: return "ml.r5.large"
+            case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlT32xlarge: return "ml.t3.2xlarge"
+            case .mlT3Large: return "ml.t3.large"
+            case .mlT3Medium: return "ml.t3.medium"
+            case .mlT3Xlarge: return "ml.t3.xlarge"
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
@@ -12588,6 +12648,14 @@ extension SageMakerClientTypes {
         case mlG4dn4xlarge
         case mlG4dn8xlarge
         case mlG4dnXlarge
+        case mlG512xlarge
+        case mlG516xlarge
+        case mlG524xlarge
+        case mlG52xlarge
+        case mlG548xlarge
+        case mlG54xlarge
+        case mlG58xlarge
+        case mlG5Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -12605,6 +12673,14 @@ extension SageMakerClientTypes {
         case mlP316xlarge
         case mlP32xlarge
         case mlP38xlarge
+        case mlR5d12xlarge
+        case mlR5d16xlarge
+        case mlR5d24xlarge
+        case mlR5d2xlarge
+        case mlR5d4xlarge
+        case mlR5d8xlarge
+        case mlR5dLarge
+        case mlR5dXlarge
         case mlR512xlarge
         case mlR516xlarge
         case mlR524xlarge
@@ -12636,6 +12712,14 @@ extension SageMakerClientTypes {
                 .mlG4dn4xlarge,
                 .mlG4dn8xlarge,
                 .mlG4dnXlarge,
+                .mlG512xlarge,
+                .mlG516xlarge,
+                .mlG524xlarge,
+                .mlG52xlarge,
+                .mlG548xlarge,
+                .mlG54xlarge,
+                .mlG58xlarge,
+                .mlG5Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -12653,6 +12737,14 @@ extension SageMakerClientTypes {
                 .mlP316xlarge,
                 .mlP32xlarge,
                 .mlP38xlarge,
+                .mlR5d12xlarge,
+                .mlR5d16xlarge,
+                .mlR5d24xlarge,
+                .mlR5d2xlarge,
+                .mlR5d4xlarge,
+                .mlR5d8xlarge,
+                .mlR5dLarge,
+                .mlR5dXlarge,
                 .mlR512xlarge,
                 .mlR516xlarge,
                 .mlR524xlarge,
@@ -12690,6 +12782,14 @@ extension SageMakerClientTypes {
             case .mlG4dn4xlarge: return "ml.g4dn.4xlarge"
             case .mlG4dn8xlarge: return "ml.g4dn.8xlarge"
             case .mlG4dnXlarge: return "ml.g4dn.xlarge"
+            case .mlG512xlarge: return "ml.g5.12xlarge"
+            case .mlG516xlarge: return "ml.g5.16xlarge"
+            case .mlG524xlarge: return "ml.g5.24xlarge"
+            case .mlG52xlarge: return "ml.g5.2xlarge"
+            case .mlG548xlarge: return "ml.g5.48xlarge"
+            case .mlG54xlarge: return "ml.g5.4xlarge"
+            case .mlG58xlarge: return "ml.g5.8xlarge"
+            case .mlG5Xlarge: return "ml.g5.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -12707,6 +12807,14 @@ extension SageMakerClientTypes {
             case .mlP316xlarge: return "ml.p3.16xlarge"
             case .mlP32xlarge: return "ml.p3.2xlarge"
             case .mlP38xlarge: return "ml.p3.8xlarge"
+            case .mlR5d12xlarge: return "ml.r5d.12xlarge"
+            case .mlR5d16xlarge: return "ml.r5d.16xlarge"
+            case .mlR5d24xlarge: return "ml.r5d.24xlarge"
+            case .mlR5d2xlarge: return "ml.r5d.2xlarge"
+            case .mlR5d4xlarge: return "ml.r5d.4xlarge"
+            case .mlR5d8xlarge: return "ml.r5d.8xlarge"
+            case .mlR5dLarge: return "ml.r5d.large"
+            case .mlR5dXlarge: return "ml.r5d.xlarge"
             case .mlR512xlarge: return "ml.r5.12xlarge"
             case .mlR516xlarge: return "ml.r5.16xlarge"
             case .mlR524xlarge: return "ml.r5.24xlarge"
@@ -13034,6 +13142,26 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// The configuration parameters that specify the IAM roles assumed by the execution role of SageMaker (assumable roles) and the cluster instances or job execution environments (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
+    public struct EmrSettings {
+        /// An array of Amazon Resource Names (ARNs) of the IAM roles that the execution role of SageMaker can assume for performing operations or tasks related to Amazon EMR clusters or Amazon EMR Serverless applications. These roles define the permissions and access policies required when performing Amazon EMR-related operations, such as listing, connecting to, or terminating Amazon EMR clusters or Amazon EMR Serverless applications. They are typically used in cross-account access scenarios, where the Amazon EMR resources (clusters or serverless applications) are located in a different Amazon Web Services account than the SageMaker domain.
+        public var assumableRoleArns: [Swift.String]?
+        /// An array of Amazon Resource Names (ARNs) of the IAM roles used by the Amazon EMR cluster instances or job execution environments to access other Amazon Web Services services and resources needed during the runtime of your Amazon EMR or Amazon EMR Serverless workloads, such as Amazon S3 for data access, Amazon CloudWatch for logging, or other Amazon Web Services services based on the particular workload requirements.
+        public var executionRoleArns: [Swift.String]?
+
+        public init(
+            assumableRoleArns: [Swift.String]? = nil,
+            executionRoleArns: [Swift.String]? = nil
+        )
+        {
+            self.assumableRoleArns = assumableRoleArns
+            self.executionRoleArns = executionRoleArns
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// The settings for the JupyterLab application.
     public struct JupyterLabAppSettings {
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
@@ -13042,6 +13170,8 @@ extension SageMakerClientTypes {
         public var customImages: [SageMakerClientTypes.CustomImage]?
         /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
+        /// The configuration parameters that specify the IAM roles assumed by the execution role of SageMaker (assumable roles) and the cluster instances or job execution environments (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
+        public var emrSettings: SageMakerClientTypes.EmrSettings?
         /// The Amazon Resource Name (ARN) of the lifecycle configurations attached to the user profile or domain. To remove a lifecycle config, you must set LifecycleConfigArns to an empty list.
         public var lifecycleConfigArns: [Swift.String]?
 
@@ -13049,12 +13179,14 @@ extension SageMakerClientTypes {
             codeRepositories: [SageMakerClientTypes.CodeRepository]? = nil,
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
+            emrSettings: SageMakerClientTypes.EmrSettings? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
         )
         {
             self.codeRepositories = codeRepositories
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
+            self.emrSettings = emrSettings
             self.lifecycleConfigArns = lifecycleConfigArns
         }
     }
@@ -66771,6 +66903,7 @@ extension SageMakerClientTypes.JupyterLabAppSettings {
         try writer["CodeRepositories"].writeList(value.codeRepositories, memberWritingClosure: SageMakerClientTypes.CodeRepository.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CustomImages"].writeList(value.customImages, memberWritingClosure: SageMakerClientTypes.CustomImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DefaultResourceSpec"].write(value.defaultResourceSpec, with: SageMakerClientTypes.ResourceSpec.write(value:to:))
+        try writer["EmrSettings"].write(value.emrSettings, with: SageMakerClientTypes.EmrSettings.write(value:to:))
         try writer["LifecycleConfigArns"].writeList(value.lifecycleConfigArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -66781,6 +66914,24 @@ extension SageMakerClientTypes.JupyterLabAppSettings {
         value.customImages = try reader["CustomImages"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CustomImage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lifecycleConfigArns = try reader["LifecycleConfigArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRepositories = try reader["CodeRepositories"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CodeRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.emrSettings = try reader["EmrSettings"].readIfPresent(with: SageMakerClientTypes.EmrSettings.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EmrSettings {
+
+    static func write(value: SageMakerClientTypes.EmrSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssumableRoleArns"].writeList(value.assumableRoleArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExecutionRoleArns"].writeList(value.executionRoleArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EmrSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EmrSettings()
+        value.assumableRoleArns = try reader["AssumableRoleArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionRoleArns = try reader["ExecutionRoleArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

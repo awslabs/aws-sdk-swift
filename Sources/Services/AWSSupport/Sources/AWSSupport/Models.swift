@@ -149,7 +149,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension SupportClientTypes {
-    /// An attachment to a case communication. The attachment consists of the file name and the content of the file.
+    /// An attachment to a case communication. The attachment consists of the file name and the content of the file. Each attachment file size should not exceed 5 MB. File types that are supported include the following: pdf, jpeg,.doc, .log, .text
     public struct Attachment {
         /// The content of the attachment file.
         public var data: Foundation.Data?
@@ -562,6 +562,10 @@ extension SupportClientTypes {
     ///
     /// * status - The status of the case in the Amazon Web Services Support Center. Valid values:
     ///
+    /// * all-open
+    ///
+    /// * customer-action-completed
+    ///
     /// * opened
     ///
     /// * pending-customer-action
@@ -600,6 +604,10 @@ extension SupportClientTypes {
         /// The code for the severity level returned by the call to [DescribeSeverityLevels].
         public var severityCode: Swift.String?
         /// The status of the case. Valid values:
+        ///
+        /// * all-open
+        ///
+        /// * customer-action-completed
         ///
         /// * opened
         ///
