@@ -255,7 +255,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.53.0",
+    clientRuntimeVersion: "0.54.0",
     crtVersion: "0.32.0"
 )
 
@@ -586,6 +586,7 @@ let serviceTargets: [String] = [
     "AWSSSM",
     "AWSSSMContacts",
     "AWSSSMIncidents",
+    "AWSSSMQuickSetup",
     "AWSSSO",
     "AWSSSOAdmin",
     "AWSSSOOIDC",

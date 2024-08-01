@@ -870,7 +870,7 @@ extension MemoryDBClient {
 
     /// Performs the `DeleteCluster` operation on the `AmazonMemoryDB` service.
     ///
-    /// Deletes a cluster. It also deletes all associated nodes and node endpoints
+    /// Deletes a cluster. It also deletes all associated nodes and node endpoints CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception.
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///

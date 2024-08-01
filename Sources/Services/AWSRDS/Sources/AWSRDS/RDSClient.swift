@@ -6799,7 +6799,7 @@ extension RDSClient {
 
     /// Performs the `DescribePendingMaintenanceActions` operation on the `AmazonRDSv19` service.
     ///
-    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action. This API follows an eventual consistency model. This means that the result of the DescribePendingMaintenanceActions command might not be immediately visible to all subsequent RDS commands. Keep this in mind when you use DescribePendingMaintenanceActions immediately after using a previous API command such as ApplyPendingMaintenanceActions.
     ///
     /// - Parameter DescribePendingMaintenanceActionsInput :
     ///

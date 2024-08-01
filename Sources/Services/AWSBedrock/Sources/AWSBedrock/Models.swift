@@ -1880,7 +1880,7 @@ extension BedrockClientTypes {
         /// The configured guardrail action when PII entity is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
-        /// The type of PII entity. For example, Social Security Number.
+        /// The type of PII entity. For exampvle, Social Security Number.
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailPiiEntityType?
 
@@ -2500,6 +2500,280 @@ public struct PutModelInvocationLoggingConfigurationOutput {
     public init() { }
 }
 
+public struct CreateModelCopyJobInput {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientRequestToken: Swift.String?
+    /// The ARN of the KMS key that you use to encrypt the model copy.
+    public var modelKmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the model to be copied.
+    /// This member is required.
+    public var sourceModelArn: Swift.String?
+    /// A name for the copied model.
+    /// This member is required.
+    public var targetModelName: Swift.String?
+    /// Tags to associate with the target model. For more information, see [Tag resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+    public var targetModelTags: [BedrockClientTypes.Tag]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        modelKmsKeyId: Swift.String? = nil,
+        sourceModelArn: Swift.String? = nil,
+        targetModelName: Swift.String? = nil,
+        targetModelTags: [BedrockClientTypes.Tag]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.modelKmsKeyId = modelKmsKeyId
+        self.sourceModelArn = sourceModelArn
+        self.targetModelName = targetModelName
+        self.targetModelTags = targetModelTags
+    }
+}
+
+public struct CreateModelCopyJobOutput {
+    /// The Amazon Resource Name (ARN) of the model copy job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil
+    )
+    {
+        self.jobArn = jobArn
+    }
+}
+
+public struct GetModelCopyJobInput {
+    /// The Amazon Resource Name (ARN) of the model copy job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil
+    )
+    {
+        self.jobArn = jobArn
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum ModelCopyJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelCopyJobStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetModelCopyJobOutput {
+    /// The time at which the model copy job was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// An error message for why the model copy job failed.
+    public var failureMessage: Swift.String?
+    /// The Amazon Resource Name (ARN) of the model copy job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// The unique identifier of the account that the model being copied originated from.
+    /// This member is required.
+    public var sourceAccountId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the original model being copied.
+    /// This member is required.
+    public var sourceModelArn: Swift.String?
+    /// The name of the original model being copied.
+    public var sourceModelName: Swift.String?
+    /// The status of the model copy job.
+    /// This member is required.
+    public var status: BedrockClientTypes.ModelCopyJobStatus?
+    /// The Amazon Resource Name (ARN) of the copied model.
+    /// This member is required.
+    public var targetModelArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key encrypting the copied model.
+    public var targetModelKmsKeyArn: Swift.String?
+    /// The name of the copied model.
+    public var targetModelName: Swift.String?
+    /// The tags associated with the copied model.
+    public var targetModelTags: [BedrockClientTypes.Tag]?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        failureMessage: Swift.String? = nil,
+        jobArn: Swift.String? = nil,
+        sourceAccountId: Swift.String? = nil,
+        sourceModelArn: Swift.String? = nil,
+        sourceModelName: Swift.String? = nil,
+        status: BedrockClientTypes.ModelCopyJobStatus? = nil,
+        targetModelArn: Swift.String? = nil,
+        targetModelKmsKeyArn: Swift.String? = nil,
+        targetModelName: Swift.String? = nil,
+        targetModelTags: [BedrockClientTypes.Tag]? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.failureMessage = failureMessage
+        self.jobArn = jobArn
+        self.sourceAccountId = sourceAccountId
+        self.sourceModelArn = sourceModelArn
+        self.sourceModelName = sourceModelName
+        self.status = status
+        self.targetModelArn = targetModelArn
+        self.targetModelKmsKeyArn = targetModelKmsKeyArn
+        self.targetModelName = targetModelName
+        self.targetModelTags = targetModelTags
+    }
+}
+
+public struct ListModelCopyJobsInput {
+    /// Filters for model copy jobs created after the specified time.
+    public var creationTimeAfter: Foundation.Date?
+    /// Filters for model copy jobs created before the specified time.
+    public var creationTimeBefore: Foundation.Date?
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The field to sort by in the returned list of model copy jobs.
+    public var sortBy: BedrockClientTypes.SortJobsBy?
+    /// Specifies whether to sort the results in ascending or descending order.
+    public var sortOrder: BedrockClientTypes.SortOrder?
+    /// Filters for model copy jobs in which the account that the source model belongs to is equal to the value that you specify.
+    public var sourceAccountEquals: Swift.String?
+    /// Filters for model copy jobs in which the Amazon Resource Name (ARN) of the source model to is equal to the value that you specify.
+    public var sourceModelArnEquals: Swift.String?
+    /// Filters for model copy jobs whose status matches the value that you specify.
+    public var statusEquals: BedrockClientTypes.ModelCopyJobStatus?
+    /// Filters for model copy jobs in which the name of the copied model contains the string that you specify.
+    public var targetModelNameContains: Swift.String?
+
+    public init(
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: BedrockClientTypes.SortJobsBy? = nil,
+        sortOrder: BedrockClientTypes.SortOrder? = nil,
+        sourceAccountEquals: Swift.String? = nil,
+        sourceModelArnEquals: Swift.String? = nil,
+        statusEquals: BedrockClientTypes.ModelCopyJobStatus? = nil,
+        targetModelNameContains: Swift.String? = nil
+    )
+    {
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.sourceAccountEquals = sourceAccountEquals
+        self.sourceModelArnEquals = sourceModelArnEquals
+        self.statusEquals = statusEquals
+        self.targetModelNameContains = targetModelNameContains
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains details about each model copy job. This data type is used in the following API operations:
+    ///
+    /// * [ListModelCopyJobs response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListModelCopyJobs.html#API_ListModelCopyJobs_ResponseSyntax)
+    public struct ModelCopyJobSummary {
+        /// The time that the model copy job was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// If a model fails to be copied, a message describing why the job failed is included here.
+        public var failureMessage: Swift.String?
+        /// The Amazon Resoource Name (ARN) of the model copy job.
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// The unique identifier of the account that the model being copied originated from.
+        /// This member is required.
+        public var sourceAccountId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the original model being copied.
+        /// This member is required.
+        public var sourceModelArn: Swift.String?
+        /// The name of the original model being copied.
+        public var sourceModelName: Swift.String?
+        /// The status of the model copy job.
+        /// This member is required.
+        public var status: BedrockClientTypes.ModelCopyJobStatus?
+        /// The Amazon Resource Name (ARN) of the copied model.
+        /// This member is required.
+        public var targetModelArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the copied model.
+        public var targetModelKmsKeyArn: Swift.String?
+        /// The name of the copied model.
+        public var targetModelName: Swift.String?
+        /// Tags associated with the copied model.
+        public var targetModelTags: [BedrockClientTypes.Tag]?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            failureMessage: Swift.String? = nil,
+            jobArn: Swift.String? = nil,
+            sourceAccountId: Swift.String? = nil,
+            sourceModelArn: Swift.String? = nil,
+            sourceModelName: Swift.String? = nil,
+            status: BedrockClientTypes.ModelCopyJobStatus? = nil,
+            targetModelArn: Swift.String? = nil,
+            targetModelKmsKeyArn: Swift.String? = nil,
+            targetModelName: Swift.String? = nil,
+            targetModelTags: [BedrockClientTypes.Tag]? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.failureMessage = failureMessage
+            self.jobArn = jobArn
+            self.sourceAccountId = sourceAccountId
+            self.sourceModelArn = sourceModelArn
+            self.sourceModelName = sourceModelName
+            self.status = status
+            self.targetModelArn = targetModelArn
+            self.targetModelKmsKeyArn = targetModelKmsKeyArn
+            self.targetModelName = targetModelName
+            self.targetModelTags = targetModelTags
+        }
+    }
+
+}
+
+public struct ListModelCopyJobsOutput {
+    /// A list of information about each model copy job.
+    public var modelCopyJobSummaries: [BedrockClientTypes.ModelCopyJobSummary]?
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        modelCopyJobSummaries: [BedrockClientTypes.ModelCopyJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.modelCopyJobSummaries = modelCopyJobSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct DeleteCustomModelInput {
     /// Name of the model to delete.
     /// This member is required.
@@ -2981,11 +3255,13 @@ public struct ListCustomModelsInput {
     public var creationTimeBefore: Foundation.Date?
     /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
     public var foundationModelArnEquals: Swift.String?
-    /// Maximum number of results to return in the response.
+    /// Return custom models depending on if the current account owns them (true) or if they were shared with the current account (false).
+    public var isOwned: Swift.Bool?
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     public var maxResults: Swift.Int?
     /// Return custom models only if the job name contains these characters.
     public var nameContains: Swift.String?
-    /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     public var nextToken: Swift.String?
     /// The field to sort by in the returned list of models.
     public var sortBy: BedrockClientTypes.SortModelsBy?
@@ -2997,6 +3273,7 @@ public struct ListCustomModelsInput {
         creationTimeAfter: Foundation.Date? = nil,
         creationTimeBefore: Foundation.Date? = nil,
         foundationModelArnEquals: Swift.String? = nil,
+        isOwned: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -3008,6 +3285,7 @@ public struct ListCustomModelsInput {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.foundationModelArnEquals = foundationModelArnEquals
+        self.isOwned = isOwned
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -3036,6 +3314,8 @@ extension BedrockClientTypes {
         /// The name of the custom model.
         /// This member is required.
         public var modelName: Swift.String?
+        /// The unique identifier of the account that owns the model.
+        public var ownerAccountId: Swift.String?
 
         public init(
             baseModelArn: Swift.String? = nil,
@@ -3043,7 +3323,8 @@ extension BedrockClientTypes {
             creationTime: Foundation.Date? = nil,
             customizationType: BedrockClientTypes.CustomizationType? = nil,
             modelArn: Swift.String? = nil,
-            modelName: Swift.String? = nil
+            modelName: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil
         )
         {
             self.baseModelArn = baseModelArn
@@ -3052,6 +3333,7 @@ extension BedrockClientTypes {
             self.customizationType = customizationType
             self.modelArn = modelArn
             self.modelName = modelName
+            self.ownerAccountId = ownerAccountId
         }
     }
 
@@ -3060,7 +3342,7 @@ extension BedrockClientTypes {
 public struct ListCustomModelsOutput {
     /// Model summaries.
     public var modelSummaries: [BedrockClientTypes.CustomModelSummary]?
-    /// Continuation token for the next request to list the next set of results.
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3074,9 +3356,9 @@ public struct ListCustomModelsOutput {
 }
 
 public struct ListFoundationModelsInput {
-    /// Return models that support the customization type that you specify. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the Amazon Bedrock User Guide.
+    /// Return models that support the customization type that you specify. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     public var byCustomizationType: BedrockClientTypes.ModelCustomization?
-    /// Return models that support the inference type that you specify. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the Amazon Bedrock User Guide.
+    /// Return models that support the inference type that you specify. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     public var byInferenceType: BedrockClientTypes.InferenceType?
     /// Return models that support the output modality that you specify.
     public var byOutputModality: BedrockClientTypes.ModelModality?
@@ -3195,12 +3477,12 @@ extension BedrockClientTypes {
 public struct CreateProvisionedModelThroughputInput {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon S3 User Guide.
     public var clientRequestToken: Swift.String?
-    /// The commitment duration requested for the Provisioned Throughput. Billing occurs hourly and is discounted for longer commitment terms. To request a no-commit Provisioned Throughput, omit this field. Custom models support all levels of commitment. To see which base models support no commitment, see [Supported regions and models for Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/pt-supported.html) in the Amazon Bedrock User Guide
+    /// The commitment duration requested for the Provisioned Throughput. Billing occurs hourly and is discounted for longer commitment terms. To request a no-commit Provisioned Throughput, omit this field. Custom models support all levels of commitment. To see which base models support no commitment, see [Supported regions and models for Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/pt-supported.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
     public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
-    /// The Amazon Resource Name (ARN) or name of the model to associate with this Provisioned Throughput. For a list of models for which you can purchase Provisioned Throughput, see [Amazon Bedrock model IDs for purchasing Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#prov-throughput-models) in the Amazon Bedrock User Guide.
+    /// The Amazon Resource Name (ARN) or name of the model to associate with this Provisioned Throughput. For a list of models for which you can purchase Provisioned Throughput, see [Amazon Bedrock model IDs for purchasing Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#prov-throughput-models) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     /// This member is required.
     public var modelId: Swift.String?
-    /// Number of model units to allocate. A model unit delivers a specific throughput level for the specified model. The throughput level of a model unit specifies the total number of input and output tokens that it can process and generate within a span of one minute. By default, your account has no model units for purchasing Provisioned Throughputs with commitment. You must first visit the [Amazon Web Services support center](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase) to request MUs. For model unit quotas, see [Provisioned Throughput quotas](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html#prov-thru-quotas) in the Amazon Bedrock User Guide. For more information about what an MU specifies, contact your Amazon Web Services account manager.
+    /// Number of model units to allocate. A model unit delivers a specific throughput level for the specified model. The throughput level of a model unit specifies the total number of input and output tokens that it can process and generate within a span of one minute. By default, your account has no model units for purchasing Provisioned Throughputs with commitment. You must first visit the [Amazon Web Services support center](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase) to request MUs. For model unit quotas, see [Provisioned Throughput quotas](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html#prov-thru-quotas) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html). For more information about what an MU specifies, contact your Amazon Web Services account manager.
     /// This member is required.
     public var modelUnits: Swift.Int?
     /// The name for this Provisioned Throughput.
@@ -3937,11 +4219,11 @@ public struct ListModelCustomizationJobsInput {
     public var creationTimeAfter: Foundation.Date?
     /// Return customization jobs created before the specified time.
     public var creationTimeBefore: Foundation.Date?
-    /// Maximum number of results to return in the response.
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     public var maxResults: Swift.Int?
     /// Return customization jobs only if the job name contains these characters.
     public var nameContains: Swift.String?
-    /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     public var nextToken: Swift.String?
     /// The field to sort by in the returned list of jobs.
     public var sortBy: BedrockClientTypes.SortJobsBy?
@@ -4032,7 +4314,7 @@ extension BedrockClientTypes {
 public struct ListModelCustomizationJobsOutput {
     /// Job summaries.
     public var modelCustomizationJobSummaries: [BedrockClientTypes.ModelCustomizationJobSummary]?
-    /// Page continuation token to use in the next request.
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -4084,6 +4366,13 @@ extension CreateGuardrailVersionInput {
             return nil
         }
         return "/guardrails/\(guardrailIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension CreateModelCopyJobInput {
+
+    static func urlPathProvider(_ value: CreateModelCopyJobInput) -> Swift.String? {
+        return "/model-copy-jobs"
     }
 }
 
@@ -4202,6 +4491,16 @@ extension GetGuardrailInput {
     }
 }
 
+extension GetModelCopyJobInput {
+
+    static func urlPathProvider(_ value: GetModelCopyJobInput) -> Swift.String? {
+        guard let jobArn = value.jobArn else {
+            return nil
+        }
+        return "/model-copy-jobs/\(jobArn.urlPercentEncoding())"
+    }
+}
+
 extension GetModelCustomizationJobInput {
 
     static func urlPathProvider(_ value: GetModelCustomizationJobInput) -> Swift.String? {
@@ -4255,6 +4554,10 @@ extension ListCustomModelsInput {
         if let sortOrder = value.sortOrder {
             let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
+        }
+        if let isOwned = value.isOwned {
+            let isOwnedQueryItem = Smithy.URIQueryItem(name: "isOwned".urlPercentEncoding(), value: Swift.String(isOwned).urlPercentEncoding())
+            items.append(isOwnedQueryItem)
         }
         if let creationTimeAfter = value.creationTimeAfter {
             let creationTimeAfterQueryItem = Smithy.URIQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
@@ -4380,6 +4683,61 @@ extension ListGuardrailsInput {
         if let guardrailIdentifier = value.guardrailIdentifier {
             let guardrailIdentifierQueryItem = Smithy.URIQueryItem(name: "guardrailIdentifier".urlPercentEncoding(), value: Swift.String(guardrailIdentifier).urlPercentEncoding())
             items.append(guardrailIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListModelCopyJobsInput {
+
+    static func urlPathProvider(_ value: ListModelCopyJobsInput) -> Swift.String? {
+        return "/model-copy-jobs"
+    }
+}
+
+extension ListModelCopyJobsInput {
+
+    static func queryItemProvider(_ value: ListModelCopyJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let sourceModelArnEquals = value.sourceModelArnEquals {
+            let sourceModelArnEqualsQueryItem = Smithy.URIQueryItem(name: "sourceModelArnEquals".urlPercentEncoding(), value: Swift.String(sourceModelArnEquals).urlPercentEncoding())
+            items.append(sourceModelArnEqualsQueryItem)
+        }
+        if let sourceAccountEquals = value.sourceAccountEquals {
+            let sourceAccountEqualsQueryItem = Smithy.URIQueryItem(name: "sourceAccountEquals".urlPercentEncoding(), value: Swift.String(sourceAccountEquals).urlPercentEncoding())
+            items.append(sourceAccountEqualsQueryItem)
+        }
+        if let statusEquals = value.statusEquals {
+            let statusEqualsQueryItem = Smithy.URIQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
+            items.append(statusEqualsQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let creationTimeAfter = value.creationTimeAfter {
+            let creationTimeAfterQueryItem = Smithy.URIQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            items.append(creationTimeAfterQueryItem)
+        }
+        if let targetModelNameContains = value.targetModelNameContains {
+            let targetModelNameContainsQueryItem = Smithy.URIQueryItem(name: "outputModelNameContains".urlPercentEncoding(), value: Swift.String(targetModelNameContains).urlPercentEncoding())
+            items.append(targetModelNameContainsQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let creationTimeBefore = value.creationTimeBefore {
+            let creationTimeBeforeQueryItem = Smithy.URIQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            items.append(creationTimeBeforeQueryItem)
         }
         return items
     }
@@ -4595,6 +4953,18 @@ extension CreateGuardrailVersionInput {
     }
 }
 
+extension CreateModelCopyJobInput {
+
+    static func write(value: CreateModelCopyJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["modelKmsKeyId"].write(value.modelKmsKeyId)
+        try writer["sourceModelArn"].write(value.sourceModelArn)
+        try writer["targetModelName"].write(value.targetModelName)
+        try writer["targetModelTags"].writeList(value.targetModelTags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateModelCustomizationJobInput {
 
     static func write(value: CreateModelCustomizationJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -4725,6 +5095,18 @@ extension CreateGuardrailVersionOutput {
         var value = CreateGuardrailVersionOutput()
         value.guardrailId = try reader["guardrailId"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateModelCopyJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateModelCopyJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateModelCopyJobOutput()
+        value.jobArn = try reader["jobArn"].readIfPresent()
         return value
     }
 }
@@ -4871,6 +5253,28 @@ extension GetGuardrailOutput {
     }
 }
 
+extension GetModelCopyJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetModelCopyJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetModelCopyJobOutput()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: .dateTime)
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
+        value.sourceModelArn = try reader["sourceModelArn"].readIfPresent()
+        value.sourceModelName = try reader["sourceModelName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.targetModelArn = try reader["targetModelArn"].readIfPresent()
+        value.targetModelKmsKeyArn = try reader["targetModelKmsKeyArn"].readIfPresent()
+        value.targetModelName = try reader["targetModelName"].readIfPresent()
+        value.targetModelTags = try reader["targetModelTags"].readListIfPresent(memberReadingClosure: BedrockClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GetModelCustomizationJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetModelCustomizationJobOutput {
@@ -4985,6 +5389,19 @@ extension ListGuardrailsOutput {
         let reader = responseReader
         var value = ListGuardrailsOutput()
         value.guardrails = try reader["guardrails"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListModelCopyJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListModelCopyJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListModelCopyJobsOutput()
+        value.modelCopyJobSummaries = try reader["modelCopyJobSummaries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.ModelCopyJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5141,6 +5558,23 @@ enum CreateGuardrailVersionOutputError {
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateModelCopyJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5332,6 +5766,24 @@ enum GetGuardrailOutputError {
     }
 }
 
+enum GetModelCopyJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetModelCustomizationJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5436,6 +5888,24 @@ enum ListFoundationModelsOutputError {
 }
 
 enum ListGuardrailsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListModelCopyJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6219,6 +6689,23 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilter {
     }
 }
 
+extension BedrockClientTypes.Tag {
+
+    static func write(value: BedrockClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.VpcConfig {
 
     static func write(value: BedrockClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
@@ -6306,6 +6793,7 @@ extension BedrockClientTypes.CustomModelSummary {
         value.baseModelArn = try reader["baseModelArn"].readIfPresent()
         value.baseModelName = try reader["baseModelName"].readIfPresent()
         value.customizationType = try reader["customizationType"].readIfPresent()
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
         return value
     }
 }
@@ -6362,6 +6850,26 @@ extension BedrockClientTypes.GuardrailSummary {
     }
 }
 
+extension BedrockClientTypes.ModelCopyJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelCopyJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.ModelCopyJobSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: .dateTime)
+        value.targetModelArn = try reader["targetModelArn"].readIfPresent()
+        value.targetModelName = try reader["targetModelName"].readIfPresent()
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
+        value.sourceModelArn = try reader["sourceModelArn"].readIfPresent()
+        value.targetModelKmsKeyArn = try reader["targetModelKmsKeyArn"].readIfPresent()
+        value.targetModelTags = try reader["targetModelTags"].readListIfPresent(memberReadingClosure: BedrockClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.sourceModelName = try reader["sourceModelName"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.ModelCustomizationJobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelCustomizationJobSummary {
@@ -6398,23 +6906,6 @@ extension BedrockClientTypes.ProvisionedModelSummary {
         value.commitmentExpirationTime = try reader["commitmentExpirationTime"].readTimestampIfPresent(format: .dateTime)
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: .dateTime)
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: .dateTime)
-        return value
-    }
-}
-
-extension BedrockClientTypes.Tag {
-
-    static func write(value: BedrockClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
