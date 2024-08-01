@@ -70,7 +70,7 @@ struct DocIndexBuilder {
     ///
     /// - Returns: List of markdown links to AWS module documentations
     private func buildAWSRuntimeModuleIndex() -> String {
-        let header = "## AWS Runtime Module Documentation\n"
+        let header = "## AWS Runtime Module Documentation\n\n"
         return header + awsRuntimeModules.map { module in
             let urlModule = module.lowercased(with: Locale(identifier: "en_US_POSIX"))
             return "[\(module)](../../../../../swift/api/\(urlModule)/latest)\n"
@@ -81,7 +81,7 @@ struct DocIndexBuilder {
     ///
     /// - Returns: A pragma mark comment to provide separation between the non-generated (base) and generated content
     private func buildServiceIndex() -> String {
-        let header = "## Service Documentation\n"
+        let header = "## Service Documentation\n\n"
         return header + services.map { service in
             let urlService = service.lowercased(with: Locale(identifier: "en_US_POSIX"))
             return "[\(service)](../../../../../swift/api/\(urlService)/latest)\n"
