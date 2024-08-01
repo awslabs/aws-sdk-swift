@@ -4409,7 +4409,7 @@
                 "PubliclyAccessible": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether the DB cluster is publicly accessible.</p>\n         <p>When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint\n            resolves to the private IP address from within the DB cluster's virtual private cloud\n            (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access\n            to the DB cluster is ultimately controlled by the security group it uses. That public\n            access isn't permitted if the security group assigned to the DB cluster doesn't permit\n            it.</p>\n         <p>When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address.</p>\n         <p>Valid for Cluster Type: Multi-AZ DB clusters only</p>\n         <p>Default: The default behavior varies depending on whether <code>DBSubnetGroupName</code> is specified.</p>\n         <p>If <code>DBSubnetGroupName</code> isn't specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.</p>\n            </li>\n            <li>\n               <p>If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public.</p>\n            </li>\n         </ul>\n         <p>If <code>DBSubnetGroupName</code> is specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB cluster is private.</p>\n            </li>\n            <li>\n               <p>If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>Specifies whether the DB cluster is publicly accessible.</p>\n         <p>When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC), \n              its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, \n              the endpoint resolves to the private IP address. Access to the DB cluster is ultimately controlled by the security group it uses. That public\n              access isn't permitted if the security group assigned to the DB cluster doesn't permit it.</p>\n         <p>When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address.</p>\n         <p>Valid for Cluster Type: Multi-AZ DB clusters only</p>\n         <p>Default: The default behavior varies depending on whether <code>DBSubnetGroupName</code> is specified.</p>\n         <p>If <code>DBSubnetGroupName</code> isn't specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.</p>\n            </li>\n            <li>\n               <p>If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public.</p>\n            </li>\n         </ul>\n         <p>If <code>DBSubnetGroupName</code> is specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB cluster is private.</p>\n            </li>\n            <li>\n               <p>If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "AutoMinorVersionUpgrade": {
@@ -5053,7 +5053,7 @@
                 "PubliclyAccessible": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether the DB instance is publicly accessible.</p>\n         <p>When the DB instance is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from \n          within the DB instance's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB instance's VPC. \n          Access to the DB instance is ultimately controlled by the security group it uses. \n          That public access is not permitted if the security group assigned to the DB instance doesn't permit it.</p>\n         <p>When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.</p>\n         <p>Default: The default behavior varies depending on whether <code>DBSubnetGroupName</code> is specified.</p>\n         <p>If <code>DBSubnetGroupName</code> isn't specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB instance is private.</p>\n            </li>\n            <li>\n               <p>If the default VPC in the target Region has an internet gateway attached to it, the DB instance is public.</p>\n            </li>\n         </ul>\n         <p>If <code>DBSubnetGroupName</code> is specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB instance is private.</p>\n            </li>\n            <li>\n               <p>If the subnets are part of a VPC that has an internet gateway attached to it, the DB instance is public.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>Specifies whether the DB instance is publicly accessible.</p>\n         <p>When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), \n              its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, \n              the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. \n              That public access is not permitted if the security group assigned to the DB instance doesn't permit it.</p>\n         <p>When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.</p>\n         <p>Default: The default behavior varies depending on whether <code>DBSubnetGroupName</code> is specified.</p>\n         <p>If <code>DBSubnetGroupName</code> isn't specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB instance is private.</p>\n            </li>\n            <li>\n               <p>If the default VPC in the target Region has an internet gateway attached to it, the DB instance is public.</p>\n            </li>\n         </ul>\n         <p>If <code>DBSubnetGroupName</code> is specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB instance is private.</p>\n            </li>\n            <li>\n               <p>If the subnets are part of a VPC that has an internet gateway attached to it, the DB instance is public.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "Tags": {
@@ -6132,6 +6132,12 @@
                         "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The maximum capacity of the DB shard group in Aurora capacity units (ACUs).</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "MinACU": {
+                    "target": "com.amazonaws.rds#DoubleOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The minimum capacity of the DB shard group in Aurora capacity units (ACUs).</p>"
                     }
                 },
                 "PubliclyAccessible": {
@@ -7436,7 +7442,7 @@
                 "PubliclyAccessible": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Indicates whether the DB cluster is publicly accessible.</p>\n         <p>When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint\n          resolves to the private IP address from within the DB cluster's virtual private cloud\n          (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access\n          to the DB cluster is ultimately controlled by the security group it uses. That public\n          access isn't permitted if the security group assigned to the DB cluster doesn't permit\n          it.</p>\n         <p>When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address.</p>\n         <p>For more information, see <a>CreateDBCluster</a>.</p>\n         <p>This setting is only for non-Aurora Multi-AZ DB clusters.</p>"
+                        "smithy.api#documentation": "<p>Indicates whether the DB cluster is publicly accessible.</p>\n         <p>When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC), \n              its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, \n              the endpoint resolves to the private IP address. Access to the DB cluster is ultimately controlled by the security group it uses. That public\n              access isn't permitted if the security group assigned to the DB cluster doesn't permit it.</p>\n         <p>When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address.</p>\n         <p>For more information, see <a>CreateDBCluster</a>.</p>\n         <p>This setting is only for non-Aurora Multi-AZ DB clusters.</p>"
                     }
                 },
                 "AutoMinorVersionUpgrade": {
@@ -9150,7 +9156,7 @@
                 "PubliclyAccessible": {
                     "target": "com.amazonaws.rds#Boolean",
                     "traits": {
-                        "smithy.api#documentation": "<p>Indicates whether the DB instance is publicly accessible.</p>\n         <p>When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint\n          resolves to the private IP address from within the DB cluster's virtual private cloud\n          (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access\n          to the DB cluster is ultimately controlled by the security group it uses. That public\n          access isn't permitted if the security group assigned to the DB cluster doesn't permit\n          it.</p>\n         <p>When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.</p>\n         <p>For more information, see <a>CreateDBInstance</a>.</p>"
+                        "smithy.api#documentation": "<p>Indicates whether the DB instance is publicly accessible.</p>\n         <p>When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), \n              its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, \n              the endpoint resolves to the private IP address. Access to the DB cluster is ultimately controlled by the security group it uses. That public\n              access isn't permitted if the security group assigned to the DB cluster doesn't permit it.</p>\n         <p>When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.</p>\n         <p>For more information, see <a>CreateDBInstance</a>.</p>"
                     }
                 },
                 "StatusInfos": {
@@ -11096,6 +11102,12 @@
                         "smithy.api#documentation": "<p>The maximum capacity of the DB shard group in Aurora capacity units (ACUs).</p>"
                     }
                 },
+                "MinACU": {
+                    "target": "com.amazonaws.rds#DoubleOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The minimum capacity of the DB shard group in Aurora capacity units (ACUs).</p>"
+                    }
+                },
                 "ComputeRedundancy": {
                     "target": "com.amazonaws.rds#IntegerOptional",
                     "traits": {
@@ -12137,13 +12149,13 @@
                 "SkipFinalSnapshot": {
                     "target": "com.amazonaws.rds#Boolean",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to skip the creation of a final DB cluster snapshot before the DB cluster is deleted.\n          If skip is specified, no DB cluster snapshot is created. If skip isn't specified, a DB cluster snapshot \n          is created before the DB cluster is deleted. By default, skip isn't specified, and the DB cluster snapshot is created. \n          By default, this parameter is disabled.</p>\n         <note>\n            <p>You must specify a <code>FinalDBSnapshotIdentifier</code> parameter if <code>SkipFinalSnapshot</code> is disabled.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>Specifies whether to skip the creation of a final DB cluster snapshot before RDS\n            deletes the DB cluster. If you set this value to <code>true</code>, RDS doesn't create a\n            final DB cluster snapshot. If you set this value to <code>false</code> or don't specify\n            it, RDS creates a DB cluster snapshot before it deletes the DB cluster. By default, this\n            parameter is disabled, so RDS creates a final DB cluster snapshot.</p>\n         <note>\n            <p>If <code>SkipFinalSnapshot</code> is disabled, you must specify a value for the\n                    <code>FinalDBSnapshotIdentifier</code> parameter.</p>\n         </note>"
                     }
                 },
                 "FinalDBSnapshotIdentifier": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The DB cluster snapshot identifier of the new DB cluster snapshot created when <code>SkipFinalSnapshot</code>\n      is disabled.</p>\n         <note>\n            <p>Specifying this parameter and also skipping the creation of a final DB cluster snapshot \n          with the <code>SkipFinalShapshot</code> parameter results in an error.</p>\n         </note>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must be 1 to 255 letters, numbers, or hyphens.</p>\n            </li>\n            <li>\n               <p>First character must be a letter</p>\n            </li>\n            <li>\n               <p>Can't end with a hyphen or contain two consecutive hyphens</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The DB cluster snapshot identifier of the new DB cluster snapshot created when <code>SkipFinalSnapshot</code>\n      is disabled.</p>\n         <note>\n            <p>If you specify this parameter and also skip the creation of a final DB cluster\n                snapshot with the <code>SkipFinalShapshot</code> parameter, the request results in\n                an error.</p>\n         </note>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must be 1 to 255 letters, numbers, or hyphens.</p>\n            </li>\n            <li>\n               <p>First character must be a letter</p>\n            </li>\n            <li>\n               <p>Can't end with a hyphen or contain two consecutive hyphens</p>\n            </li>\n         </ul>"
                     }
                 },
                 "DeleteAutomatedBackups": {
@@ -17513,7 +17525,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.</p>",
+                "smithy.api#documentation": "<p>Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.</p>\n         <p>This API follows an eventual consistency model. This means that the result of the\n                <code>DescribePendingMaintenanceActions</code> command might not be immediately\n            visible to all subsequent RDS commands. Keep this in mind when you use\n                <code>DescribePendingMaintenanceActions</code> immediately after using a previous\n            API command such as <code>ApplyPendingMaintenanceActions</code>.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "To list resources with at least one pending maintenance action",
@@ -22312,7 +22324,7 @@
                 "PubliclyAccessible": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether the DB instance is publicly accessible.</p>\n         <p>When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint\n          resolves to the private IP address from within the DB cluster's virtual private cloud\n          (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access\n          to the DB cluster is ultimately controlled by the security group it uses. That public\n          access isn't permitted if the security group assigned to the DB cluster doesn't permit\n          it.</p>\n         <p>When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.</p>\n         <p>\n            <code>PubliclyAccessible</code> only applies to DB instances in a VPC. The DB instance must be part of a \n          public subnet and <code>PubliclyAccessible</code> must be enabled for it to be publicly accessible.</p>\n         <p>Changes to the <code>PubliclyAccessible</code> parameter are applied immediately regardless\n      of the value of the <code>ApplyImmediately</code> parameter.</p>"
+                        "smithy.api#documentation": "<p>Specifies whether the DB instance is publicly accessible.</p>\n         <p>When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), \n              its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, \n              the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public\n              access isn't permitted if the security group assigned to the DB instance doesn't permit it.</p>\n         <p>When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.</p>\n         <p>\n            <code>PubliclyAccessible</code> only applies to DB instances in a VPC. The DB instance must be part of a \n          public subnet and <code>PubliclyAccessible</code> must be enabled for it to be publicly accessible.</p>\n         <p>Changes to the <code>PubliclyAccessible</code> parameter are applied immediately regardless\n      of the value of the <code>ApplyImmediately</code> parameter.</p>"
                     }
                 },
                 "MonitoringRoleArn": {
@@ -22881,6 +22893,12 @@
                     "target": "com.amazonaws.rds#DoubleOptional",
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum capacity of the DB shard group in Aurora capacity units (ACUs).</p>"
+                    }
+                },
+                "MinACU": {
+                    "target": "com.amazonaws.rds#DoubleOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The minimum capacity of the DB shard group in Aurora capacity units (ACUs).</p>"
                     }
                 }
             },
@@ -23780,13 +23798,13 @@
                 "DBSecurityGroupMemberships": {
                     "target": "com.amazonaws.rds#DBSecurityGroupNameList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of DBSecurityGroupMembership name strings used for this option.</p>"
+                        "smithy.api#documentation": "<p>A list of DB security groups used for this option.</p>"
                     }
                 },
                 "VpcSecurityGroupMemberships": {
                     "target": "com.amazonaws.rds#VpcSecurityGroupIdList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of VpcSecurityGroupMembership name strings used for this option.</p>"
+                        "smithy.api#documentation": "<p>A list of VPC security group names used for this option.</p>"
                     }
                 },
                 "OptionSettings": {
@@ -23797,7 +23815,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A list of all available options</p>"
+                "smithy.api#documentation": "<p>A list of all available options for an option group.</p>"
             }
         },
         "com.amazonaws.rds#OptionConfigurationList": {
@@ -30782,7 +30800,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Metadata assigned to an Amazon RDS resource consisting of a key-value pair.</p>\n         <p>For more information, see\n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html\">Tagging Amazon RDS Resources</a> in the <i>Amazon RDS User Guide</i>\n            or <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html\">Tagging Amazon Aurora and Amazon RDS Resources</a> in the <i>Amazon Aurora User Guide</i>.\n            </p>"
+                "smithy.api#documentation": "<p>Metadata assigned to an Amazon RDS resource consisting of a key-value pair.</p>\n         <p>For more information, see\n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html\">Tagging Amazon RDS resources</a> in the <i>Amazon RDS User Guide</i> or \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html\">Tagging Amazon Aurora and Amazon RDS resources</a> in the <i>Amazon Aurora User Guide</i>.\n            </p>"
             }
         },
         "com.amazonaws.rds#TagList": {
@@ -30794,7 +30812,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A list of tags.\n          For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html\">Tagging Amazon RDS Resources</a> in the <i>Amazon RDS User Guide.</i>\n         </p>"
+                "smithy.api#documentation": "<p>A list of tags.</p>\n         <p>For more information, see\n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html\">Tagging Amazon RDS resources</a> in the <i>Amazon RDS User Guide</i> or \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html\">Tagging Amazon Aurora and Amazon RDS resources</a> in the <i>Amazon Aurora User Guide</i>.\n            </p>"
             }
         },
         "com.amazonaws.rds#TagListMessage": {
