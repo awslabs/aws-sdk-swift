@@ -17,12 +17,13 @@ class RegistryConfigIntegration : SwiftIntegration {
         delegator: SwiftDelegator
     ) {
         protocolGenerationContext.delegator.useFileWriter(".swiftpm/configuration/registries.json") { writer ->
+            /// "url" : "https://d1b0xmm48lrxf5.cloudfront.net/"
             val json = """
             {
               "registries" : {
                 "aws-sdk-swift" : {
                   "supportsAvailability" : false,
-                  "url" : "https://d1b0xmm48lrxf5.cloudfront.net/"
+                  "url" : "https://sdk.amazonaws.com/swift/registry/"
                 }
               },
               "security": {

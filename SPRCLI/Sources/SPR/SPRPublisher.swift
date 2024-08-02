@@ -5,6 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Foundation
+import AWSCLIUtils
+
 public struct SPRPublisher {
 
     public var scope: String
@@ -13,7 +16,7 @@ public struct SPRPublisher {
     public var path: String
     public var region: String
     public var bucket: String
-    public var url: String
+    public var url: URL
     public var distributionID: String?
     public var replace = false
 
@@ -30,7 +33,10 @@ public struct SPRPublisher {
         url: String,
         distributionID: String?,
         replace: Bool
-    ) {
+    ) throws {
+        guard let url = URL(string: url) else {
+            throw Error("`url` param is not a valid URL")
+        }
         self.scope = scope
         self.name = name
         self.version = version
@@ -58,5 +64,9 @@ public struct SPRPublisher {
         print("    Updating package list...           ", terminator: "")
         try await updateList()
         print("[done]")
+    }
+
+    var keyPrefix: [String] {
+        url.pathComponents.filter { $0 != "/" }
     }
 }

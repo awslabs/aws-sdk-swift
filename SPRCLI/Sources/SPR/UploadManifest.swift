@@ -43,6 +43,6 @@ extension SPRPublisher {
     }
 
     private var manifestKey: String {
-        "\(scope)/\(name)/\(version)/Package.swift"
+        (keyPrefix + [scope, name, version, "Package.swift"]).joined(separator: "/")
     }
 }

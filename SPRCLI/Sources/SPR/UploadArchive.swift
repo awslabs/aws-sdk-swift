@@ -55,6 +55,6 @@ extension SPRPublisher {
     }
 
     private var archiveKey: String {
-        "\(scope)/\(name)/\(version).zip"
+        (keyPrefix + [scope, name, "\(version).zip"]).joined(separator: "/")
     }
 }

@@ -49,7 +49,7 @@ struct SPRPublish: AsyncParsableCommand, Configurable {
         try await setOptions()
         let start = Date()
         print("Package: \(name)")
-        var publisher = SPRPublisher(
+        var publisher = try SPRPublisher(
             scope: scope,
             name: name,
             version: version,

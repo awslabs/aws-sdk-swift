@@ -2,8 +2,8 @@
 
 import PackageDescription
 
-let sdkVersion: Version = "0.0.15"
-let smithySwiftVersion: Version = "0.100.0"
+let sdkVersion: Version = "0.15.1"
+let smithySwiftVersion: Version = "0.54.0"
 let crtVersion: Version = "0.32.0"
 
 let package = Package(

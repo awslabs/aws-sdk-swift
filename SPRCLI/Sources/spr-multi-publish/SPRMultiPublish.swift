@@ -48,7 +48,7 @@ struct SPRMultiPublish: AsyncParsableCommand, Configurable {
         do {
             for (name, path) in allPackages {
                 print("Package: \(name)")
-                var publisher = SPRPublisher(
+                var publisher = try SPRPublisher(
                     scope: scope,
                     name: name,
                     version: version,
@@ -63,20 +63,15 @@ struct SPRMultiPublish: AsyncParsableCommand, Configurable {
                 allInvalidations.append(contentsOf: publisher.invalidations)
                 print("")
             }
-            try await invalidate(allInvalidations)
+            try await SPRPublisher.invalidate(region: region, distributionID: distributionID, invalidations: allInvalidations)
         } catch {
             try printError("Error caught while publishing.")
-            try await invalidate(allInvalidations)
+            try await SPRPublisher.invalidate(region: region, distributionID: distributionID, invalidations: allInvalidations)
             throw error
         }
 
         let elapsed = Date().timeIntervalSince(start)
         print("Time elapsed: \(String(format: "%.2f", elapsed)) sec")
-    }
-
-    private func invalidate(_ invalidations: [String]) async throws {
-        print("Finishing & invalidating \(invalidations.count) package lists.")
-        try await SPRPublisher.invalidate(region: region, distributionID: distributionID, invalidations: invalidations)
     }
 
     private var runtimePackages: [(String, String)] {

@@ -54,15 +54,12 @@ extension SPRPublisher {
     }
 
     var listKey: String {
-        "\(scope)/\(name)"
+        (keyPrefix + [scope, name]).joined(separator: "/")
     }
 
     private var releaseURL: URL {
         get throws {
-            guard let baseURL = URL(string: url) else {
-                throw Error("URL is invalid")
-            }
-            return baseURL
+            return url
                 .appending(component: scope)
                 .appending(component: name)
                 .appending(component: version)
