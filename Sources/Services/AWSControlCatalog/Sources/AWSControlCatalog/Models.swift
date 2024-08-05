@@ -13,6 +13,7 @@ import class SmithyJSON.Reader
 import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
+import enum SmithyReadWrite.ReadingClosures
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -272,6 +273,218 @@ public struct ListCommonControlsOutput {
     }
 }
 
+extension ControlCatalogClientTypes {
+
+    public enum ControlBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case detective
+        case preventive
+        case proactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlBehavior] {
+            return [
+                .detective,
+                .preventive,
+                .proactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .detective: return "DETECTIVE"
+            case .preventive: return "PREVENTIVE"
+            case .proactive: return "PROACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The requested resource does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct GetControlInput {
+    /// The Amazon Resource Name (ARN) of the control. It has one of the following formats: Global format arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID} Or Regional format arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID} Here is a more general pattern that covers Amazon Web Services Control Tower and Control Catalog ARNs: ^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$
+    /// This member is required.
+    public var controlArn: Swift.String?
+
+    public init(
+        controlArn: Swift.String? = nil
+    )
+    {
+        self.controlArn = controlArn
+    }
+}
+
+extension ControlCatalogClientTypes {
+
+    public enum ControlScope: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case global
+        case regional
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlScope] {
+            return [
+                .global,
+                .regional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .global: return "GLOBAL"
+            case .regional: return "REGIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+    /// Returns information about the control, including the scope of the control, if enabled, and the Regions in which the control currently is available for deployment. If you are applying controls through an Amazon Web Services Control Tower landing zone environment, remember that the values returned in the RegionConfiguration API operation are not related to the governed Regions in your landing zone. For example, if you are governing Regions A,B,and C while the control is available in Regions A, B, C, and D, you'd see a response with DeployableRegions of A, B, C, and D for a control with REGIONAL scope, even though you may not intend to deploy the control in Region D, because you do not govern it through your landing zone.
+    public struct RegionConfiguration {
+        /// Regions in which the control is available to be deployed.
+        public var deployableRegions: [Swift.String]?
+        /// The coverage of the control, if deployed. Scope is an enumerated type, with value Regional, or Global. A control with Global scope is effective in all Amazon Web Services Regions, regardless of the Region from which it is enabled, or to which it is deployed. A control implemented by an SCP is usually Global in scope. A control with Regional scope has operations that are restricted specifically to the Region from which it is enabled and to which it is deployed. Controls implemented by Config rules and CloudFormation hooks usually are Regional in scope. Security Hub controls usually are Regional in scope.
+        /// This member is required.
+        public var scope: ControlCatalogClientTypes.ControlScope?
+
+        public init(
+            deployableRegions: [Swift.String]? = nil,
+            scope: ControlCatalogClientTypes.ControlScope? = nil
+        )
+        {
+            self.deployableRegions = deployableRegions
+            self.scope = scope
+        }
+    }
+
+}
+
+public struct GetControlOutput {
+    /// The Amazon Resource Name (ARN) of the control.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A term that identifies the control's functional behavior. One of Preventive, Deteictive, Proactive
+    /// This member is required.
+    public var behavior: ControlCatalogClientTypes.ControlBehavior?
+    /// A description of what the control does.
+    /// This member is required.
+    public var description: Swift.String?
+    /// The display name of the control.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Returns information about the control, including the scope of the control, if enabled, and the Regions in which the control currently is available for deployment. If you are applying controls through an Amazon Web Services Control Tower landing zone environment, remember that the values returned in the RegionConfiguration API operation are not related to the governed Regions in your landing zone. For example, if you are governing Regions A,B,and C while the control is available in Regions A, B, C, and D, you'd see a response with DeployableRegions of A, B, C, and D for a control with REGIONAL scope, even though you may not intend to deploy the control in Region D, because you do not govern it through your landing zone.
+    /// This member is required.
+    public var regionConfiguration: ControlCatalogClientTypes.RegionConfiguration?
+
+    public init(
+        arn: Swift.String? = nil,
+        behavior: ControlCatalogClientTypes.ControlBehavior? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        regionConfiguration: ControlCatalogClientTypes.RegionConfiguration? = nil
+    )
+    {
+        self.arn = arn
+        self.behavior = behavior
+        self.description = description
+        self.name = name
+        self.regionConfiguration = regionConfiguration
+    }
+}
+
+public struct ListControlsInput {
+    /// The maximum number of results on a page or for an API request call.
+    public var maxResults: Swift.Int?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ControlCatalogClientTypes {
+    /// Overview of information about a control.
+    public struct ControlSummary {
+        /// The Amazon Resource Name (ARN) of the control.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// A description of the control, as it may appear in the console. Describes the functionality of the control.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The display name of the control.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.description = description
+            self.name = name
+        }
+    }
+
+}
+
+public struct ListControlsOutput {
+    /// Returns a list of controls, given as structures of type controlSummary.
+    /// This member is required.
+    public var controls: [ControlCatalogClientTypes.ControlSummary]?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        controls: [ControlCatalogClientTypes.ControlSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.controls = controls
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListDomainsInput {
     /// The maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
@@ -453,6 +666,13 @@ public struct ListObjectivesOutput {
     }
 }
 
+extension GetControlInput {
+
+    static func urlPathProvider(_ value: GetControlInput) -> Swift.String? {
+        return "/get-control"
+    }
+}
+
 extension ListCommonControlsInput {
 
     static func urlPathProvider(_ value: ListCommonControlsInput) -> Swift.String? {
@@ -463,6 +683,29 @@ extension ListCommonControlsInput {
 extension ListCommonControlsInput {
 
     static func queryItemProvider(_ value: ListCommonControlsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListControlsInput {
+
+    static func urlPathProvider(_ value: ListControlsInput) -> Swift.String? {
+        return "/list-controls"
+    }
+}
+
+extension ListControlsInput {
+
+    static func queryItemProvider(_ value: ListControlsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -522,6 +765,14 @@ extension ListObjectivesInput {
     }
 }
 
+extension GetControlInput {
+
+    static func write(value: GetControlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ControlArn"].write(value.controlArn)
+    }
+}
+
 extension ListCommonControlsInput {
 
     static func write(value: ListCommonControlsInput?, to writer: SmithyJSON.Writer) throws {
@@ -538,6 +789,22 @@ extension ListObjectivesInput {
     }
 }
 
+extension GetControlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetControlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetControlOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.behavior = try reader["Behavior"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.regionConfiguration = try reader["RegionConfiguration"].readIfPresent(with: ControlCatalogClientTypes.RegionConfiguration.read(from:))
+        return value
+    }
+}
+
 extension ListCommonControlsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCommonControlsOutput {
@@ -546,6 +813,19 @@ extension ListCommonControlsOutput {
         let reader = responseReader
         var value = ListCommonControlsOutput()
         value.commonControls = try reader["CommonControls"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.CommonControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListControlsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListControlsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListControlsOutput()
+        value.controls = try reader["Controls"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -577,7 +857,42 @@ extension ListObjectivesOutput {
     }
 }
 
+enum GetControlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCommonControlsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListControlsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -625,6 +940,19 @@ enum ListObjectivesOutputError {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
     }
 }
 
@@ -680,6 +1008,17 @@ extension InternalServerException {
     }
 }
 
+extension ControlCatalogClientTypes.RegionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.RegionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.RegionConfiguration()
+        value.scope = try reader["Scope"].readIfPresent()
+        value.deployableRegions = try reader["DeployableRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ControlCatalogClientTypes.CommonControlSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.CommonControlSummary {
@@ -714,6 +1053,18 @@ extension ControlCatalogClientTypes.AssociatedDomainSummary {
         var value = ControlCatalogClientTypes.AssociatedDomainSummary()
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlCatalogClientTypes.ControlSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ControlSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.ControlSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }

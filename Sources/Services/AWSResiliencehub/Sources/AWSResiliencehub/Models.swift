@@ -28,6 +28,23 @@ import struct SmithyReadWrite.ReadingClosureBox
 import struct SmithyReadWrite.WritingClosureBox
 import struct SmithyTimestamps.TimestampFormatter
 
+extension ResiliencehubClientTypes {
+    /// Indicates the grouping recommendation you have accepted to include in your application.
+    public struct AcceptGroupingRecommendationEntry {
+        /// Indicates the identifier of the grouping recommendation.
+        /// This member is required.
+        public var groupingRecommendationId: Swift.String?
+
+        public init(
+            groupingRecommendationId: Swift.String? = nil
+        )
+        {
+            self.groupingRecommendationId = groupingRecommendationId
+        }
+    }
+
+}
+
 /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -49,38 +66,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     )
     {
         self.properties.message = message
-    }
-}
-
-/// This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// The identifier of the resource that the exception applies to.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource that the exception applies to.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
     }
 }
 
@@ -177,6 +162,120 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct AcceptResourceGroupingRecommendationsInput {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    /// This member is required.
+    public var appArn: Swift.String?
+    /// Indicates the list of resource grouping recommendations you want to include in your application.
+    /// This member is required.
+    public var entries: [ResiliencehubClientTypes.AcceptGroupingRecommendationEntry]?
+
+    public init(
+        appArn: Swift.String? = nil,
+        entries: [ResiliencehubClientTypes.AcceptGroupingRecommendationEntry]? = nil
+    )
+    {
+        self.appArn = appArn
+        self.entries = entries
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Indicates the accepted grouping recommendation whose implementation failed.
+    public struct FailedGroupingRecommendationEntry {
+        /// Indicates the error that occurred while implementing a grouping recommendation.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// Indicates the identifier of the grouping recommendation.
+        /// This member is required.
+        public var groupingRecommendationId: Swift.String?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            groupingRecommendationId: Swift.String? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+            self.groupingRecommendationId = groupingRecommendationId
+        }
+    }
+
+}
+
+public struct AcceptResourceGroupingRecommendationsOutput {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    /// This member is required.
+    public var appArn: Swift.String?
+    /// Indicates the list of resource grouping recommendations that could not be included in your application.
+    /// This member is required.
+    public var failedEntries: [ResiliencehubClientTypes.FailedGroupingRecommendationEntry]?
+
+    public init(
+        appArn: Swift.String? = nil,
+        failedEntries: [ResiliencehubClientTypes.FailedGroupingRecommendationEntry]? = nil
+    )
+    {
+        self.appArn = appArn
+        self.failedEntries = failedEntries
+    }
+}
+
+/// This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The identifier of the resource that the exception applies to.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource that the exception applies to.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+/// This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -661,6 +760,8 @@ extension ResiliencehubClientTypes {
 
     public enum AppComplianceStatusType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case changesDetected
+        case missingPolicy
+        case notApplicable
         case notAssessed
         case policyBreached
         case policyMet
@@ -669,6 +770,8 @@ extension ResiliencehubClientTypes {
         public static var allCases: [AppComplianceStatusType] {
             return [
                 .changesDetected,
+                .missingPolicy,
+                .notApplicable,
                 .notAssessed,
                 .policyBreached,
                 .policyMet
@@ -683,6 +786,8 @@ extension ResiliencehubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .changesDetected: return "ChangesDetected"
+            case .missingPolicy: return "MissingPolicy"
+            case .notApplicable: return "NotApplicable"
             case .notAssessed: return "NotAssessed"
             case .policyBreached: return "PolicyBreached"
             case .policyMet: return "PolicyMet"
@@ -1035,12 +1140,16 @@ extension ResiliencehubClientTypes {
 extension ResiliencehubClientTypes {
 
     public enum ComplianceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case missingPolicy
+        case notApplicable
         case policyBreached
         case policyMet
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ComplianceStatus] {
             return [
+                .missingPolicy,
+                .notApplicable,
                 .policyBreached,
                 .policyMet
             ]
@@ -1053,6 +1162,8 @@ extension ResiliencehubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .missingPolicy: return "MissingPolicy"
+            case .notApplicable: return "NotApplicable"
             case .policyBreached: return "PolicyBreached"
             case .policyMet: return "PolicyMet"
             case let .sdkUnknown(s): return s
@@ -1554,6 +1665,50 @@ extension ResiliencehubClientTypes {
 }
 
 extension ResiliencehubClientTypes {
+    /// Indicates a specific risk identified in the Resilience Hub assessment and the corresponding recommendation provided to address that risk. The assessment summary generated by large language models (LLMs) on Amazon Bedrock are only suggestions. The current level of generative AI technology is not perfect and LLMs are not infallible. Bias and incorrect answers, although rare, should be expected. Review each recommendation in the assessment summary before you use the output from an LLM. This property is available only in the US East (N. Virginia) Region.
+    public struct AssessmentRiskRecommendation {
+        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessnent and are associated with the identified risk and recommendation. This property is available only in the US East (N. Virginia) Region.
+        public var appComponents: [Swift.String]?
+        /// Indicates the recommendation provided by the Resilience Hub to address the identified risks in the application. This property is available only in the US East (N. Virginia) Region.
+        public var recommendation: Swift.String?
+        /// Indicates the description of the potential risk identified in the application as part of the Resilience Hub assessment. This property is available only in the US East (N. Virginia) Region.
+        public var risk: Swift.String?
+
+        public init(
+            appComponents: [Swift.String]? = nil,
+            recommendation: Swift.String? = nil,
+            risk: Swift.String? = nil
+        )
+        {
+            self.appComponents = appComponents
+            self.recommendation = recommendation
+            self.risk = risk
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes {
+    /// Indicates the AI-generated summary for the Resilience Hub assessment, providing a concise overview that highlights the top risks and recommendations. This property is available only in the US East (N. Virginia) Region.
+    public struct AssessmentSummary {
+        /// Indicates the top risks and recommendations identified by the Resilience Hub assessment, each representing a specific risk and the corresponding recommendation to address it. This property is available only in the US East (N. Virginia) Region.
+        public var riskRecommendations: [ResiliencehubClientTypes.AssessmentRiskRecommendation]?
+        /// Indicates a concise summary that provides an overview of the Resilience Hub assessment. This property is available only in the US East (N. Virginia) Region.
+        public var summary: Swift.String?
+
+        public init(
+            riskRecommendations: [ResiliencehubClientTypes.AssessmentRiskRecommendation]? = nil,
+            summary: Swift.String? = nil
+        )
+        {
+            self.riskRecommendations = riskRecommendations
+            self.summary = summary
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes {
     /// Defines an application assessment.
     public struct AppAssessment {
         /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
@@ -1591,6 +1746,8 @@ extension ResiliencehubClientTypes {
         public var resourceErrorsDetails: ResiliencehubClientTypes.ResourceErrorsDetails?
         /// Starting time for the action.
         public var startTime: Foundation.Date?
+        /// Indicates a concise summary that provides an overview of the Resilience Hub assessment.
+        public var summary: ResiliencehubClientTypes.AssessmentSummary?
         /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
         public var tags: [Swift.String: Swift.String]?
         /// Version name of the published application.
@@ -1613,6 +1770,7 @@ extension ResiliencehubClientTypes {
             resiliencyScore: ResiliencehubClientTypes.ResiliencyScore? = nil,
             resourceErrorsDetails: ResiliencehubClientTypes.ResourceErrorsDetails? = nil,
             startTime: Foundation.Date? = nil,
+            summary: ResiliencehubClientTypes.AssessmentSummary? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             versionName: Swift.String? = nil
         )
@@ -1633,6 +1791,7 @@ extension ResiliencehubClientTypes {
             self.resiliencyScore = resiliencyScore
             self.resourceErrorsDetails = resourceErrorsDetails
             self.startTime = startTime
+            self.summary = summary
             self.tags = tags
             self.versionName = versionName
         }
@@ -1642,7 +1801,7 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.AppAssessment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AppAssessment(appArn: \(Swift.String(describing: appArn)), appVersion: \(Swift.String(describing: appVersion)), assessmentArn: \(Swift.String(describing: assessmentArn)), assessmentName: \(Swift.String(describing: assessmentName)), assessmentStatus: \(Swift.String(describing: assessmentStatus)), compliance: \(Swift.String(describing: compliance)), complianceStatus: \(Swift.String(describing: complianceStatus)), cost: \(Swift.String(describing: cost)), driftStatus: \(Swift.String(describing: driftStatus)), endTime: \(Swift.String(describing: endTime)), invoker: \(Swift.String(describing: invoker)), message: \(Swift.String(describing: message)), policy: \(Swift.String(describing: policy)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), resourceErrorsDetails: \(Swift.String(describing: resourceErrorsDetails)), startTime: \(Swift.String(describing: startTime)), versionName: \(Swift.String(describing: versionName)), tags: \"CONTENT_REDACTED\")"}
+        "AppAssessment(appArn: \(Swift.String(describing: appArn)), appVersion: \(Swift.String(describing: appVersion)), assessmentArn: \(Swift.String(describing: assessmentArn)), assessmentName: \(Swift.String(describing: assessmentName)), assessmentStatus: \(Swift.String(describing: assessmentStatus)), compliance: \(Swift.String(describing: compliance)), complianceStatus: \(Swift.String(describing: complianceStatus)), cost: \(Swift.String(describing: cost)), driftStatus: \(Swift.String(describing: driftStatus)), endTime: \(Swift.String(describing: endTime)), invoker: \(Swift.String(describing: invoker)), message: \(Swift.String(describing: message)), policy: \(Swift.String(describing: policy)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), resourceErrorsDetails: \(Swift.String(describing: resourceErrorsDetails)), startTime: \(Swift.String(describing: startTime)), summary: \(Swift.String(describing: summary)), versionName: \(Swift.String(describing: versionName)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension ResiliencehubClientTypes {
@@ -1660,7 +1819,7 @@ extension ResiliencehubClientTypes {
         /// Current status of the assessment for the resiliency policy.
         /// This member is required.
         public var assessmentStatus: ResiliencehubClientTypes.AssessmentStatus?
-        /// TCurrent status of compliance for the resiliency policy.
+        /// Current status of compliance for the resiliency policy.
         public var complianceStatus: ResiliencehubClientTypes.ComplianceStatus?
         /// Cost for an application.
         public var cost: ResiliencehubClientTypes.Cost?
@@ -2105,30 +2264,6 @@ public struct BatchUpdateRecommendationStatusOutput {
         self.appArn = appArn
         self.failedEntries = failedEntries
         self.successfulEntries = successfulEntries
-    }
-}
-
-/// This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -3536,6 +3671,80 @@ public struct DescribeResiliencyPolicyOutput {
     }
 }
 
+public struct DescribeResourceGroupingRecommendationTaskInput {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    /// This member is required.
+    public var appArn: Swift.String?
+    /// Indicates the identifier of the grouping recommendation task.
+    public var groupingId: Swift.String?
+
+    public init(
+        appArn: Swift.String? = nil,
+        groupingId: Swift.String? = nil
+    )
+    {
+        self.appArn = appArn
+        self.groupingId = groupingId
+    }
+}
+
+extension ResiliencehubClientTypes {
+
+    public enum ResourcesGroupingRecGenStatusType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case pending
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesGroupingRecGenStatusType] {
+            return [
+                .failed,
+                .inProgress,
+                .pending,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .pending: return "Pending"
+            case .success: return "Success"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeResourceGroupingRecommendationTaskOutput {
+    /// Indicates the error that occurred while generating a grouping recommendation.
+    public var errorMessage: Swift.String?
+    /// Indicates the identifier of the grouping recommendation task.
+    /// This member is required.
+    public var groupingId: Swift.String?
+    /// Status of the action.
+    /// This member is required.
+    public var status: ResiliencehubClientTypes.ResourcesGroupingRecGenStatusType?
+
+    public init(
+        errorMessage: Swift.String? = nil,
+        groupingId: Swift.String? = nil,
+        status: ResiliencehubClientTypes.ResourcesGroupingRecGenStatusType? = nil
+    )
+    {
+        self.errorMessage = errorMessage
+        self.groupingId = groupingId
+        self.status = status
+    }
+}
+
 extension ResiliencehubClientTypes {
     /// The input source of the Amazon Elastic Kubernetes Service cluster.
     public struct EksSource {
@@ -3693,9 +3902,9 @@ public struct ListAppAssessmentComplianceDriftsInput {
     /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
-    /// Indicates the maximum number of applications requested.
+    /// Indicates the maximum number of compliance drifts requested.
     public var maxResults: Swift.Int?
-    /// Indicates the unique token number of the next application to be checked for compliance and regulatory requirements from the list of applications.
+    /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3827,7 +4036,7 @@ public struct ListAppAssessmentComplianceDriftsOutput {
     /// Indicates compliance drifts (recovery time objective (RTO) and recovery point objective (RPO)) detected for an assessed entity.
     /// This member is required.
     public var complianceDrifts: [ResiliencehubClientTypes.ComplianceDrift]?
-    /// Token number of the next application to be checked for compliance and regulatory requirements from the list of applications.
+    /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -4219,13 +4428,15 @@ extension ResiliencehubClientTypes {
         case breachedCanMeet
         case breachedUnattainable
         case metCanImprove
+        case missingPolicy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationComplianceStatus] {
             return [
                 .breachedCanMeet,
                 .breachedUnattainable,
-                .metCanImprove
+                .metCanImprove,
+                .missingPolicy
             ]
         }
 
@@ -4239,6 +4450,7 @@ extension ResiliencehubClientTypes {
             case .breachedCanMeet: return "BreachedCanMeet"
             case .breachedUnattainable: return "BreachedUnattainable"
             case .metCanImprove: return "MetCanImprove"
+            case .missingPolicy: return "MissingPolicy"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4343,7 +4555,7 @@ public struct ListAppsInput {
     public var name: Swift.String?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
-    /// The application list is sorted based on the values of lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending order. To sort the appliation list in descending order, set this field to True.
+    /// The application list is sorted based on the values of lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending order. To sort the application list in descending order, set this field to True.
     public var reverseOrder: Swift.Bool?
     /// Indicates the upper limit of the range that is used to filter the applications based on their last assessment times.
     public var toLastAssessmentTime: Foundation.Date?
@@ -4664,6 +4876,259 @@ public struct ListResiliencyPoliciesOutput {
     {
         self.nextToken = nextToken
         self.resiliencyPolicies = resiliencyPolicies
+    }
+}
+
+public struct ListResourceGroupingRecommendationsInput {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    public var appArn: Swift.String?
+    /// Maximum number of grouping recommendations to be displayed per Resilience Hub application.
+    public var maxResults: Swift.Int?
+    /// Null, or the token from a previous call to get the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        appArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.appArn = appArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ResiliencehubClientTypes {
+
+    public enum GroupingRecommendationConfidenceLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupingRecommendationConfidenceLevel] {
+            return [
+                .high,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "High"
+            case .medium: return "Medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Creates a new recommended Application Component (AppComponent).
+    public struct GroupingAppComponent {
+        /// Indicates the identifier of an AppComponent.
+        /// This member is required.
+        public var appComponentId: Swift.String?
+        /// Indicates the name of an AppComponent.
+        /// This member is required.
+        public var appComponentName: Swift.String?
+        /// Indicates the type of an AppComponent.
+        /// This member is required.
+        public var appComponentType: Swift.String?
+
+        public init(
+            appComponentId: Swift.String? = nil,
+            appComponentName: Swift.String? = nil,
+            appComponentType: Swift.String? = nil
+        )
+        {
+            self.appComponentId = appComponentId
+            self.appComponentName = appComponentName
+            self.appComponentType = appComponentType
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes {
+
+    public enum GroupingRecommendationRejectionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case distinctBusinessPurpose
+        case distinctUserGroupHandling
+        case other
+        case separateDataConcern
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupingRecommendationRejectionReason] {
+            return [
+                .distinctBusinessPurpose,
+                .distinctUserGroupHandling,
+                .other,
+                .separateDataConcern
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .distinctBusinessPurpose: return "DistinctBusinessPurpose"
+            case .distinctUserGroupHandling: return "DistinctUserGroupHandling"
+            case .other: return "Other"
+            case .separateDataConcern: return "SeparateDataConcern"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Indicates the resource that will be grouped in the recommended Application Component (AppComponent).
+    public struct GroupingResource {
+        /// Indicates the logical identifier of the resource.
+        /// This member is required.
+        public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?
+        /// Indicates the physical identifier of the resource.
+        /// This member is required.
+        public var physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId?
+        /// Indicates the resource name.
+        /// This member is required.
+        public var resourceName: Swift.String?
+        /// Indicates the resource type.
+        /// This member is required.
+        public var resourceType: Swift.String?
+        /// Indicates the identifier of the source AppComponents in which the resources were previously grouped into.
+        /// This member is required.
+        public var sourceAppComponentIds: [Swift.String]?
+
+        public init(
+            logicalResourceId: ResiliencehubClientTypes.LogicalResourceId? = nil,
+            physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId? = nil,
+            resourceName: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            sourceAppComponentIds: [Swift.String]? = nil
+        )
+        {
+            self.logicalResourceId = logicalResourceId
+            self.physicalResourceId = physicalResourceId
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.sourceAppComponentIds = sourceAppComponentIds
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes {
+
+    public enum GroupingRecommendationStatusType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case pendingDecision
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupingRecommendationStatusType] {
+            return [
+                .accepted,
+                .pendingDecision,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "Accepted"
+            case .pendingDecision: return "PendingDecision"
+            case .rejected: return "Rejected"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Creates a new grouping recommendation.
+    public struct GroupingRecommendation {
+        /// Indicates the confidence level of Resilience Hub on the grouping recommendation.
+        /// This member is required.
+        public var confidenceLevel: ResiliencehubClientTypes.GroupingRecommendationConfidenceLevel?
+        /// Indicates the creation time of the grouping recommendation.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// Indicates the name of the recommended Application Component (AppComponent).
+        /// This member is required.
+        public var groupingAppComponent: ResiliencehubClientTypes.GroupingAppComponent?
+        /// Indicates all the reasons available for rejecting a grouping recommendation.
+        /// This member is required.
+        public var groupingRecommendationId: Swift.String?
+        /// Indicates all the reasons available for rejecting a grouping recommendation.
+        /// This member is required.
+        public var recommendationReasons: [Swift.String]?
+        /// Indicates the reason you had selected while rejecting a grouping recommendation.
+        public var rejectionReason: ResiliencehubClientTypes.GroupingRecommendationRejectionReason?
+        /// Indicates the resources that are grouped in a recommended AppComponent.
+        /// This member is required.
+        public var resources: [ResiliencehubClientTypes.GroupingResource]?
+        /// Indicates the confidence level of the grouping recommendation.
+        /// This member is required.
+        public var score: Swift.Double
+        /// Indicates the status of grouping resources into AppComponents.
+        /// This member is required.
+        public var status: ResiliencehubClientTypes.GroupingRecommendationStatusType?
+
+        public init(
+            confidenceLevel: ResiliencehubClientTypes.GroupingRecommendationConfidenceLevel? = nil,
+            creationTime: Foundation.Date? = nil,
+            groupingAppComponent: ResiliencehubClientTypes.GroupingAppComponent? = nil,
+            groupingRecommendationId: Swift.String? = nil,
+            recommendationReasons: [Swift.String]? = nil,
+            rejectionReason: ResiliencehubClientTypes.GroupingRecommendationRejectionReason? = nil,
+            resources: [ResiliencehubClientTypes.GroupingResource]? = nil,
+            score: Swift.Double = 0.0,
+            status: ResiliencehubClientTypes.GroupingRecommendationStatusType? = nil
+        )
+        {
+            self.confidenceLevel = confidenceLevel
+            self.creationTime = creationTime
+            self.groupingAppComponent = groupingAppComponent
+            self.groupingRecommendationId = groupingRecommendationId
+            self.recommendationReasons = recommendationReasons
+            self.rejectionReason = rejectionReason
+            self.resources = resources
+            self.score = score
+            self.status = status
+        }
+    }
+
+}
+
+public struct ListResourceGroupingRecommendationsOutput {
+    /// List of resource grouping recommendations generated by Resilience Hub.
+    /// This member is required.
+    public var groupingRecommendations: [ResiliencehubClientTypes.GroupingRecommendation]?
+    /// Null, or the token from a previous call to get the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        groupingRecommendations: [ResiliencehubClientTypes.GroupingRecommendation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.groupingRecommendations = groupingRecommendations
+        self.nextToken = nextToken
     }
 }
 
@@ -5244,6 +5709,63 @@ public struct PutDraftAppVersionTemplateOutput {
     }
 }
 
+extension ResiliencehubClientTypes {
+    /// Indicates the rejected grouping recommendation.
+    public struct RejectGroupingRecommendationEntry {
+        /// Indicates the identifier of the grouping recommendation.
+        /// This member is required.
+        public var groupingRecommendationId: Swift.String?
+        /// Indicates the reason you had selected while rejecting a grouping recommendation.
+        public var rejectionReason: ResiliencehubClientTypes.GroupingRecommendationRejectionReason?
+
+        public init(
+            groupingRecommendationId: Swift.String? = nil,
+            rejectionReason: ResiliencehubClientTypes.GroupingRecommendationRejectionReason? = nil
+        )
+        {
+            self.groupingRecommendationId = groupingRecommendationId
+            self.rejectionReason = rejectionReason
+        }
+    }
+
+}
+
+public struct RejectResourceGroupingRecommendationsInput {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    /// This member is required.
+    public var appArn: Swift.String?
+    /// Indicates the list of resource grouping recommendations you have selected to exclude from your application.
+    /// This member is required.
+    public var entries: [ResiliencehubClientTypes.RejectGroupingRecommendationEntry]?
+
+    public init(
+        appArn: Swift.String? = nil,
+        entries: [ResiliencehubClientTypes.RejectGroupingRecommendationEntry]? = nil
+    )
+    {
+        self.appArn = appArn
+        self.entries = entries
+    }
+}
+
+public struct RejectResourceGroupingRecommendationsOutput {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    /// This member is required.
+    public var appArn: Swift.String?
+    /// Indicates the list of resource grouping recommendations that failed to get excluded in your application.
+    /// This member is required.
+    public var failedEntries: [ResiliencehubClientTypes.FailedGroupingRecommendationEntry]?
+
+    public init(
+        appArn: Swift.String? = nil,
+        failedEntries: [ResiliencehubClientTypes.FailedGroupingRecommendationEntry]? = nil
+    )
+    {
+        self.appArn = appArn
+        self.failedEntries = failedEntries
+    }
+}
+
 public struct RemoveDraftAppVersionResourceMappingsInput {
     /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
@@ -5389,6 +5911,46 @@ public struct StartAppAssessmentOutput {
     )
     {
         self.assessment = assessment
+    }
+}
+
+public struct StartResourceGroupingRecommendationTaskInput {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    /// This member is required.
+    public var appArn: Swift.String?
+
+    public init(
+        appArn: Swift.String? = nil
+    )
+    {
+        self.appArn = appArn
+    }
+}
+
+public struct StartResourceGroupingRecommendationTaskOutput {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    /// This member is required.
+    public var appArn: Swift.String?
+    /// Indicates the error that occurred while executing a grouping recommendation task.
+    public var errorMessage: Swift.String?
+    /// Indicates the identifier of the grouping recommendation task.
+    /// This member is required.
+    public var groupingId: Swift.String?
+    /// Status of the action.
+    /// This member is required.
+    public var status: ResiliencehubClientTypes.ResourcesGroupingRecGenStatusType?
+
+    public init(
+        appArn: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        groupingId: Swift.String? = nil,
+        status: ResiliencehubClientTypes.ResourcesGroupingRecGenStatusType? = nil
+    )
+    {
+        self.appArn = appArn
+        self.errorMessage = errorMessage
+        self.groupingId = groupingId
+        self.status = status
     }
 }
 
@@ -5706,6 +6268,13 @@ public struct UpdateResiliencyPolicyOutput {
     }
 }
 
+extension AcceptResourceGroupingRecommendationsInput {
+
+    static func urlPathProvider(_ value: AcceptResourceGroupingRecommendationsInput) -> Swift.String? {
+        return "/accept-resource-grouping-recommendations"
+    }
+}
+
 extension AddDraftAppVersionResourceMappingsInput {
 
     static func urlPathProvider(_ value: AddDraftAppVersionResourceMappingsInput) -> Swift.String? {
@@ -5864,6 +6433,13 @@ extension DescribeResiliencyPolicyInput {
 
     static func urlPathProvider(_ value: DescribeResiliencyPolicyInput) -> Swift.String? {
         return "/describe-resiliency-policy"
+    }
+}
+
+extension DescribeResourceGroupingRecommendationTaskInput {
+
+    static func urlPathProvider(_ value: DescribeResourceGroupingRecommendationTaskInput) -> Swift.String? {
+        return "/describe-resource-grouping-recommendation-task"
     }
 }
 
@@ -6108,6 +6684,33 @@ extension ListResiliencyPoliciesInput {
     }
 }
 
+extension ListResourceGroupingRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListResourceGroupingRecommendationsInput) -> Swift.String? {
+        return "/list-resource-grouping-recommendations"
+    }
+}
+
+extension ListResourceGroupingRecommendationsInput {
+
+    static func queryItemProvider(_ value: ListResourceGroupingRecommendationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let appArn = value.appArn {
+            let appArnQueryItem = Smithy.URIQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
+            items.append(appArnQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListSopRecommendationsInput {
 
     static func urlPathProvider(_ value: ListSopRecommendationsInput) -> Swift.String? {
@@ -6176,6 +6779,13 @@ extension PutDraftAppVersionTemplateInput {
     }
 }
 
+extension RejectResourceGroupingRecommendationsInput {
+
+    static func urlPathProvider(_ value: RejectResourceGroupingRecommendationsInput) -> Swift.String? {
+        return "/reject-resource-grouping-recommendations"
+    }
+}
+
 extension RemoveDraftAppVersionResourceMappingsInput {
 
     static func urlPathProvider(_ value: RemoveDraftAppVersionResourceMappingsInput) -> Swift.String? {
@@ -6194,6 +6804,13 @@ extension StartAppAssessmentInput {
 
     static func urlPathProvider(_ value: StartAppAssessmentInput) -> Swift.String? {
         return "/start-app-assessment"
+    }
+}
+
+extension StartResourceGroupingRecommendationTaskInput {
+
+    static func urlPathProvider(_ value: StartResourceGroupingRecommendationTaskInput) -> Swift.String? {
+        return "/start-resource-grouping-recommendation-task"
     }
 }
 
@@ -6265,6 +6882,15 @@ extension UpdateResiliencyPolicyInput {
 
     static func urlPathProvider(_ value: UpdateResiliencyPolicyInput) -> Swift.String? {
         return "/update-resiliency-policy"
+    }
+}
+
+extension AcceptResourceGroupingRecommendationsInput {
+
+    static func write(value: AcceptResourceGroupingRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appArn"].write(value.appArn)
+        try writer["entries"].writeList(value.entries, memberWritingClosure: ResiliencehubClientTypes.AcceptGroupingRecommendationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6517,6 +7143,15 @@ extension DescribeResiliencyPolicyInput {
     }
 }
 
+extension DescribeResourceGroupingRecommendationTaskInput {
+
+    static func write(value: DescribeResourceGroupingRecommendationTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appArn"].write(value.appArn)
+        try writer["groupingId"].write(value.groupingId)
+    }
+}
+
 extension ImportResourcesToDraftAppVersionInput {
 
     static func write(value: ImportResourcesToDraftAppVersionInput?, to writer: SmithyJSON.Writer) throws {
@@ -6686,6 +7321,15 @@ extension PutDraftAppVersionTemplateInput {
     }
 }
 
+extension RejectResourceGroupingRecommendationsInput {
+
+    static func write(value: RejectResourceGroupingRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appArn"].write(value.appArn)
+        try writer["entries"].writeList(value.entries, memberWritingClosure: ResiliencehubClientTypes.RejectGroupingRecommendationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension RemoveDraftAppVersionResourceMappingsInput {
 
     static func write(value: RemoveDraftAppVersionResourceMappingsInput?, to writer: SmithyJSON.Writer) throws {
@@ -6718,6 +7362,14 @@ extension StartAppAssessmentInput {
         try writer["assessmentName"].write(value.assessmentName)
         try writer["clientToken"].write(value.clientToken)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension StartResourceGroupingRecommendationTaskInput {
+
+    static func write(value: StartResourceGroupingRecommendationTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appArn"].write(value.appArn)
     }
 }
 
@@ -6791,6 +7443,19 @@ extension UpdateResiliencyPolicyInput {
         try writer["policyDescription"].write(value.policyDescription)
         try writer["policyName"].write(value.policyName)
         try writer["tier"].write(value.tier)
+    }
+}
+
+extension AcceptResourceGroupingRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AcceptResourceGroupingRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AcceptResourceGroupingRecommendationsOutput()
+        value.appArn = try reader["appArn"].readIfPresent()
+        value.failedEntries = try reader["failedEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.FailedGroupingRecommendationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -7101,6 +7766,20 @@ extension DescribeResiliencyPolicyOutput {
     }
 }
 
+extension DescribeResourceGroupingRecommendationTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeResourceGroupingRecommendationTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeResourceGroupingRecommendationTaskOutput()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.groupingId = try reader["groupingId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension ImportResourcesToDraftAppVersionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportResourcesToDraftAppVersionOutput {
@@ -7303,6 +7982,19 @@ extension ListResiliencyPoliciesOutput {
     }
 }
 
+extension ListResourceGroupingRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceGroupingRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceGroupingRecommendationsOutput()
+        value.groupingRecommendations = try reader["groupingRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.GroupingRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListSopRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSopRecommendationsOutput {
@@ -7396,6 +8088,19 @@ extension PutDraftAppVersionTemplateOutput {
     }
 }
 
+extension RejectResourceGroupingRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectResourceGroupingRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RejectResourceGroupingRecommendationsOutput()
+        value.appArn = try reader["appArn"].readIfPresent()
+        value.failedEntries = try reader["failedEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.FailedGroupingRecommendationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension RemoveDraftAppVersionResourceMappingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveDraftAppVersionResourceMappingsOutput {
@@ -7432,6 +8137,21 @@ extension StartAppAssessmentOutput {
         let reader = responseReader
         var value = StartAppAssessmentOutput()
         value.assessment = try reader["assessment"].readIfPresent(with: ResiliencehubClientTypes.AppAssessment.read(from:))
+        return value
+    }
+}
+
+extension StartResourceGroupingRecommendationTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartResourceGroupingRecommendationTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartResourceGroupingRecommendationTaskOutput()
+        value.appArn = try reader["appArn"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.groupingId = try reader["groupingId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -7516,6 +8236,24 @@ extension UpdateResiliencyPolicyOutput {
     }
 }
 
+enum AcceptResourceGroupingRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AddDraftAppVersionResourceMappingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7528,6 +8266,7 @@ enum AddDraftAppVersionResourceMappingsOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7947,6 +8686,24 @@ enum DescribeResiliencyPolicyOutputError {
     }
 }
 
+enum DescribeResourceGroupingRecommendationTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ImportResourcesToDraftAppVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8216,6 +8973,24 @@ enum ListResiliencyPoliciesOutputError {
     }
 }
 
+enum ListResourceGroupingRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListSopRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8347,6 +9122,24 @@ enum PutDraftAppVersionTemplateOutputError {
     }
 }
 
+enum RejectResourceGroupingRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RemoveDraftAppVersionResourceMappingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8398,6 +9191,25 @@ enum StartAppAssessmentOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartResourceGroupingRecommendationTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8579,21 +9391,6 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
@@ -8629,6 +9426,32 @@ extension ServiceQuotaExceededException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.FailedGroupingRecommendationEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.FailedGroupingRecommendationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.FailedGroupingRecommendationEntry()
+        value.groupingRecommendationId = try reader["groupingRecommendationId"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }
@@ -8985,6 +9808,30 @@ extension ResiliencehubClientTypes.AppAssessment {
         value.resourceErrorsDetails = try reader["resourceErrorsDetails"].readIfPresent(with: ResiliencehubClientTypes.ResourceErrorsDetails.read(from:))
         value.versionName = try reader["versionName"].readIfPresent()
         value.driftStatus = try reader["driftStatus"].readIfPresent()
+        value.summary = try reader["summary"].readIfPresent(with: ResiliencehubClientTypes.AssessmentSummary.read(from:))
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.AssessmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AssessmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.AssessmentSummary()
+        value.summary = try reader["summary"].readIfPresent()
+        value.riskRecommendations = try reader["riskRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AssessmentRiskRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.AssessmentRiskRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AssessmentRiskRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.AssessmentRiskRecommendation()
+        value.risk = try reader["risk"].readIfPresent()
+        value.recommendation = try reader["recommendation"].readIfPresent()
+        value.appComponents = try reader["appComponents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9280,6 +10127,50 @@ extension ResiliencehubClientTypes.AppVersionSummary {
     }
 }
 
+extension ResiliencehubClientTypes.GroupingRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.GroupingRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.GroupingRecommendation()
+        value.groupingRecommendationId = try reader["groupingRecommendationId"].readIfPresent()
+        value.groupingAppComponent = try reader["groupingAppComponent"].readIfPresent(with: ResiliencehubClientTypes.GroupingAppComponent.read(from:))
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.GroupingResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.score = try reader["score"].readIfPresent() ?? 0
+        value.recommendationReasons = try reader["recommendationReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.confidenceLevel = try reader["confidenceLevel"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.rejectionReason = try reader["rejectionReason"].readIfPresent()
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.GroupingResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.GroupingResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.GroupingResource()
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.physicalResourceId = try reader["physicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.PhysicalResourceId.read(from:))
+        value.logicalResourceId = try reader["logicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.LogicalResourceId.read(from:))
+        value.sourceAppComponentIds = try reader["sourceAppComponentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.GroupingAppComponent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.GroupingAppComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.GroupingAppComponent()
+        value.appComponentId = try reader["appComponentId"].readIfPresent()
+        value.appComponentType = try reader["appComponentType"].readIfPresent()
+        value.appComponentName = try reader["appComponentName"].readIfPresent()
+        return value
+    }
+}
+
 extension ResiliencehubClientTypes.SopRecommendation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.SopRecommendation {
@@ -9332,6 +10223,14 @@ extension ResiliencehubClientTypes.UnsupportedResource {
     }
 }
 
+extension ResiliencehubClientTypes.AcceptGroupingRecommendationEntry {
+
+    static func write(value: ResiliencehubClientTypes.AcceptGroupingRecommendationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupingRecommendationId"].write(value.groupingRecommendationId)
+    }
+}
+
 extension ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry {
 
     static func write(value: ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry?, to writer: SmithyJSON.Writer) throws {
@@ -9341,6 +10240,15 @@ extension ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry {
         try writer["excluded"].write(value.excluded)
         try writer["item"].write(value.item, with: ResiliencehubClientTypes.UpdateRecommendationStatusItem.write(value:to:))
         try writer["referenceId"].write(value.referenceId)
+    }
+}
+
+extension ResiliencehubClientTypes.RejectGroupingRecommendationEntry {
+
+    static func write(value: ResiliencehubClientTypes.RejectGroupingRecommendationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupingRecommendationId"].write(value.groupingRecommendationId)
+        try writer["rejectionReason"].write(value.rejectionReason)
     }
 }
 

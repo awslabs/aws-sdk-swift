@@ -17,6 +17,11 @@ import protocol ClientRuntime.ModeledError
 import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
+public struct JoinStorageSessionAsViewerOutput {
+
+    public init() { }
+}
+
 public struct JoinStorageSessionOutput {
 
     public init() { }
@@ -131,10 +136,35 @@ public struct JoinStorageSessionInput {
     }
 }
 
+public struct JoinStorageSessionAsViewerInput {
+    /// The Amazon Resource Name (ARN) of the signaling channel.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The unique identifier for the sender client.
+    /// This member is required.
+    public var clientId: Swift.String?
+
+    public init(
+        channelArn: Swift.String? = nil,
+        clientId: Swift.String? = nil
+    )
+    {
+        self.channelArn = channelArn
+        self.clientId = clientId
+    }
+}
+
 extension JoinStorageSessionInput {
 
     static func urlPathProvider(_ value: JoinStorageSessionInput) -> Swift.String? {
         return "/joinStorageSession"
+    }
+}
+
+extension JoinStorageSessionAsViewerInput {
+
+    static func urlPathProvider(_ value: JoinStorageSessionAsViewerInput) -> Swift.String? {
+        return "/joinStorageSessionAsViewer"
     }
 }
 
@@ -146,6 +176,15 @@ extension JoinStorageSessionInput {
     }
 }
 
+extension JoinStorageSessionAsViewerInput {
+
+    static func write(value: JoinStorageSessionAsViewerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelArn"].write(value.channelArn)
+        try writer["clientId"].write(value.clientId)
+    }
+}
+
 extension JoinStorageSessionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> JoinStorageSessionOutput {
@@ -153,7 +192,31 @@ extension JoinStorageSessionOutput {
     }
 }
 
+extension JoinStorageSessionAsViewerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> JoinStorageSessionAsViewerOutput {
+        return JoinStorageSessionAsViewerOutput()
+    }
+}
+
 enum JoinStorageSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum JoinStorageSessionAsViewerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

@@ -541,9 +541,9 @@ extension MemoryDBClientTypes {
         public var dataTiering: MemoryDBClientTypes.DataTieringStatus?
         /// A description of the cluster
         public var description: Swift.String?
-        /// The Redis engine patch version used by the cluster
+        /// The Redis OSS engine patch version used by the cluster
         public var enginePatchVersion: Swift.String?
-        /// The Redis engine version used by the cluster
+        /// The Redis OSS engine version used by the cluster
         public var engineVersion: Swift.String?
         /// The ID of the KMS key used to encrypt the cluster
         public var kmsKeyId: Swift.String?
@@ -951,7 +951,7 @@ extension MemoryDBClientTypes {
     public struct ClusterConfiguration {
         /// The description of the cluster configuration
         public var description: Swift.String?
-        /// The Redis engine version used by the cluster
+        /// The Redis OSS engine version used by the cluster
         public var engineVersion: Swift.String?
         /// The specified maintenance window for the cluster
         public var maintenanceWindow: Swift.String?
@@ -1448,7 +1448,7 @@ public struct CreateClusterInput {
     public var dataTiering: Swift.Bool?
     /// An optional description of the cluster.
     public var description: Swift.String?
-    /// The version number of the Redis engine to be used for the cluster.
+    /// The version number of the Redis OSS engine to be used for the cluster.
     public var engineVersion: Swift.String?
     /// The ID of the KMS key used to encrypt the cluster.
     public var kmsKeyId: Swift.String?
@@ -2529,7 +2529,7 @@ public struct DescribeClustersOutput {
 public struct DescribeEngineVersionsInput {
     /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
     public var defaultOnly: Swift.Bool?
-    /// The Redis engine version
+    /// The Redis OSS engine version
     public var engineVersion: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -2555,7 +2555,7 @@ public struct DescribeEngineVersionsInput {
 }
 
 extension MemoryDBClientTypes {
-    /// Provides details of the Redis engine version
+    /// Provides details of the Redis OSS engine version
     public struct EngineVersionInfo {
         /// The patched engine version
         public var enginePatchVersion: Swift.String?

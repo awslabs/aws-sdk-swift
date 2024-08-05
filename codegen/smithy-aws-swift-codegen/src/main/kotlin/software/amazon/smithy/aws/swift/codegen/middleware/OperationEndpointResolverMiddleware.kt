@@ -131,11 +131,11 @@ class OperationEndpointResolverMiddleware(
                     param.isRequired -> {
                         when {
                             param.default.isPresent -> {
-                                "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
+                                "config.${getBuiltInName(param)} ?? ${param.defaultValueLiteral}"
                             }
                             else -> {
                                 // if the parameter is required, we must unwrap the optional value
-                                writer.openBlock("guard let ${param.name.toString().toLowerCamelCase()} = config.${param.name.toString().toLowerCamelCase()} else {", "}") {
+                                writer.openBlock("guard let ${getBuiltInName(param)} = config.${getBuiltInName(param)} else {", "}") {
                                     writer.write("throw \$N.unknownError(\"Missing required parameter: \$L\")", SmithyTypes.ClientError, param.name.toString())
                                 }
                                 param.name.toString().toLowerCamelCase()
@@ -143,10 +143,10 @@ class OperationEndpointResolverMiddleware(
                         }
                     }
                     param.default.isPresent -> {
-                        "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
+                        "config.${getBuiltInName(param)} ?? ${param.defaultValueLiteral}"
                     }
                     else -> {
-                        "config.${param.name.toString().toLowerCamelCase()}"
+                        "config.${getBuiltInName(param)}"
                     }
                 }
             }
@@ -155,6 +155,10 @@ class OperationEndpointResolverMiddleware(
                 return null
             }
         }
+    }
+
+    private fun getBuiltInName(param: Parameter): String {
+        return param.builtIn.get().split("::").last().toLowerCamelCase()
     }
 }
 

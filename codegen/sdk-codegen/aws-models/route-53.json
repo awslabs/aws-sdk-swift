@@ -6383,7 +6383,22 @@
                     "method": "GET",
                     "uri": "/2013-04-01/hostedzone/{Id}",
                     "code": 200
-                }
+                },
+                "smithy.test#smokeTests": [
+                    {
+                        "id": "GetHostedZoneFailure",
+                        "params": {
+                            "Id": "fake-zone"
+                        },
+                        "vendorParams": {
+                            "region": "us-east-1"
+                        },
+                        "vendorParamsShape": "aws.test#AwsVendorParams",
+                        "expect": {
+                            "failure": {}
+                        }
+                    }
+                ]
             }
         },
         "com.amazonaws.route53#GetHostedZoneCount": {
@@ -8547,7 +8562,20 @@
                     "outputToken": "NextMarker",
                     "items": "HostedZones",
                     "pageSize": "MaxItems"
-                }
+                },
+                "smithy.test#smokeTests": [
+                    {
+                        "id": "ListHostedZonesSuccess",
+                        "params": {},
+                        "vendorParams": {
+                            "region": "us-east-1"
+                        },
+                        "vendorParamsShape": "aws.test#AwsVendorParams",
+                        "expect": {
+                            "success": {}
+                        }
+                    }
+                ]
             }
         },
         "com.amazonaws.route53#ListHostedZonesByName": {
