@@ -21,7 +21,7 @@ let package = Package(
         .package(id: "aws-sdk-swift.AWSSDKIdentity", exact: sdkVersion),
         .package(id: "aws-sdk-swift.AWSSDKChecksums", exact: sdkVersion),
         .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion),
-        .package(url: "https://github.com/jbelkins/smithy-swift", exact: smithySwiftVersion),
+        .package(url: "https://github.com/awslabs/smithy-swift", exact: smithySwiftVersion),
     ],
     targets: [
         .target(

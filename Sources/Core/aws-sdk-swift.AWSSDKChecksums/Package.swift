@@ -20,7 +20,7 @@ let package = Package(
     dependencies: [
         .package(id: "aws-sdk-swift.AWSSDKCommon", exact: sdkVersion),
         .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion),
-        .package(url: "https://github.com/jbelkins/smithy-swift", exact: smithySwiftVersion),
+        .package(url: "https://github.com/awslabs/smithy-swift", exact: smithySwiftVersion),
     ],
     targets: [
         .target(
