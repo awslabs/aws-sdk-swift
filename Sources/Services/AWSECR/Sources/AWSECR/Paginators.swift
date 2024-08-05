@@ -133,6 +133,37 @@ extension PaginatorSequence where OperationStackInput == DescribeRepositoriesInp
     }
 }
 extension ECRClient {
+    /// Paginate over `[DescribeRepositoryCreationTemplatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRepositoryCreationTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRepositoryCreationTemplatesOutput`
+    public func describeRepositoryCreationTemplatesPaginated(input: DescribeRepositoryCreationTemplatesInput) -> ClientRuntime.PaginatorSequence<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRepositoryCreationTemplates(input:))
+    }
+}
+
+extension DescribeRepositoryCreationTemplatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRepositoryCreationTemplatesInput {
+        return DescribeRepositoryCreationTemplatesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            prefixes: self.prefixes
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRepositoryCreationTemplatesInput, OperationStackOutput == DescribeRepositoryCreationTemplatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRepositoryCreationTemplatesPaginated`
+    /// to access the nested member `[ECRClientTypes.RepositoryCreationTemplate]`
+    /// - Returns: `[ECRClientTypes.RepositoryCreationTemplate]`
+    public func repositoryCreationTemplates() async throws -> [ECRClientTypes.RepositoryCreationTemplate] {
+        return try await self.asyncCompactMap { item in item.repositoryCreationTemplates }
+    }
+}
+extension ECRClient {
     /// Paginate over `[GetLifecyclePolicyPreviewOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
