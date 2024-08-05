@@ -349,6 +349,37 @@ extension ListResiliencyPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
+    /// Paginate over `[ListResourceGroupingRecommendationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceGroupingRecommendationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceGroupingRecommendationsOutput`
+    public func listResourceGroupingRecommendationsPaginated(input: ListResourceGroupingRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListResourceGroupingRecommendationsInput, ListResourceGroupingRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceGroupingRecommendationsInput, ListResourceGroupingRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceGroupingRecommendations(input:))
+    }
+}
+
+extension ListResourceGroupingRecommendationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourceGroupingRecommendationsInput {
+        return ListResourceGroupingRecommendationsInput(
+            appArn: self.appArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResourceGroupingRecommendationsInput, OperationStackOutput == ListResourceGroupingRecommendationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceGroupingRecommendationsPaginated`
+    /// to access the nested member `[ResiliencehubClientTypes.GroupingRecommendation]`
+    /// - Returns: `[ResiliencehubClientTypes.GroupingRecommendation]`
+    public func groupingRecommendations() async throws -> [ResiliencehubClientTypes.GroupingRecommendation] {
+        return try await self.asyncCompactMap { item in item.groupingRecommendations }
+    }
+}
+extension ResiliencehubClient {
     /// Paginate over `[ListSopRecommendationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
