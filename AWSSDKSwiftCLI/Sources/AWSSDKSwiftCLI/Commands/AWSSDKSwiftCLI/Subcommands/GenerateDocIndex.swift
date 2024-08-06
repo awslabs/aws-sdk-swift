@@ -34,8 +34,9 @@ struct GenerateDocIndexCommand: ParsableCommand {
     /// - Returns: The contents of the generated doc index.
     func generateDocIndexContents() throws -> String {
         let services = try resolveServices()
+        let awsRuntimeModules = try resolveAWSRuntimeModules()
         log("Creating doc index contents...")
-        let contents = try DocIndexBuilder(services: services).build()
+        let contents = try DocIndexBuilder(services: services, awsRuntimeModules: awsRuntimeModules).build()
         log("Successfully created doc index contents")
         return contents
     }
@@ -67,5 +68,17 @@ struct GenerateDocIndexCommand: ParsableCommand {
         resolvedServices = try FileManager.default.enabledServices()
         log("Resolved list of services: \(resolvedServices.count)")
         return resolvedServices
+    }
+
+    /// Returns the list of AWS runtime modules within `Sources/Core` to include in the doc index.
+    ///
+    /// - Returns: The list of AWS runtime moduls to include in the doc index
+    func resolveAWSRuntimeModules() throws -> [String] {
+        log("Resolving AWS runtime modules...")
+        let resolvedAWSRuntimeModules: [String]
+        log("Using list of AWS runtime modules that exist within Sources/Core")
+        resolvedAWSRuntimeModules = try FileManager.default.getAWSRuntimeModules()
+        log("Resolved list of AWS runtime modules: \(resolvedAWSRuntimeModules.count)")
+        return resolvedAWSRuntimeModules
     }
 }
