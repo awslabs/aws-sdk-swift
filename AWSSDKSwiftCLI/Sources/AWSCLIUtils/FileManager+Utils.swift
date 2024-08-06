@@ -43,8 +43,8 @@ public extension FileManager {
         try FileManager.default
             .contentsOfDirectory(atPath: "Sources/Core")
             .sorted()
-            .filter { !($0 == "AWSSDKForSwift") } // Ignore documentation module
-            .filter { !$0.hasPrefix(".") } // Ignore .DS_Store file
+            .filter { $0 != "AWSSDKForSwift" } // Ignore documentation module
+            .filter { !$0.hasPrefix(".") }
     }
 
     /// Returns the list of integration tests.
