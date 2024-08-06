@@ -43,8 +43,19 @@ public extension FileManager {
         try FileManager.default
             .contentsOfDirectory(atPath: "../smithy-swift/Sources")
             .sorted()
-            .filter { $0 != "libxml2" }
-            .filter { !$0.hasPrefix(".") } // Ignore .DS_Store file
+            .filter { $0 != "libxml2" } // Ignore libxml module
+            .filter { !$0.hasPrefix(".") }
+    }
+
+    /// Returns the list of AWS runtime modules within `Sources/Core`
+    ///
+    /// - Returns: The list of AWS runtime modules.
+    func getAWSRuntimeModules() throws -> [String] {
+        try FileManager.default
+            .contentsOfDirectory(atPath: "Sources/Core")
+            .sorted()
+            .filter { $0 != "AWSSDKForSwift" } // Ignore documentation module
+            .filter { !$0.hasPrefix(".") }
     }
 
     /// Returns the list of integration tests.

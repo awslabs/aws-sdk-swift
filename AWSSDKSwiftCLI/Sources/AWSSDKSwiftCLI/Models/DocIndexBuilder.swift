@@ -17,11 +17,13 @@ struct DocIndexBuilder {
 
     let services: [String]
     let smithyRuntimeModules: [String]
+    let awsRuntimeModules: [String]
     let baseDocIndexContents: () throws -> String
 
-    init(services: [String], smithyRuntimeModules: [String]) {
+    init(services: [String], smithyRuntimeModules: [String], awsRuntimeModules: [String]) {
         self.services = services
         self.smithyRuntimeModules = smithyRuntimeModules
+        self.awsRuntimeModules = awsRuntimeModules
         self.baseDocIndexContents = {
             // Returns the contents of the base doc index stored in the bundle at `Resources/DocIndex.Base.md`
             let basePackageName = "DocIndex.Base"
@@ -60,6 +62,8 @@ struct DocIndexBuilder {
         let contents = [
             buildSmithyRuntimeModuleIndex(),
             "",
+            buildAWSRuntimeModuleIndex(),
+            "",
             buildServiceIndex(),
             ""
         ]
@@ -72,6 +76,17 @@ struct DocIndexBuilder {
     private func buildSmithyRuntimeModuleIndex() -> String {
         let header = "## Smithy Runtime Module Documentation\n\n"
         return header + smithyRuntimeModules.map { module in
+            let urlModule = module.lowercased(with: Locale(identifier: "en_US_POSIX"))
+            return "[\(module)](../../../../../swift/api/\(urlModule)/latest)\n"
+        }.joined(separator: "\n")
+    }
+
+    /// Returns markdown links to AWS module documentations
+    ///
+    /// - Returns: List of markdown links to AWS module documentations
+    private func buildAWSRuntimeModuleIndex() -> String {
+        let header = "## AWS Runtime Module Documentation\n\n"
+        return header + awsRuntimeModules.map { module in
             let urlModule = module.lowercased(with: Locale(identifier: "en_US_POSIX"))
             return "[\(module)](../../../../../swift/api/\(urlModule)/latest)\n"
         }.joined(separator: "\n")
