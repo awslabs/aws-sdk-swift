@@ -350,7 +350,7 @@ extension CognitoIdentityProviderClient {
 
     /// Performs the `AdminConfirmSignUp` operation on the `AWSCognitoIdentityProviderService` service.
     ///
-    /// This IAM-authenticated API operation provides a code that Amazon Cognito sent to your user when they signed up in your user pool. After your user enters their code, they confirm ownership of the email address or phone number that they provided, and their user account becomes active. Depending on your user pool configuration, your users will receive their confirmation code in an email or SMS message. Local users who signed up in your user pool are the only type of user who can confirm sign-up with a code. Users who federate through an external identity provider (IdP) have already been confirmed by their IdP. Administrator-created users confirm their accounts when they respond to their invitation email message and choose a password. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    /// This IAM-authenticated API operation confirms user sign-up as an administrator. Unlike [ConfirmSignUp](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ConfirmSignUp.html), your IAM credentials authorize user account confirmation. No confirmation code is required. This request sets a user account active in a user pool that [requires confirmation of new user accounts](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#signing-up-users-in-your-app-and-confirming-them-as-admin) before they can sign in. You can configure your user pool to not send confirmation codes to new users and instead confirm them with this API operation on the back end. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
     /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
     ///
@@ -1737,6 +1737,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `MFAMethodNotFoundException` : This exception is thrown when Amazon Cognito can't find a multi-factor authentication (MFA) method.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `SoftwareTokenMFANotFoundException` : This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
@@ -1900,6 +1901,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidPasswordException` : This exception is thrown when Amazon Cognito encounters an invalid password.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -2369,7 +2371,7 @@ extension CognitoIdentityProviderClient {
 
     /// Performs the `AssociateSoftwareToken` operation on the `AWSCognitoIdentityProviderService` service.
     ///
-    /// Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA) for a user, with a unique private key that Amazon Cognito generates and returns in the API response. You can authorize an AssociateSoftwareToken request with either the user's access token, or a session string from a challenge response that you received from Amazon Cognito. Amazon Cognito disassociates an existing software token when you verify the new token in a [ VerifySoftwareToken](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerifySoftwareToken.html) API request. If you don't verify the software token and your user pool doesn't require MFA, the user can then authenticate with user name and password credentials alone. If your user pool requires TOTP MFA, Amazon Cognito generates an MFA_SETUP or SOFTWARE_TOKEN_SETUP challenge each time your user signs. Complete setup with AssociateSoftwareToken and VerifySoftwareToken. After you set up software token MFA for your user, Amazon Cognito generates a SOFTWARE_TOKEN_MFA challenge when they authenticate. Respond to this challenge with your user's TOTP. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
+    /// Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA) for a user, with a unique private key that Amazon Cognito generates and returns in the API response. You can authorize an AssociateSoftwareToken request with either the user's access token, or a session string from a challenge response that you received from Amazon Cognito. Amazon Cognito disassociates an existing software token when you verify the new token in a [ VerifySoftwareToken](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerifySoftwareToken.html) API request. If you don't verify the software token and your user pool doesn't require MFA, the user can then authenticate with user name and password credentials alone. If your user pool requires TOTP MFA, Amazon Cognito generates an MFA_SETUP or SOFTWARE_TOKEN_SETUP challenge each time your user signs in. Complete setup with AssociateSoftwareToken and VerifySoftwareToken. After you set up software token MFA for your user, Amazon Cognito generates a SOFTWARE_TOKEN_MFA challenge when they authenticate. Respond to this challenge with your user's TOTP. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
     /// - Parameter AssociateSoftwareTokenInput : [no documentation found]
     ///
@@ -2457,6 +2459,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidPasswordException` : This exception is thrown when Amazon Cognito encounters an invalid password.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -2616,6 +2619,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidPasswordException` : This exception is thrown when Amazon Cognito encounters an invalid password.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyFailedAttemptsException` : This exception is thrown when the user has made too many failed attempts for a given action, such as sign-in.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -4877,7 +4881,7 @@ extension CognitoIdentityProviderClient {
 
     /// Performs the `GetLogDeliveryConfiguration` operation on the `AWSCognitoIdentityProviderService` service.
     ///
-    /// Gets the detailed activity logging configuration for a user pool.
+    /// Gets the logging configuration of a user pool.
     ///
     /// - Parameter GetLogDeliveryConfigurationInput : [no documentation found]
     ///
@@ -6356,6 +6360,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `MFAMethodNotFoundException` : This exception is thrown when Amazon Cognito can't find a multi-factor authentication (MFA) method.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `SoftwareTokenMFANotFoundException` : This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
@@ -6494,7 +6499,7 @@ extension CognitoIdentityProviderClient {
 
     /// Performs the `SetLogDeliveryConfiguration` operation on the `AWSCognitoIdentityProviderService` service.
     ///
-    /// Sets up or modifies the detailed activity logging configuration of a user pool.
+    /// Sets up or modifies the logging configuration of a user pool. User pools can export user notification logs and advanced security features user activity logs.
     ///
     /// - Parameter SetLogDeliveryConfigurationInput : [no documentation found]
     ///

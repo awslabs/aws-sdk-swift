@@ -8,8 +8,23 @@ A pure-Swift SDK for accessing all published AWS services.
 
 This SDK is open-source.  Code is available on Github [here](https://github.com/awslabs/aws-sdk-swift).
 
-## Service Documentation
 
+## AWS Runtime Module Documentation
+
+[AWSClientRuntime](../../../../../swift/api/awsclientruntime/latest)
+
+[AWSSDKChecksums](../../../../../swift/api/awssdkchecksums/latest)
+
+[AWSSDKCommon](../../../../../swift/api/awssdkcommon/latest)
+
+[AWSSDKEventStreamsAuth](../../../../../swift/api/awssdkeventstreamsauth/latest)
+
+[AWSSDKHTTPAuth](../../../../../swift/api/awssdkhttpauth/latest)
+
+[AWSSDKIdentity](../../../../../swift/api/awssdkidentity/latest)
+
+
+## Service Documentation
 
 [AWSACM](../../../../../swift/api/awsacm/latest)
 
