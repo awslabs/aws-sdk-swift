@@ -38,7 +38,7 @@ object AWSClientRuntimeTypes {
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware", SwiftDeclaration.STRUCT)
         val AWSRetryErrorInfoProvider = runtimeSymbol("AWSRetryErrorInfoProvider", SwiftDeclaration.ENUM)
         val AWSRetryMode = runtimeSymbol("AWSRetryMode", SwiftDeclaration.ENUM)
-        val AWSPartitionDefinition = runtimeSymbol("awsPartitionJSON", SwiftDeclaration.LET)
+        val AWSPartitionDefinition = runtimeSymbol("loadAWSPartitionJSON", SwiftDeclaration.FUNC)
         val AWSDefaultClientConfiguration = runtimeSymbol("AWSDefaultClientConfiguration", SwiftDeclaration.PROTOCOL)
         val AWSRegionClientConfiguration = runtimeSymbol("AWSRegionClientConfiguration", SwiftDeclaration.PROTOCOL)
         val AWSClientConfigDefaultsProvider = runtimeSymbol("AWSClientConfigDefaultsProvider", SwiftDeclaration.CLASS)

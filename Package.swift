@@ -85,7 +85,8 @@ let package = Package(
             ],
             path: "Sources/Core/AWSClientRuntime/Sources",
             resources: [
-                .process("AWSClientRuntime/Resources")
+                .process("AWSClientRuntime/Resources/sdk-partitions.json"),
+                .process("Resources/sdk-partitions.json")
             ]
         ),
         .target(
