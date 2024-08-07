@@ -436,7 +436,7 @@ extension BedrockAgentRuntimeClient {
 
     /// Performs the `InvokeFlow` operation on the `AmazonBedrockAgentRunTimeService` service.
     ///
-    /// Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see [Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html) in the Amazon Bedrock User Guide.
+    /// Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see [Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html) in the Amazon Bedrock User Guide. The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeFlow.
     ///
     /// - Parameter InvokeFlowInput : [no documentation found]
     ///
