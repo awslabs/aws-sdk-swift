@@ -22,8 +22,15 @@ jobs:
     outputs:
       version: ${{ steps.set-version.outputs.version }}
     steps:
-      - name: Checkout Sources
+      - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
+      - name: Checkout smithy-swift
+        uses: actions/checkout@v4
+        with:
+          repository: smithy-lang/smithy-swift
+          path: smithy-swift
+      - name: Move smithy-swift into place
+        run: mv smithy-swift ..
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -50,10 +57,15 @@ jobs:
             echo "Error: runs on a tag only"
             exit 1
           fi
-      - name: Generate docs
+      - name: Generate aws-sdk-swift docs
         run: |
           DOCS_BUCKET=${{ secrets.CD_API_REFS_BUCKET_NAME }} \
-          ./scripts/generatedocc.sh "$VERSION" ${{ matrix.job }} ${{ strategy.job-total }} ${{ env.IGNORE }}
+          ./scripts/generatedocc.sh "$VERSION" ${{ matrix.job }} ${{ strategy.job-total }} ${{ env.IGNORE }} ${{ 1 }}
+      - name: Generate smithy-swift docs
+        run: |
+          cd ../smithy-swift \
+          ./../aws-sdk-swift/scripts/generatedocc.sh "$VERSION" ${{ matrix.job }} ${{ strategy.job-total }} ${{ env.IGNORE }} ${{ 0 }} \
+          cd ../aws-sdk-swift
   update-latest:
     needs: generate-docs
     runs-on: ubuntu-latest
