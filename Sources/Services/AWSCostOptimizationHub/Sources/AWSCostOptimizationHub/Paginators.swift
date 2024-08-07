@@ -95,6 +95,7 @@ extension ListRecommendationSummariesInput: ClientRuntime.PaginateToken {
             filter: self.filter,
             groupBy: self.groupBy,
             maxResults: self.maxResults,
+            metrics: self.metrics,
             nextToken: token
         )}
 }

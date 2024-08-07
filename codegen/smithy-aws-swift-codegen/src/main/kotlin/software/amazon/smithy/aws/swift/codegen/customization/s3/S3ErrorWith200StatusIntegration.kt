@@ -8,7 +8,6 @@ import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTyp
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.model.traits.StreamingTrait
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -17,7 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.Mid
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
-import software.amazon.smithy.swift.codegen.model.hasTrait
+import software.amazon.smithy.swift.codegen.model.isStreaming
 
 /**
  * Register interceptor to handle S3 error responses returned with an HTTP 200 status code.
@@ -39,10 +38,14 @@ class S3ErrorWith200StatusIntegration : SwiftIntegration {
         // Instead of playing whack-a-mole broadly apply this interceptor to everything but streaming responses
         // which adds a small amount of overhead to response processing.
         val output = ctx.model.expectShape(operationShape.output.get())
-        val outputIsNotStreaming = output.members().none {
-            it.hasTrait<StreamingTrait>() || ctx.model.expectShape(it.target).hasTrait<StreamingTrait>()
+        val outputIsNotAStreamingBlobShape = output.members().none {
+            val targetShape = ctx.model.expectShape(it.target)
+            val isBlob = it.isBlobShape || targetShape.isBlobShape
+            val isStreaming = it.isStreaming || targetShape.isStreaming
+            isBlob && isStreaming
         }
-        if (outputIsNotStreaming) {
+
+        if (outputIsNotAStreamingBlobShape) {
             operationMiddleware.appendMiddleware(operationShape, S3HandleError200ResponseMiddleware)
         }
     }

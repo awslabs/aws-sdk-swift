@@ -1877,7 +1877,7 @@ public struct ListEnrollmentStatusesInput {
 }
 
 public struct ListEnrollmentStatusesOutput {
-    /// The enrollment status of all member accounts in the organization if the account is the management account.
+    /// The enrollment status of all member accounts in the organization if the account is the management account or delegated administrator.
     public var includeMemberAccounts: Swift.Bool?
     /// The enrollment status of a specific account ID, including creation and last updated timestamps.
     public var items: [CostOptimizationHubClientTypes.AccountEnrollmentStatus]?
@@ -2141,14 +2141,42 @@ public struct ListRecommendationsOutput {
     }
 }
 
+extension CostOptimizationHubClientTypes {
+
+    public enum SummaryMetrics: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case savingsPercentage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SummaryMetrics] {
+            return [
+                .savingsPercentage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .savingsPercentage: return "SavingsPercentage"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListRecommendationSummariesInput {
     /// Describes a filter that returns a more specific list of recommendations. Filters recommendations by different dimensions.
     public var filter: CostOptimizationHubClientTypes.Filter?
     /// The grouping of recommendations by a dimension.
     /// This member is required.
     public var groupBy: Swift.String?
-    /// The maximum number of recommendations that are returned for the request.
+    /// The maximum number of recommendations to be returned for the request.
     public var maxResults: Swift.Int?
+    /// Additional metrics to be returned for the request. The only valid value is savingsPercentage.
+    public var metrics: [CostOptimizationHubClientTypes.SummaryMetrics]?
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
 
@@ -2156,12 +2184,14 @@ public struct ListRecommendationSummariesInput {
         filter: CostOptimizationHubClientTypes.Filter? = nil,
         groupBy: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
+        metrics: [CostOptimizationHubClientTypes.SummaryMetrics]? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.filter = filter
         self.groupBy = groupBy
         self.maxResults = maxResults
+        self.metrics = metrics
         self.nextToken = nextToken
     }
 }
@@ -2190,6 +2220,22 @@ extension CostOptimizationHubClientTypes {
 
 }
 
+extension CostOptimizationHubClientTypes {
+    /// The results or descriptions for the additional metrics, based on whether the metrics were or were not requested.
+    public struct SummaryMetricsResult {
+        /// The savings percentage based on your Amazon Web Services spend over the past 30 days. Savings percentage is only supported when filtering by Region, account ID, or tags.
+        public var savingsPercentage: Swift.String?
+
+        public init(
+            savingsPercentage: Swift.String? = nil
+        )
+        {
+            self.savingsPercentage = savingsPercentage
+        }
+    }
+
+}
+
 public struct ListRecommendationSummariesOutput {
     /// The currency code used for the recommendation.
     public var currencyCode: Swift.String?
@@ -2197,8 +2243,10 @@ public struct ListRecommendationSummariesOutput {
     public var estimatedTotalDedupedSavings: Swift.Double?
     /// The dimension used to group the recommendations by.
     public var groupBy: Swift.String?
-    /// List of all savings recommendations.
+    /// A list of all savings recommendations.
     public var items: [CostOptimizationHubClientTypes.RecommendationSummary]?
+    /// The results or descriptions for the additional metrics, based on whether the metrics were or were not requested.
+    public var metrics: CostOptimizationHubClientTypes.SummaryMetricsResult?
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
 
@@ -2207,6 +2255,7 @@ public struct ListRecommendationSummariesOutput {
         estimatedTotalDedupedSavings: Swift.Double? = nil,
         groupBy: Swift.String? = nil,
         items: [CostOptimizationHubClientTypes.RecommendationSummary]? = nil,
+        metrics: CostOptimizationHubClientTypes.SummaryMetricsResult? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2214,12 +2263,13 @@ public struct ListRecommendationSummariesOutput {
         self.estimatedTotalDedupedSavings = estimatedTotalDedupedSavings
         self.groupBy = groupBy
         self.items = items
+        self.metrics = metrics
         self.nextToken = nextToken
     }
 }
 
 public struct UpdateEnrollmentStatusInput {
-    /// Indicates whether to enroll member accounts of the organization if the account is the management account.
+    /// Indicates whether to enroll member accounts of the organization if the account is the management account or delegated administrator.
     public var includeMemberAccounts: Swift.Bool?
     /// Sets the account status.
     /// This member is required.
@@ -2374,6 +2424,7 @@ extension ListRecommendationSummariesInput {
         try writer["filter"].write(value.filter, with: CostOptimizationHubClientTypes.Filter.write(value:to:))
         try writer["groupBy"].write(value.groupBy)
         try writer["maxResults"].write(value.maxResults)
+        try writer["metrics"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CostOptimizationHubClientTypes.SummaryMetrics>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nextToken"].write(value.nextToken)
     }
 }
@@ -2481,6 +2532,7 @@ extension ListRecommendationSummariesOutput {
         value.estimatedTotalDedupedSavings = try reader["estimatedTotalDedupedSavings"].readIfPresent()
         value.groupBy = try reader["groupBy"].readIfPresent()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.RecommendationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metrics = try reader["metrics"].readIfPresent(with: CostOptimizationHubClientTypes.SummaryMetricsResult.read(from:))
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3357,6 +3409,16 @@ extension CostOptimizationHubClientTypes.RecommendationSummary {
         value.group = try reader["group"].readIfPresent()
         value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent()
         value.recommendationCount = try reader["recommendationCount"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.SummaryMetricsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.SummaryMetricsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.SummaryMetricsResult()
+        value.savingsPercentage = try reader["savingsPercentage"].readIfPresent()
         return value
     }
 }
