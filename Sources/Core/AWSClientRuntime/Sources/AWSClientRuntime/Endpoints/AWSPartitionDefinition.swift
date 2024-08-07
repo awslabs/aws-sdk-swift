@@ -14,7 +14,7 @@ enum PartitionLoadingError: Error {
 
 // Loading trebuchet-provided sdk-partitions.json
 public func loadAWSPartitionJSON() throws -> String {
-    guard let url = Bundle.main.url(forResource: "sdk-partitions", withExtension: "json") else {
+    guard let url = Bundle.module.url(forResource: "sdk-partitions", withExtension: "json") else {
         throw PartitionLoadingError.fileNotFound
     }
 

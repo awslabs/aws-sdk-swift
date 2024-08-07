@@ -83,10 +83,9 @@ let package = Package(
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity
             ],
-            path: "Sources/Core/AWSClientRuntime/Sources",
+            path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
-                .process("AWSClientRuntime/Resources/sdk-partitions.json"),
-                .process("Resources/sdk-partitions.json")
+                .process("Resources"),
             ]
         ),
         .target(
