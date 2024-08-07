@@ -75,6 +75,8 @@ TOTAL_JOBS="$3"
 # convert comma separated ignore list to array
 IGNORE=($(echo $4 | tr ',' '\n'))
 
+IS_AWS="$5"
+
 echo "Finding package names, unquoting names, sorting"
 packages=$(swift package dump-package | jq '.products[].name' | sed 's/"//g' | sort)
 
@@ -101,7 +103,7 @@ done
 
 # Generate an index with the current version, and
 # the literal version "latest"
-if [ $CURRENT_JOB -eq 0 ]; then
+if [ $CURRENT_JOB -eq 0 -a $IS_AWS -eq 1 ]; then
   generateDocs "AWSSDKForSwift" "$VERSION"
   generateDocs "AWSSDKForSwift" "latest"
 fi

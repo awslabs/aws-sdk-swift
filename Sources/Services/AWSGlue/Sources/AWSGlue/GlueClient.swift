@@ -1268,6 +1268,78 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchPutDataQualityStatisticAnnotation` operation on the `AWSGlue` service.
+    ///
+    /// Annotate datapoints over time for a specific data quality statistic.
+    ///
+    /// - Parameter BatchPutDataQualityStatisticAnnotationInput : [no documentation found]
+    ///
+    /// - Returns: `BatchPutDataQualityStatisticAnnotationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    public func batchPutDataQualityStatisticAnnotation(input: BatchPutDataQualityStatisticAnnotationInput) async throws -> BatchPutDataQualityStatisticAnnotationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchPutDataQualityStatisticAnnotation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(BatchPutDataQualityStatisticAnnotationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutDataQualityStatisticAnnotationOutput>(BatchPutDataQualityStatisticAnnotationOutput.httpOutput(from:), BatchPutDataQualityStatisticAnnotationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutDataQualityStatisticAnnotationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchPutDataQualityStatisticAnnotationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(xAmzTarget: "AWSGlue.BatchPutDataQualityStatisticAnnotation"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchPutDataQualityStatisticAnnotationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchPutDataQualityStatisticAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchPutDataQualityStatisticAnnotation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchStopJobRun` operation on the `AWSGlue` service.
     ///
     /// Stops one or more job runs for a specified job definition.
@@ -6635,6 +6707,150 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetDataQualityModel` operation on the `AWSGlue` service.
+    ///
+    /// Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason).
+    ///
+    /// - Parameter GetDataQualityModelInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityModelOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getDataQualityModel(input: GetDataQualityModelInput) async throws -> GetDataQualityModelOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDataQualityModel")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDataQualityModelInput, GetDataQualityModelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetDataQualityModelInput, GetDataQualityModelOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(GetDataQualityModelInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataQualityModelOutput>(GetDataQualityModelOutput.httpOutput(from:), GetDataQualityModelOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityModelOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDataQualityModelOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(xAmzTarget: "AWSGlue.GetDataQualityModel"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataQualityModelInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityModelOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDataQualityModel")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDataQualityModelResult` operation on the `AWSGlue` service.
+    ///
+    /// Retrieve a statistic's predictions for a given Profile ID.
+    ///
+    /// - Parameter GetDataQualityModelResultInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityModelResultOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getDataQualityModelResult(input: GetDataQualityModelResultInput) async throws -> GetDataQualityModelResultOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDataQualityModelResult")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDataQualityModelResultInput, GetDataQualityModelResultOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetDataQualityModelResultInput, GetDataQualityModelResultOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(GetDataQualityModelResultInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataQualityModelResultOutput>(GetDataQualityModelResultOutput.httpOutput(from:), GetDataQualityModelResultOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityModelResultOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDataQualityModelResultOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(xAmzTarget: "AWSGlue.GetDataQualityModelResult"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataQualityModelResultInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataQualityModelResultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDataQualityModelResult")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetDataQualityResult` operation on the `AWSGlue` service.
     ///
     /// Retrieves the result of a data quality rule evaluation.
@@ -11136,6 +11352,147 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListDataQualityStatisticAnnotations` operation on the `AWSGlue` service.
+    ///
+    /// Retrieve annotations for a data quality statistic.
+    ///
+    /// - Parameter ListDataQualityStatisticAnnotationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityStatisticAnnotationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    public func listDataQualityStatisticAnnotations(input: ListDataQualityStatisticAnnotationsInput) async throws -> ListDataQualityStatisticAnnotationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDataQualityStatisticAnnotations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(ListDataQualityStatisticAnnotationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataQualityStatisticAnnotationsOutput>(ListDataQualityStatisticAnnotationsOutput.httpOutput(from:), ListDataQualityStatisticAnnotationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityStatisticAnnotationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDataQualityStatisticAnnotationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(xAmzTarget: "AWSGlue.ListDataQualityStatisticAnnotations"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataQualityStatisticAnnotationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityStatisticAnnotationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataQualityStatisticAnnotations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDataQualityStatistics` operation on the `AWSGlue` service.
+    ///
+    /// Retrieves a list of data quality statistics.
+    ///
+    /// - Parameter ListDataQualityStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityStatisticsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    public func listDataQualityStatistics(input: ListDataQualityStatisticsInput) async throws -> ListDataQualityStatisticsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDataQualityStatistics")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(ListDataQualityStatisticsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataQualityStatisticsOutput>(ListDataQualityStatisticsOutput.httpOutput(from:), ListDataQualityStatisticsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityStatisticsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDataQualityStatisticsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(xAmzTarget: "AWSGlue.ListDataQualityStatistics"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataQualityStatisticsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityStatisticsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataQualityStatistics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListDevEndpoints` operation on the `AWSGlue` service.
     ///
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
@@ -12061,6 +12418,77 @@ extension GlueClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutDataCatalogEncryptionSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutDataQualityProfileAnnotation` operation on the `AWSGlue` service.
+    ///
+    /// Annotate all datapoints for a Profile.
+    ///
+    /// - Parameter PutDataQualityProfileAnnotationInput : [no documentation found]
+    ///
+    /// - Returns: `PutDataQualityProfileAnnotationOutput` : Left blank.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    public func putDataQualityProfileAnnotation(input: PutDataQualityProfileAnnotationInput) async throws -> PutDataQualityProfileAnnotationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putDataQualityProfileAnnotation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(PutDataQualityProfileAnnotationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDataQualityProfileAnnotationOutput>(PutDataQualityProfileAnnotationOutput.httpOutput(from:), PutDataQualityProfileAnnotationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutDataQualityProfileAnnotationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutDataQualityProfileAnnotationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(xAmzTarget: "AWSGlue.PutDataQualityProfileAnnotation"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutDataQualityProfileAnnotationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDataQualityProfileAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutDataQualityProfileAnnotation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

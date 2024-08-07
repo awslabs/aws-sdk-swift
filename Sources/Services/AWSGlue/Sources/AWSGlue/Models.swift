@@ -483,6 +483,107 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
+    /// A failed annotation.
+    public struct AnnotationError {
+        /// The reason why the annotation failed.
+        public var failureReason: Swift.String?
+        /// The Profile ID for the failed annotation.
+        public var profileId: Swift.String?
+        /// The Statistic ID for the failed annotation.
+        public var statisticId: Swift.String?
+
+        public init(
+            failureReason: Swift.String? = nil,
+            profileId: Swift.String? = nil,
+            statisticId: Swift.String? = nil
+        )
+        {
+            self.failureReason = failureReason
+            self.profileId = profileId
+            self.statisticId = statisticId
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+
+    public enum InclusionAnnotationValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InclusionAnnotationValue] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+    /// A timestamped inclusion annotation.
+    public struct TimestampedInclusionAnnotation {
+        /// The timestamp when the inclusion annotation was last modified.
+        public var lastModifiedOn: Foundation.Date?
+        /// The inclusion annotation value.
+        public var value: GlueClientTypes.InclusionAnnotationValue?
+
+        public init(
+            lastModifiedOn: Foundation.Date? = nil,
+            value: GlueClientTypes.InclusionAnnotationValue? = nil
+        )
+        {
+            self.lastModifiedOn = lastModifiedOn
+            self.value = value
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// A Statistic Annotation.
+    public struct StatisticAnnotation {
+        /// The inclusion annotation applied to the statistic.
+        public var inclusionAnnotation: GlueClientTypes.TimestampedInclusionAnnotation?
+        /// The Profile ID.
+        public var profileId: Swift.String?
+        /// The Statistic ID.
+        public var statisticId: Swift.String?
+        /// The timestamp when the annotated statistic was recorded.
+        public var statisticRecordedOn: Foundation.Date?
+
+        public init(
+            inclusionAnnotation: GlueClientTypes.TimestampedInclusionAnnotation? = nil,
+            profileId: Swift.String? = nil,
+            statisticId: Swift.String? = nil,
+            statisticRecordedOn: Foundation.Date? = nil
+        )
+        {
+            self.inclusionAnnotation = inclusionAnnotation
+            self.profileId = profileId
+            self.statisticId = statisticId
+            self.statisticRecordedOn = statisticRecordedOn
+        }
+    }
+
+}
+
+extension GlueClientTypes {
     /// Specifies a single column in a Glue schema definition.
     public struct GlueStudioSchemaColumn {
         /// The name of the column in the Glue Studio schema.
@@ -2553,6 +2654,11 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.DataQualityAnalyzerResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataQualityAnalyzerResult(name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\", evaluatedMetrics: \"CONTENT_REDACTED\", evaluationMessage: \"CONTENT_REDACTED\")"}
+}
+
 extension GlueClientTypes {
     /// The database and table in the Glue Data Catalog that is used for input or output data.
     public struct GlueTable {
@@ -2645,16 +2751,20 @@ extension GlueClientTypes {
         public var metricValues: GlueClientTypes.DataQualityMetricValues?
         /// A list of new data quality rules generated as part of the observation based on the data quality metric value.
         public var newRules: [Swift.String]?
+        /// The Statistic ID.
+        public var statisticId: Swift.String?
 
         public init(
             metricName: Swift.String? = nil,
             metricValues: GlueClientTypes.DataQualityMetricValues? = nil,
-            newRules: [Swift.String]? = nil
+            newRules: [Swift.String]? = nil,
+            statisticId: Swift.String? = nil
         )
         {
             self.metricName = metricName
             self.metricValues = metricValues
             self.newRules = newRules
+            self.statisticId = statisticId
         }
     }
 
@@ -2678,6 +2788,11 @@ extension GlueClientTypes {
         }
     }
 
+}
+
+extension GlueClientTypes.DataQualityObservation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataQualityObservation(metricBasedObservation: \(Swift.String(describing: metricBasedObservation)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension GlueClientTypes {
@@ -2719,6 +2834,8 @@ extension GlueClientTypes {
         public var description: Swift.String?
         /// A map of metrics associated with the evaluation of the rule.
         public var evaluatedMetrics: [Swift.String: Swift.Double]?
+        /// The evaluated rule.
+        public var evaluatedRule: Swift.String?
         /// An evaluation message.
         public var evaluationMessage: Swift.String?
         /// The name of the data quality rule.
@@ -2729,6 +2846,7 @@ extension GlueClientTypes {
         public init(
             description: Swift.String? = nil,
             evaluatedMetrics: [Swift.String: Swift.Double]? = nil,
+            evaluatedRule: Swift.String? = nil,
             evaluationMessage: Swift.String? = nil,
             name: Swift.String? = nil,
             result: GlueClientTypes.DataQualityRuleResultStatus? = nil
@@ -2736,12 +2854,18 @@ extension GlueClientTypes {
         {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
+            self.evaluatedRule = evaluatedRule
             self.evaluationMessage = evaluationMessage
             self.name = name
             self.result = result
         }
     }
 
+}
+
+extension GlueClientTypes.DataQualityRuleResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataQualityRuleResult(name: \(Swift.String(describing: name)), result: \(Swift.String(describing: result)), description: \"CONTENT_REDACTED\", evaluatedMetrics: \"CONTENT_REDACTED\", evaluatedRule: \"CONTENT_REDACTED\", evaluationMessage: \"CONTENT_REDACTED\")"}
 }
 
 extension GlueClientTypes {
@@ -2761,6 +2885,8 @@ extension GlueClientTypes {
         public var jobRunId: Swift.String?
         /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
         public var observations: [GlueClientTypes.DataQualityObservation]?
+        /// The Profile ID for the data quality result.
+        public var profileId: Swift.String?
         /// A unique result ID for the data quality result.
         public var resultId: Swift.String?
         /// A list of DataQualityRuleResult objects representing the results for each rule.
@@ -2782,6 +2908,7 @@ extension GlueClientTypes {
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil,
             observations: [GlueClientTypes.DataQualityObservation]? = nil,
+            profileId: Swift.String? = nil,
             resultId: Swift.String? = nil,
             ruleResults: [GlueClientTypes.DataQualityRuleResult]? = nil,
             rulesetEvaluationRunId: Swift.String? = nil,
@@ -2797,6 +2924,7 @@ extension GlueClientTypes {
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.observations = observations
+            self.profileId = profileId
             self.resultId = resultId
             self.ruleResults = ruleResults
             self.rulesetEvaluationRunId = rulesetEvaluationRunId
@@ -8882,6 +9010,59 @@ public struct BatchGetWorkflowsOutput {
     }
 }
 
+extension GlueClientTypes {
+    /// An Inclusion Annotation.
+    public struct DatapointInclusionAnnotation {
+        /// The inclusion annotation value to apply to the statistic.
+        public var inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue?
+        /// The ID of the data quality profile the statistic belongs to.
+        public var profileId: Swift.String?
+        /// The Statistic ID.
+        public var statisticId: Swift.String?
+
+        public init(
+            inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue? = nil,
+            profileId: Swift.String? = nil,
+            statisticId: Swift.String? = nil
+        )
+        {
+            self.inclusionAnnotation = inclusionAnnotation
+            self.profileId = profileId
+            self.statisticId = statisticId
+        }
+    }
+
+}
+
+public struct BatchPutDataQualityStatisticAnnotationInput {
+    /// Client Token.
+    public var clientToken: Swift.String?
+    /// A list of DatapointInclusionAnnotation's.
+    /// This member is required.
+    public var inclusionAnnotations: [GlueClientTypes.DatapointInclusionAnnotation]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        inclusionAnnotations: [GlueClientTypes.DatapointInclusionAnnotation]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.inclusionAnnotations = inclusionAnnotations
+    }
+}
+
+public struct BatchPutDataQualityStatisticAnnotationOutput {
+    /// A list of AnnotationError's.
+    public var failedInclusionAnnotations: [GlueClientTypes.AnnotationError]?
+
+    public init(
+        failedInclusionAnnotations: [GlueClientTypes.AnnotationError]? = nil
+    )
+    {
+        self.failedInclusionAnnotations = failedInclusionAnnotations
+    }
+}
+
 public struct BatchStopJobRunInput {
     /// The name of the job definition for which to stop job runs.
     /// This member is required.
@@ -10354,6 +10535,8 @@ extension GlueClientTypes {
 public struct CreateDataQualityRulesetInput {
     /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
     public var clientToken: Swift.String?
+    /// The name of the security configuration created with the data quality encryption option.
+    public var dataQualitySecurityConfiguration: Swift.String?
     /// A description of the data quality ruleset.
     public var description: Swift.String?
     /// A unique name for the data quality ruleset.
@@ -10369,6 +10552,7 @@ public struct CreateDataQualityRulesetInput {
 
     public init(
         clientToken: Swift.String? = nil,
+        dataQualitySecurityConfiguration: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         ruleset: Swift.String? = nil,
@@ -10377,6 +10561,7 @@ public struct CreateDataQualityRulesetInput {
     )
     {
         self.clientToken = clientToken
+        self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
         self.description = description
         self.name = name
         self.ruleset = ruleset
@@ -15318,6 +15503,149 @@ public struct GetDataflowGraphOutput {
     }
 }
 
+public struct GetDataQualityModelInput {
+    /// The Profile ID.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The Statistic ID.
+    public var statisticId: Swift.String?
+
+    public init(
+        profileId: Swift.String? = nil,
+        statisticId: Swift.String? = nil
+    )
+    {
+        self.profileId = profileId
+        self.statisticId = statisticId
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DataQualityModelStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityModelStatus] {
+            return [
+                .failed,
+                .running,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDataQualityModelOutput {
+    /// The timestamp when the data quality model training completed.
+    public var completedOn: Foundation.Date?
+    /// The training failure reason.
+    public var failureReason: Swift.String?
+    /// The timestamp when the data quality model training started.
+    public var startedOn: Foundation.Date?
+    /// The training status of the data quality model.
+    public var status: GlueClientTypes.DataQualityModelStatus?
+
+    public init(
+        completedOn: Foundation.Date? = nil,
+        failureReason: Swift.String? = nil,
+        startedOn: Foundation.Date? = nil,
+        status: GlueClientTypes.DataQualityModelStatus? = nil
+    )
+    {
+        self.completedOn = completedOn
+        self.failureReason = failureReason
+        self.startedOn = startedOn
+        self.status = status
+    }
+}
+
+public struct GetDataQualityModelResultInput {
+    /// The Profile ID.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The Statistic ID.
+    /// This member is required.
+    public var statisticId: Swift.String?
+
+    public init(
+        profileId: Swift.String? = nil,
+        statisticId: Swift.String? = nil
+    )
+    {
+        self.profileId = profileId
+        self.statisticId = statisticId
+    }
+}
+
+extension GlueClientTypes {
+    /// The statistic model result.
+    public struct StatisticModelResult {
+        /// The actual value.
+        public var actualValue: Swift.Double?
+        /// The date.
+        public var date: Foundation.Date?
+        /// The inclusion annotation.
+        public var inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue?
+        /// The lower bound.
+        public var lowerBound: Swift.Double?
+        /// The predicted value.
+        public var predictedValue: Swift.Double?
+        /// The upper bound.
+        public var upperBound: Swift.Double?
+
+        public init(
+            actualValue: Swift.Double? = nil,
+            date: Foundation.Date? = nil,
+            inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue? = nil,
+            lowerBound: Swift.Double? = nil,
+            predictedValue: Swift.Double? = nil,
+            upperBound: Swift.Double? = nil
+        )
+        {
+            self.actualValue = actualValue
+            self.date = date
+            self.inclusionAnnotation = inclusionAnnotation
+            self.lowerBound = lowerBound
+            self.predictedValue = predictedValue
+            self.upperBound = upperBound
+        }
+    }
+
+}
+
+public struct GetDataQualityModelResultOutput {
+    /// The timestamp when the data quality model training completed.
+    public var completedOn: Foundation.Date?
+    /// A list of StatisticModelResult
+    public var model: [GlueClientTypes.StatisticModelResult]?
+
+    public init(
+        completedOn: Foundation.Date? = nil,
+        model: [GlueClientTypes.StatisticModelResult]? = nil
+    )
+    {
+        self.completedOn = completedOn
+        self.model = model
+    }
+}
+
 public struct GetDataQualityResultInput {
     /// A unique result ID for the data quality result.
     /// This member is required.
@@ -15346,6 +15674,8 @@ public struct GetDataQualityResultOutput {
     public var jobRunId: Swift.String?
     /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
     public var observations: [GlueClientTypes.DataQualityObservation]?
+    /// The Profile ID for the data quality result.
+    public var profileId: Swift.String?
     /// A unique result ID for the data quality result.
     public var resultId: Swift.String?
     /// A list of DataQualityRuleResult objects representing the results for each rule.
@@ -15367,6 +15697,7 @@ public struct GetDataQualityResultOutput {
         jobName: Swift.String? = nil,
         jobRunId: Swift.String? = nil,
         observations: [GlueClientTypes.DataQualityObservation]? = nil,
+        profileId: Swift.String? = nil,
         resultId: Swift.String? = nil,
         ruleResults: [GlueClientTypes.DataQualityRuleResult]? = nil,
         rulesetEvaluationRunId: Swift.String? = nil,
@@ -15382,6 +15713,7 @@ public struct GetDataQualityResultOutput {
         self.jobName = jobName
         self.jobRunId = jobRunId
         self.observations = observations
+        self.profileId = profileId
         self.resultId = resultId
         self.ruleResults = ruleResults
         self.rulesetEvaluationRunId = rulesetEvaluationRunId
@@ -15409,6 +15741,8 @@ public struct GetDataQualityRuleRecommendationRunOutput {
     public var completedOn: Foundation.Date?
     /// The name of the ruleset that was created by the run.
     public var createdRulesetName: Swift.String?
+    /// The name of the security configuration created with the data quality encryption option.
+    public var dataQualitySecurityConfiguration: Swift.String?
     /// The data source (an Glue table) associated with this run.
     public var dataSource: GlueClientTypes.DataSource?
     /// The error strings that are associated with the run.
@@ -15435,6 +15769,7 @@ public struct GetDataQualityRuleRecommendationRunOutput {
     public init(
         completedOn: Foundation.Date? = nil,
         createdRulesetName: Swift.String? = nil,
+        dataQualitySecurityConfiguration: Swift.String? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
         errorString: Swift.String? = nil,
         executionTime: Swift.Int = 0,
@@ -15450,6 +15785,7 @@ public struct GetDataQualityRuleRecommendationRunOutput {
     {
         self.completedOn = completedOn
         self.createdRulesetName = createdRulesetName
+        self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
         self.dataSource = dataSource
         self.errorString = errorString
         self.executionTime = executionTime
@@ -15480,6 +15816,8 @@ public struct GetDataQualityRulesetInput {
 public struct GetDataQualityRulesetOutput {
     /// A timestamp. The time and date that this data quality ruleset was created.
     public var createdOn: Foundation.Date?
+    /// The name of the security configuration created with the data quality encryption option.
+    public var dataQualitySecurityConfiguration: Swift.String?
     /// A description of the ruleset.
     public var description: Swift.String?
     /// A timestamp. The last point in time when this data quality ruleset was modified.
@@ -15495,6 +15833,7 @@ public struct GetDataQualityRulesetOutput {
 
     public init(
         createdOn: Foundation.Date? = nil,
+        dataQualitySecurityConfiguration: Swift.String? = nil,
         description: Swift.String? = nil,
         lastModifiedOn: Foundation.Date? = nil,
         name: Swift.String? = nil,
@@ -15504,6 +15843,7 @@ public struct GetDataQualityRulesetOutput {
     )
     {
         self.createdOn = createdOn
+        self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
         self.description = description
         self.lastModifiedOn = lastModifiedOn
         self.name = name
@@ -20105,6 +20445,227 @@ public struct ListDataQualityRulesetsOutput {
     }
 }
 
+extension GlueClientTypes {
+    /// A timestamp filter.
+    public struct TimestampFilter {
+        /// The timestamp after which statistics should be included in the results.
+        public var recordedAfter: Foundation.Date?
+        /// The timestamp before which statistics should be included in the results.
+        public var recordedBefore: Foundation.Date?
+
+        public init(
+            recordedAfter: Foundation.Date? = nil,
+            recordedBefore: Foundation.Date? = nil
+        )
+        {
+            self.recordedAfter = recordedAfter
+            self.recordedBefore = recordedBefore
+        }
+    }
+
+}
+
+public struct ListDataQualityStatisticAnnotationsInput {
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A pagination token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The Profile ID.
+    public var profileId: Swift.String?
+    /// The Statistic ID.
+    public var statisticId: Swift.String?
+    /// A timestamp filter.
+    public var timestampFilter: GlueClientTypes.TimestampFilter?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        statisticId: Swift.String? = nil,
+        timestampFilter: GlueClientTypes.TimestampFilter? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.profileId = profileId
+        self.statisticId = statisticId
+        self.timestampFilter = timestampFilter
+    }
+}
+
+public struct ListDataQualityStatisticAnnotationsOutput {
+    /// A list of StatisticAnnotation applied to the Statistic
+    public var annotations: [GlueClientTypes.StatisticAnnotation]?
+    /// A pagination token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        annotations: [GlueClientTypes.StatisticAnnotation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.annotations = annotations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDataQualityStatisticsInput {
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A pagination token to request the next page of results.
+    public var nextToken: Swift.String?
+    /// The Profile ID.
+    public var profileId: Swift.String?
+    /// The Statistic ID.
+    public var statisticId: Swift.String?
+    /// A timestamp filter.
+    public var timestampFilter: GlueClientTypes.TimestampFilter?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        statisticId: Swift.String? = nil,
+        timestampFilter: GlueClientTypes.TimestampFilter? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.profileId = profileId
+        self.statisticId = statisticId
+        self.timestampFilter = timestampFilter
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum StatisticEvaluationLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case column
+        case dataset
+        case multicolumn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StatisticEvaluationLevel] {
+            return [
+                .column,
+                .dataset,
+                .multicolumn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .column: return "Column"
+            case .dataset: return "Dataset"
+            case .multicolumn: return "Multicolumn"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+    /// A run identifier.
+    public struct RunIdentifier {
+        /// The Job Run ID.
+        public var jobRunId: Swift.String?
+        /// The Run ID.
+        public var runId: Swift.String?
+
+        public init(
+            jobRunId: Swift.String? = nil,
+            runId: Swift.String? = nil
+        )
+        {
+            self.jobRunId = jobRunId
+            self.runId = runId
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// Summary information about a statistic.
+    public struct StatisticSummary {
+        /// The list of columns referenced by the statistic.
+        public var columnsReferenced: [Swift.String]?
+        /// The value of the statistic.
+        public var doubleValue: Swift.Double
+        /// The evaluation level of the statistic. Possible values: Dataset, Column, Multicolumn.
+        public var evaluationLevel: GlueClientTypes.StatisticEvaluationLevel?
+        /// The inclusion annotation for the statistic.
+        public var inclusionAnnotation: GlueClientTypes.TimestampedInclusionAnnotation?
+        /// The Profile ID.
+        public var profileId: Swift.String?
+        /// The timestamp when the statistic was recorded.
+        public var recordedOn: Foundation.Date?
+        /// The list of datasets referenced by the statistic.
+        public var referencedDatasets: [Swift.String]?
+        /// The Run Identifier
+        public var runIdentifier: GlueClientTypes.RunIdentifier?
+        /// The Statistic ID.
+        public var statisticId: Swift.String?
+        /// The name of the statistic.
+        public var statisticName: Swift.String?
+        /// A StatisticPropertiesMap, which contains a NameString and DescriptionString
+        public var statisticProperties: [Swift.String: Swift.String]?
+
+        public init(
+            columnsReferenced: [Swift.String]? = nil,
+            doubleValue: Swift.Double = 0.0,
+            evaluationLevel: GlueClientTypes.StatisticEvaluationLevel? = nil,
+            inclusionAnnotation: GlueClientTypes.TimestampedInclusionAnnotation? = nil,
+            profileId: Swift.String? = nil,
+            recordedOn: Foundation.Date? = nil,
+            referencedDatasets: [Swift.String]? = nil,
+            runIdentifier: GlueClientTypes.RunIdentifier? = nil,
+            statisticId: Swift.String? = nil,
+            statisticName: Swift.String? = nil,
+            statisticProperties: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.columnsReferenced = columnsReferenced
+            self.doubleValue = doubleValue
+            self.evaluationLevel = evaluationLevel
+            self.inclusionAnnotation = inclusionAnnotation
+            self.profileId = profileId
+            self.recordedOn = recordedOn
+            self.referencedDatasets = referencedDatasets
+            self.runIdentifier = runIdentifier
+            self.statisticId = statisticId
+            self.statisticName = statisticName
+            self.statisticProperties = statisticProperties
+        }
+    }
+
+}
+
+extension GlueClientTypes.StatisticSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StatisticSummary(columnsReferenced: \(Swift.String(describing: columnsReferenced)), doubleValue: \(Swift.String(describing: doubleValue)), evaluationLevel: \(Swift.String(describing: evaluationLevel)), inclusionAnnotation: \(Swift.String(describing: inclusionAnnotation)), profileId: \(Swift.String(describing: profileId)), recordedOn: \(Swift.String(describing: recordedOn)), referencedDatasets: \(Swift.String(describing: referencedDatasets)), runIdentifier: \(Swift.String(describing: runIdentifier)), statisticId: \(Swift.String(describing: statisticId)), statisticName: \(Swift.String(describing: statisticName)), statisticProperties: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDataQualityStatisticsOutput {
+    /// A pagination token to request the next page of results.
+    public var nextToken: Swift.String?
+    /// A StatisticSummaryList.
+    public var statistics: [GlueClientTypes.StatisticSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        statistics: [GlueClientTypes.StatisticSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.statistics = statistics
+    }
+}
+
 public struct ListDevEndpointsInput {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
@@ -20734,6 +21295,30 @@ public struct PutDataCatalogEncryptionSettingsInput {
 }
 
 public struct PutDataCatalogEncryptionSettingsOutput {
+
+    public init() { }
+}
+
+public struct PutDataQualityProfileAnnotationInput {
+    /// The inclusion annotation value to apply to the profile.
+    /// This member is required.
+    public var inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue?
+    /// The ID of the data quality monitoring profile to annotate.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue? = nil,
+        profileId: Swift.String? = nil
+    )
+    {
+        self.inclusionAnnotation = inclusionAnnotation
+        self.profileId = profileId
+    }
+}
+
+/// Left blank.
+public struct PutDataQualityProfileAnnotationOutput {
 
     public init() { }
 }
@@ -21708,6 +22293,8 @@ public struct StartDataQualityRuleRecommendationRunInput {
     public var clientToken: Swift.String?
     /// A name for the ruleset.
     public var createdRulesetName: Swift.String?
+    /// The name of the security configuration created with the data quality encryption option.
+    public var dataQualitySecurityConfiguration: Swift.String?
     /// The data source (Glue table) associated with this run.
     /// This member is required.
     public var dataSource: GlueClientTypes.DataSource?
@@ -21722,6 +22309,7 @@ public struct StartDataQualityRuleRecommendationRunInput {
     public init(
         clientToken: Swift.String? = nil,
         createdRulesetName: Swift.String? = nil,
+        dataQualitySecurityConfiguration: Swift.String? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
         numberOfWorkers: Swift.Int? = nil,
         role: Swift.String? = nil,
@@ -21730,6 +22318,7 @@ public struct StartDataQualityRuleRecommendationRunInput {
     {
         self.clientToken = clientToken
         self.createdRulesetName = createdRulesetName
+        self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
         self.dataSource = dataSource
         self.numberOfWorkers = numberOfWorkers
         self.role = role
@@ -24514,6 +25103,13 @@ extension BatchGetWorkflowsInput {
     }
 }
 
+extension BatchPutDataQualityStatisticAnnotationInput {
+
+    static func urlPathProvider(_ value: BatchPutDataQualityStatisticAnnotationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BatchStopJobRunInput {
 
     static func urlPathProvider(_ value: BatchStopJobRunInput) -> Swift.String? {
@@ -25053,6 +25649,20 @@ extension GetDataflowGraphInput {
     }
 }
 
+extension GetDataQualityModelInput {
+
+    static func urlPathProvider(_ value: GetDataQualityModelInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetDataQualityModelResultInput {
+
+    static func urlPathProvider(_ value: GetDataQualityModelResultInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetDataQualityResultInput {
 
     static func urlPathProvider(_ value: GetDataQualityResultInput) -> Swift.String? {
@@ -25466,6 +26076,20 @@ extension ListDataQualityRulesetsInput {
     }
 }
 
+extension ListDataQualityStatisticAnnotationsInput {
+
+    static func urlPathProvider(_ value: ListDataQualityStatisticAnnotationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListDataQualityStatisticsInput {
+
+    static func urlPathProvider(_ value: ListDataQualityStatisticsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListDevEndpointsInput {
 
     static func urlPathProvider(_ value: ListDevEndpointsInput) -> Swift.String? {
@@ -25553,6 +26177,13 @@ extension ListWorkflowsInput {
 extension PutDataCatalogEncryptionSettingsInput {
 
     static func urlPathProvider(_ value: PutDataCatalogEncryptionSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutDataQualityProfileAnnotationInput {
+
+    static func urlPathProvider(_ value: PutDataQualityProfileAnnotationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26074,6 +26705,15 @@ extension BatchGetWorkflowsInput {
     }
 }
 
+extension BatchPutDataQualityStatisticAnnotationInput {
+
+    static func write(value: BatchPutDataQualityStatisticAnnotationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["InclusionAnnotations"].writeList(value.inclusionAnnotations, memberWritingClosure: GlueClientTypes.DatapointInclusionAnnotation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchStopJobRunInput {
 
     static func write(value: BatchStopJobRunInput?, to writer: SmithyJSON.Writer) throws {
@@ -26218,6 +26858,7 @@ extension CreateDataQualityRulesetInput {
     static func write(value: CreateDataQualityRulesetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
+        try writer["DataQualitySecurityConfiguration"].write(value.dataQualitySecurityConfiguration)
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
         try writer["Ruleset"].write(value.ruleset)
@@ -26896,6 +27537,24 @@ extension GetDataflowGraphInput {
     }
 }
 
+extension GetDataQualityModelInput {
+
+    static func write(value: GetDataQualityModelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProfileId"].write(value.profileId)
+        try writer["StatisticId"].write(value.statisticId)
+    }
+}
+
+extension GetDataQualityModelResultInput {
+
+    static func write(value: GetDataQualityModelResultInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProfileId"].write(value.profileId)
+        try writer["StatisticId"].write(value.statisticId)
+    }
+}
+
 extension GetDataQualityResultInput {
 
     static func write(value: GetDataQualityResultInput?, to writer: SmithyJSON.Writer) throws {
@@ -27497,6 +28156,30 @@ extension ListDataQualityRulesetsInput {
     }
 }
 
+extension ListDataQualityStatisticAnnotationsInput {
+
+    static func write(value: ListDataQualityStatisticAnnotationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ProfileId"].write(value.profileId)
+        try writer["StatisticId"].write(value.statisticId)
+        try writer["TimestampFilter"].write(value.timestampFilter, with: GlueClientTypes.TimestampFilter.write(value:to:))
+    }
+}
+
+extension ListDataQualityStatisticsInput {
+
+    static func write(value: ListDataQualityStatisticsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ProfileId"].write(value.profileId)
+        try writer["StatisticId"].write(value.statisticId)
+        try writer["TimestampFilter"].write(value.timestampFilter, with: GlueClientTypes.TimestampFilter.write(value:to:))
+    }
+}
+
 extension ListDevEndpointsInput {
 
     static func write(value: ListDevEndpointsInput?, to writer: SmithyJSON.Writer) throws {
@@ -27627,6 +28310,15 @@ extension PutDataCatalogEncryptionSettingsInput {
         guard let value else { return }
         try writer["CatalogId"].write(value.catalogId)
         try writer["DataCatalogEncryptionSettings"].write(value.dataCatalogEncryptionSettings, with: GlueClientTypes.DataCatalogEncryptionSettings.write(value:to:))
+    }
+}
+
+extension PutDataQualityProfileAnnotationInput {
+
+    static func write(value: PutDataQualityProfileAnnotationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InclusionAnnotation"].write(value.inclusionAnnotation)
+        try writer["ProfileId"].write(value.profileId)
     }
 }
 
@@ -27785,6 +28477,7 @@ extension StartDataQualityRuleRecommendationRunInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["CreatedRulesetName"].write(value.createdRulesetName)
+        try writer["DataQualitySecurityConfiguration"].write(value.dataQualitySecurityConfiguration)
         try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
         try writer["NumberOfWorkers"].write(value.numberOfWorkers)
         try writer["Role"].write(value.role)
@@ -28412,6 +29105,18 @@ extension BatchGetWorkflowsOutput {
         var value = BatchGetWorkflowsOutput()
         value.missingWorkflows = try reader["MissingWorkflows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.workflows = try reader["Workflows"].readListIfPresent(memberReadingClosure: GlueClientTypes.Workflow.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchPutDataQualityStatisticAnnotationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchPutDataQualityStatisticAnnotationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchPutDataQualityStatisticAnnotationOutput()
+        value.failedInclusionAnnotations = try reader["FailedInclusionAnnotations"].readListIfPresent(memberReadingClosure: GlueClientTypes.AnnotationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -29256,6 +29961,34 @@ extension GetDataflowGraphOutput {
     }
 }
 
+extension GetDataQualityModelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataQualityModelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataQualityModelOutput()
+        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: .epochSeconds)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: .epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension GetDataQualityModelResultOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataQualityModelResultOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataQualityModelResultOutput()
+        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: .epochSeconds)
+        value.model = try reader["Model"].readListIfPresent(memberReadingClosure: GlueClientTypes.StatisticModelResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GetDataQualityResultOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataQualityResultOutput {
@@ -29270,6 +30003,7 @@ extension GetDataQualityResultOutput {
         value.jobName = try reader["JobName"].readIfPresent()
         value.jobRunId = try reader["JobRunId"].readIfPresent()
         value.observations = try reader["Observations"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityObservation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.profileId = try reader["ProfileId"].readIfPresent()
         value.resultId = try reader["ResultId"].readIfPresent()
         value.ruleResults = try reader["RuleResults"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityRuleResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.rulesetEvaluationRunId = try reader["RulesetEvaluationRunId"].readIfPresent()
@@ -29289,6 +30023,7 @@ extension GetDataQualityRuleRecommendationRunOutput {
         var value = GetDataQualityRuleRecommendationRunOutput()
         value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: .epochSeconds)
         value.createdRulesetName = try reader["CreatedRulesetName"].readIfPresent()
+        value.dataQualitySecurityConfiguration = try reader["DataQualitySecurityConfiguration"].readIfPresent()
         value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
         value.errorString = try reader["ErrorString"].readIfPresent()
         value.executionTime = try reader["ExecutionTime"].readIfPresent() ?? 0
@@ -29312,6 +30047,7 @@ extension GetDataQualityRulesetOutput {
         let reader = responseReader
         var value = GetDataQualityRulesetOutput()
         value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: .epochSeconds)
+        value.dataQualitySecurityConfiguration = try reader["DataQualitySecurityConfiguration"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: .epochSeconds)
         value.name = try reader["Name"].readIfPresent()
@@ -30103,6 +30839,32 @@ extension ListDataQualityRulesetsOutput {
     }
 }
 
+extension ListDataQualityStatisticAnnotationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataQualityStatisticAnnotationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataQualityStatisticAnnotationsOutput()
+        value.annotations = try reader["Annotations"].readListIfPresent(memberReadingClosure: GlueClientTypes.StatisticAnnotation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataQualityStatisticsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataQualityStatisticsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataQualityStatisticsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: GlueClientTypes.StatisticSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListDevEndpointsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDevEndpointsOutput {
@@ -30267,6 +31029,13 @@ extension PutDataCatalogEncryptionSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutDataCatalogEncryptionSettingsOutput {
         return PutDataCatalogEncryptionSettingsOutput()
+    }
+}
+
+extension PutDataQualityProfileAnnotationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutDataQualityProfileAnnotationOutput {
+        return PutDataQualityProfileAnnotationOutput()
     }
 }
 
@@ -31094,6 +31863,23 @@ enum BatchGetWorkflowsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchPutDataQualityStatisticAnnotationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -32448,6 +33234,40 @@ enum GetDataflowGraphOutputError {
     }
 }
 
+enum GetDataQualityModelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDataQualityModelResultOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDataQualityResultOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33473,6 +34293,37 @@ enum ListDataQualityRulesetsOutputError {
     }
 }
 
+enum ListDataQualityStatisticAnnotationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataQualityStatisticsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDevEndpointsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33688,6 +34539,22 @@ enum PutDataCatalogEncryptionSettingsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutDataQualityProfileAnnotationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -35558,6 +36425,7 @@ extension GlueClientTypes.DataQualityResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DataQualityResult()
         value.resultId = try reader["ResultId"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent()
         value.score = try reader["Score"].readIfPresent()
         value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
         value.rulesetName = try reader["RulesetName"].readIfPresent()
@@ -35591,6 +36459,7 @@ extension GlueClientTypes.MetricBasedObservation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.MetricBasedObservation()
         value.metricName = try reader["MetricName"].readIfPresent()
+        value.statisticId = try reader["StatisticId"].readIfPresent()
         value.metricValues = try reader["MetricValues"].readIfPresent(with: GlueClientTypes.DataQualityMetricValues.read(from:))
         value.newRules = try reader["NewRules"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -35633,6 +36502,7 @@ extension GlueClientTypes.DataQualityRuleResult {
         value.evaluationMessage = try reader["EvaluationMessage"].readIfPresent()
         value.result = try reader["Result"].readIfPresent()
         value.evaluatedMetrics = try reader["EvaluatedMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.evaluatedRule = try reader["EvaluatedRule"].readIfPresent()
         return value
     }
 }
@@ -38974,6 +39844,18 @@ extension GlueClientTypes.WorkflowRunStatistics {
     }
 }
 
+extension GlueClientTypes.AnnotationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AnnotationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AnnotationError()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.statisticId = try reader["StatisticId"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.BatchStopJobRunSuccessfulSubmission {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchStopJobRunSuccessfulSubmission {
@@ -39729,6 +40611,21 @@ extension GlueClientTypes.CodeGenEdge {
         value.source = try reader["Source"].readIfPresent()
         value.target = try reader["Target"].readIfPresent()
         value.targetParameter = try reader["TargetParameter"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.StatisticModelResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatisticModelResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StatisticModelResult()
+        value.lowerBound = try reader["LowerBound"].readIfPresent()
+        value.upperBound = try reader["UpperBound"].readIfPresent()
+        value.predictedValue = try reader["PredictedValue"].readIfPresent()
+        value.actualValue = try reader["ActualValue"].readIfPresent()
+        value.date = try reader["Date"].readTimestampIfPresent(format: .epochSeconds)
+        value.inclusionAnnotation = try reader["InclusionAnnotation"].readIfPresent()
         return value
     }
 }
@@ -40500,6 +41397,61 @@ extension GlueClientTypes.DataQualityRulesetListDetails {
     }
 }
 
+extension GlueClientTypes.StatisticAnnotation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatisticAnnotation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StatisticAnnotation()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.statisticId = try reader["StatisticId"].readIfPresent()
+        value.statisticRecordedOn = try reader["StatisticRecordedOn"].readTimestampIfPresent(format: .epochSeconds)
+        value.inclusionAnnotation = try reader["InclusionAnnotation"].readIfPresent(with: GlueClientTypes.TimestampedInclusionAnnotation.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.TimestampedInclusionAnnotation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TimestampedInclusionAnnotation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TimestampedInclusionAnnotation()
+        value.value = try reader["Value"].readIfPresent()
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension GlueClientTypes.StatisticSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatisticSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StatisticSummary()
+        value.statisticId = try reader["StatisticId"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.runIdentifier = try reader["RunIdentifier"].readIfPresent(with: GlueClientTypes.RunIdentifier.read(from:))
+        value.statisticName = try reader["StatisticName"].readIfPresent()
+        value.doubleValue = try reader["DoubleValue"].readIfPresent() ?? 0
+        value.evaluationLevel = try reader["EvaluationLevel"].readIfPresent()
+        value.columnsReferenced = try reader["ColumnsReferenced"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.referencedDatasets = try reader["ReferencedDatasets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statisticProperties = try reader["StatisticProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.recordedOn = try reader["RecordedOn"].readTimestampIfPresent(format: .epochSeconds)
+        value.inclusionAnnotation = try reader["InclusionAnnotation"].readIfPresent(with: GlueClientTypes.TimestampedInclusionAnnotation.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.RunIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RunIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RunIdentifier()
+        value.runId = try reader["RunId"].readIfPresent()
+        value.jobRunId = try reader["JobRunId"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.RegistryListItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RegistryListItem {
@@ -40612,6 +41564,16 @@ extension GlueClientTypes.BatchGetTableOptimizerEntry {
         try writer["databaseName"].write(value.databaseName)
         try writer["tableName"].write(value.tableName)
         try writer["type"].write(value.type)
+    }
+}
+
+extension GlueClientTypes.DatapointInclusionAnnotation {
+
+    static func write(value: GlueClientTypes.DatapointInclusionAnnotation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InclusionAnnotation"].write(value.inclusionAnnotation)
+        try writer["ProfileId"].write(value.profileId)
+        try writer["StatisticId"].write(value.statisticId)
     }
 }
 
@@ -40997,6 +41959,15 @@ extension GlueClientTypes.DataQualityRulesetFilterCriteria {
         try writer["LastModifiedBefore"].writeTimestamp(value.lastModifiedBefore, format: .epochSeconds)
         try writer["Name"].write(value.name)
         try writer["TargetTable"].write(value.targetTable, with: GlueClientTypes.DataQualityTargetTable.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.TimestampFilter {
+
+    static func write(value: GlueClientTypes.TimestampFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecordedAfter"].writeTimestamp(value.recordedAfter, format: .epochSeconds)
+        try writer["RecordedBefore"].writeTimestamp(value.recordedBefore, format: .epochSeconds)
     }
 }
 

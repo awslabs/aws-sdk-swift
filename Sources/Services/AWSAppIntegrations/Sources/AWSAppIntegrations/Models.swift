@@ -397,7 +397,7 @@ public struct CreateDataIntegrationInput {
     public var description: Swift.String?
     /// The configuration for what files should be pulled from the source.
     public var fileConfiguration: AppIntegrationsClientTypes.FileConfiguration?
-    /// The KMS key for the DataIntegration.
+    /// The KMS key ARN for the DataIntegration.
     /// This member is required.
     public var kmsKey: Swift.String?
     /// The name of the DataIntegration.
@@ -408,7 +408,6 @@ public struct CreateDataIntegrationInput {
     /// The name of the data and how often it should be pulled from the source.
     public var scheduleConfig: AppIntegrationsClientTypes.ScheduleConfiguration?
     /// The URI of the data source.
-    /// This member is required.
     public var sourceURI: Swift.String?
     /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
@@ -448,7 +447,7 @@ public struct CreateDataIntegrationOutput {
     public var fileConfiguration: AppIntegrationsClientTypes.FileConfiguration?
     /// A unique identifier.
     public var id: Swift.String?
-    /// The KMS key for the DataIntegration.
+    /// The KMS key ARN for the DataIntegration.
     public var kmsKey: Swift.String?
     /// The name of the DataIntegration.
     public var name: Swift.String?
@@ -486,6 +485,158 @@ public struct CreateDataIntegrationOutput {
         self.scheduleConfiguration = scheduleConfiguration
         self.sourceURI = sourceURI
         self.tags = tags
+    }
+}
+
+/// The specified resource was not found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension AppIntegrationsClientTypes {
+
+    public enum ExecutionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionMode] {
+            return [
+                .onDemand,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "ON_DEMAND"
+            case .scheduled: return "SCHEDULED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppIntegrationsClientTypes {
+    /// The start and end time for data pull from the source.
+    public struct OnDemandConfiguration {
+        /// The end time for data pull from the source as an Unix/epoch string in milliseconds
+        public var endTime: Swift.String?
+        /// The start time for data pull from the source as an Unix/epoch string in milliseconds
+        /// This member is required.
+        public var startTime: Swift.String?
+
+        public init(
+            endTime: Swift.String? = nil,
+            startTime: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+
+}
+
+extension AppIntegrationsClientTypes {
+    /// The configuration for how the files should be pulled from the source.
+    public struct ExecutionConfiguration {
+        /// The mode for data import/export execution.
+        /// This member is required.
+        public var executionMode: AppIntegrationsClientTypes.ExecutionMode?
+        /// The start and end time for data pull from the source.
+        public var onDemandConfiguration: AppIntegrationsClientTypes.OnDemandConfiguration?
+        /// The name of the data and how often it should be pulled from the source.
+        public var scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration?
+
+        public init(
+            executionMode: AppIntegrationsClientTypes.ExecutionMode? = nil,
+            onDemandConfiguration: AppIntegrationsClientTypes.OnDemandConfiguration? = nil,
+            scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration? = nil
+        )
+        {
+            self.executionMode = executionMode
+            self.onDemandConfiguration = onDemandConfiguration
+            self.scheduleConfiguration = scheduleConfiguration
+        }
+    }
+
+}
+
+public struct CreateDataIntegrationAssociationInput {
+    /// The mapping of metadata to be extracted from the data.
+    public var clientAssociationMetadata: [Swift.String: Swift.String]?
+    /// The identifier for the client that is associated with the DataIntegration association.
+    public var clientId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// A unique identifier for the DataIntegration.
+    /// This member is required.
+    public var dataIntegrationIdentifier: Swift.String?
+    /// The URI of the data destination.
+    public var destinationURI: Swift.String?
+    /// The configuration for how the files should be pulled from the source.
+    public var executionConfiguration: AppIntegrationsClientTypes.ExecutionConfiguration?
+    /// The configuration for what data should be pulled from the source.
+    public var objectConfiguration: [Swift.String: [Swift.String: [Swift.String]]]?
+
+    public init(
+        clientAssociationMetadata: [Swift.String: Swift.String]? = nil,
+        clientId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dataIntegrationIdentifier: Swift.String? = nil,
+        destinationURI: Swift.String? = nil,
+        executionConfiguration: AppIntegrationsClientTypes.ExecutionConfiguration? = nil,
+        objectConfiguration: [Swift.String: [Swift.String: [Swift.String]]]? = nil
+    )
+    {
+        self.clientAssociationMetadata = clientAssociationMetadata
+        self.clientId = clientId
+        self.clientToken = clientToken
+        self.dataIntegrationIdentifier = dataIntegrationIdentifier
+        self.destinationURI = destinationURI
+        self.executionConfiguration = executionConfiguration
+        self.objectConfiguration = objectConfiguration
+    }
+}
+
+public struct CreateDataIntegrationAssociationOutput {
+    /// The Amazon Resource Name (ARN) for the DataIntegration.
+    public var dataIntegrationArn: Swift.String?
+    /// A unique identifier. for the DataIntegrationAssociation.
+    public var dataIntegrationAssociationId: Swift.String?
+
+    public init(
+        dataIntegrationArn: Swift.String? = nil,
+        dataIntegrationAssociationId: Swift.String? = nil
+    )
+    {
+        self.dataIntegrationArn = dataIntegrationArn
+        self.dataIntegrationAssociationId = dataIntegrationAssociationId
     }
 }
 
@@ -550,30 +701,6 @@ public struct CreateEventIntegrationOutput {
     )
     {
         self.eventIntegrationArn = eventIntegrationArn
-    }
-}
-
-/// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -718,13 +845,13 @@ public struct GetDataIntegrationInput {
 public struct GetDataIntegrationOutput {
     /// The Amazon Resource Name (ARN) for the DataIntegration.
     public var arn: Swift.String?
-    /// The KMS key for the DataIntegration.
+    /// The KMS key ARN for the DataIntegration.
     public var description: Swift.String?
     /// The configuration for what files should be pulled from the source.
     public var fileConfiguration: AppIntegrationsClientTypes.FileConfiguration?
     /// A unique identifier.
     public var id: Swift.String?
-    /// The KMS key for the DataIntegration.
+    /// The KMS key ARN for the DataIntegration.
     public var kmsKey: Swift.String?
     /// The name of the DataIntegration.
     public var name: Swift.String?
@@ -959,6 +1086,58 @@ public struct ListDataIntegrationAssociationsInput {
 }
 
 extension AppIntegrationsClientTypes {
+
+    public enum ExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppIntegrationsClientTypes {
+    /// The execution status of the last job.
+    public struct LastExecutionStatus {
+        /// The job status enum string.
+        public var executionStatus: AppIntegrationsClientTypes.ExecutionStatus?
+        /// The status message of a job.
+        public var statusMessage: Swift.String?
+
+        public init(
+            executionStatus: AppIntegrationsClientTypes.ExecutionStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.executionStatus = executionStatus
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension AppIntegrationsClientTypes {
     /// Summary information about the DataIntegration association.
     public struct DataIntegrationAssociationSummary {
         /// The identifier for the client that is associated with the DataIntegration association.
@@ -967,16 +1146,28 @@ extension AppIntegrationsClientTypes {
         public var dataIntegrationArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the DataIntegration association.
         public var dataIntegrationAssociationArn: Swift.String?
+        /// The URI of the data destination.
+        public var destinationURI: Swift.String?
+        /// The configuration for how the files should be pulled from the source.
+        public var executionConfiguration: AppIntegrationsClientTypes.ExecutionConfiguration?
+        /// The execution status of the last job.
+        public var lastExecutionStatus: AppIntegrationsClientTypes.LastExecutionStatus?
 
         public init(
             clientId: Swift.String? = nil,
             dataIntegrationArn: Swift.String? = nil,
-            dataIntegrationAssociationArn: Swift.String? = nil
+            dataIntegrationAssociationArn: Swift.String? = nil,
+            destinationURI: Swift.String? = nil,
+            executionConfiguration: AppIntegrationsClientTypes.ExecutionConfiguration? = nil,
+            lastExecutionStatus: AppIntegrationsClientTypes.LastExecutionStatus? = nil
         )
         {
             self.clientId = clientId
             self.dataIntegrationArn = dataIntegrationArn
             self.dataIntegrationAssociationArn = dataIntegrationAssociationArn
+            self.destinationURI = destinationURI
+            self.executionConfiguration = executionConfiguration
+            self.lastExecutionStatus = lastExecutionStatus
         }
     }
 
@@ -1336,6 +1527,34 @@ public struct UpdateDataIntegrationOutput {
     public init() { }
 }
 
+public struct UpdateDataIntegrationAssociationInput {
+    /// A unique identifier. of the DataIntegrationAssociation resource
+    /// This member is required.
+    public var dataIntegrationAssociationIdentifier: Swift.String?
+    /// A unique identifier for the DataIntegration.
+    /// This member is required.
+    public var dataIntegrationIdentifier: Swift.String?
+    /// The configuration for how the files should be pulled from the source.
+    /// This member is required.
+    public var executionConfiguration: AppIntegrationsClientTypes.ExecutionConfiguration?
+
+    public init(
+        dataIntegrationAssociationIdentifier: Swift.String? = nil,
+        dataIntegrationIdentifier: Swift.String? = nil,
+        executionConfiguration: AppIntegrationsClientTypes.ExecutionConfiguration? = nil
+    )
+    {
+        self.dataIntegrationAssociationIdentifier = dataIntegrationAssociationIdentifier
+        self.dataIntegrationIdentifier = dataIntegrationIdentifier
+        self.executionConfiguration = executionConfiguration
+    }
+}
+
+public struct UpdateDataIntegrationAssociationOutput {
+
+    public init() { }
+}
+
 public struct UpdateEventIntegrationInput {
     /// The description of the event integration.
     public var description: Swift.String?
@@ -1369,6 +1588,16 @@ extension CreateDataIntegrationInput {
 
     static func urlPathProvider(_ value: CreateDataIntegrationInput) -> Swift.String? {
         return "/dataIntegrations"
+    }
+}
+
+extension CreateDataIntegrationAssociationInput {
+
+    static func urlPathProvider(_ value: CreateDataIntegrationAssociationInput) -> Swift.String? {
+        guard let dataIntegrationIdentifier = value.dataIntegrationIdentifier else {
+            return nil
+        }
+        return "/dataIntegrations/\(dataIntegrationIdentifier.urlPercentEncoding())/associations"
     }
 }
 
@@ -1652,6 +1881,19 @@ extension UpdateDataIntegrationInput {
     }
 }
 
+extension UpdateDataIntegrationAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateDataIntegrationAssociationInput) -> Swift.String? {
+        guard let dataIntegrationIdentifier = value.dataIntegrationIdentifier else {
+            return nil
+        }
+        guard let dataIntegrationAssociationIdentifier = value.dataIntegrationAssociationIdentifier else {
+            return nil
+        }
+        return "/dataIntegrations/\(dataIntegrationIdentifier.urlPercentEncoding())/associations/\(dataIntegrationAssociationIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateEventIntegrationInput {
 
     static func urlPathProvider(_ value: UpdateEventIntegrationInput) -> Swift.String? {
@@ -1691,6 +1933,19 @@ extension CreateDataIntegrationInput {
         try writer["ScheduleConfig"].write(value.scheduleConfig, with: AppIntegrationsClientTypes.ScheduleConfiguration.write(value:to:))
         try writer["SourceURI"].write(value.sourceURI)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateDataIntegrationAssociationInput {
+
+    static func write(value: CreateDataIntegrationAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientAssociationMetadata"].writeMap(value.clientAssociationMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DestinationURI"].write(value.destinationURI)
+        try writer["ExecutionConfiguration"].write(value.executionConfiguration, with: AppIntegrationsClientTypes.ExecutionConfiguration.write(value:to:))
+        try writer["ObjectConfiguration"].writeMap(value.objectConfiguration, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -1737,6 +1992,14 @@ extension UpdateDataIntegrationInput {
     }
 }
 
+extension UpdateDataIntegrationAssociationInput {
+
+    static func write(value: UpdateDataIntegrationAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutionConfiguration"].write(value.executionConfiguration, with: AppIntegrationsClientTypes.ExecutionConfiguration.write(value:to:))
+    }
+}
+
 extension UpdateEventIntegrationInput {
 
     static func write(value: UpdateEventIntegrationInput?, to writer: SmithyJSON.Writer) throws {
@@ -1776,6 +2039,19 @@ extension CreateDataIntegrationOutput {
         value.scheduleConfiguration = try reader["ScheduleConfiguration"].readIfPresent(with: AppIntegrationsClientTypes.ScheduleConfiguration.read(from:))
         value.sourceURI = try reader["SourceURI"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateDataIntegrationAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataIntegrationAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataIntegrationAssociationOutput()
+        value.dataIntegrationArn = try reader["DataIntegrationArn"].readIfPresent()
+        value.dataIntegrationAssociationId = try reader["DataIntegrationAssociationId"].readIfPresent()
         return value
     }
 }
@@ -1992,6 +2268,13 @@ extension UpdateDataIntegrationOutput {
     }
 }
 
+extension UpdateDataIntegrationAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataIntegrationAssociationOutput {
+        return UpdateDataIntegrationAssociationOutput()
+    }
+}
+
 extension UpdateEventIntegrationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEventIntegrationOutput {
@@ -2031,6 +2314,25 @@ enum CreateDataIntegrationOutputError {
             case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceQuotaExceededException": return try ResourceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDataIntegrationAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceQuotaExceededException": return try ResourceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2358,6 +2660,24 @@ enum UpdateDataIntegrationOutputError {
     }
 }
 
+enum UpdateDataIntegrationAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateEventIntegrationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2634,6 +2954,56 @@ extension AppIntegrationsClientTypes.DataIntegrationAssociationSummary {
         value.dataIntegrationAssociationArn = try reader["DataIntegrationAssociationArn"].readIfPresent()
         value.dataIntegrationArn = try reader["DataIntegrationArn"].readIfPresent()
         value.clientId = try reader["ClientId"].readIfPresent()
+        value.destinationURI = try reader["DestinationURI"].readIfPresent()
+        value.lastExecutionStatus = try reader["LastExecutionStatus"].readIfPresent(with: AppIntegrationsClientTypes.LastExecutionStatus.read(from:))
+        value.executionConfiguration = try reader["ExecutionConfiguration"].readIfPresent(with: AppIntegrationsClientTypes.ExecutionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.ExecutionConfiguration {
+
+    static func write(value: AppIntegrationsClientTypes.ExecutionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutionMode"].write(value.executionMode)
+        try writer["OnDemandConfiguration"].write(value.onDemandConfiguration, with: AppIntegrationsClientTypes.OnDemandConfiguration.write(value:to:))
+        try writer["ScheduleConfiguration"].write(value.scheduleConfiguration, with: AppIntegrationsClientTypes.ScheduleConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ExecutionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.ExecutionConfiguration()
+        value.executionMode = try reader["ExecutionMode"].readIfPresent()
+        value.onDemandConfiguration = try reader["OnDemandConfiguration"].readIfPresent(with: AppIntegrationsClientTypes.OnDemandConfiguration.read(from:))
+        value.scheduleConfiguration = try reader["ScheduleConfiguration"].readIfPresent(with: AppIntegrationsClientTypes.ScheduleConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.OnDemandConfiguration {
+
+    static func write(value: AppIntegrationsClientTypes.OnDemandConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].write(value.endTime)
+        try writer["StartTime"].write(value.startTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.OnDemandConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.OnDemandConfiguration()
+        value.startTime = try reader["StartTime"].readIfPresent()
+        value.endTime = try reader["EndTime"].readIfPresent()
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.LastExecutionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.LastExecutionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.LastExecutionStatus()
+        value.executionStatus = try reader["ExecutionStatus"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
