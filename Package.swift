@@ -44,7 +44,6 @@ extension Target.Dependency {
     static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
-    static var smithyXML: Self { .product(name: "SmithyXML", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -80,7 +79,6 @@ let package = Package(
                 .smithyRetries,
                 .smithyEventStreamsAPI,
                 .smithyEventStreamsAuthAPI,
-                .smithyXML,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity
@@ -257,7 +255,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.54.0",
+    clientRuntimeVersion: "0.55.0",
     crtVersion: "0.32.0"
 )
 
