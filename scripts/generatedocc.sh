@@ -63,7 +63,7 @@ generateDocs() {
 }
 
 # Break if all params aren't supplied
-if [ $# -ne 4 ]; then
+if [ $# -ne 5 ]; then
     usage
     exit 1
 fi
