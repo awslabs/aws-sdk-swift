@@ -398,7 +398,7 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [InvokeFlow request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_RequestSyntax)
     public enum FlowInputContent {
-        /// The input for the flow input node.
+        /// The input to send to the prompt flow input node.
         case document(SmithyReadWrite.Document)
         case sdkUnknown(Swift.String)
     }
@@ -406,17 +406,17 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains information about an input into the flow and what to do with it. This data type is used in the following API operations:
+    /// Contains information about an input into the prompt flow and where to send it. This data type is used in the following API operations:
     ///
     /// * [InvokeFlow request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_RequestSyntax)
     public struct FlowInput {
-        /// Contains information about an input into the flow.
+        /// Contains information about an input into the prompt flow.
         /// This member is required.
         public var content: BedrockAgentRuntimeClientTypes.FlowInputContent?
-        /// A name for the input of the flow input node.
+        /// The name of the flow input node that begins the prompt flow.
         /// This member is required.
         public var nodeName: Swift.String?
-        /// A name for the output of the flow input node.
+        /// The name of the output from the flow input node that begins the prompt flow.
         /// This member is required.
         public var nodeOutputName: Swift.String?
 
@@ -514,11 +514,11 @@ extension BedrockAgentRuntimeClientTypes.FlowCompletionEvent: Swift.CustomDebugS
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains information about the output node. This data type is used in the following API operations:
+    /// Contains information about the content in an output from prompt flow invocation. This data type is used in the following API operations:
     ///
     /// * [InvokeFlow request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_RequestSyntax)
     public enum FlowOutputContent {
-        /// A name for the output of the flow.
+        /// The content in the output.
         case document(SmithyReadWrite.Document)
         case sdkUnknown(Swift.String)
     }
@@ -570,17 +570,17 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains information about an output from flow invoction. This data type is used in the following API operations:
+    /// Contains information about an output from prompt flow invoction. This data type is used in the following API operations:
     ///
     /// * [InvokeFlow response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_ResponseSyntax)
     public struct FlowOutputEvent {
-        /// The output of the node.
+        /// The content in the output.
         /// This member is required.
         public var content: BedrockAgentRuntimeClientTypes.FlowOutputContent?
-        /// The name of the node to which input was provided.
+        /// The name of the flow output node that the output is from.
         /// This member is required.
         public var nodeName: Swift.String?
-        /// The type of node to which input was provided.
+        /// The type of the node that the output is from.
         /// This member is required.
         public var nodeType: BedrockAgentRuntimeClientTypes.NodeType?
 
@@ -2479,7 +2479,7 @@ extension BedrockAgentRuntimeClientTypes {
         public var temperature: Swift.Float?
         /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for topK is the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topK to 50, the model selects the next token from among the top 50 most likely choices.
         public var topk: Swift.Int?
-        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 80, the model only selects the next token from the top 80% of the probability distribution of next tokens.
+        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 0.8, the model only selects the next token from the top 80% of the probability distribution of next tokens.
         public var topp: Swift.Float?
 
         public init(
@@ -2611,6 +2611,106 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes.ModelInvocationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains information of the usage of the foundation model.
+    public struct Usage {
+        /// Contains information about the input tokens from the foundation model usage.
+        public var inputTokens: Swift.Int?
+        /// Contains information about the output tokens from the foundation model usage.
+        public var outputTokens: Swift.Int?
+
+        public init(
+            inputTokens: Swift.Int? = nil,
+            outputTokens: Swift.Int? = nil
+        )
+        {
+            self.inputTokens = inputTokens
+            self.outputTokens = outputTokens
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.Usage: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Provides details of the foundation model.
+    public struct Metadata {
+        /// Contains details of the foundation model usage.
+        public var usage: BedrockAgentRuntimeClientTypes.Usage?
+
+        public init(
+            usage: BedrockAgentRuntimeClientTypes.Usage? = nil
+        )
+        {
+            self.usage = usage
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.Metadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains the raw output from the foundation model.
+    public struct RawResponse {
+        /// The foundation model's raw output content.
+        public var content: Swift.String?
+
+        public init(
+            content: Swift.String? = nil
+        )
+        {
+            self.content = content
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.RawResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The foundation model output from the orchestration step.
+    public struct OrchestrationModelInvocationOutput {
+        /// Contains information about the foundation model output.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
+        /// Contains details of the raw response from the foundation model output.
+        public var rawResponse: BedrockAgentRuntimeClientTypes.RawResponse?
+        /// The unique identifier of the trace.
+        public var traceId: Swift.String?
+
+        public init(
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
+            rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
+            traceId: Swift.String? = nil
+        )
+        {
+            self.metadata = metadata
+            self.rawResponse = rawResponse
+            self.traceId = traceId
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.OrchestrationModelInvocationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
     }
@@ -2876,6 +2976,8 @@ extension BedrockAgentRuntimeClientTypes {
         ///
         /// * The inferenceConfiguration, parserMode, and overrideLambda values are set in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) object that was set when the agent was created or updated.
         case modelinvocationinput(BedrockAgentRuntimeClientTypes.ModelInvocationInput)
+        /// Contains information pertaining to the output from the foundation model that is being invoked.
+        case modelinvocationoutput(BedrockAgentRuntimeClientTypes.OrchestrationModelInvocationOutput)
         case sdkUnknown(Swift.String)
     }
 
@@ -5168,9 +5270,54 @@ extension BedrockAgentRuntimeClientTypes.OrchestrationTrace {
                 return .observation(try reader["observation"].read(with: BedrockAgentRuntimeClientTypes.Observation.read(from:)))
             case "modelInvocationInput":
                 return .modelinvocationinput(try reader["modelInvocationInput"].read(with: BedrockAgentRuntimeClientTypes.ModelInvocationInput.read(from:)))
+            case "modelInvocationOutput":
+                return .modelinvocationoutput(try reader["modelInvocationOutput"].read(with: BedrockAgentRuntimeClientTypes.OrchestrationModelInvocationOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.OrchestrationModelInvocationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.OrchestrationModelInvocationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.OrchestrationModelInvocationOutput()
+        value.traceId = try reader["traceId"].readIfPresent()
+        value.rawResponse = try reader["rawResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RawResponse.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Metadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Metadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.Metadata()
+        value.usage = try reader["usage"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Usage.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Usage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Usage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.Usage()
+        value.inputTokens = try reader["inputTokens"].readIfPresent()
+        value.outputTokens = try reader["outputTokens"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.RawResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RawResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.RawResponse()
+        value.content = try reader["content"].readIfPresent()
+        return value
     }
 }
 
