@@ -83,9 +83,13 @@ let package = Package(
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity
             ],
-            path: "Sources/Core/AWSClientRuntime/Sources",
+            path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
+<<<<<<< HEAD
+                .process("Resources"),
+=======
                 .process("AWSClientRuntime/Resources")
+>>>>>>> 8389b4dba (add thread-safe caching)
             ]
         ),
         .target(
