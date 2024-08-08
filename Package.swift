@@ -85,7 +85,11 @@ let package = Package(
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
+<<<<<<< HEAD
                 .process("Resources"),
+=======
+                .process("AWSClientRuntime/Resources")
+>>>>>>> 8389b4dba (add thread-safe caching)
             ]
         ),
         .target(

@@ -12,15 +12,42 @@ enum PartitionLoadingError: Error {
     case readError(String)
 }
 
-// Loading trebuchet-provided sdk-partitions.json
-public func loadAWSPartitionJSON() throws -> String {
-    guard let url = Bundle.module.url(forResource: "sdk-partitions", withExtension: "json") else {
-        throw PartitionLoadingError.fileNotFound
+public class PartitionData {
+    private static var cachedPartitionJSON: String?
+    // Use a dispatch queue to synchronize access to the cache
+    private static let cacheQueue = DispatchQueue(label: "awsClientRuntime.partitionCacheQueue", attributes: .concurrent)
+
+    // Loading trebuchet-provided sdk-partitions.json
+    public static func loadAWSPartitionJSON() throws -> String {
+        // Read from cache if available
+        if let cached = getCachedPartitionJSON() {
+            return cached
+        }
+
+        guard let url = Bundle.module.url(forResource: "sdk-partitions", withExtension: "json") else {
+            throw PartitionLoadingError.fileNotFound
+        }
+
+        do {
+            let partitionJSON = try String(contentsOf: url, encoding: .utf8)
+            setCachedPartitionJSON(partitionJSON)
+            return partitionJSON
+        } catch {
+            throw PartitionLoadingError.readError("Failed to read the partitions file: \(error)")
+        }
     }
 
-    do {
-        return try String(contentsOf: url, encoding: .utf8)
-    } catch {
-        throw PartitionLoadingError.readError("Failed to read the partitions file: \(error)")
+    private static func getCachedPartitionJSON() -> String? {
+        var cached: String?
+        cacheQueue.sync {
+            cached = cachedPartitionJSON
+        }
+        return cached
+    }
+
+    private static func setCachedPartitionJSON(_ json: String) {
+        cacheQueue.async(flags: .barrier) {
+            self.cachedPartitionJSON = json
+        }
     }
 }
