@@ -34,9 +34,14 @@ struct GenerateDocIndexCommand: ParsableCommand {
     /// - Returns: The contents of the generated doc index.
     func generateDocIndexContents() throws -> String {
         let services = try resolveServices()
+        let smithyRuntimeModules = try resolveSmithyRuntimeModules()
         let awsRuntimeModules = try resolveAWSRuntimeModules()
         log("Creating doc index contents...")
-        let contents = try DocIndexBuilder(services: services, awsRuntimeModules: awsRuntimeModules).build()
+        let contents = try DocIndexBuilder(
+            services: services,
+            smithyRuntimeModules: smithyRuntimeModules,
+            awsRuntimeModules: awsRuntimeModules
+        ).build()
         log("Successfully created doc index contents")
         return contents
     }
@@ -70,6 +75,18 @@ struct GenerateDocIndexCommand: ParsableCommand {
             .map { "\($0.trimmingPrefix("aws-sdk-swift."))" }
         log("Resolved list of services: \(resolvedServices.count)")
         return resolvedServices
+    }
+
+    /// Returns the list of Smithy runtime modules within `../smithy-swift/Sources/Core` to include in the doc index.
+    ///
+    /// - Returns: The list of Smithy runtime moduls to include in the doc index
+    func resolveSmithyRuntimeModules() throws -> [String] {
+        log("Resolving Smithy runtime modules...")
+        let resolvedSmithyRuntimeModules: [String]
+        log("Using list of Smithy runtime modules that exist within ../smithy-swift/Sources/Core")
+        resolvedSmithyRuntimeModules = try FileManager.default.getSmithyRuntimeModules()
+        log("Resolved list of Smithy runtime modules: \(resolvedSmithyRuntimeModules.count)")
+        return resolvedSmithyRuntimeModules
     }
 
     /// Returns the list of AWS runtime modules within `Sources/Core` to include in the doc index.

@@ -12504,6 +12504,78 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchAgentStatuses` operation on the `AmazonConnectService` service.
+    ///
+    /// Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
+    ///
+    /// - Parameter SearchAgentStatusesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchAgentStatusesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchAgentStatuses(input: SearchAgentStatusesInput) async throws -> SearchAgentStatusesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchAgentStatuses")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchAgentStatusesInput, SearchAgentStatusesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SearchAgentStatusesInput, SearchAgentStatusesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(SearchAgentStatusesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchAgentStatusesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAgentStatusesOutput>(SearchAgentStatusesOutput.httpOutput(from:), SearchAgentStatusesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchAgentStatusesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SearchAgentStatusesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchAgentStatusesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchAgentStatuses")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SearchAvailablePhoneNumbers` operation on the `AmazonConnectService` service.
     ///
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
@@ -13358,6 +13430,78 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchSecurityProfiles")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SearchUserHierarchyGroups` operation on the `AmazonConnectService` service.
+    ///
+    /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering. The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
+    ///
+    /// - Parameter SearchUserHierarchyGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchUserHierarchyGroupsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchUserHierarchyGroups(input: SearchUserHierarchyGroupsInput) async throws -> SearchUserHierarchyGroupsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchUserHierarchyGroups")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(SearchUserHierarchyGroupsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchUserHierarchyGroupsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUserHierarchyGroupsOutput>(SearchUserHierarchyGroupsOutput.httpOutput(from:), SearchUserHierarchyGroupsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchUserHierarchyGroupsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SearchUserHierarchyGroupsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchUserHierarchyGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchUserHierarchyGroups")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

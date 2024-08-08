@@ -438,6 +438,7 @@ extension GetTablesInput: ClientRuntime.PaginateToken {
             catalogId: self.catalogId,
             databaseName: self.databaseName,
             expression: self.expression,
+            includeStatusDetails: self.includeStatusDetails,
             maxResults: self.maxResults,
             nextToken: token,
             queryAsOfTime: self.queryAsOfTime,
@@ -1098,6 +1099,7 @@ extension SearchTablesInput: ClientRuntime.PaginateToken {
         return SearchTablesInput(
             catalogId: self.catalogId,
             filters: self.filters,
+            includeStatusDetails: self.includeStatusDetails,
             maxResults: self.maxResults,
             nextToken: token,
             resourceShareType: self.resourceShareType,
