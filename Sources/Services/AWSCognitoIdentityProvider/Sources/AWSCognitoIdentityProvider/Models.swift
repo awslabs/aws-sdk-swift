@@ -3431,6 +3431,51 @@ public struct AdminUserGlobalSignOutOutput {
 
 extension CognitoIdentityProviderClientTypes {
 
+    public enum AdvancedSecurityEnabledModeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audit
+        case enforced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdvancedSecurityEnabledModeType] {
+            return [
+                .audit,
+                .enforced
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audit: return "AUDIT"
+            case .enforced: return "ENFORCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+    /// Advanced security configuration options for additional authentication types in your user pool, including custom authentication and refresh-token authentication.
+    public struct AdvancedSecurityAdditionalFlowsType {
+        /// The operating mode of advanced security features in custom authentication with [ Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+        public var customAuthMode: CognitoIdentityProviderClientTypes.AdvancedSecurityEnabledModeType?
+
+        public init(
+            customAuthMode: CognitoIdentityProviderClientTypes.AdvancedSecurityEnabledModeType? = nil
+        )
+        {
+            self.customAuthMode = customAuthMode
+        }
+    }
+
+}
+
+extension CognitoIdentityProviderClientTypes {
+
     public enum AdvancedSecurityModeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case audit
         case enforced
@@ -4907,14 +4952,18 @@ extension CognitoIdentityProviderClientTypes {
 extension CognitoIdentityProviderClientTypes {
     /// User pool add-ons. Contains settings for activation of advanced security features. To log user security information but take no action, set to AUDIT. To configure automatic security responses to risky traffic to your user pool, set to ENFORCED. For more information, see [Adding advanced security to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html).
     public struct UserPoolAddOnsType {
-        /// The operating mode of advanced security features in your user pool.
+        /// Advanced security configuration options for additional authentication types in your user pool, including custom authentication and refresh-token authentication.
+        public var advancedSecurityAdditionalFlows: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType?
+        /// The operating mode of advanced security features for standard authentication types in your user pool, including username-password and secure remote password (SRP) authentication.
         /// This member is required.
         public var advancedSecurityMode: CognitoIdentityProviderClientTypes.AdvancedSecurityModeType?
 
         public init(
+            advancedSecurityAdditionalFlows: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType? = nil,
             advancedSecurityMode: CognitoIdentityProviderClientTypes.AdvancedSecurityModeType? = nil
         )
         {
+            self.advancedSecurityAdditionalFlows = advancedSecurityAdditionalFlows
             self.advancedSecurityMode = advancedSecurityMode
         }
     }
@@ -15232,6 +15281,7 @@ extension CognitoIdentityProviderClientTypes.UserPoolAddOnsType {
 
     static func write(value: CognitoIdentityProviderClientTypes.UserPoolAddOnsType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdvancedSecurityAdditionalFlows"].write(value.advancedSecurityAdditionalFlows, with: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType.write(value:to:))
         try writer["AdvancedSecurityMode"].write(value.advancedSecurityMode)
     }
 
@@ -15239,6 +15289,22 @@ extension CognitoIdentityProviderClientTypes.UserPoolAddOnsType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.UserPoolAddOnsType()
         value.advancedSecurityMode = try reader["AdvancedSecurityMode"].readIfPresent()
+        value.advancedSecurityAdditionalFlows = try reader["AdvancedSecurityAdditionalFlows"].readIfPresent(with: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType.read(from:))
+        return value
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType {
+
+    static func write(value: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomAuthMode"].write(value.customAuthMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType()
+        value.customAuthMode = try reader["CustomAuthMode"].readIfPresent()
         return value
     }
 }
