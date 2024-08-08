@@ -25,8 +25,7 @@ class EC2QueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(EC2QueryCustom
     override val shouldRenderEncodableConformance = true
     override val testsToIgnore = setOf(
         "SDKAppliedContentEncoding_ec2Query",
-        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query",
-        "Ec2EmptyQueryLists",
+        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query"
     )
     override val tagsToIgnore = setOf("defaults")
 
