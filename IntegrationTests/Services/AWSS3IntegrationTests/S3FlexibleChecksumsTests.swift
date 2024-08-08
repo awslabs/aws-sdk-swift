@@ -8,6 +8,7 @@
 import Smithy
 import XCTest
 import AWSS3
+import SmithyHTTPAPI
 @testable import ClientRuntime
 import class SmithyStreams.BufferedStream
 import class SmithyChecksums.ValidatingBufferedStream
@@ -80,6 +81,46 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
         let data = try await body.readData()
         XCTAssertEqual(data, originalData)
     }
+
+    // Streaming unsigned payload without checksum (chunked encoding)
+    class DisablePayloadSigning<InputType, OutputType>: HttpInterceptor {
+        func modifyBeforeRetryLoop(context: some MutableRequest<InputType, RequestType>) async throws {
+            context.getAttributes().set(key: SmithyHTTPAPIKeys.hasUnsignedPayloadTrait, value: true)
+        }
+        func modifyBeforeTransmit(context: some MutableRequest<InputType, RequestType>) async throws {
+            context.getRequest().withHeader(name: "x-amz-content-sha256", value: "STREAMING-UNSIGNED-PAYLOAD-TRAILER")
+        }
+    }
+
+    class DisablePayloadSigningProvider: HttpInterceptorProvider {
+      func create<InputType, OutputType>() -> any HttpInterceptor<InputType, OutputType> {
+        return DisablePayloadSigning()
+      }
+    }
+
+    func test_putGetObject_streamining_unsigned_chunked() async throws {
+        let config = try await S3Client.S3ClientConfiguration(region: region)
+        config.addInterceptorProvider(DisablePayloadSigningProvider())
+        let customizedClient = S3Client(config: config)
+
+        let bufferedStream = BufferedStream(data: originalData, isClosed: true)
+        let objectName = "flexible-checksums-s3-test-unsigned-chunked"
+
+        let putObjectInput = PutObjectInput(
+            body: .stream(bufferedStream),
+            bucket: bucketName,
+            key: objectName
+        )
+
+        _ = try await customizedClient.putObject(input: putObjectInput)
+
+        let getObjectInput = GetObjectInput(bucket: bucketName, key: objectName)
+        let getObjectOutput = try await client.getObject(input: getObjectInput)
+        let body = try XCTUnwrap(getObjectOutput.body)
+        let data = try await body.readData()
+        XCTAssertEqual(data, originalData)
+    }
+
 
     // MARK: - Private methods
 
