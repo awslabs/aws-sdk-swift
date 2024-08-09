@@ -22,16 +22,16 @@ class RegistryConfigIntegration : SwiftIntegration {
               "registries" : {
                 "aws-sdk-swift" : {
                   "supportsAvailability" : false,
-                  "url" : "https://d1b0xmm48lrxf5.cloudfront.net/"
+                  "url" : "https://sdk.amazonaws.com/swift/registry/"
                 }
               },
               "security": {
                 "scopeOverrides": {
                   "aws-sdk-swift": {
-                  "signing": {
-                    "onUnsigned": "silentAllow"
+                    "signing": {
+                      "onUnsigned": "silentAllow"
+                    }
                   }
-                }
                 }
               },
               "version" : 1
