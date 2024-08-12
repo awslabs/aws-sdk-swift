@@ -93,9 +93,9 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
     }
 
     class DisablePayloadSigningProvider: HttpInterceptorProvider {
-      func create<InputType, OutputType>() -> any HttpInterceptor<InputType, OutputType> {
-        return DisablePayloadSigning()
-      }
+        func create<InputType, OutputType>() -> any HttpInterceptor<InputType, OutputType> {
+            return DisablePayloadSigning()
+        }
     }
 
     func test_putGetObject_streamining_unsigned_chunked() async throws {
