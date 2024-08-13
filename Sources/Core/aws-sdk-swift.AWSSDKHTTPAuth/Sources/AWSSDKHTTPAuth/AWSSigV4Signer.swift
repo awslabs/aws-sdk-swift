@@ -256,13 +256,10 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
             }
         }
 
-        // streaming + eligible for chunked transfer
-        if !checksumIsPresent {
-            return isUnsignedBody ? .unsignedPayload : .streamingSha256Payload
-        } else {
-            // checksum is present
-            return isUnsignedBody ? .streamingUnsignedPayloadTrailer : .streamingSha256PayloadTrailer
-        }
+        // STREAMING-UNSIGNED-PAYLOAD-TRAILER
+        if isUnsignedBody { return .streamingUnsignedPayloadTrailer }
+
+        return checksumIsPresent ? .streamingSha256PayloadTrailer : .streamingSha256Payload
     }
 }
 

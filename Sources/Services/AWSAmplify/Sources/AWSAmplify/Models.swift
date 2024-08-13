@@ -239,6 +239,52 @@ extension AmplifyClientTypes.AutoBranchCreationConfig: Swift.CustomDebugStringCo
 }
 
 extension AmplifyClientTypes {
+
+    public enum CacheConfigType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amplifyManaged
+        case amplifyManagedNoCookies
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CacheConfigType] {
+            return [
+                .amplifyManaged,
+                .amplifyManagedNoCookies
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amplifyManaged: return "AMPLIFY_MANAGED"
+            case .amplifyManagedNoCookies: return "AMPLIFY_MANAGED_NO_COOKIES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmplifyClientTypes {
+    /// Describes the cache configuration for an Amplify app. For more information about how Amplify applies an optimal cache configuration for your app based on the type of content that is being served, see [Managing cache configuration](https://docs.aws.amazon.com/amplify/latest/userguide/managing-cache-configuration) in the Amplify User guide.
+    public struct CacheConfig {
+        /// The type of cache configuration to use for an Amplify app. The AMPLIFY_MANAGED cache configuration automatically applies an optimized cache configuration for your app based on its platform, routing rules, and rewrite rules. This is the default setting. The AMPLIFY_MANAGED_NO_COOKIES cache configuration type is the same as AMPLIFY_MANAGED, except that it excludes all cookies from the cache key.
+        /// This member is required.
+        public var type: AmplifyClientTypes.CacheConfigType?
+
+        public init(
+            type: AmplifyClientTypes.CacheConfigType? = nil
+        )
+        {
+            self.type = type
+        }
+    }
+
+}
+
+extension AmplifyClientTypes {
     /// Describes a custom rewrite or redirect rule.
     public struct CustomRule {
         /// The condition for a URL rewrite or redirect rule, such as a country code.
@@ -312,6 +358,8 @@ public struct CreateAppInput {
     public var basicAuthCredentials: Swift.String?
     /// The build specification (build spec) for an Amplify app.
     public var buildSpec: Swift.String?
+    /// The cache configuration for the Amplify app.
+    public var cacheConfig: AmplifyClientTypes.CacheConfig?
     /// The custom HTTP headers for an Amplify app.
     public var customHeaders: Swift.String?
     /// The custom rewrite and redirect rules for an Amplify app.
@@ -348,6 +396,7 @@ public struct CreateAppInput {
         autoBranchCreationPatterns: [Swift.String]? = nil,
         basicAuthCredentials: Swift.String? = nil,
         buildSpec: Swift.String? = nil,
+        cacheConfig: AmplifyClientTypes.CacheConfig? = nil,
         customHeaders: Swift.String? = nil,
         customRules: [AmplifyClientTypes.CustomRule]? = nil,
         description: Swift.String? = nil,
@@ -369,6 +418,7 @@ public struct CreateAppInput {
         self.autoBranchCreationPatterns = autoBranchCreationPatterns
         self.basicAuthCredentials = basicAuthCredentials
         self.buildSpec = buildSpec
+        self.cacheConfig = cacheConfig
         self.customHeaders = customHeaders
         self.customRules = customRules
         self.description = description
@@ -388,7 +438,7 @@ public struct CreateAppInput {
 
 extension CreateAppInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAppInput(autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), repository: \(Swift.String(describing: repository)), tags: \(Swift.String(describing: tags)), accessToken: \"CONTENT_REDACTED\", basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\", oauthToken: \"CONTENT_REDACTED\")"}
+        "CreateAppInput(autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), repository: \(Swift.String(describing: repository)), tags: \(Swift.String(describing: tags)), accessToken: \"CONTENT_REDACTED\", basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\", oauthToken: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyClientTypes {
@@ -468,6 +518,8 @@ extension AmplifyClientTypes {
         public var basicAuthCredentials: Swift.String?
         /// Describes the content of the build specification (build spec) for the Amplify app.
         public var buildSpec: Swift.String?
+        /// The cache configuration for the Amplify app. If you don't specify the cache configuration type, Amplify uses the default AMPLIFY_MANAGED setting.
+        public var cacheConfig: AmplifyClientTypes.CacheConfig?
         /// Creates a date and time for the Amplify app.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -522,6 +574,7 @@ extension AmplifyClientTypes {
             autoBranchCreationPatterns: [Swift.String]? = nil,
             basicAuthCredentials: Swift.String? = nil,
             buildSpec: Swift.String? = nil,
+            cacheConfig: AmplifyClientTypes.CacheConfig? = nil,
             createTime: Foundation.Date? = nil,
             customHeaders: Swift.String? = nil,
             customRules: [AmplifyClientTypes.CustomRule]? = nil,
@@ -548,6 +601,7 @@ extension AmplifyClientTypes {
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
+            self.cacheConfig = cacheConfig
             self.createTime = createTime
             self.customHeaders = customHeaders
             self.customRules = customRules
@@ -573,7 +627,7 @@ extension AmplifyClientTypes {
 
 extension AmplifyClientTypes.App: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "App(appArn: \(Swift.String(describing: appArn)), appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), createTime: \(Swift.String(describing: createTime)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), defaultDomain: \(Swift.String(describing: defaultDomain)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), productionBranch: \(Swift.String(describing: productionBranch)), repository: \(Swift.String(describing: repository)), repositoryCloneMethod: \(Swift.String(describing: repositoryCloneMethod)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "App(appArn: \(Swift.String(describing: appArn)), appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), createTime: \(Swift.String(describing: createTime)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), defaultDomain: \(Swift.String(describing: defaultDomain)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), productionBranch: \(Swift.String(describing: productionBranch)), repository: \(Swift.String(describing: repository)), repositoryCloneMethod: \(Swift.String(describing: repositoryCloneMethod)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAppOutput {
@@ -1127,7 +1181,7 @@ extension AmplifyClientTypes {
         public var certificateVerificationDNSRecord: Swift.String?
         /// The Amazon resource name (ARN) for a custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM.
         public var customCertificateArn: Swift.String?
-        /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see [Importing certificates into Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the ACM User guide .
+        /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see [Importing certificates into Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the ACM User guide.
         /// This member is required.
         public var type: AmplifyClientTypes.CertificateType?
 
@@ -2675,6 +2729,8 @@ public struct UpdateAppInput {
     public var basicAuthCredentials: Swift.String?
     /// The build specification (build spec) for an Amplify app.
     public var buildSpec: Swift.String?
+    /// The cache configuration for the Amplify app.
+    public var cacheConfig: AmplifyClientTypes.CacheConfig?
     /// The custom HTTP headers for an Amplify app.
     public var customHeaders: Swift.String?
     /// The custom redirect and rewrite rules for an Amplify app.
@@ -2709,6 +2765,7 @@ public struct UpdateAppInput {
         autoBranchCreationPatterns: [Swift.String]? = nil,
         basicAuthCredentials: Swift.String? = nil,
         buildSpec: Swift.String? = nil,
+        cacheConfig: AmplifyClientTypes.CacheConfig? = nil,
         customHeaders: Swift.String? = nil,
         customRules: [AmplifyClientTypes.CustomRule]? = nil,
         description: Swift.String? = nil,
@@ -2730,6 +2787,7 @@ public struct UpdateAppInput {
         self.autoBranchCreationPatterns = autoBranchCreationPatterns
         self.basicAuthCredentials = basicAuthCredentials
         self.buildSpec = buildSpec
+        self.cacheConfig = cacheConfig
         self.customHeaders = customHeaders
         self.customRules = customRules
         self.description = description
@@ -2748,7 +2806,7 @@ public struct UpdateAppInput {
 
 extension UpdateAppInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAppInput(appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), repository: \(Swift.String(describing: repository)), accessToken: \"CONTENT_REDACTED\", basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\", oauthToken: \"CONTENT_REDACTED\")"}
+        "UpdateAppInput(appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), repository: \(Swift.String(describing: repository)), accessToken: \"CONTENT_REDACTED\", basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\", oauthToken: \"CONTENT_REDACTED\")"}
 }
 
 /// The result structure for an Amplify app update request.
@@ -3521,6 +3579,7 @@ extension CreateAppInput {
         try writer["autoBranchCreationPatterns"].writeList(value.autoBranchCreationPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["basicAuthCredentials"].write(value.basicAuthCredentials)
         try writer["buildSpec"].write(value.buildSpec)
+        try writer["cacheConfig"].write(value.cacheConfig, with: AmplifyClientTypes.CacheConfig.write(value:to:))
         try writer["customHeaders"].write(value.customHeaders)
         try writer["customRules"].writeList(value.customRules, memberWritingClosure: AmplifyClientTypes.CustomRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
@@ -3652,6 +3711,7 @@ extension UpdateAppInput {
         try writer["autoBranchCreationPatterns"].writeList(value.autoBranchCreationPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["basicAuthCredentials"].write(value.basicAuthCredentials)
         try writer["buildSpec"].write(value.buildSpec)
+        try writer["cacheConfig"].write(value.cacheConfig, with: AmplifyClientTypes.CacheConfig.write(value:to:))
         try writer["customHeaders"].write(value.customHeaders)
         try writer["customRules"].writeList(value.customRules, memberWritingClosure: AmplifyClientTypes.CustomRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
@@ -4922,6 +4982,22 @@ extension AmplifyClientTypes.App {
         value.autoBranchCreationPatterns = try reader["autoBranchCreationPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.autoBranchCreationConfig = try reader["autoBranchCreationConfig"].readIfPresent(with: AmplifyClientTypes.AutoBranchCreationConfig.read(from:))
         value.repositoryCloneMethod = try reader["repositoryCloneMethod"].readIfPresent()
+        value.cacheConfig = try reader["cacheConfig"].readIfPresent(with: AmplifyClientTypes.CacheConfig.read(from:))
+        return value
+    }
+}
+
+extension AmplifyClientTypes.CacheConfig {
+
+    static func write(value: AmplifyClientTypes.CacheConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.CacheConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyClientTypes.CacheConfig()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
