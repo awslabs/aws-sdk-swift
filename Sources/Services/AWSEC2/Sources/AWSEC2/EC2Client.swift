@@ -3745,6 +3745,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateCapacityReservationBySplitting` operation on the `AmazonEC2` service.
+    ///
+    /// Create a new Capacity Reservation by splitting the available capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
+    ///
+    /// - Parameter CreateCapacityReservationBySplittingInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCapacityReservationBySplittingOutput` : [no documentation found]
+    public func createCapacityReservationBySplitting(input: CreateCapacityReservationBySplittingInput) async throws -> CreateCapacityReservationBySplittingOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCapacityReservationBySplitting")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(CreateCapacityReservationBySplittingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityReservationBySplittingOutput>(CreateCapacityReservationBySplittingOutput.httpOutput(from:), CreateCapacityReservationBySplittingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityReservationBySplittingOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateCapacityReservationBySplittingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCapacityReservationBySplittingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCapacityReservationBySplittingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityReservationBySplitting")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateCapacityReservationFleet` operation on the `AmazonEC2` service.
     ///
     /// Creates a Capacity Reservation Fleet. For more information, see [Create a Capacity Reservation Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-cr-fleets.html#create-crfleet) in the Amazon EC2 User Guide.
@@ -5020,6 +5084,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpam")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateIpamExternalResourceVerificationToken` operation on the `AmazonEC2` service.
+    ///
+    /// Create a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
+    ///
+    /// - Parameter CreateIpamExternalResourceVerificationTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIpamExternalResourceVerificationTokenOutput` : [no documentation found]
+    public func createIpamExternalResourceVerificationToken(input: CreateIpamExternalResourceVerificationTokenInput) async throws -> CreateIpamExternalResourceVerificationTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createIpamExternalResourceVerificationToken")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(CreateIpamExternalResourceVerificationTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpamExternalResourceVerificationTokenOutput>(CreateIpamExternalResourceVerificationTokenOutput.httpOutput(from:), CreateIpamExternalResourceVerificationTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpamExternalResourceVerificationTokenOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateIpamExternalResourceVerificationTokenOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIpamExternalResourceVerificationTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpamExternalResourceVerificationToken")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -9867,6 +9995,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteIpamExternalResourceVerificationToken` operation on the `AmazonEC2` service.
+    ///
+    /// Delete a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
+    ///
+    /// - Parameter DeleteIpamExternalResourceVerificationTokenInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIpamExternalResourceVerificationTokenOutput` : [no documentation found]
+    public func deleteIpamExternalResourceVerificationToken(input: DeleteIpamExternalResourceVerificationTokenInput) async throws -> DeleteIpamExternalResourceVerificationTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteIpamExternalResourceVerificationToken")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(DeleteIpamExternalResourceVerificationTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpamExternalResourceVerificationTokenOutput>(DeleteIpamExternalResourceVerificationTokenOutput.httpOutput(from:), DeleteIpamExternalResourceVerificationTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpamExternalResourceVerificationTokenOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteIpamExternalResourceVerificationTokenOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIpamExternalResourceVerificationTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIpamExternalResourceVerificationToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteIpamPool` operation on the `AmazonEC2` service.
     ///
     /// Delete an IPAM pool. You cannot delete an IPAM pool if there are allocations in it or CIDRs provisioned to it. To release allocations, see [ReleaseIpamPoolAllocation](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ReleaseIpamPoolAllocation.html). To deprovision pool CIDRs, see [DeprovisionIpamPoolCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeprovisionIpamPoolCidr.html). For more information, see [Delete a pool](https://docs.aws.amazon.com/vpc/latest/ipam/delete-pool-ipam.html) in the Amazon VPC IPAM User Guide.
@@ -14172,7 +14363,7 @@ extension EC2Client {
 
     /// Performs the `DescribeAddressTransfers` operation on the `AmazonEC2` service.
     ///
-    /// Describes an Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for three days after the transfers have been accepted.
+    /// Describes an Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for 14 days after the transfers have been accepted.
     ///
     /// - Parameter DescribeAddressTransfersInput : [no documentation found]
     ///
@@ -17730,6 +17921,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeIpamExternalResourceVerificationTokens` operation on the `AmazonEC2` service.
+    ///
+    /// Describe verification tokens. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
+    ///
+    /// - Parameter DescribeIpamExternalResourceVerificationTokensInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeIpamExternalResourceVerificationTokensOutput` : [no documentation found]
+    public func describeIpamExternalResourceVerificationTokens(input: DescribeIpamExternalResourceVerificationTokensInput) async throws -> DescribeIpamExternalResourceVerificationTokensOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeIpamExternalResourceVerificationTokens")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(DescribeIpamExternalResourceVerificationTokensInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpamExternalResourceVerificationTokensOutput>(DescribeIpamExternalResourceVerificationTokensOutput.httpOutput(from:), DescribeIpamExternalResourceVerificationTokensOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpamExternalResourceVerificationTokensOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeIpamExternalResourceVerificationTokensOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeIpamExternalResourceVerificationTokensInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIpamExternalResourceVerificationTokensOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpamExternalResourceVerificationTokens")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeIpamPools` operation on the `AmazonEC2` service.
     ///
     /// Get information about your IPAM pools.
@@ -19496,7 +19750,7 @@ extension EC2Client {
 
     /// Performs the `DescribePlacementGroups` operation on the `AmazonEC2` service.
     ///
-    /// Describes the specified placement groups or all of your placement groups. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
+    /// Describes the specified placement groups or all of your placement groups. To describe a specific placement group that is shared with your account, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DescribePlacementGroupsInput : [no documentation found]
     ///
@@ -22781,7 +23035,7 @@ extension EC2Client {
 
     /// Performs the `DescribeVolumesModifications` operation on the `AmazonEC2` service.
     ///
-    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most recent modification request. For more information, see [ Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html) in the Amazon EBS User Guide.
+    /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see [ Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter DescribeVolumesModificationsInput : [no documentation found]
     ///
@@ -27706,7 +27960,7 @@ extension EC2Client {
 
     /// Performs the `GetConsoleOutput` operation on the `AmazonEC2` service.
     ///
-    /// Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. By default, the console output returns buffered information that was posted shortly after an instance transition state (start, stop, reboot, or terminate). This information is available for at least one hour after the most recent post. Only the most recent 64 KB of console output is available. You can optionally retrieve the latest serial console output at any time during the instance lifecycle. This option is supported on instance types that use the Nitro hypervisor. For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html#instance-console-console-output) in the Amazon EC2 User Guide.
+    /// Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html#instance-console-console-output) in the Amazon EC2 User Guide.
     ///
     /// - Parameter GetConsoleOutputInput : [no documentation found]
     ///
@@ -31188,7 +31442,7 @@ extension EC2Client {
 
     /// Performs the `ModifyCapacityReservation` operation on the `AmazonEC2` service.
     ///
-    /// Modifies a Capacity Reservation's capacity and the conditions under which it is to be released. You cannot change a Capacity Reservation's instance type, EBS optimization, instance store settings, platform, Availability Zone, or instance eligibility. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes.
+    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Capacity Reservation's instance type, EBS optimization, platform, instance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes. For more information, see [Modify an active Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-reservations-modify.html).
     ///
     /// - Parameter ModifyCapacityReservationInput : [no documentation found]
     ///
@@ -35374,6 +35628,82 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "MoveByoipCidrToIpam")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `MoveCapacityReservationInstances` operation on the `AmazonEC2` service.
+    ///
+    /// Move available capacity from a source Capacity Reservation to a destination Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active, owned by your Amazon Web Services account, and share the following:
+    ///
+    /// * Instance type
+    ///
+    /// * Platform
+    ///
+    /// * Availability Zone
+    ///
+    /// * Tenancy
+    ///
+    /// * Placement group
+    ///
+    /// * Capacity Reservation end time - At specific time or Manually.
+    ///
+    /// - Parameter MoveCapacityReservationInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `MoveCapacityReservationInstancesOutput` : [no documentation found]
+    public func moveCapacityReservationInstances(input: MoveCapacityReservationInstancesInput) async throws -> MoveCapacityReservationInstancesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "moveCapacityReservationInstances")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(MoveCapacityReservationInstancesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<MoveCapacityReservationInstancesOutput>(MoveCapacityReservationInstancesOutput.httpOutput(from:), MoveCapacityReservationInstancesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<MoveCapacityReservationInstancesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<MoveCapacityReservationInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: MoveCapacityReservationInstancesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<MoveCapacityReservationInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "MoveCapacityReservationInstances")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

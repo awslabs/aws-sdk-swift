@@ -2214,12 +2214,14 @@ extension NeptuneGraphClientTypes {
 
     public enum Format: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
+        case ntriples
         case openCypher
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Format] {
             return [
                 .csv,
+                .ntriples,
                 .openCypher
             ]
         }
@@ -2232,6 +2234,7 @@ extension NeptuneGraphClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .csv: return "CSV"
+            case .ntriples: return "NTRIPLES"
             case .openCypher: return "OPEN_CYPHER"
             case let .sdkUnknown(s): return s
             }
@@ -2329,6 +2332,32 @@ public struct CancelImportTaskOutput {
 }
 
 extension NeptuneGraphClientTypes {
+
+    public enum BlankNodeHandling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case convertToIri
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlankNodeHandling] {
+            return [
+                .convertToIri
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .convertToIri: return "convertToIri"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NeptuneGraphClientTypes {
     /// Options for how to import Neptune data.
     public struct NeptuneImportOptions {
         /// Neptune Analytics supports label-less vertices and no labels are assigned unless one is explicitly provided. Neptune assigns default labels when none is explicitly provided. When importing the data into Neptune Analytics, the default vertex labels can be omitted by setting preserveDefaultVertexLabels to false. Note that if the vertex only has default labels, and has no other properties or edges, then the vertex will effectively not get imported into Neptune Analytics when preserveDefaultVertexLabels is set to false.
@@ -2369,6 +2398,8 @@ extension NeptuneGraphClientTypes {
 }
 
 public struct CreateGraphUsingImportTaskInput {
+    /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples. For more information, see [Handling RDF values](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/using-rdf-data.html#rdf-handling).
+    public var blankNodeHandling: NeptuneGraphClientTypes.BlankNodeHandling?
     /// Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
     public var deletionProtection: Swift.Bool?
     /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
@@ -2402,6 +2433,7 @@ public struct CreateGraphUsingImportTaskInput {
     public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
 
     public init(
+        blankNodeHandling: NeptuneGraphClientTypes.BlankNodeHandling? = nil,
         deletionProtection: Swift.Bool? = nil,
         failOnError: Swift.Bool? = nil,
         format: NeptuneGraphClientTypes.Format? = nil,
@@ -2418,6 +2450,7 @@ public struct CreateGraphUsingImportTaskInput {
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
     )
     {
+        self.blankNodeHandling = blankNodeHandling
         self.deletionProtection = deletionProtection
         self.failOnError = failOnError
         self.format = format
@@ -2436,7 +2469,7 @@ public struct CreateGraphUsingImportTaskInput {
 }
 
 public struct CreateGraphUsingImportTaskOutput {
-    /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or OPENCYPHER, which identies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
+    /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html), OPENCYPHER, which identifies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html), or ntriples, which identifies the [RDF n-triples](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/using-rdf-data.html) format.
     public var format: NeptuneGraphClientTypes.Format?
     /// The unique identifier of the Neptune Analytics graph.
     public var graphId: Swift.String?
@@ -2685,6 +2718,8 @@ public struct ListImportTasksOutput {
 }
 
 public struct StartImportTaskInput {
+    /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples. For more information, see [Handling RDF values](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/using-rdf-data.html#rdf-handling).
+    public var blankNodeHandling: NeptuneGraphClientTypes.BlankNodeHandling?
     /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
     public var failOnError: Swift.Bool?
     /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
@@ -2702,6 +2737,7 @@ public struct StartImportTaskInput {
     public var source: Swift.String?
 
     public init(
+        blankNodeHandling: NeptuneGraphClientTypes.BlankNodeHandling? = nil,
         failOnError: Swift.Bool? = nil,
         format: NeptuneGraphClientTypes.Format? = nil,
         graphIdentifier: Swift.String? = nil,
@@ -2710,6 +2746,7 @@ public struct StartImportTaskInput {
         source: Swift.String? = nil
     )
     {
+        self.blankNodeHandling = blankNodeHandling
         self.failOnError = failOnError
         self.format = format
         self.graphIdentifier = graphIdentifier
@@ -3253,6 +3290,7 @@ extension CreateGraphUsingImportTaskInput {
 
     static func write(value: CreateGraphUsingImportTaskInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["blankNodeHandling"].write(value.blankNodeHandling)
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["failOnError"].write(value.failOnError)
         try writer["format"].write(value.format)
@@ -3318,6 +3356,7 @@ extension StartImportTaskInput {
 
     static func write(value: StartImportTaskInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["blankNodeHandling"].write(value.blankNodeHandling)
         try writer["failOnError"].write(value.failOnError)
         try writer["format"].write(value.format)
         try writer["importOptions"].write(value.importOptions, with: NeptuneGraphClientTypes.ImportOptions.write(value:to:))

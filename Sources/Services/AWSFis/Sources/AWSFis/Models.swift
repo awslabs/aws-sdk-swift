@@ -1146,6 +1146,30 @@ extension FisClientTypes {
 }
 
 extension FisClientTypes {
+    /// Describes the error when an experiment has failed.
+    public struct ExperimentError {
+        /// The Amazon Web Services Account ID where the experiment failure occurred.
+        public var accountId: Swift.String?
+        /// The error code for the failed experiment.
+        public var code: Swift.String?
+        /// Context for the section of the experiment template that failed.
+        public var location: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            code: Swift.String? = nil,
+            location: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.code = code
+            self.location = location
+        }
+    }
+
+}
+
+extension FisClientTypes {
 
     public enum ExperimentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
@@ -1192,16 +1216,20 @@ extension FisClientTypes {
 extension FisClientTypes {
     /// Describes the state of an experiment.
     public struct ExperimentState {
+        /// The error information of the experiment when the action has failed.
+        public var error: FisClientTypes.ExperimentError?
         /// The reason for the state.
         public var reason: Swift.String?
         /// The state of the experiment.
         public var status: FisClientTypes.ExperimentStatus?
 
         public init(
+            error: FisClientTypes.ExperimentError? = nil,
             reason: Swift.String? = nil,
             status: FisClientTypes.ExperimentStatus? = nil
         )
         {
+            self.error = error
             self.reason = reason
             self.status = status
         }
@@ -3802,6 +3830,19 @@ extension FisClientTypes.ExperimentState {
         var value = FisClientTypes.ExperimentState()
         value.status = try reader["status"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: FisClientTypes.ExperimentError.read(from:))
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentError()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.location = try reader["location"].readIfPresent()
         return value
     }
 }

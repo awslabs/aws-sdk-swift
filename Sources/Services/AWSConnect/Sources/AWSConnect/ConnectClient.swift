@@ -2172,7 +2172,7 @@ extension ConnectClient {
 
     /// Performs the `CreateInstance` operation on the `AmazonConnectService` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
+    /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect. For more information, see [Create an Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instances.html) in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
     ///
     /// - Parameter CreateInstanceInput : [no documentation found]
     ///
@@ -2462,7 +2462,7 @@ extension ConnectClient {
 
     /// Performs the `CreatePredefinedAttribute` operation on the `AmazonConnectService` service.
     ///
-    /// Creates a new predefined attribute for the specified Amazon Connect instance.
+    /// Creates a new predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
     /// - Parameter CreatePredefinedAttributeInput : [no documentation found]
     ///
@@ -2912,7 +2912,7 @@ extension ConnectClient {
 
     /// Performs the `CreateSecurityProfile` operation on the `AmazonConnectService` service.
     ///
-    /// Creates a security profile.
+    /// Creates a security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
     /// - Parameter CreateSecurityProfileInput : [no documentation found]
     ///
@@ -4076,7 +4076,7 @@ extension ConnectClient {
 
     /// Performs the `DeleteInstance` operation on the `AmazonConnectService` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
+    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. For more information, see [Delete your Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/delete-connect-instance.html) in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
     ///
     /// - Parameter DeleteInstanceInput : [no documentation found]
     ///
@@ -4350,7 +4350,7 @@ extension ConnectClient {
 
     /// Performs the `DeleteQueue` operation on the `AmazonConnectService` service.
     ///
-    /// Deletes a queue.
+    /// Deletes a queue. It isn't possible to delete a queue by using the Amazon Connect admin website.
     ///
     /// - Parameter DeleteQueueInput : [no documentation found]
     ///
@@ -6096,7 +6096,7 @@ extension ConnectClient {
 
     /// Performs the `DescribePredefinedAttribute` operation on the `AmazonConnectService` service.
     ///
-    /// Describes a predefined attribute for the specified Amazon Connect instance.
+    /// Describes a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
     /// - Parameter DescribePredefinedAttributeInput : [no documentation found]
     ///
@@ -6510,7 +6510,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeSecurityProfile` operation on the `AmazonConnectService` service.
     ///
-    /// Gets basic information about the security profle.
+    /// Gets basic information about the security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
     /// - Parameter DescribeSecurityProfileInput : [no documentation found]
     ///
@@ -10378,7 +10378,7 @@ extension ConnectClient {
 
     /// Performs the `ListPredefinedAttributes` operation on the `AmazonConnectService` service.
     ///
-    /// Lists predefined attributes for the specified Amazon Connect instance.
+    /// Lists predefined attributes for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
     /// - Parameter ListPredefinedAttributesInput : [no documentation found]
     ///
@@ -11151,7 +11151,7 @@ extension ConnectClient {
 
     /// Performs the `ListSecurityProfilePermissions` operation on the `AmazonConnectService` service.
     ///
-    /// Lists the permissions granted to a security profile.
+    /// Lists the permissions granted to a security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
     /// - Parameter ListSecurityProfilePermissionsInput : [no documentation found]
     ///
@@ -11221,7 +11221,7 @@ extension ConnectClient {
 
     /// Performs the `ListSecurityProfiles` operation on the `AmazonConnectService` service.
     ///
-    /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
     /// - Parameter ListSecurityProfilesInput : [no documentation found]
     ///
@@ -12504,6 +12504,78 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchAgentStatuses` operation on the `AmazonConnectService` service.
+    ///
+    /// Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
+    ///
+    /// - Parameter SearchAgentStatusesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchAgentStatusesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchAgentStatuses(input: SearchAgentStatusesInput) async throws -> SearchAgentStatusesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchAgentStatuses")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchAgentStatusesInput, SearchAgentStatusesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SearchAgentStatusesInput, SearchAgentStatusesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(SearchAgentStatusesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchAgentStatusesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAgentStatusesOutput>(SearchAgentStatusesOutput.httpOutput(from:), SearchAgentStatusesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchAgentStatusesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SearchAgentStatusesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchAgentStatusesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchAgentStatuses")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SearchAvailablePhoneNumbers` operation on the `AmazonConnectService` service.
     ///
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
@@ -12865,7 +12937,7 @@ extension ConnectClient {
 
     /// Performs the `SearchPredefinedAttributes` operation on the `AmazonConnectService` service.
     ///
-    /// Predefined attributes that meet certain criteria.
+    /// Searches predefined attributes that meet certain criteria. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
     /// - Parameter SearchPredefinedAttributesInput : [no documentation found]
     ///
@@ -13298,7 +13370,7 @@ extension ConnectClient {
 
     /// Performs the `SearchSecurityProfiles` operation on the `AmazonConnectService` service.
     ///
-    /// Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches security profiles in an Amazon Connect instance, with optional filtering. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
     /// - Parameter SearchSecurityProfilesInput : [no documentation found]
     ///
@@ -13358,6 +13430,78 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchSecurityProfiles")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SearchUserHierarchyGroups` operation on the `AmazonConnectService` service.
+    ///
+    /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering. The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
+    ///
+    /// - Parameter SearchUserHierarchyGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchUserHierarchyGroupsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchUserHierarchyGroups(input: SearchUserHierarchyGroupsInput) async throws -> SearchUserHierarchyGroupsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchUserHierarchyGroups")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(SearchUserHierarchyGroupsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchUserHierarchyGroupsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUserHierarchyGroupsOutput>(SearchUserHierarchyGroupsOutput.httpOutput(from:), SearchUserHierarchyGroupsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchUserHierarchyGroupsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SearchUserHierarchyGroupsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchUserHierarchyGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchUserHierarchyGroups")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -16362,7 +16506,7 @@ extension ConnectClient {
 
     /// Performs the `UpdatePredefinedAttribute` operation on the `AmazonConnectService` service.
     ///
-    /// Updates a predefined attribute for the specified Amazon Connect instance.
+    /// Updates a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
     /// - Parameter UpdatePredefinedAttributeInput : [no documentation found]
     ///
@@ -17451,7 +17595,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateSecurityProfile` operation on the `AmazonConnectService` service.
     ///
-    /// Updates a security profile.
+    /// Updates a security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
     /// - Parameter UpdateSecurityProfileInput : [no documentation found]
     ///

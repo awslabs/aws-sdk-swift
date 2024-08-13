@@ -1,61 +1,51 @@
-FROM swift:5.8.0-jammy
+FROM swift:5.9.2-amazonlinux2
 
 # Install Open SSL -- dependency of CRT
-RUN apt-get -q update && \
-  apt-get -q install -y libssl-dev
+RUN yum -y install openssl-devel
 
-## The rest of this file is from https://github.com/aws/aws-codebuild-docker-images/blob/master/ubuntu/standard/5.0/Dockerfile
+## The rest of this file is from https://github.com/aws/aws-codebuild-docker-images/blob/master/al2/x86_64/standard/4.0/Dockerfile
 
 # Install other utilities
-RUN apt-get install -y -qq --no-install-recommends \
-  curl unzip wget
+RUN yum install -y -q \
+  wget unzip
 
 ## Install Java
 
 #****************      JAVA     ****************************************************
-ENV JAVA_17_HOME="/usr/lib/jvm/java-17-amazon-corretto" \
-    JDK_17_HOME="/usr/lib/jvm/java-17-amazon-corretto" \
-    JRE_17_HOME="/usr/lib/jvm/java-17-amazon-corretto"
-ARG ANT_VERSION=1.10.12
-ARG MAVEN_HOME="/opt/maven"
-ARG MAVEN_VERSION=3.8.7
-ARG INSTALLED_GRADLE_VERSIONS="7.6"
-ARG GRADLE_VERSION=7.6
-ARG SBT_VERSION=1.8.2
-ARG GRADLE_PATH="$SRC_DIR/gradle"
-ARG ANT_DOWNLOAD_SHA512="2287dc5cfc21043c14e5413f9afb1c87c9f266ec2a9ba2d3bf2285446f6e4ccb59b558bf2e5c57911a05dfa293c7d5c7ad60ac9f744ba11406f4e6f9a27b2403"
-ARG MAVEN_DOWNLOAD_SHA512="21c2be0a180a326353e8f6d12289f74bc7cd53080305f05358936f3a1b6dd4d91203f4cc799e81761cf5c53c5bbe9dcc13bdb27ec8f57ecf21b2f9ceec3c8d27"
-ARG GRADLE_DOWNLOADS_SHA256="312eb12875e1747e05c2f81a4789902d7e4ec5defbd1eefeaccc08acf096505d 7.6"
-ARG SBT_DOWNLOAD_SHA256="1f65344da074dbd66dfefa93c0eff8d319d772e5cad47fcbeb6ae178bbdf4686"
-ENV LOG4J_UNSAFE_VERSIONS="2.11.1 1.2.8"
+
+ENV JAVA_17_HOME="/usr/lib/jvm/java-17-amazon-corretto.x86_64" \
+    JDK_17_HOME="/usr/lib/jvm/java-17-amazon-corretto.x86_64" \
+    JRE_17_HOME="/usr/lib/jvm/java-17-amazon-corretto.x86_64" \
+    ANT_VERSION=1.10.13 \
+    MAVEN_HOME="/opt/maven" \
+    MAVEN_VERSION=3.9.2 \
+    INSTALLED_GRADLE_VERSIONS="7.6.1" \
+    GRADLE_VERSION=7.6.1 \
+    SBT_VERSION=1.8.3 \
+    GRADLE_PATH="$SRC_DIR/gradle" \
+    ANT_DOWNLOAD_SHA512="de4ac604629e39a86a306f0541adb3775596909ad92feb8b7de759b1b286417db24f557228737c8b902d6abf722d2ce5bb0c3baa3640cbeec3481e15ab1958c9" \
+    MAVEN_DOWNLOAD_SHA512="900bdeeeae550d2d2b3920fe0e00e41b0069f32c019d566465015bdd1b3866395cbe016e22d95d25d51d3a5e614af2c83ec9b282d73309f644859bbad08b63db" \
+    GRADLE_DOWNLOADS_SHA256="518a863631feb7452b8f1b3dc2aaee5f388355cc3421bbd0275fbeadd77e84b2 7.6.1" \
+    SBT_DOWNLOAD_SHA256="21F4210786FD68FD15DCA3F4C8EE9CAE0DB249C54E1B0EF6E829E9FA4936423A" \
+    LOG4J_UNSAFE_VERSIONS="2.11.1 1.2.8"
 
 ARG MAVEN_CONFIG_HOME="/root/.m2"
-
 ENV JAVA_HOME="$JAVA_17_HOME" \
     JDK_HOME="$JDK_17_HOME" \
     JRE_HOME="$JRE_17_HOME"
 
-ENV PATH="${PATH}:/opt/tools"
-
-RUN set -ex \
-    && apt-get update \
-    && apt-get install -y -qq software-properties-common apt-utils \
-    # Install Corretto 17
-    && wget -qO- https://apt.corretto.aws/corretto.key | apt-key add - \
-    && add-apt-repository 'deb https://apt.corretto.aws stable main' \
-    && apt-get update \
-    && apt-get install -y -qq java-17-amazon-corretto-jdk \
-    && apt-get install -y -qq --no-install-recommends ca-certificates-java \
-    # Ensure Java cacerts symlink points to valid location
-    && update-ca-certificates -f \
-    && dpkg --add-architecture i386 \
-    && apt-get update \
+RUN set -x \
+    # Install Amazon Corretto 17
+    && rpm --import https://yum.corretto.aws/corretto.key \
+    && curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo \
+    && yum install -y -q java-17-amazon-corretto java-17-amazon-corretto-devel \
+    && update-ca-trust \
     && for tool_path in $JAVA_HOME/bin/*; do \
           tool=`basename $tool_path`; \
           update-alternatives --install /usr/bin/$tool $tool $tool_path 10000; \
           update-alternatives --set $tool $tool_path; \
         done \
-     && rm $JAVA_HOME/lib/security/cacerts && ln -s /etc/ssl/certs/java/cacerts $JAVA_HOME/lib/security/cacerts \
+    && rm $JAVA_HOME/lib/security/cacerts && ln -s /etc/pki/java/cacerts $JAVA_HOME/lib/security/cacerts \
     # Install Ant
     && curl -LSso /var/tmp/apache-ant-$ANT_VERSION-bin.tar.gz https://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz  \
     && echo "$ANT_DOWNLOAD_SHA512 /var/tmp/apache-ant-$ANT_VERSION-bin.tar.gz" | sha512sum -c - \
@@ -77,7 +67,7 @@ RUN set -ex \
     && for version in $INSTALLED_GRADLE_VERSIONS; do { \
        wget -q "https://services.gradle.org/distributions/gradle-$version-all.zip" -O "$GRADLE_PATH/gradle-$version-all.zip" \
        && unzip -q "$GRADLE_PATH/gradle-$version-all.zip" -d /usr/local \
-       && echo "$GRADLE_DOWNLOADS_SHA256" | grep "$version" | sed "s|$version|$GRADLE_PATH/gradle-$version-all.zip|" | sha256sum -c - \
+       && echo -e "$GRADLE_DOWNLOADS_SHA256" | grep "$version" | sed "s|$version|$GRADLE_PATH/gradle-$version-all.zip|" | sha256sum -c - \
        && rm "$GRADLE_PATH/gradle-$version-all.zip" \
        && mkdir "/tmp/gradle-$version" \
        && "/usr/local/gradle-$version/bin/gradle" -p "/tmp/gradle-$version" init \
@@ -101,6 +91,6 @@ RUN set -ex \
 ENV PATH "/usr/local/bin/sbt/bin:$PATH"
 RUN sbt version -Dsbt.rootdir=true
 # Cleanup
-RUN rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && apt-get clean
+RUN rm -fr /tmp/* /var/tmp/*
 #****************     END JAVA     ****************************************************
+
