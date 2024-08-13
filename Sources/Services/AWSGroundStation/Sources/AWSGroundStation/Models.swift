@@ -2186,7 +2186,7 @@ extension GroundStationClientTypes {
 }
 
 extension GroundStationClientTypes {
-    /// Ephemeris data in Orbit Ephemeris Message (OEM) format. Position, velocity, and acceleration units must be represented in km, km/s, and km/s**2, respectively, in ephemeris data lines. Covariance matrix line units must be represented in km**2 if computed from two positions, km**2/s if computed from one position and one velocity, and km**2/s**2 if computed from two velocities. Consult section 7.7.2 of The Consultative Committee for Space Data Systems (CCSDS) [Recommended Standard for Orbit Data Messages](https://public.ccsds.org/Pubs/502x0b3e1.pdf) for more information.
+    /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM Customer Provided Ephemerides according to the [CCSDS standard](https://public.ccsds.org/Pubs/502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-custom-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
     public struct OEMEphemeris {
         /// The data for an OEM ephemeris, supplied directly in the request rather than through an S3 object.
         public var oemData: Swift.String?
@@ -2279,7 +2279,7 @@ extension GroundStationClientTypes {
     public enum EphemerisData {
         /// Two-line element set (TLE) ephemeris.
         case tle(GroundStationClientTypes.TLEEphemeris)
-        /// Ephemeris data in Orbit Ephemeris Message (OEM) format. Position, velocity, and acceleration units must be represented in km, km/s, and km/s**2, respectively, in ephemeris data lines. Covariance matrix line units must be represented in km**2 if computed from two positions, km**2/s if computed from one position and one velocity, and km**2/s**2 if computed from two velocities. Consult section 7.7.2 of The Consultative Committee for Space Data Systems (CCSDS) [Recommended Standard for Orbit Data Messages](https://public.ccsds.org/Pubs/502x0b3e1.pdf) for more information.
+        /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM Customer Provided Ephemerides according to the [CCSDS standard](https://public.ccsds.org/Pubs/502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-custom-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
         case oem(GroundStationClientTypes.OEMEphemeris)
         case sdkUnknown(Swift.String)
     }
