@@ -1161,7 +1161,7 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes {
     /// Eac3 Atmos Settings
     public struct Eac3AtmosSettings {
-        /// Average bitrate in bits/second. Valid bitrates depend on the coding mode. // * @affectsRightSizing true
+        /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
         public var bitrate: Swift.Double?
         /// Dolby Digital Plus with Dolby Atmos coding mode. Determines number of channels.
         public var codingMode: MediaLiveClientTypes.Eac3AtmosCodingMode?
@@ -5968,6 +5968,107 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Placeholder documentation for Algorithm
+    public enum Algorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes128
+        case aes192
+        case aes256
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Algorithm] {
+            return [
+                .aes128,
+                .aes192,
+                .aes256
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes128: return "AES128"
+            case .aes192: return "AES192"
+            case .aes256: return "AES256"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// The decryption settings for the SRT caller source. Present only if the source has decryption enabled.
+    public struct SrtCallerDecryption {
+        /// The algorithm used to encrypt content.
+        public var algorithm: MediaLiveClientTypes.Algorithm?
+        /// The ARN for the secret in Secrets Manager. Someone in your organization must create a secret and provide you with its ARN. The secret holds the passphrase that MediaLive uses to decrypt the source content.
+        public var passphraseSecretArn: Swift.String?
+
+        public init(
+            algorithm: MediaLiveClientTypes.Algorithm? = nil,
+            passphraseSecretArn: Swift.String? = nil
+        )
+        {
+            self.algorithm = algorithm
+            self.passphraseSecretArn = passphraseSecretArn
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// The configuration for a source that uses SRT as the connection protocol. In terms of establishing the connection, MediaLive is always caller and the upstream system is always the listener. In terms of transmission of the source content, MediaLive is always the receiver and the upstream system is always the sender.
+    public struct SrtCallerSource {
+        /// The decryption settings for the SRT caller source. Present only if the source has decryption enabled.
+        public var decryption: MediaLiveClientTypes.SrtCallerDecryption?
+        /// The preferred latency (in milliseconds) for implementing packet loss and recovery. Packet recovery is a key feature of SRT.
+        public var minimumLatency: Swift.Int?
+        /// The IP address at the upstream system (the listener) that MediaLive (the caller) connects to.
+        public var srtListenerAddress: Swift.String?
+        /// The port at the upstream system (the listener) that MediaLive (the caller) connects to.
+        public var srtListenerPort: Swift.String?
+        /// The stream ID, if the upstream system uses this identifier.
+        public var streamId: Swift.String?
+
+        public init(
+            decryption: MediaLiveClientTypes.SrtCallerDecryption? = nil,
+            minimumLatency: Swift.Int? = nil,
+            srtListenerAddress: Swift.String? = nil,
+            srtListenerPort: Swift.String? = nil,
+            streamId: Swift.String? = nil
+        )
+        {
+            self.decryption = decryption
+            self.minimumLatency = minimumLatency
+            self.srtListenerAddress = srtListenerAddress
+            self.srtListenerPort = srtListenerPort
+            self.streamId = streamId
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// The configured sources for this SRT input.
+    public struct SrtSettings {
+        /// Placeholder documentation for __listOfSrtCallerSource
+        public var srtCallerSources: [MediaLiveClientTypes.SrtCallerSource]?
+
+        public init(
+            srtCallerSources: [MediaLiveClientTypes.SrtCallerSource]? = nil
+        )
+        {
+            self.srtCallerSources = srtCallerSources
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
     /// Placeholder documentation for InputState
     public enum InputState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case attached
@@ -6016,6 +6117,7 @@ extension MediaLiveClientTypes {
         case rtmpPull
         case rtmpPush
         case rtpPush
+        case srtCaller
         case tsFile
         case udpPush
         case urlPull
@@ -6030,6 +6132,7 @@ extension MediaLiveClientTypes {
                 .rtmpPull,
                 .rtmpPush,
                 .rtpPush,
+                .srtCaller,
                 .tsFile,
                 .udpPush,
                 .urlPull
@@ -6050,6 +6153,7 @@ extension MediaLiveClientTypes {
             case .rtmpPull: return "RTMP_PULL"
             case .rtmpPush: return "RTMP_PUSH"
             case .rtpPush: return "RTP_PUSH"
+            case .srtCaller: return "SRT_CALLER"
             case .tsFile: return "TS_FILE"
             case .udpPush: return "UDP_PUSH"
             case .urlPull: return "URL_PULL"
@@ -6088,6 +6192,8 @@ extension MediaLiveClientTypes {
         public var securityGroups: [Swift.String]?
         /// A list of the sources of the input (PULL-type).
         public var sources: [MediaLiveClientTypes.InputSource]?
+        /// The settings associated with an SRT input.
+        public var srtSettings: MediaLiveClientTypes.SrtSettings?
         /// Placeholder documentation for InputState
         public var state: MediaLiveClientTypes.InputState?
         /// A collection of key-value pairs.
@@ -6109,6 +6215,7 @@ extension MediaLiveClientTypes {
             roleArn: Swift.String? = nil,
             securityGroups: [Swift.String]? = nil,
             sources: [MediaLiveClientTypes.InputSource]? = nil,
+            srtSettings: MediaLiveClientTypes.SrtSettings? = nil,
             state: MediaLiveClientTypes.InputState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: MediaLiveClientTypes.InputType? = nil
@@ -6127,6 +6234,7 @@ extension MediaLiveClientTypes {
             self.roleArn = roleArn
             self.securityGroups = securityGroups
             self.sources = sources
+            self.srtSettings = srtSettings
             self.state = state
             self.tags = tags
             self.type = type
@@ -13160,6 +13268,58 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Complete these parameters only if the content is encrypted.
+    public struct SrtCallerDecryptionRequest {
+        /// The algorithm used to encrypt content.
+        public var algorithm: MediaLiveClientTypes.Algorithm?
+        /// The ARN for the secret in Secrets Manager. Someone in your organization must create a secret and provide you with its ARN. This secret holds the passphrase that MediaLive will use to decrypt the source content.
+        public var passphraseSecretArn: Swift.String?
+
+        public init(
+            algorithm: MediaLiveClientTypes.Algorithm? = nil,
+            passphraseSecretArn: Swift.String? = nil
+        )
+        {
+            self.algorithm = algorithm
+            self.passphraseSecretArn = passphraseSecretArn
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Configures the connection for a source that uses SRT as the connection protocol. In terms of establishing the connection, MediaLive is always the caller and the upstream system is always the listener. In terms of transmission of the source content, MediaLive is always the receiver and the upstream system is always the sender.
+    public struct SrtCallerSourceRequest {
+        /// Complete these parameters only if the content is encrypted.
+        public var decryption: MediaLiveClientTypes.SrtCallerDecryptionRequest?
+        /// The preferred latency (in milliseconds) for implementing packet loss and recovery. Packet recovery is a key feature of SRT. Obtain this value from the operator at the upstream system.
+        public var minimumLatency: Swift.Int?
+        /// The IP address at the upstream system (the listener) that MediaLive (the caller) will connect to.
+        public var srtListenerAddress: Swift.String?
+        /// The port at the upstream system (the listener) that MediaLive (the caller) will connect to.
+        public var srtListenerPort: Swift.String?
+        /// This value is required if the upstream system uses this identifier because without it, the SRT handshake between MediaLive (the caller) and the upstream system (the listener) might fail.
+        public var streamId: Swift.String?
+
+        public init(
+            decryption: MediaLiveClientTypes.SrtCallerDecryptionRequest? = nil,
+            minimumLatency: Swift.Int? = nil,
+            srtListenerAddress: Swift.String? = nil,
+            srtListenerPort: Swift.String? = nil,
+            streamId: Swift.String? = nil
+        )
+        {
+            self.decryption = decryption
+            self.minimumLatency = minimumLatency
+            self.srtListenerAddress = srtListenerAddress
+            self.srtListenerPort = srtListenerPort
+            self.streamId = streamId
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
 
     /// Thumbnail type.
     public enum ThumbnailType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -14501,7 +14661,7 @@ extension MediaLiveClientTypes {
         public var colorSpaceSettings: MediaLiveClientTypes.H264ColorSpaceSettings?
         /// Entropy encoding mode. Use cabac (must be in Main or High profile) or cavlc.
         public var entropyEncoding: MediaLiveClientTypes.H264EntropyEncoding?
-        /// Optional filters that you can apply to an encode.
+        /// Optional. Both filters reduce bandwidth by removing imperceptible details. You can enable one of the filters. We recommend that you try both filters and observe the results to decide which one to use. The Temporal Filter reduces bandwidth by removing imperceptible details in the content. It combines perceptual filtering and motion compensated temporal filtering (MCTF). It operates independently of the compression level. The Bandwidth Reduction filter is a perceptual filter located within the encoding loop. It adapts to the current compression level to filter imperceptible signals. This filter works only when the resolution is 1080p or lower.
         public var filterSettings: MediaLiveClientTypes.H264FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public var fixedAfd: MediaLiveClientTypes.FixedAfd?
@@ -15321,7 +15481,7 @@ extension MediaLiveClientTypes {
         public var colorMetadata: MediaLiveClientTypes.H265ColorMetadata?
         /// Color Space settings
         public var colorSpaceSettings: MediaLiveClientTypes.H265ColorSpaceSettings?
-        /// Optional filters that you can apply to an encode.
+        /// Optional. Both filters reduce bandwidth by removing imperceptible details. You can enable one of the filters. We recommend that you try both filters and observe the results to decide which one to use. The Temporal Filter reduces bandwidth by removing imperceptible details in the content. It combines perceptual filtering and motion compensated temporal filtering (MCTF). It operates independently of the compression level. The Bandwidth Reduction filter is a perceptual filter located within the encoding loop. It adapts to the current compression level to filter imperceptible signals. This filter works only when the resolution is 1080p or lower.
         public var filterSettings: MediaLiveClientTypes.H265FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public var fixedAfd: MediaLiveClientTypes.FixedAfd?
@@ -18175,6 +18335,22 @@ public struct CreateEventBridgeRuleTemplateGroupOutput {
 }
 
 extension MediaLiveClientTypes {
+    /// Configures the sources for this SRT input. For a single-pipeline input, include one srtCallerSource in the array. For a standard-pipeline input, include two srtCallerSource.
+    public struct SrtSettingsRequest {
+        /// Placeholder documentation for __listOfSrtCallerSourceRequest
+        public var srtCallerSources: [MediaLiveClientTypes.SrtCallerSourceRequest]?
+
+        public init(
+            srtCallerSources: [MediaLiveClientTypes.SrtCallerSourceRequest]? = nil
+        )
+        {
+            self.srtCallerSources = srtCallerSources
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
     /// Settings for a private VPC Input. When this property is specified, the input destination addresses will be created in a VPC rather than with public Internet addresses. This property requires setting the roleArn property on Input creation. Not compatible with the inputSecurityGroups property.
     public struct InputVpcRequest {
         /// A list of up to 5 EC2 VPC security group IDs to attach to the Input VPC network interfaces. Requires subnetIds. If none are specified then the VPC default security group will be used.
@@ -18213,6 +18389,8 @@ public struct CreateInputInput {
     public var roleArn: Swift.String?
     /// The source URLs for a PULL-type input. Every PULL type input needs exactly two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave Destinations empty.
     public var sources: [MediaLiveClientTypes.InputSourceRequest]?
+    /// The settings associated with an SRT input.
+    public var srtSettings: MediaLiveClientTypes.SrtSettingsRequest?
     /// A collection of key-value pairs.
     public var tags: [Swift.String: Swift.String]?
     /// The different types of inputs that AWS Elemental MediaLive supports.
@@ -18229,6 +18407,7 @@ public struct CreateInputInput {
         requestId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
+        srtSettings: MediaLiveClientTypes.SrtSettingsRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: MediaLiveClientTypes.InputType? = nil,
         vpc: MediaLiveClientTypes.InputVpcRequest? = nil
@@ -18242,6 +18421,7 @@ public struct CreateInputInput {
         self.requestId = requestId
         self.roleArn = roleArn
         self.sources = sources
+        self.srtSettings = srtSettings
         self.tags = tags
         self.type = type
         self.vpc = vpc
@@ -18579,12 +18759,18 @@ public struct CreateMultiplexProgramInput {
 extension MediaLiveClientTypes {
     /// Packet identifiers map for a given Multiplex program.
     public struct MultiplexProgramPacketIdentifiersMap {
+        /// Placeholder documentation for __integer
+        public var aribCaptionsPid: Swift.Int?
         /// Placeholder documentation for __listOf__integer
         public var audioPids: [Swift.Int]?
         /// Placeholder documentation for __listOf__integer
         public var dvbSubPids: [Swift.Int]?
         /// Placeholder documentation for __integer
         public var dvbTeletextPid: Swift.Int?
+        /// Placeholder documentation for __listOf__integer
+        public var dvbTeletextPids: [Swift.Int]?
+        /// Placeholder documentation for __integer
+        public var ecmPid: Swift.Int?
         /// Placeholder documentation for __integer
         public var etvPlatformPid: Swift.Int?
         /// Placeholder documentation for __integer
@@ -18602,14 +18788,19 @@ extension MediaLiveClientTypes {
         /// Placeholder documentation for __integer
         public var scte35Pid: Swift.Int?
         /// Placeholder documentation for __integer
+        public var smpte2038Pid: Swift.Int?
+        /// Placeholder documentation for __integer
         public var timedMetadataPid: Swift.Int?
         /// Placeholder documentation for __integer
         public var videoPid: Swift.Int?
 
         public init(
+            aribCaptionsPid: Swift.Int? = nil,
             audioPids: [Swift.Int]? = nil,
             dvbSubPids: [Swift.Int]? = nil,
             dvbTeletextPid: Swift.Int? = nil,
+            dvbTeletextPids: [Swift.Int]? = nil,
+            ecmPid: Swift.Int? = nil,
             etvPlatformPid: Swift.Int? = nil,
             etvSignalPid: Swift.Int? = nil,
             klvDataPids: [Swift.Int]? = nil,
@@ -18618,13 +18809,17 @@ extension MediaLiveClientTypes {
             privateMetadataPid: Swift.Int? = nil,
             scte27Pids: [Swift.Int]? = nil,
             scte35Pid: Swift.Int? = nil,
+            smpte2038Pid: Swift.Int? = nil,
             timedMetadataPid: Swift.Int? = nil,
             videoPid: Swift.Int? = nil
         )
         {
+            self.aribCaptionsPid = aribCaptionsPid
             self.audioPids = audioPids
             self.dvbSubPids = dvbSubPids
             self.dvbTeletextPid = dvbTeletextPid
+            self.dvbTeletextPids = dvbTeletextPids
+            self.ecmPid = ecmPid
             self.etvPlatformPid = etvPlatformPid
             self.etvSignalPid = etvSignalPid
             self.klvDataPids = klvDataPids
@@ -18633,6 +18828,7 @@ extension MediaLiveClientTypes {
             self.privateMetadataPid = privateMetadataPid
             self.scte27Pids = scte27Pids
             self.scte35Pid = scte35Pid
+            self.smpte2038Pid = smpte2038Pid
             self.timedMetadataPid = timedMetadataPid
             self.videoPid = videoPid
         }
@@ -19535,6 +19731,8 @@ public struct DescribeInputOutput {
     public var securityGroups: [Swift.String]?
     /// A list of the sources of the input (PULL-type).
     public var sources: [MediaLiveClientTypes.InputSource]?
+    /// The settings associated with an SRT input.
+    public var srtSettings: MediaLiveClientTypes.SrtSettings?
     /// Placeholder documentation for InputState
     public var state: MediaLiveClientTypes.InputState?
     /// A collection of key-value pairs.
@@ -19556,6 +19754,7 @@ public struct DescribeInputOutput {
         roleArn: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil,
         sources: [MediaLiveClientTypes.InputSource]? = nil,
+        srtSettings: MediaLiveClientTypes.SrtSettings? = nil,
         state: MediaLiveClientTypes.InputState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: MediaLiveClientTypes.InputType? = nil
@@ -19574,6 +19773,7 @@ public struct DescribeInputOutput {
         self.roleArn = roleArn
         self.securityGroups = securityGroups
         self.sources = sources
+        self.srtSettings = srtSettings
         self.state = state
         self.tags = tags
         self.type = type
@@ -22605,6 +22805,8 @@ public struct UpdateInputInput {
     public var roleArn: Swift.String?
     /// The source URLs for a PULL-type input. Every PULL type input needs exactly two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave Destinations empty.
     public var sources: [MediaLiveClientTypes.InputSourceRequest]?
+    /// The settings associated with an SRT input.
+    public var srtSettings: MediaLiveClientTypes.SrtSettingsRequest?
 
     public init(
         destinations: [MediaLiveClientTypes.InputDestinationRequest]? = nil,
@@ -22614,7 +22816,8 @@ public struct UpdateInputInput {
         mediaConnectFlows: [MediaLiveClientTypes.MediaConnectFlowRequest]? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
-        sources: [MediaLiveClientTypes.InputSourceRequest]? = nil
+        sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
+        srtSettings: MediaLiveClientTypes.SrtSettingsRequest? = nil
     )
     {
         self.destinations = destinations
@@ -22625,6 +22828,7 @@ public struct UpdateInputInput {
         self.name = name
         self.roleArn = roleArn
         self.sources = sources
+        self.srtSettings = srtSettings
     }
 }
 
@@ -22788,16 +22992,20 @@ public struct UpdateMultiplexInput {
     public var multiplexSettings: MediaLiveClientTypes.MultiplexSettings?
     /// Name of the multiplex.
     public var name: Swift.String?
+    /// Placeholder documentation for MultiplexPacketIdentifiersMapping
+    public var packetIdentifiersMapping: [Swift.String: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap]?
 
     public init(
         multiplexId: Swift.String? = nil,
         multiplexSettings: MediaLiveClientTypes.MultiplexSettings? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        packetIdentifiersMapping: [Swift.String: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap]? = nil
     )
     {
         self.multiplexId = multiplexId
         self.multiplexSettings = multiplexSettings
         self.name = name
+        self.packetIdentifiersMapping = packetIdentifiersMapping
     }
 }
 
@@ -24267,6 +24475,7 @@ extension CreateInputInput {
         try writer["requestId"].write(value.requestId)
         try writer["roleArn"].write(value.roleArn)
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["srtSettings"].write(value.srtSettings, with: MediaLiveClientTypes.SrtSettingsRequest.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
         try writer["vpc"].write(value.vpc, with: MediaLiveClientTypes.InputVpcRequest.write(value:to:))
@@ -24485,6 +24694,7 @@ extension UpdateInputInput {
         try writer["name"].write(value.name)
         try writer["roleArn"].write(value.roleArn)
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["srtSettings"].write(value.srtSettings, with: MediaLiveClientTypes.SrtSettingsRequest.write(value:to:))
     }
 }
 
@@ -24514,6 +24724,7 @@ extension UpdateMultiplexInput {
         guard let value else { return }
         try writer["multiplexSettings"].write(value.multiplexSettings, with: MediaLiveClientTypes.MultiplexSettings.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["packetIdentifiersMapping"].writeMap(value.packetIdentifiersMapping, valueWritingClosure: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -25020,6 +25231,7 @@ extension DescribeInputOutput {
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.srtSettings = try reader["srtSettings"].readIfPresent(with: MediaLiveClientTypes.SrtSettings.read(from:))
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
@@ -32194,6 +32406,42 @@ extension MediaLiveClientTypes.Input {
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
+        value.srtSettings = try reader["srtSettings"].readIfPresent(with: MediaLiveClientTypes.SrtSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SrtSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SrtSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SrtSettings()
+        value.srtCallerSources = try reader["srtCallerSources"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SrtCallerSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SrtCallerSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SrtCallerSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SrtCallerSource()
+        value.decryption = try reader["decryption"].readIfPresent(with: MediaLiveClientTypes.SrtCallerDecryption.read(from:))
+        value.minimumLatency = try reader["minimumLatency"].readIfPresent()
+        value.srtListenerAddress = try reader["srtListenerAddress"].readIfPresent()
+        value.srtListenerPort = try reader["srtListenerPort"].readIfPresent()
+        value.streamId = try reader["streamId"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SrtCallerDecryption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SrtCallerDecryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SrtCallerDecryption()
+        value.algorithm = try reader["algorithm"].readIfPresent()
+        value.passphraseSecretArn = try reader["passphraseSecretArn"].readIfPresent()
         return value
     }
 }
@@ -32371,6 +32619,27 @@ extension MediaLiveClientTypes.MultiplexProgramPipelineDetail {
 
 extension MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap {
 
+    static func write(value: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aribCaptionsPid"].write(value.aribCaptionsPid)
+        try writer["audioPids"].writeList(value.audioPids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dvbSubPids"].writeList(value.dvbSubPids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dvbTeletextPid"].write(value.dvbTeletextPid)
+        try writer["dvbTeletextPids"].writeList(value.dvbTeletextPids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ecmPid"].write(value.ecmPid)
+        try writer["etvPlatformPid"].write(value.etvPlatformPid)
+        try writer["etvSignalPid"].write(value.etvSignalPid)
+        try writer["klvDataPids"].writeList(value.klvDataPids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["pcrPid"].write(value.pcrPid)
+        try writer["pmtPid"].write(value.pmtPid)
+        try writer["privateMetadataPid"].write(value.privateMetadataPid)
+        try writer["scte27Pids"].writeList(value.scte27Pids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scte35Pid"].write(value.scte35Pid)
+        try writer["smpte2038Pid"].write(value.smpte2038Pid)
+        try writer["timedMetadataPid"].write(value.timedMetadataPid)
+        try writer["videoPid"].write(value.videoPid)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap()
@@ -32387,6 +32656,10 @@ extension MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap {
         value.scte35Pid = try reader["scte35Pid"].readIfPresent()
         value.timedMetadataPid = try reader["timedMetadataPid"].readIfPresent()
         value.videoPid = try reader["videoPid"].readIfPresent()
+        value.aribCaptionsPid = try reader["aribCaptionsPid"].readIfPresent()
+        value.dvbTeletextPids = try reader["dvbTeletextPids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ecmPid = try reader["ecmPid"].readIfPresent()
+        value.smpte2038Pid = try reader["smpte2038Pid"].readIfPresent()
         return value
     }
 }
@@ -32986,6 +33259,35 @@ extension MediaLiveClientTypes.InputVpcRequest {
         guard let value else { return }
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MediaLiveClientTypes.SrtSettingsRequest {
+
+    static func write(value: MediaLiveClientTypes.SrtSettingsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["srtCallerSources"].writeList(value.srtCallerSources, memberWritingClosure: MediaLiveClientTypes.SrtCallerSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MediaLiveClientTypes.SrtCallerSourceRequest {
+
+    static func write(value: MediaLiveClientTypes.SrtCallerSourceRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decryption"].write(value.decryption, with: MediaLiveClientTypes.SrtCallerDecryptionRequest.write(value:to:))
+        try writer["minimumLatency"].write(value.minimumLatency)
+        try writer["srtListenerAddress"].write(value.srtListenerAddress)
+        try writer["srtListenerPort"].write(value.srtListenerPort)
+        try writer["streamId"].write(value.streamId)
+    }
+}
+
+extension MediaLiveClientTypes.SrtCallerDecryptionRequest {
+
+    static func write(value: MediaLiveClientTypes.SrtCallerDecryptionRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["algorithm"].write(value.algorithm)
+        try writer["passphraseSecretArn"].write(value.passphraseSecretArn)
     }
 }
 

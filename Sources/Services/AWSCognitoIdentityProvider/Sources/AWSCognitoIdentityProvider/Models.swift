@@ -3459,7 +3459,7 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 extension CognitoIdentityProviderClientTypes {
-    /// Advanced security configuration options for additional authentication types in your user pool, including custom authentication and refresh-token authentication.
+    /// Advanced security configuration options for additional authentication types in your user pool, including custom authentication.
     public struct AdvancedSecurityAdditionalFlowsType {
         /// The operating mode of advanced security features in custom authentication with [ Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
         public var customAuthMode: CognitoIdentityProviderClientTypes.AdvancedSecurityEnabledModeType?
@@ -4952,7 +4952,7 @@ extension CognitoIdentityProviderClientTypes {
 extension CognitoIdentityProviderClientTypes {
     /// User pool add-ons. Contains settings for activation of advanced security features. To log user security information but take no action, set to AUDIT. To configure automatic security responses to risky traffic to your user pool, set to ENFORCED. For more information, see [Adding advanced security to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html).
     public struct UserPoolAddOnsType {
-        /// Advanced security configuration options for additional authentication types in your user pool, including custom authentication and refresh-token authentication.
+        /// Advanced security configuration options for additional authentication types in your user pool, including custom authentication.
         public var advancedSecurityAdditionalFlows: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType?
         /// The operating mode of advanced security features for standard authentication types in your user pool, including username-password and secure remote password (SRP) authentication.
         /// This member is required.

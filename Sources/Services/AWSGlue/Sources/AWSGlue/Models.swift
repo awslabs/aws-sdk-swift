@@ -18695,7 +18695,42 @@ public struct GetTableOptimizerOutput {
     }
 }
 
+extension GlueClientTypes {
+
+    public enum TableAttributes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case tableType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableAttributes] {
+            return [
+                .name,
+                .tableType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "NAME"
+            case .tableType: return "TABLE_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetTablesInput {
+    /// Specifies the table fields returned by the GetTables call. This parameter doesn’t accept an empty list. The request must include NAME. The following are the valid combinations of values:
+    ///
+    /// * NAME - Names of all tables in the database.
+    ///
+    /// * NAME, TABLE_TYPE - Names of all tables and the table types.
+    public var attributesToGet: [GlueClientTypes.TableAttributes]?
     /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
@@ -18715,6 +18750,7 @@ public struct GetTablesInput {
     public var transactionId: Swift.String?
 
     public init(
+        attributesToGet: [GlueClientTypes.TableAttributes]? = nil,
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         expression: Swift.String? = nil,
@@ -18725,6 +18761,7 @@ public struct GetTablesInput {
         transactionId: Swift.String? = nil
     )
     {
+        self.attributesToGet = attributesToGet
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.expression = expression
@@ -28099,6 +28136,7 @@ extension GetTablesInput {
 
     static func write(value: GetTablesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AttributesToGet"].writeList(value.attributesToGet, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.TableAttributes>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["Expression"].write(value.expression)
