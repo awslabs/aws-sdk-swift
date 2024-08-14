@@ -21689,8 +21689,8 @@ extension GetObjectInput {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -21835,8 +21835,8 @@ extension PutObjectInput {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -21924,8 +21924,8 @@ extension GetObjectInput {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -21996,8 +21996,8 @@ extension PutObjectInput {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -22068,8 +22068,8 @@ extension UploadPartInput {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()

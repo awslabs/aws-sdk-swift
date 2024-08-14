@@ -264,8 +264,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -340,8 +340,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -416,8 +416,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -493,8 +493,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -569,8 +569,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -645,8 +645,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -720,8 +720,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -796,8 +796,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -872,8 +872,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -948,8 +948,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1023,8 +1023,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1099,8 +1099,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1175,8 +1175,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1251,8 +1251,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1326,8 +1326,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1398,8 +1398,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1470,8 +1470,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1542,8 +1542,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1614,8 +1614,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1687,8 +1687,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1759,8 +1759,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1831,8 +1831,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1903,8 +1903,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1975,8 +1975,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2047,8 +2047,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2119,8 +2119,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2190,8 +2190,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2262,8 +2262,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2334,8 +2334,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2406,8 +2406,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2478,8 +2478,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2550,8 +2550,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2623,8 +2623,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2695,8 +2695,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2767,8 +2767,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2839,8 +2839,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2912,8 +2912,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2985,8 +2985,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3060,8 +3060,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3131,8 +3131,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3203,8 +3203,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3275,8 +3275,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3346,8 +3346,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3418,8 +3418,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3489,8 +3489,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3561,8 +3561,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3632,8 +3632,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3704,8 +3704,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3777,8 +3777,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3850,8 +3850,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3921,8 +3921,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3993,8 +3993,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4063,8 +4063,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4135,8 +4135,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4206,8 +4206,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4278,8 +4278,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4353,8 +4353,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4424,8 +4424,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4496,8 +4496,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4567,8 +4567,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4638,8 +4638,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4708,8 +4708,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4778,8 +4778,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4850,8 +4850,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4921,8 +4921,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4993,8 +4993,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5064,8 +5064,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5136,8 +5136,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5207,8 +5207,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5279,8 +5279,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5350,8 +5350,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5422,8 +5422,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5496,8 +5496,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5567,8 +5567,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5639,8 +5639,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5712,8 +5712,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5786,8 +5786,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5858,8 +5858,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -5930,8 +5930,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6001,8 +6001,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6072,8 +6072,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6144,8 +6144,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6216,8 +6216,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6287,8 +6287,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6359,8 +6359,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6436,8 +6436,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6513,8 +6513,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6590,8 +6590,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6666,8 +6666,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6742,8 +6742,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6818,8 +6818,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6894,8 +6894,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -6970,8 +6970,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7047,8 +7047,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7123,8 +7123,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7197,8 +7197,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7271,8 +7271,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7345,8 +7345,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7421,8 +7421,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7497,8 +7497,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7573,8 +7573,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7649,8 +7649,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7725,8 +7725,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7802,8 +7802,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7878,8 +7878,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -7954,8 +7954,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8030,8 +8030,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8106,8 +8106,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8182,8 +8182,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8258,8 +8258,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8333,8 +8333,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8409,8 +8409,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8485,8 +8485,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8561,8 +8561,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8636,8 +8636,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8712,8 +8712,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8788,8 +8788,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8864,8 +8864,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -8940,8 +8940,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -9016,8 +9016,8 @@ extension APIGatewayClient {
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
                 metricsAttributes: metricsAttributes,
-                meterScope: self.serviceName,
-                tracerScope: self.serviceName
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
