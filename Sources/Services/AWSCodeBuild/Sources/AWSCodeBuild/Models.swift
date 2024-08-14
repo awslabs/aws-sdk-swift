@@ -146,6 +146,7 @@ extension CodeBuildClientTypes {
         case codeconnections
         case oauth
         case personalAccessToken
+        case secretsManager
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuthType] {
@@ -153,7 +154,8 @@ extension CodeBuildClientTypes {
                 .basicAuth,
                 .codeconnections,
                 .oauth,
-                .personalAccessToken
+                .personalAccessToken,
+                .secretsManager
             ]
         }
 
@@ -168,6 +170,7 @@ extension CodeBuildClientTypes {
             case .codeconnections: return "CODECONNECTIONS"
             case .oauth: return "OAUTH"
             case .personalAccessToken: return "PERSONAL_ACCESS_TOKEN"
+            case .secretsManager: return "SECRETS_MANAGER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1339,12 +1342,14 @@ extension CodeBuildClientTypes {
     public enum SourceAuthType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case codeconnections
         case oauth
+        case secretsManager
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SourceAuthType] {
             return [
                 .codeconnections,
-                .oauth
+                .oauth,
+                .secretsManager
             ]
         }
 
@@ -1357,6 +1362,7 @@ extension CodeBuildClientTypes {
             switch self {
             case .codeconnections: return "CODECONNECTIONS"
             case .oauth: return "OAUTH"
+            case .secretsManager: return "SECRETS_MANAGER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1364,11 +1370,11 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes {
-    /// Information about the authorization settings for CodeBuild to access the source code to be built. This information is for the CodeBuild console's use only. Your code should not get or set this information directly.
+    /// Information about the authorization settings for CodeBuild to access the source code to be built.
     public struct SourceAuth {
         /// The resource value that applies to the specified authorization type.
         public var resource: Swift.String?
-        /// The authorization type to use. Valid options are OAUTH or CODECONNECTIONS.
+        /// The authorization type to use. Valid options are OAUTH, CODECONNECTIONS, or SECRETS_MANAGER.
         /// This member is required.
         public var type: CodeBuildClientTypes.SourceAuthType?
 
@@ -1474,7 +1480,7 @@ extension CodeBuildClientTypes {
 extension CodeBuildClientTypes {
     /// Information about the build input source code for the build project.
     public struct ProjectSource {
-        /// Information about the authorization settings for CodeBuild to access the source code to be built. This information is for the CodeBuild console's use only. Your code should not get or set this information directly.
+        /// Information about the authorization settings for CodeBuild to access the source code to be built.
         public var auth: CodeBuildClientTypes.SourceAuth?
         /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
         public var buildStatusConfig: CodeBuildClientTypes.BuildStatusConfig?
@@ -4731,7 +4737,7 @@ extension CodeBuildClientTypes {
 }
 
 public struct ImportSourceCredentialsInput {
-    /// The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console. Note that CODECONNECTIONS is only valid for GitLab and GitLab Self Managed.
+    /// The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console.
     /// This member is required.
     public var authType: CodeBuildClientTypes.AuthType?
     /// The source provider used for this project.
@@ -4739,7 +4745,7 @@ public struct ImportSourceCredentialsInput {
     public var serverType: CodeBuildClientTypes.ServerType?
     /// Set to false to prevent overwriting the repository source credentials. Set to true to overwrite the repository source credentials. The default value is true.
     public var shouldOverwrite: Swift.Bool?
-    /// For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS, this is the connectionArn.
+    /// For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS, this is the connectionArn. For the authType SECRETS_MANAGER, this is the secretArn.
     /// This member is required.
     public var token: Swift.String?
     /// The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections.
@@ -5632,9 +5638,9 @@ extension CodeBuildClientTypes {
     public struct SourceCredentialsInfo {
         /// The Amazon Resource Name (ARN) of the token.
         public var arn: Swift.String?
-        /// The type of authentication used by the credentials. Valid options are OAUTH, BASIC_AUTH, PERSONAL_ACCESS_TOKEN, or CODECONNECTIONS.
+        /// The type of authentication used by the credentials. Valid options are OAUTH, BASIC_AUTH, PERSONAL_ACCESS_TOKEN, CODECONNECTIONS, or SECRETS_MANAGER.
         public var authType: CodeBuildClientTypes.AuthType?
-        /// The connection ARN if your serverType type is GITLAB or GITLAB_SELF_MANAGED and your authType is CODECONNECTIONS.
+        /// The connection ARN if your authType is CODECONNECTIONS or SECRETS_MANAGER.
         public var resource: Swift.String?
         /// The type of source provider. The valid options are GITHUB, GITHUB_ENTERPRISE, GITLAB, GITLAB_SELF_MANAGED, or BITBUCKET.
         public var serverType: CodeBuildClientTypes.ServerType?
