@@ -21688,7 +21688,9 @@ extension GetObjectInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -21832,7 +21834,9 @@ extension PutObjectInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -21919,7 +21923,9 @@ extension GetObjectInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -21989,7 +21995,9 @@ extension PutObjectInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -22059,7 +22067,9 @@ extension UploadPartInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()

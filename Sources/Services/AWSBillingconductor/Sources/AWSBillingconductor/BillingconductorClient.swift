@@ -260,7 +260,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -334,7 +336,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -408,7 +412,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -481,7 +487,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -556,7 +564,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -631,7 +641,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -707,7 +719,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -782,7 +796,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -853,7 +869,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -925,7 +943,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -997,7 +1017,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1069,7 +1091,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1142,7 +1166,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1215,7 +1241,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1287,7 +1315,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1359,7 +1389,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1431,7 +1463,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1503,7 +1537,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1574,7 +1610,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1646,7 +1684,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1717,7 +1757,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1789,7 +1831,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1860,7 +1904,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1932,7 +1978,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2004,7 +2052,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2073,7 +2123,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2145,7 +2197,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2215,7 +2269,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2288,7 +2344,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2360,7 +2418,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2433,7 +2493,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2506,7 +2568,9 @@ extension BillingconductorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()

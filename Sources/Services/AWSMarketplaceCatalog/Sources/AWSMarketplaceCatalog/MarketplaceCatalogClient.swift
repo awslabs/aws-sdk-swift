@@ -257,7 +257,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -328,7 +330,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -398,7 +402,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -468,7 +474,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -539,7 +547,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -609,7 +619,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -680,7 +692,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -752,7 +766,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -824,7 +840,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -896,7 +914,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -971,7 +991,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1043,7 +1065,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1115,7 +1139,9 @@ extension MarketplaceCatalogClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: self.serviceName,
+                tracerScope: self.serviceName
             ))
             .executeRequest(client)
             .build()
