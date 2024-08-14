@@ -1795,7 +1795,7 @@ extension CodeBuildClient {
 
     /// Performs the `ImportSourceCredentials` operation on the `CodeBuild_20161006` service.
     ///
-    /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
+    /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
     ///
     /// - Parameter ImportSourceCredentialsInput : [no documentation found]
     ///
