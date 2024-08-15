@@ -137,11 +137,6 @@ public struct DeletePublicAccessBlockOutput {
     public init() { }
 }
 
-public struct ListBucketsInput {
-
-    public init() { }
-}
-
 public struct PutBucketAccelerateConfigurationOutput {
 
     public init() { }
@@ -4351,7 +4346,7 @@ public struct GetBucketEncryptionInput {
 }
 
 extension S3ClientTypes {
-    /// Describes the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied. If you don't specify a customer managed key at configuration, Amazon S3 automatically creates an Amazon Web Services KMS key in your Amazon Web Services account the first time that you add an object encrypted with SSE-KMS to a bucket. By default, Amazon S3 uses this KMS key for SSE-KMS. For more information, see [PUT Bucket encryption](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTencryption.html) in the Amazon S3 API Reference.
+    /// Describes the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied. If you don't specify a customer managed key at configuration, Amazon S3 automatically creates an Amazon Web Services KMS key in your Amazon Web Services account the first time that you add an object encrypted with SSE-KMS to a bucket. By default, Amazon S3 uses this KMS key for SSE-KMS. For more information, see [PUT Bucket encryption](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTencryption.html) in the Amazon S3 API Reference. If you're specifying a customer managed KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requester’s account. This behavior can result in data that's encrypted with a KMS key that belongs to the requester, and not the bucket owner.
     public struct ServerSideEncryptionByDefault {
         /// Amazon Web Services Key Management Service (KMS) customer Amazon Web Services KMS key ID to use for the default encryption. This parameter is allowed if and only if SSEAlgorithm is set to aws:kms or aws:kms:dsse. You can specify the key ID, key alias, or the Amazon Resource Name (ARN) of the KMS key.
         ///
@@ -4386,7 +4381,7 @@ extension S3ClientTypes.ServerSideEncryptionByDefault: Swift.CustomDebugStringCo
 }
 
 extension S3ClientTypes {
-    /// Specifies the default server-side encryption configuration.
+    /// Specifies the default server-side encryption configuration. If you're specifying a customer managed KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requester’s account. This behavior can result in data that's encrypted with a KMS key that belongs to the requester, and not the bucket owner.
     public struct ServerSideEncryptionRule {
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied.
         public var applyServerSideEncryptionByDefault: S3ClientTypes.ServerSideEncryptionByDefault?
@@ -5409,7 +5404,7 @@ extension S3ClientTypes {
 extension S3ClientTypes {
     /// Amazon S3 keys for log objects are partitioned in the following format: [DestinationPrefix][SourceAccountId]/[SourceRegion]/[SourceBucket]/[YYYY]/[MM]/[DD]/[YYYY]-[MM]-[DD]-[hh]-[mm]-[ss]-[UniqueString] PartitionedPrefix defaults to EventTime delivery when server access logs are delivered.
     public struct PartitionedPrefix {
-        /// Specifies the partition date source for the partitioned prefix. PartitionDateSource can be EventTime or DeliveryTime.
+        /// Specifies the partition date source for the partitioned prefix. PartitionDateSource can be EventTime or DeliveryTime. For DeliveryTime, the time in the log file names corresponds to the delivery time for the log files. For EventTime, The logs delivered are for a specific day only. The year, month, and day correspond to the day on which the event occurred, and the hour, minutes and seconds are set to 00 in the key.
         public var partitionDateSource: S3ClientTypes.PartitionDateSource?
 
         public init(
@@ -6115,7 +6110,7 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    /// Specifies encryption-related information for an Amazon S3 bucket that is a destination for replicated objects.
+    /// Specifies encryption-related information for an Amazon S3 bucket that is a destination for replicated objects. If you're specifying a customer managed KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requester’s account. This behavior can result in data that's encrypted with a KMS key that belongs to the requester, and not the bucket owner.
     public struct EncryptionConfiguration {
         /// Specifies the ID (Key ARN or Alias ARN) of the customer managed Amazon Web Services KMS key stored in Amazon Web Services Key Management Service (KMS) for the destination bucket. Amazon S3 uses this key to encrypt replica objects. Amazon S3 only supports symmetric encryption KMS keys. For more information, see [Asymmetric keys in Amazon Web Services KMS](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Amazon Web Services Key Management Service Developer Guide.
         public var replicaKmsKeyID: Swift.String?
@@ -7808,7 +7803,7 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    /// The container element for specifying the default Object Lock retention settings for new objects placed in the specified bucket.
+    /// The container element for optionally specifying the default Object Lock retention settings for new objects placed in the specified bucket.
     ///
     /// * The DefaultRetention settings require both a mode and a period.
     ///
@@ -8069,7 +8064,7 @@ extension S3ClientTypes {
         public var blockPublicPolicy: Swift.Bool?
         /// Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on this bucket and objects in this bucket. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
         public var ignorePublicAcls: Swift.Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only Amazon Web Service principals and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
+        /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only Amazon Web Servicesservice principals and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
         public var restrictPublicBuckets: Swift.Bool?
 
         public init(
@@ -8132,13 +8127,13 @@ public struct HeadBucketInput {
 }
 
 public struct HeadBucketOutput {
-    /// Indicates whether the bucket name used in the request is an access point alias. This functionality is not supported for directory buckets.
+    /// Indicates whether the bucket name used in the request is an access point alias. For directory buckets, the value of this field is false.
     public var accessPointAlias: Swift.Bool?
     /// The name of the location where the bucket will be created. For directory buckets, the AZ ID of the Availability Zone where the bucket is created. An example AZ ID value is usw2-az1. This functionality is only supported by directory buckets.
     public var bucketLocationName: Swift.String?
     /// The type of location where the bucket is created. This functionality is only supported by directory buckets.
     public var bucketLocationType: S3ClientTypes.LocationType?
-    /// The Region that the bucket is located. This functionality is not supported for directory buckets.
+    /// The Region that the bucket is located.
     public var bucketRegion: Swift.String?
 
     public init(
@@ -8645,6 +8640,22 @@ public struct ListBucketMetricsConfigurationsOutput {
     }
 }
 
+public struct ListBucketsInput {
+    /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results. Length Constraints: Minimum length of 0. Maximum length of 1024. Required: No.
+    public var continuationToken: Swift.String?
+    /// Maximum number of buckets to be returned in response. When the number is more than the count of buckets that are owned by an Amazon Web Services account, return all the buckets in response.
+    public var maxBuckets: Swift.Int?
+
+    public init(
+        continuationToken: Swift.String? = nil,
+        maxBuckets: Swift.Int? = nil
+    )
+    {
+        self.continuationToken = continuationToken
+        self.maxBuckets = maxBuckets
+    }
+}
+
 extension S3ClientTypes {
     /// In terms of implementation, a Bucket is a resource.
     public struct Bucket {
@@ -8668,21 +8679,25 @@ extension S3ClientTypes {
 public struct ListBucketsOutput {
     /// The list of buckets owned by the requester.
     public var buckets: [S3ClientTypes.Bucket]?
+    /// ContinuationToken is included in the response when there are more buckets that can be listed with pagination. The next ListBuckets request to Amazon S3 can be continued with this ContinuationToken. ContinuationToken is obfuscated and is not a real bucket.
+    public var continuationToken: Swift.String?
     /// The owner of the buckets listed.
     public var owner: S3ClientTypes.Owner?
 
     public init(
         buckets: [S3ClientTypes.Bucket]? = nil,
+        continuationToken: Swift.String? = nil,
         owner: S3ClientTypes.Owner? = nil
     )
     {
         self.buckets = buckets
+        self.continuationToken = continuationToken
         self.owner = owner
     }
 }
 
 public struct ListDirectoryBucketsInput {
-    /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
+    /// ContinuationToken indicates to Amazon S3 that the list is being continued on buckets in this account with a token. ContinuationToken is obfuscated and is not a real bucket name. You can use this ContinuationToken for the pagination of the list results.
     public var continuationToken: Swift.String?
     /// Maximum number of buckets to be returned in response. When the number is more than the count of buckets that are owned by an Amazon Web Services account, return all the buckets in response.
     public var maxDirectoryBuckets: Swift.Int?
@@ -8715,7 +8730,7 @@ public struct ListDirectoryBucketsOutput {
 
 extension S3ClientTypes {
 
-    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+    /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public enum EncodingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case url
         case sdkUnknown(Swift.String)
@@ -8746,7 +8761,7 @@ public struct ListMultipartUploadsInput {
     public var bucket: Swift.String?
     /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response. Directory buckets - For directory buckets, / is the only supported delimiter.
     public var delimiter: Swift.String?
-    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+    /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
@@ -8957,7 +8972,7 @@ public struct ListObjectsInput {
     public var bucket: Swift.String?
     /// A delimiter is a character that you use to group keys.
     public var delimiter: Swift.String?
-    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+    /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
@@ -9132,7 +9147,7 @@ public struct ListObjectsOutput {
     public var contents: [S3ClientTypes.Object]?
     /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value.
     public var delimiter: Swift.String?
-    /// Encoding type used by Amazon S3 to encode object keys in the response. If using url, non-ASCII characters used in an object's key name will be URL encoded. For example, the object test_file(3).png will appear as test_file%283%29.png.
+    /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
     /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria.
     public var isTruncated: Swift.Bool?
@@ -9189,7 +9204,7 @@ public struct ListObjectsV2Input {
     ///
     /// * Directory buckets - When you query ListObjectsV2 with a delimiter during in-progress multipart uploads, the CommonPrefixes response parameter contains the prefixes that are associated with the in-progress multipart uploads. For more information about multipart uploads, see [Multipart Upload Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html) in the Amazon S3 User Guide.
     public var delimiter: Swift.String?
-    /// Encoding type used by Amazon S3 to encode object keys in the response. If using url, non-ASCII characters used in an object's key name will be URL encoded. For example, the object test_file(3).png will appear as test_file%283%29.png.
+    /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
@@ -9304,7 +9319,7 @@ public struct ListObjectVersionsInput {
     public var bucket: Swift.String?
     /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
     public var delimiter: Swift.String?
-    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+    /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
@@ -11839,7 +11854,7 @@ extension S3ClientTypes {
 extension S3ClientTypes {
     /// The container for the records event.
     public struct RecordsEvent {
-        /// The byte array of partial, one or more result records.
+        /// The byte array of partial, one or more result records. S3 Select doesn't guarantee that a record will be self-contained in one record frame. To ensure continuous streaming of data, S3 Select might split the same record across multiple record frames instead of aggregating the results in memory. Some S3 clients (for example, the SDK for Java) handle this behavior by creating a ByteStream out of the response by default. Other clients might not handle this behavior by default. In those cases, you must aggregate the results on the client side and parse the response.
         public var payload: Foundation.Data?
 
         public init(
@@ -14559,6 +14574,14 @@ extension ListBucketsInput {
     static func queryItemProvider(_ value: ListBucketsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "x-id", value: "ListBuckets"))
+        if let continuationToken = value.continuationToken {
+            let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            items.append(continuationTokenQueryItem)
+        }
+        if let maxBuckets = value.maxBuckets {
+            let maxBucketsQueryItem = Smithy.URIQueryItem(name: "max-buckets".urlPercentEncoding(), value: Swift.String(maxBuckets).urlPercentEncoding())
+            items.append(maxBucketsQueryItem)
+        }
         return items
     }
 }
@@ -17513,6 +17536,7 @@ extension ListBucketsOutput {
         let reader = responseReader
         var value = ListBucketsOutput()
         value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: S3ClientTypes.Bucket.read(from:), memberNodeInfo: "Bucket", isFlattened: false)
+        value.continuationToken = try reader["ContinuationToken"].readIfPresent()
         value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
         return value
     }
