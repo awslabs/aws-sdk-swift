@@ -234,7 +234,7 @@ extension LexRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSessionInput, DeleteSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -302,7 +302,7 @@ extension LexRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSessionInput, GetSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -413,7 +413,7 @@ extension LexRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PostContentInput, PostContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -524,7 +524,7 @@ extension LexRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PostTextInput, PostTextOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -605,7 +605,7 @@ extension LexRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutSessionInput, PutSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }

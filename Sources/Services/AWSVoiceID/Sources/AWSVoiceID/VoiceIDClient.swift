@@ -233,7 +233,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateFraudsterInput, AssociateFraudsterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -308,7 +308,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDomainInput, CreateDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -384,7 +384,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWatchlistInput, CreateWatchlistOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -459,7 +459,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDomainInput, DeleteDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -533,7 +533,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFraudsterInput, DeleteFraudsterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -607,7 +607,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSpeakerInput, DeleteSpeakerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -681,7 +681,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWatchlistInput, DeleteWatchlistOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -754,7 +754,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDomainInput, DescribeDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -827,7 +827,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFraudsterInput, DescribeFraudsterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -900,7 +900,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -973,7 +973,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSpeakerInput, DescribeSpeakerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1046,7 +1046,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1119,7 +1119,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeWatchlistInput, DescribeWatchlistOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1193,7 +1193,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateFraudsterInput, DisassociateFraudsterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1267,7 +1267,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EvaluateSessionInput, EvaluateSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1339,7 +1339,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDomainsInput, ListDomainsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1412,7 +1412,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1485,7 +1485,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFraudstersInput, ListFraudstersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1558,7 +1558,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1631,7 +1631,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSpeakersInput, ListSpeakersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1704,7 +1704,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1777,7 +1777,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWatchlistsInput, ListWatchlistsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1852,7 +1852,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<OptOutSpeakerInput, OptOutSpeakerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1927,7 +1927,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2003,7 +2003,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2078,7 +2078,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2152,7 +2152,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2226,7 +2226,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDomainInput, UpdateDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2300,7 +2300,7 @@ extension VoiceIDClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWatchlistInput, UpdateWatchlistOutput> = provider.create()
             builder.interceptors.add(i)
         }

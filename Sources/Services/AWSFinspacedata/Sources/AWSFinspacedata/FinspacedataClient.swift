@@ -233,7 +233,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateUserToPermissionGroupInput, AssociateUserToPermissionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -309,7 +309,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateChangesetInput, CreateChangesetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -384,7 +384,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDataViewInput, CreateDataViewOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -460,7 +460,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDatasetInput, CreateDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -535,7 +535,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePermissionGroupInput, CreatePermissionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -610,7 +610,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserInput, CreateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -686,7 +686,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDatasetInput, DeleteDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -760,7 +760,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePermissionGroupInput, DeletePermissionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -833,7 +833,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableUserInput, DisableUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -908,7 +908,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateUserFromPermissionGroupInput, DisassociateUserFromPermissionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -982,7 +982,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableUserInput, EnableUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1057,7 +1057,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetChangesetInput, GetChangesetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1127,7 +1127,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDataViewInput, GetDataViewOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1198,7 +1198,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDatasetInput, GetDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1272,7 +1272,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetExternalDataViewAccessDetailsInput, GetExternalDataViewAccessDetailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1342,7 +1342,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPermissionGroupInput, GetPermissionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1411,7 +1411,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetProgrammaticAccessCredentialsInput, GetProgrammaticAccessCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1482,7 +1482,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetUserInput, GetUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1551,7 +1551,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkingLocationInput, GetWorkingLocationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1625,7 +1625,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListChangesetsInput, ListChangesetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1696,7 +1696,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDataViewsInput, ListDataViewsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1767,7 +1767,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDatasetsInput, ListDatasetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1837,7 +1837,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPermissionGroupsInput, ListPermissionGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1908,7 +1908,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPermissionGroupsByUserInput, ListPermissionGroupsByUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1978,7 +1978,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUsersInput, ListUsersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2049,7 +2049,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUsersByPermissionGroupInput, ListUsersByPermissionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2121,7 +2121,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetUserPasswordInput, ResetUserPasswordOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2196,7 +2196,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateChangesetInput, UpdateChangesetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2271,7 +2271,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDatasetInput, UpdateDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2346,7 +2346,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePermissionGroupInput, UpdatePermissionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2421,7 +2421,7 @@ extension FinspacedataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateUserInput, UpdateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }

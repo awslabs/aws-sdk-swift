@@ -244,7 +244,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSnapshotInput, CreateSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -316,7 +316,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppInput, DeleteAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -386,7 +386,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSimulationInput, DeleteSimulationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -455,7 +455,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppInput, DescribeAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -524,7 +524,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSimulationInput, DescribeSimulationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -593,7 +593,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppsInput, ListAppsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -661,7 +661,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSimulationsInput, ListSimulationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -728,7 +728,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -797,7 +797,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartAppInput, StartAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -870,7 +870,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartClockInput, StartClockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -942,7 +942,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartSimulationInput, StartSimulationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1015,7 +1015,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopAppInput, StopAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1087,7 +1087,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopClockInput, StopClockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1159,7 +1159,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopSimulationInput, StopSimulationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1229,7 +1229,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1298,7 +1298,7 @@ extension SimSpaceWeaverClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }

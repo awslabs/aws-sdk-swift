@@ -226,7 +226,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -295,7 +295,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -363,7 +363,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -426,7 +426,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -495,7 +495,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ComposeEnvironmentsInput, ComposeEnvironmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -563,7 +563,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateApplicationInput, CreateApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -641,7 +641,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateApplicationVersionInput, CreateApplicationVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -717,7 +717,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -786,7 +786,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEnvironmentInput, CreateEnvironmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -856,7 +856,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePlatformVersionInput, CreatePlatformVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -926,7 +926,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStorageLocationInput, CreateStorageLocationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -994,7 +994,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApplicationInput, DeleteApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1071,7 +1071,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApplicationVersionInput, DeleteApplicationVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1139,7 +1139,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1202,7 +1202,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1273,7 +1273,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePlatformVersionInput, DeletePlatformVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1341,7 +1341,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountAttributesInput, DescribeAccountAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1404,7 +1404,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1467,7 +1467,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeApplicationsInput, DescribeApplicationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1535,7 +1535,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1605,7 +1605,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1674,7 +1674,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1742,7 +1742,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1810,7 +1810,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1878,7 +1878,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1941,7 +1941,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEnvironmentsInput, DescribeEnvironmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2004,7 +2004,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsInput, DescribeEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2073,7 +2073,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstancesHealthInput, DescribeInstancesHealthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2142,7 +2142,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePlatformVersionInput, DescribePlatformVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2210,7 +2210,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2273,7 +2273,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2336,7 +2336,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPlatformBranchesInput, ListPlatformBranchesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2405,7 +2405,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPlatformVersionsInput, ListPlatformVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2475,7 +2475,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2543,7 +2543,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebuildEnvironmentInput, RebuildEnvironmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2608,7 +2608,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2671,7 +2671,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestartAppServerInput, RestartAppServerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2736,7 +2736,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2799,7 +2799,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2867,7 +2867,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TerminateEnvironmentInput, TerminateEnvironmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2930,7 +2930,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApplicationInput, UpdateApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2998,7 +2998,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3061,7 +3061,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApplicationVersionInput, UpdateApplicationVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3132,7 +3132,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3201,7 +3201,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEnvironmentInput, UpdateEnvironmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3273,7 +3273,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTagsForResourceInput, UpdateTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3342,7 +3342,7 @@ extension ElasticBeanstalkClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }

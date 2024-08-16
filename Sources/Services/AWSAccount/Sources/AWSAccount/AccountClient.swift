@@ -230,7 +230,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -302,7 +302,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAlternateContactInput, DeleteAlternateContactOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -374,7 +374,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableRegionInput, DisableRegionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -446,7 +446,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableRegionInput, EnableRegionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -518,7 +518,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAlternateContactInput, GetAlternateContactOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -590,7 +590,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContactInformationInput, GetContactInformationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -662,7 +662,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPrimaryEmailInput, GetPrimaryEmailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -733,7 +733,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRegionOptStatusInput, GetRegionOptStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -804,7 +804,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRegionsInput, ListRegionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -875,7 +875,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutAlternateContactInput, PutAlternateContactOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -946,7 +946,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutContactInformationInput, PutContactInformationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1019,7 +1019,7 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput> = provider.create()
             builder.interceptors.add(i)
         }

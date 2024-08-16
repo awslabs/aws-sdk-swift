@@ -231,7 +231,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAudienceModelInput, CreateAudienceModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -303,7 +303,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateConfiguredAudienceModelInput, CreateConfiguredAudienceModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -373,7 +373,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrainingDatasetInput, CreateTrainingDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -444,7 +444,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAudienceGenerationJobInput, DeleteAudienceGenerationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -512,7 +512,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAudienceModelInput, DeleteAudienceModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -580,7 +580,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConfiguredAudienceModelInput, DeleteConfiguredAudienceModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -647,7 +647,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConfiguredAudienceModelPolicyInput, DeleteConfiguredAudienceModelPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -715,7 +715,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrainingDatasetInput, DeleteTrainingDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -782,7 +782,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAudienceGenerationJobInput, GetAudienceGenerationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -849,7 +849,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAudienceModelInput, GetAudienceModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -916,7 +916,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetConfiguredAudienceModelInput, GetConfiguredAudienceModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -983,7 +983,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetConfiguredAudienceModelPolicyInput, GetConfiguredAudienceModelPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1050,7 +1050,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTrainingDatasetInput, GetTrainingDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1116,7 +1116,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAudienceExportJobsInput, ListAudienceExportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1183,7 +1183,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAudienceGenerationJobsInput, ListAudienceGenerationJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1250,7 +1250,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAudienceModelsInput, ListAudienceModelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1317,7 +1317,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListConfiguredAudienceModelsInput, ListConfiguredAudienceModelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1385,7 +1385,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1451,7 +1451,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTrainingDatasetsInput, ListTrainingDatasetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1519,7 +1519,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutConfiguredAudienceModelPolicyInput, PutConfiguredAudienceModelPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1591,7 +1591,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartAudienceExportJobInput, StartAudienceExportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1663,7 +1663,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartAudienceGenerationJobInput, StartAudienceGenerationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1733,7 +1733,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1803,7 +1803,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1872,7 +1872,7 @@ extension CleanRoomsMLClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateConfiguredAudienceModelInput, UpdateConfiguredAudienceModelOutput> = provider.create()
             builder.interceptors.add(i)
         }

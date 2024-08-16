@@ -232,7 +232,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCampaignInput, CreateCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -303,7 +303,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCampaignInput, DeleteCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -373,7 +373,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConnectInstanceConfigInput, DeleteConnectInstanceConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -442,7 +442,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInstanceOnboardingJobInput, DeleteInstanceOnboardingJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -510,7 +510,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCampaignInput, DescribeCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -579,7 +579,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCampaignStateInput, GetCampaignStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -647,7 +647,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCampaignStateBatchInput, GetCampaignStateBatchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -718,7 +718,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetConnectInstanceConfigInput, GetConnectInstanceConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -786,7 +786,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceOnboardingJobStatusInput, GetInstanceOnboardingJobStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -853,7 +853,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCampaignsInput, ListCampaignsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -925,7 +925,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -996,7 +996,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PauseCampaignInput, PauseCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1067,7 +1067,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutDialRequestBatchInput, PutDialRequestBatchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1141,7 +1141,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResumeCampaignInput, ResumeCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1212,7 +1212,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartCampaignInput, StartCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1282,7 +1282,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartInstanceOnboardingJobInput, StartInstanceOnboardingJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1356,7 +1356,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopCampaignInput, StopCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1425,7 +1425,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1497,7 +1497,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1567,7 +1567,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCampaignDialerConfigInput, UpdateCampaignDialerConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1639,7 +1639,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCampaignNameInput, UpdateCampaignNameOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1712,7 +1712,7 @@ extension ConnectCampaignsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCampaignOutboundCallConfigInput, UpdateCampaignOutboundCallConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }

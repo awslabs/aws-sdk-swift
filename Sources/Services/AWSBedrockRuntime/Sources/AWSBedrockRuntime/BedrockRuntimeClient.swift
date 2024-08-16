@@ -235,7 +235,7 @@ extension BedrockRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ApplyGuardrailInput, ApplyGuardrailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -310,7 +310,7 @@ extension BedrockRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ConverseInput, ConverseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -385,7 +385,7 @@ extension BedrockRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ConverseStreamInput, ConverseStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -461,7 +461,7 @@ extension BedrockRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InvokeModelInput, InvokeModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -539,7 +539,7 @@ extension BedrockRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }

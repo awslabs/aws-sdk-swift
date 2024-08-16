@@ -231,7 +231,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -304,7 +304,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -377,7 +377,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelIngestionInput, CancelIngestionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -449,7 +449,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAccountCustomizationInput, CreateAccountCustomizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -526,7 +526,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAccountSubscriptionInput, CreateAccountSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -601,7 +601,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAnalysisInput, CreateAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -676,7 +676,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDashboardInput, CreateDashboardOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -752,7 +752,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDataSetInput, CreateDataSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -798,6 +798,7 @@ extension QuickSightClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your Amazon QuickSight account is unavailable.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -827,7 +828,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDataSourceInput, CreateDataSourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -903,7 +904,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFolderInput, CreateFolderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -978,7 +979,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFolderMembershipInput, CreateFolderMembershipOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1051,7 +1052,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGroupInput, CreateGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1125,7 +1126,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGroupMembershipInput, CreateGroupMembershipOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1196,7 +1197,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIAMPolicyAssignmentInput, CreateIAMPolicyAssignmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1270,7 +1271,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIngestionInput, CreateIngestionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1347,7 +1348,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNamespaceInput, CreateNamespaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1422,7 +1423,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRefreshScheduleInput, CreateRefreshScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1496,7 +1497,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRoleMembershipInput, CreateRoleMembershipOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1569,7 +1570,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTemplateInput, CreateTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1643,7 +1644,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTemplateAliasInput, CreateTemplateAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1718,7 +1719,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateThemeInput, CreateThemeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1793,7 +1794,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateThemeAliasInput, CreateThemeAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1868,7 +1869,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTopicInput, CreateTopicOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1943,7 +1944,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTopicRefreshScheduleInput, CreateTopicRefreshScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2018,7 +2019,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVPCConnectionInput, CreateVPCConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2094,7 +2095,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccountCustomizationInput, DeleteAccountCustomizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2166,7 +2167,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccountSubscriptionInput, DeleteAccountSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2236,7 +2237,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAnalysisInput, DeleteAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2307,7 +2308,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDashboardInput, DeleteDashboardOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2377,7 +2378,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDataSetInput, DeleteDataSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2448,7 +2449,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDataSetRefreshPropertiesInput, DeleteDataSetRefreshPropertiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2517,7 +2518,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDataSourceInput, DeleteDataSourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2589,7 +2590,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFolderInput, DeleteFolderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2659,7 +2660,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFolderMembershipInput, DeleteFolderMembershipOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2730,7 +2731,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGroupInput, DeleteGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2801,7 +2802,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGroupMembershipInput, DeleteGroupMembershipOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2872,7 +2873,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIAMPolicyAssignmentInput, DeleteIAMPolicyAssignmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2941,7 +2942,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIdentityPropagationConfigInput, DeleteIdentityPropagationConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3012,7 +3013,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNamespaceInput, DeleteNamespaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3082,7 +3083,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRefreshScheduleInput, DeleteRefreshScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3153,7 +3154,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRoleCustomPermissionInput, DeleteRoleCustomPermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3224,7 +3225,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRoleMembershipInput, DeleteRoleMembershipOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3295,7 +3296,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTemplateInput, DeleteTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3365,7 +3366,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTemplateAliasInput, DeleteTemplateAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3436,7 +3437,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteThemeInput, DeleteThemeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3507,7 +3508,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteThemeAliasInput, DeleteThemeAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3577,7 +3578,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTopicInput, DeleteTopicOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3649,7 +3650,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTopicRefreshScheduleInput, DeleteTopicRefreshScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3720,7 +3721,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserInput, DeleteUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3791,7 +3792,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserByPrincipalIdInput, DeleteUserByPrincipalIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3862,7 +3863,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVPCConnectionInput, DeleteVPCConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3949,7 +3950,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountCustomizationInput, DescribeAccountCustomizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4020,7 +4021,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountSettingsInput, DescribeAccountSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4090,7 +4091,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountSubscriptionInput, DescribeAccountSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4160,7 +4161,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAnalysisInput, DescribeAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4232,7 +4233,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAnalysisDefinitionInput, DescribeAnalysisDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4301,7 +4302,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAnalysisPermissionsInput, DescribeAnalysisPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4368,7 +4369,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAssetBundleExportJobInput, DescribeAssetBundleExportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4435,7 +4436,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAssetBundleImportJobInput, DescribeAssetBundleImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4505,7 +4506,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDashboardInput, DescribeDashboardOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4578,7 +4579,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDashboardDefinitionInput, DescribeDashboardDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4648,7 +4649,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDashboardPermissionsInput, DescribeDashboardPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4717,7 +4718,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDashboardSnapshotJobInput, DescribeDashboardSnapshotJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4788,7 +4789,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDashboardSnapshotJobResultInput, DescribeDashboardSnapshotJobResultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4857,7 +4858,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataSetInput, DescribeDataSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4926,7 +4927,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataSetPermissionsInput, DescribeDataSetPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4997,7 +4998,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataSetRefreshPropertiesInput, DescribeDataSetRefreshPropertiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5066,7 +5067,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataSourceInput, DescribeDataSourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5135,7 +5136,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataSourcePermissionsInput, DescribeDataSourcePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5205,7 +5206,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFolderInput, DescribeFolderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5276,7 +5277,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5348,7 +5349,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5420,7 +5421,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeGroupInput, DescribeGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5491,7 +5492,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeGroupMembershipInput, DescribeGroupMembershipOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5561,7 +5562,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIAMPolicyAssignmentInput, DescribeIAMPolicyAssignmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5631,7 +5632,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIngestionInput, DescribeIngestionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5700,7 +5701,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIpRestrictionInput, DescribeIpRestrictionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5768,7 +5769,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeKeyRegistrationInput, DescribeKeyRegistrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5839,7 +5840,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNamespaceInput, DescribeNamespaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5909,7 +5910,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRefreshScheduleInput, DescribeRefreshScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5980,7 +5981,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRoleCustomPermissionInput, DescribeRoleCustomPermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6052,7 +6053,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTemplateInput, DescribeTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6121,7 +6122,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTemplateAliasInput, DescribeTemplateAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6193,7 +6194,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTemplateDefinitionInput, DescribeTemplateDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6264,7 +6265,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTemplatePermissionsInput, DescribeTemplatePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6335,7 +6336,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeThemeInput, DescribeThemeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6406,7 +6407,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeThemeAliasInput, DescribeThemeAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6476,7 +6477,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeThemePermissionsInput, DescribeThemePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6545,7 +6546,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTopicInput, DescribeTopicOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6614,7 +6615,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTopicPermissionsInput, DescribeTopicPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6683,7 +6684,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTopicRefreshInput, DescribeTopicRefreshOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6755,7 +6756,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTopicRefreshScheduleInput, DescribeTopicRefreshScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6826,7 +6827,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUserInput, DescribeUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6896,7 +6897,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVPCConnectionInput, DescribeVPCConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6977,7 +6978,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GenerateEmbedUrlForAnonymousUserInput, GenerateEmbedUrlForAnonymousUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7062,7 +7063,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GenerateEmbedUrlForRegisteredUserInput, GenerateEmbedUrlForRegisteredUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7154,7 +7155,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDashboardEmbedUrlInput, GetDashboardEmbedUrlOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7232,7 +7233,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSessionEmbedUrlInput, GetSessionEmbedUrlOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7301,7 +7302,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnalysesInput, ListAnalysesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7371,7 +7372,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7441,7 +7442,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7512,7 +7513,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDashboardVersionsInput, ListDashboardVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7581,7 +7582,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDashboardsInput, ListDashboardsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7651,7 +7652,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDataSetsInput, ListDataSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7721,7 +7722,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDataSourcesInput, ListDataSourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7793,7 +7794,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFolderMembersInput, ListFolderMembersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7865,7 +7866,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFoldersInput, ListFoldersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7938,7 +7939,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGroupMembershipsInput, ListGroupMembershipsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8011,7 +8012,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGroupsInput, ListGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8082,7 +8083,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8154,7 +8155,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8224,7 +8225,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdentityPropagationConfigsInput, ListIdentityPropagationConfigsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8296,7 +8297,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIngestionsInput, ListIngestionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8369,7 +8370,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListNamespacesInput, ListNamespacesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8440,7 +8441,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRefreshSchedulesInput, ListRefreshSchedulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8513,7 +8514,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRoleMembershipsInput, ListRoleMembershipsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8583,7 +8584,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8652,7 +8653,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTemplateAliasesInput, ListTemplateAliasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8723,7 +8724,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTemplateVersionsInput, ListTemplateVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8794,7 +8795,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTemplatesInput, ListTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8866,7 +8867,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListThemeAliasesInput, ListThemeAliasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8938,7 +8939,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListThemeVersionsInput, ListThemeVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9010,7 +9011,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListThemesInput, ListThemesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9083,7 +9084,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTopicRefreshSchedulesInput, ListTopicRefreshSchedulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9152,7 +9153,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTopicReviewedAnswersInput, ListTopicReviewedAnswersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9221,7 +9222,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTopicsInput, ListTopicsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9293,7 +9294,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUserGroupsInput, ListUserGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9366,7 +9367,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUsersInput, ListUsersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9437,7 +9438,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVPCConnectionsInput, ListVPCConnectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9510,7 +9511,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutDataSetRefreshPropertiesInput, PutDataSetRefreshPropertiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9586,7 +9587,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterUserInput, RegisterUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9659,7 +9660,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreAnalysisInput, RestoreAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9729,7 +9730,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchAnalysesInput, SearchAnalysesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9802,7 +9803,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchDashboardsInput, SearchDashboardsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9875,7 +9876,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchDataSetsInput, SearchDataSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9948,7 +9949,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchDataSourcesInput, SearchDataSourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10023,7 +10024,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchFoldersInput, SearchFoldersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10098,7 +10099,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchGroupsInput, SearchGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10173,7 +10174,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartAssetBundleExportJobInput, StartAssetBundleExportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10247,7 +10248,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartAssetBundleImportJobInput, StartAssetBundleImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10353,7 +10354,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDashboardSnapshotJobInput, StartDashboardSnapshotJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10430,7 +10431,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10502,7 +10503,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10574,7 +10575,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAccountCustomizationInput, UpdateAccountCustomizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10648,7 +10649,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAccountSettingsInput, UpdateAccountSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10722,7 +10723,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAnalysisInput, UpdateAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10796,7 +10797,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAnalysisPermissionsInput, UpdateAnalysisPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10870,7 +10871,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDashboardInput, UpdateDashboardOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10944,7 +10945,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDashboardLinksInput, UpdateDashboardLinksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11018,7 +11019,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDashboardPermissionsInput, UpdateDashboardPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11091,7 +11092,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDashboardPublishedVersionInput, UpdateDashboardPublishedVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11163,7 +11164,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDataSetInput, UpdateDataSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11236,7 +11237,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDataSetPermissionsInput, UpdateDataSetPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11282,6 +11283,7 @@ extension QuickSightClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your Amazon QuickSight account is unavailable.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -11309,7 +11311,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDataSourceInput, UpdateDataSourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11382,7 +11384,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDataSourcePermissionsInput, UpdateDataSourcePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11457,7 +11459,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFolderInput, UpdateFolderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11531,7 +11533,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFolderPermissionsInput, UpdateFolderPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11605,7 +11607,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGroupInput, UpdateGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11679,7 +11681,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIAMPolicyAssignmentInput, UpdateIAMPolicyAssignmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11751,7 +11753,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIdentityPropagationConfigInput, UpdateIdentityPropagationConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11824,7 +11826,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIpRestrictionInput, UpdateIpRestrictionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11895,7 +11897,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11968,7 +11970,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePublicSharingSettingsInput, UpdatePublicSharingSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12042,7 +12044,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRefreshScheduleInput, UpdateRefreshScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12116,7 +12118,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRoleCustomPermissionInput, UpdateRoleCustomPermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12188,7 +12190,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSPICECapacityConfigurationInput, UpdateSPICECapacityConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12263,7 +12265,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTemplateInput, UpdateTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12335,7 +12337,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTemplateAliasInput, UpdateTemplateAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12409,7 +12411,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTemplatePermissionsInput, UpdateTemplatePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12484,7 +12486,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateThemeInput, UpdateThemeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12558,7 +12560,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateThemeAliasInput, UpdateThemeAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12674,7 +12676,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateThemePermissionsInput, UpdateThemePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12749,7 +12751,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTopicInput, UpdateTopicOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12824,7 +12826,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTopicPermissionsInput, UpdateTopicPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12899,7 +12901,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTopicRefreshScheduleInput, UpdateTopicRefreshScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12973,7 +12975,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateUserInput, UpdateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13048,7 +13050,7 @@ extension QuickSightClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVPCConnectionInput, UpdateVPCConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }

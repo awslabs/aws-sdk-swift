@@ -232,7 +232,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptResourceGroupingRecommendationsInput, AcceptResourceGroupingRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -306,7 +306,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -378,7 +378,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -452,7 +452,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppInput, CreateAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -527,7 +527,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -608,7 +608,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppVersionResourceInput, CreateAppVersionResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -683,7 +683,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -757,7 +757,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -830,7 +830,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppInput, DeleteAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -904,7 +904,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppAssessmentInput, DeleteAppAssessmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -978,7 +978,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppInputSourceInput, DeleteAppInputSourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1056,7 +1056,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1136,7 +1136,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1209,7 +1209,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1283,7 +1283,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1356,7 +1356,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppInput, DescribeAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1428,7 +1428,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppAssessmentInput, DescribeAppAssessmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1500,7 +1500,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppVersionInput, DescribeAppVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1573,7 +1573,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1652,7 +1652,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1724,7 +1724,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1796,7 +1796,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1868,7 +1868,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1940,7 +1940,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2012,7 +2012,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeResourceGroupingRecommendationTaskInput, DescribeResourceGroupingRecommendationTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2086,7 +2086,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2158,7 +2158,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2229,7 +2229,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2300,7 +2300,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2372,7 +2372,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppAssessmentsInput, ListAppAssessmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2442,7 +2442,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2514,7 +2514,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2586,7 +2586,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppInputSourcesInput, ListAppInputSourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2659,7 +2659,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2731,7 +2731,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2804,7 +2804,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppVersionResourcesInput, ListAppVersionResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2875,7 +2875,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppVersionsInput, ListAppVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2946,7 +2946,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppsInput, ListAppsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3015,7 +3015,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3085,7 +3085,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3155,7 +3155,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourceGroupingRecommendationsInput, ListResourceGroupingRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3226,7 +3226,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSopRecommendationsInput, ListSopRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3298,7 +3298,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3368,7 +3368,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3438,7 +3438,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTestRecommendationsInput, ListTestRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3511,7 +3511,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3584,7 +3584,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PublishAppVersionInput, PublishAppVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3657,7 +3657,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3729,7 +3729,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RejectResourceGroupingRecommendationsInput, RejectResourceGroupingRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3802,7 +3802,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3875,7 +3875,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3949,7 +3949,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartAppAssessmentInput, StartAppAssessmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4023,7 +4023,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartResourceGroupingRecommendationTaskInput, StartResourceGroupingRecommendationTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4095,7 +4095,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4167,7 +4167,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4238,7 +4238,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAppInput, UpdateAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4311,7 +4311,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAppVersionInput, UpdateAppVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4384,7 +4384,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4464,7 +4464,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4537,7 +4537,7 @@ extension ResiliencehubClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }

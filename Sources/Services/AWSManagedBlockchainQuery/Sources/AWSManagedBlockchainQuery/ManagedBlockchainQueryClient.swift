@@ -230,7 +230,7 @@ extension ManagedBlockchainQueryClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetTokenBalanceInput, BatchGetTokenBalanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -307,7 +307,7 @@ extension ManagedBlockchainQueryClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAssetContractInput, GetAssetContractOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -380,7 +380,7 @@ extension ManagedBlockchainQueryClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTokenBalanceInput, GetTokenBalanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -453,7 +453,7 @@ extension ManagedBlockchainQueryClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTransactionInput, GetTransactionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -525,7 +525,7 @@ extension ManagedBlockchainQueryClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAssetContractsInput, ListAssetContractsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -597,7 +597,7 @@ extension ManagedBlockchainQueryClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFilteredTransactionEventsInput, ListFilteredTransactionEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -678,7 +678,7 @@ extension ManagedBlockchainQueryClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTokenBalancesInput, ListTokenBalancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -750,7 +750,7 @@ extension ManagedBlockchainQueryClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTransactionEventsInput, ListTransactionEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -822,7 +822,7 @@ extension ManagedBlockchainQueryClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTransactionsInput, ListTransactionsOutput> = provider.create()
             builder.interceptors.add(i)
         }

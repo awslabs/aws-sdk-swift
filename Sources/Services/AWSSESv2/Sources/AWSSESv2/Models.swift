@@ -166,6 +166,7 @@ extension SESv2ClientTypes {
         /// Information about the review of the latest details you submitted.
         public var reviewDetails: SESv2ClientTypes.ReviewDetails?
         /// A description of the types of email that you plan to send.
+        @available(*, deprecated, message: "Use case description is optional and deprecated")
         public var useCaseDescription: Swift.String?
         /// The URL of your website. This information helps us better understand the type of content that you plan to send.
         public var websiteURL: Swift.String?
@@ -6512,7 +6513,7 @@ public struct PutAccountDetailsInput {
     /// Indicates whether or not your account should have production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
     public var productionAccessEnabled: Swift.Bool?
     /// A description of the types of email that you plan to send.
-    /// This member is required.
+    @available(*, deprecated, message: "Use case description is optional and deprecated")
     public var useCaseDescription: Swift.String?
     /// The URL of your website. This information helps us better understand the type of content that you plan to send.
     /// This member is required.

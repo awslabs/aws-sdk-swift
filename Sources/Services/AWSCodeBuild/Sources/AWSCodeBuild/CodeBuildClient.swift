@@ -226,7 +226,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDeleteBuildsInput, BatchDeleteBuildsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -295,7 +295,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -364,7 +364,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetBuildsInput, BatchGetBuildsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -433,7 +433,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetFleetsInput, BatchGetFleetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -502,7 +502,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetProjectsInput, BatchGetProjectsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -571,7 +571,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetReportGroupsInput, BatchGetReportGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -640,7 +640,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetReportsInput, BatchGetReportsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -711,7 +711,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFleetInput, CreateFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -782,7 +782,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateProjectInput, CreateProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -853,7 +853,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReportGroupInput, CreateReportGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -925,7 +925,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWebhookInput, CreateWebhookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -994,7 +994,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBuildBatchInput, DeleteBuildBatchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1063,7 +1063,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFleetInput, DeleteFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1132,7 +1132,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteProjectInput, DeleteProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1201,7 +1201,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReportInput, DeleteReportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1270,7 +1270,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReportGroupInput, DeleteReportGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1339,7 +1339,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteResourcePolicyInput, DeleteResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1409,7 +1409,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1480,7 +1480,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWebhookInput, DeleteWebhookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1549,7 +1549,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1619,7 +1619,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTestCasesInput, DescribeTestCasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1689,7 +1689,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReportGroupTrendInput, GetReportGroupTrendOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1759,7 +1759,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetResourcePolicyInput, GetResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1830,7 +1830,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportSourceCredentialsInput, ImportSourceCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1900,7 +1900,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InvalidateProjectCacheInput, InvalidateProjectCacheOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1969,7 +1969,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBuildBatchesInput, ListBuildBatchesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2039,7 +2039,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2108,7 +2108,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBuildsInput, ListBuildsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2178,7 +2178,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBuildsForProjectInput, ListBuildsForProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2242,7 +2242,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2311,7 +2311,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFleetsInput, ListFleetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2380,7 +2380,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListProjectsInput, ListProjectsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2449,7 +2449,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReportGroupsInput, ListReportGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2518,7 +2518,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReportsInput, ListReportsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2588,7 +2588,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReportsForReportGroupInput, ListReportsForReportGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2657,7 +2657,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSharedProjectsInput, ListSharedProjectsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2726,7 +2726,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSharedReportGroupsInput, ListSharedReportGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2795,7 +2795,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSourceCredentialsInput, ListSourceCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2865,7 +2865,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutResourcePolicyInput, PutResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2936,7 +2936,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RetryBuildInput, RetryBuildOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3006,7 +3006,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RetryBuildBatchInput, RetryBuildBatchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3077,7 +3077,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartBuildInput, StartBuildOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3147,7 +3147,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartBuildBatchInput, StartBuildBatchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3217,7 +3217,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopBuildInput, StopBuildOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3287,7 +3287,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopBuildBatchInput, StopBuildBatchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3358,7 +3358,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFleetInput, UpdateFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3428,7 +3428,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateProjectInput, UpdateProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3511,7 +3511,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3581,7 +3581,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateReportGroupInput, UpdateReportGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3652,7 +3652,7 @@ extension CodeBuildClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWebhookInput, UpdateWebhookOutput> = provider.create()
             builder.interceptors.add(i)
         }

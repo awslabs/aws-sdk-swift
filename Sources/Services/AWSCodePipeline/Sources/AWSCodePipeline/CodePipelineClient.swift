@@ -230,7 +230,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcknowledgeJobInput, AcknowledgeJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -302,7 +302,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -375,7 +375,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCustomActionTypeInput, CreateCustomActionTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -453,7 +453,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePipelineInput, CreatePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -523,7 +523,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -593,7 +593,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePipelineInput, DeletePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -663,7 +663,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWebhookInput, DeleteWebhookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -733,7 +733,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -804,7 +804,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableStageTransitionInput, DisableStageTransitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -875,7 +875,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableStageTransitionInput, EnableStageTransitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -945,7 +945,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetActionTypeInput, GetActionTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1015,7 +1015,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetJobDetailsInput, GetJobDetailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1086,7 +1086,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPipelineInput, GetPipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1157,7 +1157,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPipelineExecutionInput, GetPipelineExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1227,7 +1227,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPipelineStateInput, GetPipelineStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1299,7 +1299,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1371,7 +1371,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListActionExecutionsInput, ListActionExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1441,7 +1441,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListActionTypesInput, ListActionTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1512,7 +1512,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPipelineExecutionsInput, ListPipelineExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1582,7 +1582,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPipelinesInput, ListPipelinesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1654,7 +1654,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1724,7 +1724,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWebhooksInput, ListWebhooksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1794,7 +1794,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PollForJobsInput, PollForJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1864,7 +1864,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1936,7 +1936,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutActionRevisionInput, PutActionRevisionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2010,7 +2010,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutApprovalResultInput, PutApprovalResultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2081,7 +2081,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutJobFailureResultInput, PutJobFailureResultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2153,7 +2153,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutJobSuccessResultInput, PutJobSuccessResultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2225,7 +2225,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2297,7 +2297,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2373,7 +2373,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutWebhookInput, PutWebhookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2443,7 +2443,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2517,7 +2517,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RetryStageExecutionInput, RetryStageExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2592,7 +2592,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RollbackStageInput, RollbackStageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2664,7 +2664,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartPipelineExecutionInput, StartPipelineExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2738,7 +2738,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopPipelineExecutionInput, StopPipelineExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2812,7 +2812,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2885,7 +2885,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2956,7 +2956,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateActionTypeInput, UpdateActionTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3030,7 +3030,7 @@ extension CodePipelineClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePipelineInput, UpdatePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }

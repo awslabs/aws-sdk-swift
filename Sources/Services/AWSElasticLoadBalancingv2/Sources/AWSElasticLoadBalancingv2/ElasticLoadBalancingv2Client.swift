@@ -227,7 +227,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddListenerCertificatesInput, AddListenerCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -301,7 +301,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddTagsInput, AddTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -372,7 +372,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddTrustStoreRevocationsInput, AddTrustStoreRevocationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -468,7 +468,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateListenerInput, CreateListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -557,7 +557,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLoadBalancerInput, CreateLoadBalancerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -639,7 +639,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRuleInput, CreateRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -719,7 +719,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTargetGroupInput, CreateTargetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -792,7 +792,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrustStoreInput, CreateTrustStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -861,7 +861,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteListenerInput, DeleteListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -931,7 +931,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLoadBalancerInput, DeleteLoadBalancerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1000,7 +1000,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRuleInput, DeleteRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1068,7 +1068,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTargetGroupInput, DeleteTargetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1137,7 +1137,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrustStoreInput, DeleteTrustStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1215,7 +1215,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterTargetsInput, DeregisterTargetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1284,7 +1284,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1352,7 +1352,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeListenerCertificatesInput, DescribeListenerCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1422,7 +1422,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeListenersInput, DescribeListenersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1496,7 +1496,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLoadBalancerAttributesInput, DescribeLoadBalancerAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1564,7 +1564,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLoadBalancersInput, DescribeLoadBalancersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1634,7 +1634,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRulesInput, DescribeRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1702,7 +1702,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSSLPoliciesInput, DescribeSSLPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1774,7 +1774,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTagsInput, DescribeTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1848,7 +1848,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTargetGroupAttributesInput, DescribeTargetGroupAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1917,7 +1917,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTargetGroupsInput, DescribeTargetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1987,7 +1987,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTargetHealthInput, DescribeTargetHealthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2055,7 +2055,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrustStoreAssociationsInput, DescribeTrustStoreAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2124,7 +2124,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrustStoreRevocationsInput, DescribeTrustStoreRevocationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2192,7 +2192,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrustStoresInput, DescribeTrustStoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2260,7 +2260,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTrustStoreCaCertificatesBundleInput, GetTrustStoreCaCertificatesBundleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2329,7 +2329,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTrustStoreRevocationContentInput, GetTrustStoreRevocationContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2415,7 +2415,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyListenerInput, ModifyListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2484,7 +2484,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyLoadBalancerAttributesInput, ModifyLoadBalancerAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2562,7 +2562,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyRuleInput, ModifyRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2631,7 +2631,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTargetGroupInput, ModifyTargetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2700,7 +2700,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTargetGroupAttributesInput, ModifyTargetGroupAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2770,7 +2770,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTrustStoreInput, ModifyTrustStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2841,7 +2841,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterTargetsInput, RegisterTargetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2910,7 +2910,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveListenerCertificatesInput, RemoveListenerCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2983,7 +2983,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveTagsInput, RemoveTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3052,7 +3052,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveTrustStoreRevocationsInput, RemoveTrustStoreRevocationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3122,7 +3122,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetIpAddressTypeInput, SetIpAddressTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3192,7 +3192,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetRulePrioritiesInput, SetRulePrioritiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3262,7 +3262,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetSecurityGroupsInput, SetSecurityGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3335,7 +3335,7 @@ extension ElasticLoadBalancingv2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetSubnetsInput, SetSubnetsOutput> = provider.create()
             builder.interceptors.add(i)
         }

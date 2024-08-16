@@ -234,7 +234,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AbortDocumentVersionUploadInput, AbortDocumentVersionUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -304,7 +304,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ActivateUserInput, ActivateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -374,7 +374,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddResourcePermissionsInput, AddResourcePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -450,7 +450,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCommentInput, CreateCommentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -525,7 +525,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCustomMetadataInput, CreateCustomMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -604,7 +604,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFolderInput, CreateFolderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -678,7 +678,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLabelsInput, CreateLabelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -750,7 +750,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNotificationSubscriptionInput, CreateNotificationSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -822,7 +822,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserInput, CreateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -895,7 +895,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeactivateUserInput, DeactivateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -967,7 +967,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCommentInput, DeleteCommentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1038,7 +1038,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomMetadataInput, DeleteCustomMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1113,7 +1113,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDocumentInput, DeleteDocumentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1186,7 +1186,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDocumentVersionInput, DeleteDocumentVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1261,7 +1261,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFolderInput, DeleteFolderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1333,7 +1333,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFolderContentsInput, DeleteFolderContentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1404,7 +1404,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLabelsInput, DeleteLabelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1474,7 +1474,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNotificationSubscriptionInput, DeleteNotificationSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1543,7 +1543,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserInput, DeleteUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1613,7 +1613,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeActivitiesInput, DescribeActivitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1685,7 +1685,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCommentsInput, DescribeCommentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1759,7 +1759,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDocumentVersionsInput, DescribeDocumentVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1831,7 +1831,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFolderContentsInput, DescribeFolderContentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1901,7 +1901,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeGroupsInput, DescribeGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1970,7 +1970,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNotificationSubscriptionsInput, DescribeNotificationSubscriptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2040,7 +2040,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeResourcePermissionsInput, DescribeResourcePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2111,7 +2111,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRootFoldersInput, DescribeRootFoldersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2184,7 +2184,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUsersInput, DescribeUsersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2255,7 +2255,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCurrentUserInput, GetCurrentUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2327,7 +2327,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDocumentInput, GetDocumentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2398,7 +2398,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDocumentPathInput, GetDocumentPathOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2471,7 +2471,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDocumentVersionInput, GetDocumentVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2544,7 +2544,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFolderInput, GetFolderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2615,7 +2615,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFolderPathInput, GetFolderPathOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2686,7 +2686,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetResourcesInput, GetResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2766,7 +2766,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InitiateDocumentVersionUploadInput, InitiateDocumentVersionUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2838,7 +2838,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveAllResourcePermissionsInput, RemoveAllResourcePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2907,7 +2907,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveResourcePermissionInput, RemoveResourcePermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2981,7 +2981,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreDocumentVersionsInput, RestoreDocumentVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3050,7 +3050,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchResourcesInput, SearchResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3128,7 +3128,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDocumentInput, UpdateDocumentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3204,7 +3204,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDocumentVersionInput, UpdateDocumentVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3282,7 +3282,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFolderInput, UpdateFolderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3359,7 +3359,7 @@ extension WorkDocsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateUserInput, UpdateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }

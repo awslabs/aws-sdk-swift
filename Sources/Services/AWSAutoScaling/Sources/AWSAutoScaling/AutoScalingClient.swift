@@ -227,7 +227,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachInstancesInput, AttachInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -305,7 +305,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachLoadBalancerTargetGroupsInput, AttachLoadBalancerTargetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -374,7 +374,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachLoadBalancersInput, AttachLoadBalancersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -456,7 +456,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachTrafficSourcesInput, AttachTrafficSourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -524,7 +524,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDeleteScheduledActionInput, BatchDeleteScheduledActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -594,7 +594,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchPutScheduledUpdateGroupActionInput, BatchPutScheduledUpdateGroupActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -664,7 +664,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelInstanceRefreshInput, CancelInstanceRefreshOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -747,7 +747,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CompleteLifecycleActionInput, CompleteLifecycleActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -818,7 +818,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAutoScalingGroupInput, CreateAutoScalingGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -888,7 +888,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLaunchConfigurationInput, CreateLaunchConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -959,7 +959,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateOrUpdateTagsInput, CreateOrUpdateTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1029,7 +1029,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAutoScalingGroupInput, DeleteAutoScalingGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1098,7 +1098,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLaunchConfigurationInput, DeleteLaunchConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1166,7 +1166,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLifecycleHookInput, DeleteLifecycleHookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1234,7 +1234,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNotificationConfigurationInput, DeleteNotificationConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1303,7 +1303,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePolicyInput, DeletePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1371,7 +1371,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteScheduledActionInput, DeleteScheduledActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1440,7 +1440,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTagsInput, DeleteTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1511,7 +1511,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWarmPoolInput, DeleteWarmPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1579,7 +1579,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1653,7 +1653,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAdjustmentTypesInput, DescribeAdjustmentTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1722,7 +1722,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1791,7 +1791,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAutoScalingInstancesInput, DescribeAutoScalingInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1859,7 +1859,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAutoScalingNotificationTypesInput, DescribeAutoScalingNotificationTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1928,7 +1928,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceRefreshesInput, DescribeInstanceRefreshesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1997,7 +1997,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLaunchConfigurationsInput, DescribeLaunchConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2069,7 +2069,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLifecycleHookTypesInput, DescribeLifecycleHookTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2137,7 +2137,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLifecycleHooksInput, DescribeLifecycleHooksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2206,7 +2206,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLoadBalancerTargetGroupsInput, DescribeLoadBalancerTargetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2275,7 +2275,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLoadBalancersInput, DescribeLoadBalancersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2343,7 +2343,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMetricCollectionTypesInput, DescribeMetricCollectionTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2412,7 +2412,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNotificationConfigurationsInput, DescribeNotificationConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2482,7 +2482,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePoliciesInput, DescribePoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2551,7 +2551,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2619,7 +2619,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeScalingProcessTypesInput, DescribeScalingProcessTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2688,7 +2688,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeScheduledActionsInput, DescribeScheduledActionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2757,7 +2757,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTagsInput, DescribeTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2825,7 +2825,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTerminationPolicyTypesInput, DescribeTerminationPolicyTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2894,7 +2894,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrafficSourcesInput, DescribeTrafficSourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2964,7 +2964,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeWarmPoolInput, DescribeWarmPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3032,7 +3032,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachInstancesInput, DetachInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3100,7 +3100,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachLoadBalancerTargetGroupsInput, DetachLoadBalancerTargetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3168,7 +3168,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachLoadBalancersInput, DetachLoadBalancersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3236,7 +3236,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachTrafficSourcesInput, DetachTrafficSourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3304,7 +3304,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableMetricsCollectionInput, DisableMetricsCollectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3372,7 +3372,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableMetricsCollectionInput, EnableMetricsCollectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3440,7 +3440,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnterStandbyInput, EnterStandbyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3509,7 +3509,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExecutePolicyInput, ExecutePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3577,7 +3577,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExitStandbyInput, ExitStandbyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3645,7 +3645,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3729,7 +3729,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutLifecycleHookInput, PutLifecycleHookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3799,7 +3799,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutNotificationConfigurationInput, PutNotificationConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3869,7 +3869,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutScalingPolicyInput, PutScalingPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3939,7 +3939,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutScheduledUpdateGroupActionInput, PutScheduledUpdateGroupActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4008,7 +4008,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutWarmPoolInput, PutWarmPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4091,7 +4091,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RecordLifecycleActionHeartbeatInput, RecordLifecycleActionHeartbeatOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4160,7 +4160,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResumeProcessesInput, ResumeProcessesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4240,7 +4240,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RollbackInstanceRefreshInput, RollbackInstanceRefreshOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4309,7 +4309,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetDesiredCapacityInput, SetDesiredCapacityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4377,7 +4377,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetInstanceHealthInput, SetInstanceHealthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4446,7 +4446,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetInstanceProtectionInput, SetInstanceProtectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4516,7 +4516,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartInstanceRefreshInput, StartInstanceRefreshOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4585,7 +4585,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SuspendProcessesInput, SuspendProcessesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4654,7 +4654,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TerminateInstanceInAutoScalingGroupInput, TerminateInstanceInAutoScalingGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4733,7 +4733,7 @@ extension AutoScalingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAutoScalingGroupInput, UpdateAutoScalingGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }

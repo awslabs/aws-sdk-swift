@@ -235,7 +235,7 @@ extension Route53RecoveryClusterClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRoutingControlStateInput, GetRoutingControlStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -313,7 +313,7 @@ extension Route53RecoveryClusterClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRoutingControlsInput, ListRoutingControlsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -392,7 +392,7 @@ extension Route53RecoveryClusterClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -472,7 +472,7 @@ extension Route53RecoveryClusterClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput> = provider.create()
             builder.interceptors.add(i)
         }

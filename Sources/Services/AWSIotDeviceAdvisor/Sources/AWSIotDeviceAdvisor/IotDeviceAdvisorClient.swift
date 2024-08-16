@@ -228,7 +228,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSuiteDefinitionInput, CreateSuiteDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -297,7 +297,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSuiteDefinitionInput, DeleteSuiteDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -364,7 +364,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEndpointInput, GetEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -432,7 +432,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSuiteDefinitionInput, GetSuiteDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -500,7 +500,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSuiteRunInput, GetSuiteRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -567,7 +567,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSuiteRunReportInput, GetSuiteRunReportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -633,7 +633,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -700,7 +700,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSuiteRunsInput, ListSuiteRunsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -768,7 +768,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -835,7 +835,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartSuiteRunInput, StartSuiteRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -905,7 +905,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopSuiteRunInput, StopSuiteRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -972,7 +972,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1042,7 +1042,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1109,7 +1109,7 @@ extension IotDeviceAdvisorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSuiteDefinitionInput, UpdateSuiteDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }

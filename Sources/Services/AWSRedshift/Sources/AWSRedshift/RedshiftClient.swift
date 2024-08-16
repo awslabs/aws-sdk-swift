@@ -232,7 +232,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptReservedNodeExchangeInput, AcceptReservedNodeExchangeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -303,7 +303,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddPartnerInput, AddPartnerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -372,7 +372,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateDataShareConsumerInput, AssociateDataShareConsumerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -443,7 +443,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AuthorizeClusterSecurityGroupIngressInput, AuthorizeClusterSecurityGroupIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -511,7 +511,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AuthorizeDataShareInput, AuthorizeDataShareOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -584,7 +584,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AuthorizeEndpointAccessInput, AuthorizeEndpointAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -658,7 +658,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AuthorizeSnapshotAccessInput, AuthorizeSnapshotAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -726,7 +726,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDeleteClusterSnapshotsInput, BatchDeleteClusterSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -795,7 +795,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchModifyClusterSnapshotsInput, BatchModifyClusterSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -866,7 +866,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelResizeInput, CancelResizeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -939,7 +939,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyClusterSnapshotInput, CopyClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1009,7 +1009,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAuthenticationProfileInput, CreateAuthenticationProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1101,7 +1101,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateClusterInput, CreateClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1172,7 +1172,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateClusterParameterGroupInput, CreateClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1243,7 +1243,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateClusterSecurityGroupInput, CreateClusterSecurityGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1317,7 +1317,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateClusterSnapshotInput, CreateClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1392,7 +1392,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateClusterSubnetGroupInput, CreateClusterSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1462,7 +1462,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCustomDomainAssociationInput, CreateCustomDomainAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1539,7 +1539,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEndpointAccessInput, CreateEndpointAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1617,7 +1617,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEventSubscriptionInput, CreateEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1688,7 +1688,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateHsmClientCertificateInput, CreateHsmClientCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1759,7 +1759,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateHsmConfigurationInput, CreateHsmConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1831,7 +1831,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRedshiftIdcApplicationInput, CreateRedshiftIdcApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1906,7 +1906,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateScheduledActionInput, CreateScheduledActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1979,7 +1979,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSnapshotCopyGrantInput, CreateSnapshotCopyGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2052,7 +2052,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSnapshotScheduleInput, CreateSnapshotScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2123,7 +2123,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTagsInput, CreateTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2197,7 +2197,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUsageLimitInput, CreateUsageLimitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2265,7 +2265,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeauthorizeDataShareInput, DeauthorizeDataShareOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2334,7 +2334,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAuthenticationProfileInput, DeleteAuthenticationProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2406,7 +2406,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteClusterInput, DeleteClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2475,7 +2475,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteClusterParameterGroupInput, DeleteClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2544,7 +2544,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteClusterSecurityGroupInput, DeleteClusterSecurityGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2613,7 +2613,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2683,7 +2683,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteClusterSubnetGroupInput, DeleteClusterSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2754,7 +2754,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomDomainAssociationInput, DeleteCustomDomainAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2826,7 +2826,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEndpointAccessInput, DeleteEndpointAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2895,7 +2895,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2964,7 +2964,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteHsmClientCertificateInput, DeleteHsmClientCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3033,7 +3033,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteHsmConfigurationInput, DeleteHsmConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3104,7 +3104,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePartnerInput, DeletePartnerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3175,7 +3175,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRedshiftIdcApplicationInput, DeleteRedshiftIdcApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3244,7 +3244,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteResourcePolicyInput, DeleteResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3313,7 +3313,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteScheduledActionInput, DeleteScheduledActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3382,7 +3382,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSnapshotCopyGrantInput, DeleteSnapshotCopyGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3451,7 +3451,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3520,7 +3520,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTagsInput, DeleteTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3589,7 +3589,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUsageLimitInput, DeleteUsageLimitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3652,7 +3652,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountAttributesInput, DescribeAccountAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3721,7 +3721,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAuthenticationProfilesInput, DescribeAuthenticationProfilesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3790,7 +3790,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3859,7 +3859,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3927,7 +3927,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterParametersInput, DescribeClusterParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3996,7 +3996,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4067,7 +4067,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4136,7 +4136,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4205,7 +4205,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterTracksInput, DescribeClusterTracksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4268,7 +4268,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterVersionsInput, DescribeClusterVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4337,7 +4337,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClustersInput, DescribeClustersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4406,7 +4406,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCustomDomainAssociationsInput, DescribeCustomDomainAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4474,7 +4474,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataSharesInput, DescribeDataSharesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4542,7 +4542,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4610,7 +4610,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4673,7 +4673,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4743,7 +4743,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEndpointAccessInput, DescribeEndpointAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4812,7 +4812,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4875,7 +4875,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventCategoriesInput, DescribeEventCategoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4944,7 +4944,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5007,7 +5007,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsInput, DescribeEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5076,7 +5076,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5145,7 +5145,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5215,7 +5215,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5284,7 +5284,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLoggingStatusInput, DescribeLoggingStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5356,7 +5356,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5419,7 +5419,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5489,7 +5489,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePartnersInput, DescribePartnersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5560,7 +5560,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRedshiftIdcApplicationsInput, DescribeRedshiftIdcApplicationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5630,7 +5630,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5700,7 +5700,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5769,7 +5769,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedNodesInput, DescribeReservedNodesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5839,7 +5839,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeResizeInput, DescribeResizeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5908,7 +5908,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeScheduledActionsInput, DescribeScheduledActionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5977,7 +5977,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6040,7 +6040,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6103,7 +6103,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStorageInput, DescribeStorageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6172,7 +6172,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6250,7 +6250,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTagsInput, DescribeTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6327,7 +6327,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUsageLimitsInput, DescribeUsageLimitsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6397,7 +6397,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableLoggingInput, DisableLoggingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6469,7 +6469,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableSnapshotCopyInput, DisableSnapshotCopyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6538,7 +6538,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateDataShareConsumerInput, DisassociateDataShareConsumerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6612,7 +6612,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableLoggingInput, EnableLoggingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6690,7 +6690,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableSnapshotCopyInput, EnableSnapshotCopyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6761,7 +6761,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<FailoverPrimaryComputeInput, FailoverPrimaryComputeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6830,7 +6830,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetClusterCredentialsInput, GetClusterCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6899,7 +6899,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetClusterCredentialsWithIAMInput, GetClusterCredentialsWithIAMOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6974,7 +6974,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7047,7 +7047,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7117,7 +7117,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetResourcePolicyInput, GetResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7186,7 +7186,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRecommendationsInput, ListRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7256,7 +7256,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyAquaConfigurationInput, ModifyAquaConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7326,7 +7326,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyAuthenticationProfileInput, ModifyAuthenticationProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7415,7 +7415,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClusterInput, ModifyClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7486,7 +7486,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClusterDbRevisionInput, ModifyClusterDbRevisionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7555,7 +7555,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClusterIamRolesInput, ModifyClusterIamRolesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7624,7 +7624,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClusterMaintenanceInput, ModifyClusterMaintenanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7693,7 +7693,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClusterParameterGroupInput, ModifyClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7763,7 +7763,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClusterSnapshotInput, ModifyClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7833,7 +7833,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClusterSnapshotScheduleInput, ModifyClusterSnapshotScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7906,7 +7906,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClusterSubnetGroupInput, ModifyClusterSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7977,7 +7977,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyCustomDomainAssociationInput, ModifyCustomDomainAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8050,7 +8050,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyEndpointAccessInput, ModifyEndpointAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8126,7 +8126,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8197,7 +8197,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyRedshiftIdcApplicationInput, ModifyRedshiftIdcApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8271,7 +8271,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyScheduledActionInput, ModifyScheduledActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8343,7 +8343,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifySnapshotCopyRetentionPeriodInput, ModifySnapshotCopyRetentionPeriodOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8413,7 +8413,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifySnapshotScheduleInput, ModifySnapshotScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8483,7 +8483,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyUsageLimitInput, ModifyUsageLimitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8553,7 +8553,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PauseClusterInput, PauseClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8624,7 +8624,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PurchaseReservedNodeOfferingInput, PurchaseReservedNodeOfferingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8695,7 +8695,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutResourcePolicyInput, PutResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8764,7 +8764,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootClusterInput, RebootClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8832,7 +8832,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RejectDataShareInput, RejectDataShareOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8901,7 +8901,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetClusterParameterGroupInput, ResetClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9000,7 +9000,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResizeClusterInput, ResizeClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9100,7 +9100,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreFromClusterSnapshotInput, RestoreFromClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9174,7 +9174,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreTableFromClusterSnapshotInput, RestoreTableFromClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9245,7 +9245,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResumeClusterInput, ResumeClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9315,7 +9315,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RevokeClusterSecurityGroupIngressInput, RevokeClusterSecurityGroupIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9389,7 +9389,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RevokeEndpointAccessInput, RevokeEndpointAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9460,7 +9460,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RevokeSnapshotAccessInput, RevokeSnapshotAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9531,7 +9531,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RotateEncryptionKeyInput, RotateEncryptionKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9602,7 +9602,7 @@ extension RedshiftClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePartnerStatusInput, UpdatePartnerStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }

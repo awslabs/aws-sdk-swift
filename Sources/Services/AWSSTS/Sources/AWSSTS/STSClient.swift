@@ -243,7 +243,7 @@ extension STSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssumeRoleInput, AssumeRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -322,7 +322,7 @@ extension STSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -402,7 +402,7 @@ extension STSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -480,7 +480,7 @@ extension STSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -543,7 +543,7 @@ extension STSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccessKeyInfoInput, GetAccessKeyInfoOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -606,7 +606,7 @@ extension STSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCallerIdentityInput, GetCallerIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -683,7 +683,7 @@ extension STSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFederationTokenInput, GetFederationTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -758,7 +758,7 @@ extension STSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSessionTokenInput, GetSessionTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }

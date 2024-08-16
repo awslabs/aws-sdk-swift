@@ -231,7 +231,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptInvitationInput, AcceptInvitationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -302,7 +302,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetGraphMemberDatasourcesInput, BatchGetGraphMemberDatasourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -373,7 +373,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetMembershipDatasourcesInput, BatchGetMembershipDatasourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -448,7 +448,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGraphInput, CreateGraphOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -528,7 +528,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMembersInput, CreateMembersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -599,7 +599,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGraphInput, DeleteGraphOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -671,7 +671,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMembersInput, DeleteMembersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -742,7 +742,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -813,7 +813,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -882,7 +882,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateMembershipInput, DisassociateMembershipOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -953,7 +953,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1025,7 +1025,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInvestigationInput, GetInvestigationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1096,7 +1096,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMembersInput, GetMembersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1167,7 +1167,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDatasourcePackagesInput, ListDatasourcePackagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1237,7 +1237,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGraphsInput, ListGraphsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1309,7 +1309,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIndicatorsInput, ListIndicatorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1381,7 +1381,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInvestigationsInput, ListInvestigationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1451,7 +1451,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInvitationsInput, ListInvitationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1522,7 +1522,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMembersInput, ListMembersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1593,7 +1593,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1664,7 +1664,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1733,7 +1733,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RejectInvitationInput, RejectInvitationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1805,7 +1805,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartInvestigationInput, StartInvestigationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1886,7 +1886,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMonitoringMemberInput, StartMonitoringMemberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1957,7 +1957,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2028,7 +2028,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2102,7 +2102,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDatasourcePackagesInput, UpdateDatasourcePackagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2174,7 +2174,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateInvestigationStateInput, UpdateInvestigationStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2245,7 +2245,7 @@ extension DetectiveClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }

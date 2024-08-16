@@ -235,7 +235,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelImageCreationInput, CancelImageCreationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -311,7 +311,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelLifecycleExecutionInput, CancelLifecycleExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -394,7 +394,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateComponentInput, CreateComponentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -473,7 +473,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateContainerRecipeInput, CreateContainerRecipeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -552,7 +552,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDistributionConfigurationInput, CreateDistributionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -629,7 +629,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateImageInput, CreateImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -707,7 +707,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateImagePipelineInput, CreateImagePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -786,7 +786,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateImageRecipeInput, CreateImageRecipeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -864,7 +864,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInfrastructureConfigurationInput, CreateInfrastructureConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -942,7 +942,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLifecyclePolicyInput, CreateLifecyclePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1021,7 +1021,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWorkflowInput, CreateWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1096,7 +1096,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteComponentInput, DeleteComponentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1168,7 +1168,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteContainerRecipeInput, DeleteContainerRecipeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1240,7 +1240,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDistributionConfigurationInput, DeleteDistributionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1318,7 +1318,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteImageInput, DeleteImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1390,7 +1390,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteImagePipelineInput, DeleteImagePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1462,7 +1462,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteImageRecipeInput, DeleteImageRecipeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1534,7 +1534,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInfrastructureConfigurationInput, DeleteInfrastructureConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1606,7 +1606,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1678,7 +1678,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWorkflowInput, DeleteWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1749,7 +1749,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetComponentInput, GetComponentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1820,7 +1820,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetComponentPolicyInput, GetComponentPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1891,7 +1891,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContainerRecipeInput, GetContainerRecipeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1962,7 +1962,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContainerRecipePolicyInput, GetContainerRecipePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2033,7 +2033,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDistributionConfigurationInput, GetDistributionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2104,7 +2104,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetImageInput, GetImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2175,7 +2175,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetImagePipelineInput, GetImagePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2246,7 +2246,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetImagePolicyInput, GetImagePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2317,7 +2317,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetImageRecipeInput, GetImageRecipeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2388,7 +2388,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetImageRecipePolicyInput, GetImageRecipePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2459,7 +2459,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInfrastructureConfigurationInput, GetInfrastructureConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2530,7 +2530,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLifecycleExecutionInput, GetLifecycleExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2601,7 +2601,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLifecyclePolicyInput, GetLifecyclePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2672,7 +2672,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkflowInput, GetWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2743,7 +2743,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkflowExecutionInput, GetWorkflowExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2814,7 +2814,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkflowStepExecutionInput, GetWorkflowStepExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2889,7 +2889,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportComponentInput, ImportComponentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2960,7 +2960,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportVmImageInput, ImportVmImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3035,7 +3035,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListComponentBuildVersionsInput, ListComponentBuildVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3109,7 +3109,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListComponentsInput, ListComponentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3183,7 +3183,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListContainerRecipesInput, ListContainerRecipesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3257,7 +3257,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDistributionConfigurationsInput, ListDistributionConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3331,7 +3331,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImageBuildVersionsInput, ListImageBuildVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3406,7 +3406,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImagePackagesInput, ListImagePackagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3481,7 +3481,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImagePipelineImagesInput, ListImagePipelineImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3555,7 +3555,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImagePipelinesInput, ListImagePipelinesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3629,7 +3629,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImageRecipesInput, ListImageRecipesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3711,7 +3711,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImageScanFindingAggregationsInput, ListImageScanFindingAggregationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3785,7 +3785,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImageScanFindingsInput, ListImageScanFindingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3859,7 +3859,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImagesInput, ListImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3933,7 +3933,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInfrastructureConfigurationsInput, ListInfrastructureConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4007,7 +4007,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLifecycleExecutionResourcesInput, ListLifecycleExecutionResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4081,7 +4081,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLifecycleExecutionsInput, ListLifecycleExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4155,7 +4155,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLifecyclePoliciesInput, ListLifecyclePoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4225,7 +4225,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4296,7 +4296,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWaitingWorkflowStepsInput, ListWaitingWorkflowStepsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4370,7 +4370,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkflowBuildVersionsInput, ListWorkflowBuildVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4444,7 +4444,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkflowExecutionsInput, ListWorkflowExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4518,7 +4518,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkflowStepExecutionsInput, ListWorkflowStepExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4592,7 +4592,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkflowsInput, ListWorkflowsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4667,7 +4667,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutComponentPolicyInput, PutComponentPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4742,7 +4742,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutContainerRecipePolicyInput, PutContainerRecipePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4817,7 +4817,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutImagePolicyInput, PutImagePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4892,7 +4892,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutImageRecipePolicyInput, PutImageRecipePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4969,7 +4969,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendWorkflowStepActionInput, SendWorkflowStepActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5046,7 +5046,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartImagePipelineExecutionInput, StartImagePipelineExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5123,7 +5123,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartResourceStateUpdateInput, StartResourceStateUpdateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5194,7 +5194,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5264,7 +5264,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5338,7 +5338,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDistributionConfigurationInput, UpdateDistributionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5414,7 +5414,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateImagePipelineInput, UpdateImagePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5490,7 +5490,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateInfrastructureConfigurationInput, UpdateInfrastructureConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5567,7 +5567,7 @@ extension ImagebuilderClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLifecyclePolicyInput, UpdateLifecyclePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }

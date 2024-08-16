@@ -241,7 +241,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddTagsToResourceInput, AddTagsToResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -313,7 +313,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -382,7 +382,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -451,7 +451,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchStopUpdateActionInput, BatchStopUpdateActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -521,7 +521,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CompleteMigrationInput, CompleteMigrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -596,7 +596,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyServerlessCacheSnapshotInput, CopyServerlessCacheSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -686,7 +686,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopySnapshotInput, CopySnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -767,7 +767,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCacheClusterInput, CreateCacheClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -844,7 +844,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -916,7 +916,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -989,7 +989,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1065,7 +1065,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1151,7 +1151,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReplicationGroupInput, CreateReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1229,7 +1229,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateServerlessCacheInput, CreateServerlessCacheOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1304,7 +1304,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateServerlessCacheSnapshotInput, CreateServerlessCacheSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1388,7 +1388,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSnapshotInput, CreateSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1462,7 +1462,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserInput, CreateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1537,7 +1537,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserGroupInput, CreateUserGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1608,7 +1608,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1687,7 +1687,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DecreaseReplicaCountInput, DecreaseReplicaCountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1782,7 +1782,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCacheClusterInput, DeleteCacheClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1853,7 +1853,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1924,7 +1924,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1993,7 +1993,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2070,7 +2070,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2151,7 +2151,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReplicationGroupInput, DeleteReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2225,7 +2225,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteServerlessCacheInput, DeleteServerlessCacheOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2296,7 +2296,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteServerlessCacheSnapshotInput, DeleteServerlessCacheSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2367,7 +2367,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSnapshotInput, DeleteSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2439,7 +2439,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserInput, DeleteUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2510,7 +2510,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserGroupInput, DeleteUserGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2580,7 +2580,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCacheClustersInput, DescribeCacheClustersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2643,7 +2643,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2713,7 +2713,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2783,7 +2783,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCacheParametersInput, DescribeCacheParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2853,7 +2853,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2921,7 +2921,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2990,7 +2990,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3059,7 +3059,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsInput, DescribeEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3129,7 +3129,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3199,7 +3199,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3269,7 +3269,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3339,7 +3339,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3410,7 +3410,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeServerlessCacheSnapshotsInput, DescribeServerlessCacheSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3480,7 +3480,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeServerlessCachesInput, DescribeServerlessCachesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3550,7 +3550,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3621,7 +3621,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSnapshotsInput, DescribeSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3690,7 +3690,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUpdateActionsInput, DescribeUpdateActionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3760,7 +3760,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUserGroupsInput, DescribeUserGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3830,7 +3830,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUsersInput, DescribeUsersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3901,7 +3901,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3972,7 +3972,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportServerlessCacheSnapshotInput, ExportServerlessCacheSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4043,7 +4043,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4113,7 +4113,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4192,7 +4192,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<IncreaseReplicaCountInput, IncreaseReplicaCountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4263,7 +4263,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4345,7 +4345,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4423,7 +4423,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyCacheClusterInput, ModifyCacheClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4499,7 +4499,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4571,7 +4571,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4641,7 +4641,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4731,7 +4731,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyReplicationGroupInput, ModifyReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4808,7 +4808,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4883,7 +4883,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyServerlessCacheInput, ModifyServerlessCacheOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4955,7 +4955,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyUserInput, ModifyUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5030,7 +5030,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyUserGroupInput, ModifyUserGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5103,7 +5103,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5173,7 +5173,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5242,7 +5242,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootCacheClusterInput, RebootCacheClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5325,7 +5325,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5401,7 +5401,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5473,7 +5473,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5544,7 +5544,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMigrationInput, StartMigrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5651,7 +5651,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestFailoverInput, TestFailoverOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5722,7 +5722,7 @@ extension ElastiCacheClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestMigrationInput, TestMigrationOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -231,7 +231,7 @@ extension MarketplaceAgreementClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAgreementInput, DescribeAgreementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -315,7 +315,7 @@ extension MarketplaceAgreementClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAgreementTermsInput, GetAgreementTermsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -415,7 +415,7 @@ extension MarketplaceAgreementClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchAgreementsInput, SearchAgreementsOutput> = provider.create()
             builder.interceptors.add(i)
         }

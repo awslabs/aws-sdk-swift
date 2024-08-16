@@ -232,7 +232,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBudgetInput, CreateBudgetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -308,7 +308,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBudgetActionInput, CreateBudgetActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -383,7 +383,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNotificationInput, CreateNotificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -458,7 +458,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSubscriberInput, CreateSubscriberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -531,7 +531,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBudgetInput, DeleteBudgetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -605,7 +605,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBudgetActionInput, DeleteBudgetActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -678,7 +678,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNotificationInput, DeleteNotificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -751,7 +751,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSubscriberInput, DeleteSubscriberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -824,7 +824,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBudgetInput, DescribeBudgetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -897,7 +897,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBudgetActionInput, DescribeBudgetActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -971,7 +971,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1044,7 +1044,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1118,7 +1118,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1193,7 +1193,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1268,7 +1268,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1343,7 +1343,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBudgetsInput, DescribeBudgetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1418,7 +1418,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1493,7 +1493,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1567,7 +1567,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExecuteBudgetActionInput, ExecuteBudgetActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1640,7 +1640,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1714,7 +1714,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1787,7 +1787,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1860,7 +1860,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBudgetInput, UpdateBudgetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1934,7 +1934,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBudgetActionInput, UpdateBudgetActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2008,7 +2008,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateNotificationInput, UpdateNotificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2082,7 +2082,7 @@ extension BudgetsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSubscriberInput, UpdateSubscriberOutput> = provider.create()
             builder.interceptors.add(i)
         }

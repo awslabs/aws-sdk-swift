@@ -228,7 +228,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchUpdateClusterInput, BatchUpdateClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -304,7 +304,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopySnapshotInput, CopySnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -379,7 +379,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateACLInput, CreateACLOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -463,7 +463,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateClusterInput, CreateClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -538,7 +538,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateParameterGroupInput, CreateParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -614,7 +614,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSnapshotInput, CreateSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -689,7 +689,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSubnetGroupInput, CreateSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -763,7 +763,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserInput, CreateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -834,7 +834,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteACLInput, DeleteACLOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -908,7 +908,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteClusterInput, DeleteClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -981,7 +981,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteParameterGroupInput, DeleteParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1054,7 +1054,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSnapshotInput, DeleteSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1125,7 +1125,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSubnetGroupInput, DeleteSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1196,7 +1196,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserInput, DeleteUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1266,7 +1266,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeACLsInput, DescribeACLsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1338,7 +1338,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClustersInput, DescribeClustersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1409,7 +1409,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEngineVersionsInput, DescribeEngineVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1480,7 +1480,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsInput, DescribeEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1552,7 +1552,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeParameterGroupsInput, DescribeParameterGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1624,7 +1624,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeParametersInput, DescribeParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1696,7 +1696,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedNodesInput, DescribeReservedNodesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1768,7 +1768,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1838,7 +1838,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1910,7 +1910,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSnapshotsInput, DescribeSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1980,7 +1980,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2050,7 +2050,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUsersInput, DescribeUsersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2126,7 +2126,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<FailoverShardInput, FailoverShardOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2198,7 +2198,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAllowedNodeTypeUpdatesInput, ListAllowedNodeTypeUpdatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2275,7 +2275,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsInput, ListTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2350,7 +2350,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2423,7 +2423,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetParameterGroupInput, ResetParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2501,7 +2501,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2579,7 +2579,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2654,7 +2654,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateACLInput, UpdateACLOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2738,7 +2738,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateClusterInput, UpdateClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2811,7 +2811,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateParameterGroupInput, UpdateParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2885,7 +2885,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSubnetGroupInput, UpdateSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2957,7 +2957,7 @@ extension MemoryDBClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateUserInput, UpdateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }

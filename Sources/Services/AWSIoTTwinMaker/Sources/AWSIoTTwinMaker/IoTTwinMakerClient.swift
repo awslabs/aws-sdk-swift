@@ -230,7 +230,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchPutPropertyValuesInput, BatchPutPropertyValuesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -303,7 +303,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelMetadataTransferJobInput, CancelMetadataTransferJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -373,7 +373,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateComponentTypeInput, CreateComponentTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -446,7 +446,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEntityInput, CreateEntityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -520,7 +520,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMetadataTransferJobInput, CreateMetadataTransferJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -593,7 +593,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSceneInput, CreateSceneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -666,7 +666,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSyncJobInput, CreateSyncJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -739,7 +739,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWorkspaceInput, CreateWorkspaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -811,7 +811,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteComponentTypeInput, DeleteComponentTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -880,7 +880,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEntityInput, DeleteEntityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -950,7 +950,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSceneInput, DeleteSceneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1020,7 +1020,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSyncJobInput, DeleteSyncJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1089,7 +1089,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWorkspaceInput, DeleteWorkspaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1159,7 +1159,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExecuteQueryInput, ExecuteQueryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1231,7 +1231,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetComponentTypeInput, GetComponentTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1300,7 +1300,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEntityInput, GetEntityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1369,7 +1369,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMetadataTransferJobInput, GetMetadataTransferJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1437,7 +1437,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPricingPlanInput, GetPricingPlanOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1508,7 +1508,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPropertyValueInput, GetPropertyValueOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1582,7 +1582,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1654,7 +1654,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSceneInput, GetSceneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1724,7 +1724,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSyncJobInput, GetSyncJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1794,7 +1794,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkspaceInput, GetWorkspaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1862,7 +1862,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListComponentTypesInput, ListComponentTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1934,7 +1934,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListComponentsInput, ListComponentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2005,7 +2005,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEntitiesInput, ListEntitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2076,7 +2076,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMetadataTransferJobsInput, ListMetadataTransferJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2148,7 +2148,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPropertiesInput, ListPropertiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2219,7 +2219,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListScenesInput, ListScenesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2291,7 +2291,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSyncJobsInput, ListSyncJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2363,7 +2363,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSyncResourcesInput, ListSyncResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2432,7 +2432,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2503,7 +2503,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkspacesInput, ListWorkspacesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2573,7 +2573,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2642,7 +2642,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2713,7 +2713,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateComponentTypeInput, UpdateComponentTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2787,7 +2787,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEntityInput, UpdateEntityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2858,7 +2858,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePricingPlanInput, UpdatePricingPlanOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2930,7 +2930,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSceneInput, UpdateSceneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3003,7 +3003,7 @@ extension IoTTwinMakerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWorkspaceInput, UpdateWorkspaceOutput> = provider.create()
             builder.interceptors.add(i)
         }

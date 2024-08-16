@@ -35032,6 +35032,22 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// Metadata for an endpoint configuration step.
+    public struct EndpointConfigStepMetadata {
+        /// The Amazon Resource Name (ARN) of the endpoint configuration used in the step.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// Provides summary information for an endpoint configuration.
     public struct EndpointConfigSummary {
         /// A timestamp that shows when the endpoint configuration was created.
@@ -35088,6 +35104,22 @@ extension SageMakerClientTypes {
             }
         }
     }
+}
+
+extension SageMakerClientTypes {
+    /// Metadata for an endpoint step.
+    public struct EndpointStepMetadata {
+        /// The Amazon Resource Name (ARN) of the endpoint in the step.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+        }
+    }
+
 }
 
 extension SageMakerClientTypes {
@@ -42834,6 +42866,10 @@ extension SageMakerClientTypes {
         public var condition: SageMakerClientTypes.ConditionStepMetadata?
         /// The configurations and outcomes of an Amazon EMR step execution.
         public var emr: SageMakerClientTypes.EMRStepMetadata?
+        /// The endpoint that was invoked during this step execution.
+        public var endpoint: SageMakerClientTypes.EndpointStepMetadata?
+        /// The endpoint configuration used to create an endpoint during this step execution.
+        public var endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata?
         /// The configurations and outcomes of a Fail step execution.
         public var fail: SageMakerClientTypes.FailStepMetadata?
         /// The Amazon Resource Name (ARN) of the Lambda function that was run by this step execution and a list of output parameters.
@@ -42875,6 +42911,8 @@ extension SageMakerClientTypes {
             clarifyCheck: SageMakerClientTypes.ClarifyCheckStepMetadata? = nil,
             condition: SageMakerClientTypes.ConditionStepMetadata? = nil,
             emr: SageMakerClientTypes.EMRStepMetadata? = nil,
+            endpoint: SageMakerClientTypes.EndpointStepMetadata? = nil,
+            endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata? = nil,
             fail: SageMakerClientTypes.FailStepMetadata? = nil,
             lambda: SageMakerClientTypes.LambdaStepMetadata? = nil,
             model: SageMakerClientTypes.ModelStepMetadata? = nil,
@@ -42891,6 +42929,8 @@ extension SageMakerClientTypes {
             self.clarifyCheck = clarifyCheck
             self.condition = condition
             self.emr = emr
+            self.endpoint = endpoint
+            self.endpointConfig = endpointConfig
             self.fail = fail
             self.lambda = lambda
             self.model = model
@@ -73247,6 +73287,28 @@ extension SageMakerClientTypes.PipelineExecutionStepMetadata {
         value.clarifyCheck = try reader["ClarifyCheck"].readIfPresent(with: SageMakerClientTypes.ClarifyCheckStepMetadata.read(from:))
         value.fail = try reader["Fail"].readIfPresent(with: SageMakerClientTypes.FailStepMetadata.read(from:))
         value.autoMLJob = try reader["AutoMLJob"].readIfPresent(with: SageMakerClientTypes.AutoMLJobStepMetadata.read(from:))
+        value.endpoint = try reader["Endpoint"].readIfPresent(with: SageMakerClientTypes.EndpointStepMetadata.read(from:))
+        value.endpointConfig = try reader["EndpointConfig"].readIfPresent(with: SageMakerClientTypes.EndpointConfigStepMetadata.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EndpointConfigStepMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointConfigStepMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EndpointConfigStepMetadata()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EndpointStepMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointStepMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EndpointStepMetadata()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
