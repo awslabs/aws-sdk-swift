@@ -230,7 +230,7 @@ extension ApplicationCostProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReportDefinitionInput, DeleteReportDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -298,7 +298,7 @@ extension ApplicationCostProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReportDefinitionInput, GetReportDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -366,7 +366,7 @@ extension ApplicationCostProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportApplicationUsageInput, ImportApplicationUsageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -437,7 +437,7 @@ extension ApplicationCostProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReportDefinitionsInput, ListReportDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -507,7 +507,7 @@ extension ApplicationCostProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutReportDefinitionInput, PutReportDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -578,7 +578,7 @@ extension ApplicationCostProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateReportDefinitionInput, UpdateReportDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }

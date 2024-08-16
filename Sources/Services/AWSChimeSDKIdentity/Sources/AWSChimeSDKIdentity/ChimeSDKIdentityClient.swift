@@ -235,7 +235,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppInstanceInput, CreateAppInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -318,7 +318,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -393,7 +393,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppInstanceBotInput, CreateAppInstanceBotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -469,7 +469,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppInstanceUserInput, CreateAppInstanceUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -544,7 +544,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppInstanceInput, DeleteAppInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -616,7 +616,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -688,7 +688,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppInstanceBotInput, DeleteAppInstanceBotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -760,7 +760,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -830,7 +830,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterAppInstanceUserEndpointInput, DeregisterAppInstanceUserEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -900,7 +900,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppInstanceInput, DescribeAppInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -970,7 +970,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1041,7 +1041,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppInstanceBotInput, DescribeAppInstanceBotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1111,7 +1111,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1181,7 +1181,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppInstanceUserEndpointInput, DescribeAppInstanceUserEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1251,7 +1251,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1322,7 +1322,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1394,7 +1394,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppInstanceBotsInput, ListAppInstanceBotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1465,7 +1465,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppInstanceUserEndpointsInput, ListAppInstanceUserEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1536,7 +1536,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppInstanceUsersInput, ListAppInstanceUsersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1607,7 +1607,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAppInstancesInput, ListAppInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1678,7 +1678,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1749,7 +1749,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1823,7 +1823,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutAppInstanceUserExpirationSettingsInput, PutAppInstanceUserExpirationSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1898,7 +1898,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterAppInstanceUserEndpointInput, RegisterAppInstanceUserEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1973,7 +1973,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2047,7 +2047,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2122,7 +2122,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAppInstanceInput, UpdateAppInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2197,7 +2197,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAppInstanceBotInput, UpdateAppInstanceBotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2272,7 +2272,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2346,7 +2346,7 @@ extension ChimeSDKIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAppInstanceUserEndpointInput, UpdateAppInstanceUserEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }

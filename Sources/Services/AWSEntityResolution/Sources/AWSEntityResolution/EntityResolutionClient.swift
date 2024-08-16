@@ -234,7 +234,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddPolicyStatementInput, AddPolicyStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -304,7 +304,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDeleteUniqueIdInput, BatchDeleteUniqueIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -375,7 +375,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIdMappingWorkflowInput, CreateIdMappingWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -448,7 +448,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIdNamespaceInput, CreateIdNamespaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -521,7 +521,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMatchingWorkflowInput, CreateMatchingWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -594,7 +594,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSchemaMappingInput, CreateSchemaMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -666,7 +666,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIdMappingWorkflowInput, DeleteIdMappingWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -734,7 +734,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIdNamespaceInput, DeleteIdNamespaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -803,7 +803,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMatchingWorkflowInput, DeleteMatchingWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -873,7 +873,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePolicyStatementInput, DeletePolicyStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -942,7 +942,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSchemaMappingInput, DeleteSchemaMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1011,7 +1011,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdMappingJobInput, GetIdMappingJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1080,7 +1080,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdMappingWorkflowInput, GetIdMappingWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1149,7 +1149,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdNamespaceInput, GetIdNamespaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1218,7 +1218,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMatchIdInput, GetMatchIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1290,7 +1290,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMatchingJobInput, GetMatchingJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1359,7 +1359,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMatchingWorkflowInput, GetMatchingWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1428,7 +1428,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPolicyInput, GetPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1497,7 +1497,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetProviderServiceInput, GetProviderServiceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1566,7 +1566,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSchemaMappingInput, GetSchemaMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1635,7 +1635,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdMappingJobsInput, ListIdMappingJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1704,7 +1704,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdMappingWorkflowsInput, ListIdMappingWorkflowsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1773,7 +1773,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdNamespacesInput, ListIdNamespacesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1843,7 +1843,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMatchingJobsInput, ListMatchingJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1912,7 +1912,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMatchingWorkflowsInput, ListMatchingWorkflowsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1981,7 +1981,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListProviderServicesInput, ListProviderServicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2050,7 +2050,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSchemaMappingsInput, ListSchemaMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2118,7 +2118,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2188,7 +2188,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutPolicyInput, PutPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2262,7 +2262,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartIdMappingJobInput, StartIdMappingJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2336,7 +2336,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMatchingJobInput, StartMatchingJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2403,7 +2403,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2472,7 +2472,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2542,7 +2542,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIdMappingWorkflowInput, UpdateIdMappingWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2614,7 +2614,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIdNamespaceInput, UpdateIdNamespaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2686,7 +2686,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateMatchingWorkflowInput, UpdateMatchingWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2759,7 +2759,7 @@ extension EntityResolutionClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSchemaMappingInput, UpdateSchemaMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }

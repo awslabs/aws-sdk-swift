@@ -235,7 +235,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -304,7 +304,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -377,7 +377,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -449,7 +449,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -521,7 +521,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -590,7 +590,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -659,7 +659,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -728,7 +728,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -797,7 +797,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSolFunctionPackageInput, GetSolFunctionPackageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -866,7 +866,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -936,7 +936,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1006,7 +1006,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1075,7 +1075,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSolNetworkOperationInput, GetSolNetworkOperationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1144,7 +1144,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSolNetworkPackageInput, GetSolNetworkPackageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1213,7 +1213,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1283,7 +1283,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1353,7 +1353,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1425,7 +1425,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1494,7 +1494,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1563,7 +1563,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1632,7 +1632,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1701,7 +1701,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1771,7 +1771,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1840,7 +1840,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1913,7 +1913,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1986,7 +1986,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2059,7 +2059,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2131,7 +2131,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2201,7 +2201,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2274,7 +2274,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2346,7 +2346,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2418,7 +2418,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2491,7 +2491,7 @@ extension TnbClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput> = provider.create()
             builder.interceptors.add(i)
         }

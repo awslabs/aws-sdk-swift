@@ -233,7 +233,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDatasetInput, CreateDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -309,7 +309,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -385,7 +385,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLabelInput, CreateLabelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -460,7 +460,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLabelGroupInput, CreateLabelGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -536,7 +536,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateModelInput, CreateModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -611,7 +611,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -686,7 +686,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDatasetInput, DeleteDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -760,7 +760,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -834,7 +834,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLabelInput, DeleteLabelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -908,7 +908,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLabelGroupInput, DeleteLabelGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -982,7 +982,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteModelInput, DeleteModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1056,7 +1056,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteResourcePolicyInput, DeleteResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1130,7 +1130,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1203,7 +1203,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1276,7 +1276,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDatasetInput, DescribeDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1349,7 +1349,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1422,7 +1422,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLabelInput, DescribeLabelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1495,7 +1495,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLabelGroupInput, DescribeLabelGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1568,7 +1568,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeModelInput, DescribeModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1641,7 +1641,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeModelVersionInput, DescribeModelVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1714,7 +1714,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeResourcePolicyInput, DescribeResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1787,7 +1787,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1862,7 +1862,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportDatasetInput, ImportDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1938,7 +1938,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportModelVersionInput, ImportModelVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2011,7 +2011,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDataIngestionJobsInput, ListDataIngestionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2083,7 +2083,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDatasetsInput, ListDatasetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2156,7 +2156,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInferenceEventsInput, ListInferenceEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2229,7 +2229,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInferenceExecutionsInput, ListInferenceExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2301,7 +2301,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInferenceSchedulersInput, ListInferenceSchedulersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2373,7 +2373,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLabelGroupsInput, ListLabelGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2445,7 +2445,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLabelsInput, ListLabelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2518,7 +2518,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListModelVersionsInput, ListModelVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2590,7 +2590,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListModelsInput, ListModelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2662,7 +2662,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2735,7 +2735,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSensorStatisticsInput, ListSensorStatisticsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2808,7 +2808,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2883,7 +2883,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutResourcePolicyInput, PutResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2959,7 +2959,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDataIngestionJobInput, StartDataIngestionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3034,7 +3034,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartInferenceSchedulerInput, StartInferenceSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3108,7 +3108,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3182,7 +3182,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopInferenceSchedulerInput, StopInferenceSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3256,7 +3256,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3330,7 +3330,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3403,7 +3403,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3477,7 +3477,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3551,7 +3551,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3625,7 +3625,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLabelGroupInput, UpdateLabelGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3699,7 +3699,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateModelInput, UpdateModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3773,7 +3773,7 @@ extension LookoutEquipmentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -25025,6 +25025,34 @@ public struct CreateDataSetOutput {
     }
 }
 
+/// The customer managed key that is registered to your Amazon QuickSight account is unavailable.
+public struct CustomerManagedKeyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this operation.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CustomerManagedKeyUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
 extension QuickSightClientTypes {
     /// The combination of user name and password that are used as credentials.
     public struct CredentialPair {
@@ -46415,6 +46443,7 @@ enum CreateDataSourceOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "CustomerManagedKeyUnavailableException": return try CustomerManagedKeyUnavailableException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -49261,6 +49290,7 @@ enum UpdateDataSourceOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "CustomerManagedKeyUnavailableException": return try CustomerManagedKeyUnavailableException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -49874,6 +49904,20 @@ extension UnsupportedUserEditionException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedUserEditionException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedUserEditionException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CustomerManagedKeyUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CustomerManagedKeyUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = CustomerManagedKeyUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse

@@ -234,7 +234,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEvaluationJobInput, CreateEvaluationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -321,7 +321,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGuardrailInput, CreateGuardrailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -396,7 +396,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGuardrailVersionInput, CreateGuardrailVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -468,7 +468,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateModelCopyJobInput, CreateModelCopyJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -544,7 +544,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateModelCustomizationJobInput, CreateModelCustomizationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -619,7 +619,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateProvisionedModelThroughputInput, CreateProvisionedModelThroughputOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -693,7 +693,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomModelInput, DeleteCustomModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -767,7 +767,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGuardrailInput, DeleteGuardrailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -835,7 +835,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteModelInvocationLoggingConfigurationInput, DeleteModelInvocationLoggingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -905,7 +905,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteProvisionedModelThroughputInput, DeleteProvisionedModelThroughputOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -974,7 +974,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCustomModelInput, GetCustomModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1043,7 +1043,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEvaluationJobInput, GetEvaluationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1112,7 +1112,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFoundationModelInput, GetFoundationModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1181,7 +1181,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGuardrailInput, GetGuardrailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1251,7 +1251,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetModelCopyJobInput, GetModelCopyJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1320,7 +1320,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetModelCustomizationJobInput, GetModelCustomizationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1387,7 +1387,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetModelInvocationLoggingConfigurationInput, GetModelInvocationLoggingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1456,7 +1456,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetProvisionedModelThroughputInput, GetProvisionedModelThroughputOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1524,7 +1524,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCustomModelsInput, ListCustomModelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1593,7 +1593,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEvaluationJobsInput, ListEvaluationJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1662,7 +1662,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFoundationModelsInput, ListFoundationModelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1732,7 +1732,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGuardrailsInput, ListGuardrailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1802,7 +1802,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListModelCopyJobsInput, ListModelCopyJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1871,7 +1871,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListModelCustomizationJobsInput, ListModelCustomizationJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1940,7 +1940,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListProvisionedModelThroughputsInput, ListProvisionedModelThroughputsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2010,7 +2010,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2081,7 +2081,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutModelInvocationLoggingConfigurationInput, PutModelInvocationLoggingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2154,7 +2154,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopEvaluationJobInput, StopEvaluationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2224,7 +2224,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopModelCustomizationJobInput, StopModelCustomizationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2294,7 +2294,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2366,7 +2366,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2466,7 +2466,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGuardrailInput, UpdateGuardrailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2538,7 +2538,7 @@ extension BedrockClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateProvisionedModelThroughputInput, UpdateProvisionedModelThroughputOutput> = provider.create()
             builder.interceptors.add(i)
         }

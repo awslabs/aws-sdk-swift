@@ -232,7 +232,7 @@ extension EC2InstanceConnectClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendSSHPublicKeyInput, SendSSHPublicKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -312,7 +312,7 @@ extension EC2InstanceConnectClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }

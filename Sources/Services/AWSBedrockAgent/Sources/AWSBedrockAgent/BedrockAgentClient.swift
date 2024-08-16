@@ -234,7 +234,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateAgentKnowledgeBaseInput, AssociateAgentKnowledgeBaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -324,7 +324,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAgentInput, CreateAgentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -399,7 +399,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAgentActionGroupInput, CreateAgentActionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -474,7 +474,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAgentAliasInput, CreateAgentAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -549,7 +549,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDataSourceInput, CreateDataSourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -623,7 +623,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFlowInput, CreateFlowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -698,7 +698,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFlowAliasInput, CreateFlowAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -773,7 +773,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFlowVersionInput, CreateFlowVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -863,7 +863,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -937,7 +937,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePromptInput, CreatePromptOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1012,7 +1012,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePromptVersionInput, CreatePromptVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1086,7 +1086,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAgentInput, DeleteAgentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1157,7 +1157,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAgentActionGroupInput, DeleteAgentActionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1227,7 +1227,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAgentAliasInput, DeleteAgentAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1297,7 +1297,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAgentVersionInput, DeleteAgentVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1368,7 +1368,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDataSourceInput, DeleteDataSourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1438,7 +1438,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFlowInput, DeleteFlowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1509,7 +1509,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFlowAliasInput, DeleteFlowAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1579,7 +1579,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFlowVersionInput, DeleteFlowVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1650,7 +1650,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteKnowledgeBaseInput, DeleteKnowledgeBaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1720,7 +1720,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePromptInput, DeletePromptOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1791,7 +1791,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateAgentKnowledgeBaseInput, DisassociateAgentKnowledgeBaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1860,7 +1860,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAgentInput, GetAgentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1929,7 +1929,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAgentActionGroupInput, GetAgentActionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1998,7 +1998,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAgentAliasInput, GetAgentAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2067,7 +2067,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAgentKnowledgeBaseInput, GetAgentKnowledgeBaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2136,7 +2136,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAgentVersionInput, GetAgentVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2205,7 +2205,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDataSourceInput, GetDataSourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2274,7 +2274,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFlowInput, GetFlowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2343,7 +2343,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFlowAliasInput, GetFlowAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2412,7 +2412,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFlowVersionInput, GetFlowVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2481,7 +2481,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIngestionJobInput, GetIngestionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2550,7 +2550,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetKnowledgeBaseInput, GetKnowledgeBaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2619,7 +2619,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPromptInput, GetPromptOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2689,7 +2689,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAgentActionGroupsInput, ListAgentActionGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2761,7 +2761,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAgentAliasesInput, ListAgentAliasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2833,7 +2833,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAgentKnowledgeBasesInput, ListAgentKnowledgeBasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2905,7 +2905,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAgentVersionsInput, ListAgentVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2976,7 +2976,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAgentsInput, ListAgentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3048,7 +3048,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDataSourcesInput, ListDataSourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3120,7 +3120,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFlowAliasesInput, ListFlowAliasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3190,7 +3190,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFlowVersionsInput, ListFlowVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3259,7 +3259,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFlowsInput, ListFlowsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3329,7 +3329,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIngestionJobsInput, ListIngestionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3400,7 +3400,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListKnowledgeBasesInput, ListKnowledgeBasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3472,7 +3472,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPromptsInput, ListPromptsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3542,7 +3542,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3613,7 +3613,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PrepareAgentInput, PrepareAgentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3684,7 +3684,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PrepareFlowInput, PrepareFlowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3755,7 +3755,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartIngestionJobInput, StartIngestionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3829,7 +3829,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3901,7 +3901,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3973,7 +3973,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAgentInput, UpdateAgentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4047,7 +4047,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAgentActionGroupInput, UpdateAgentActionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4121,7 +4121,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAgentAliasInput, UpdateAgentAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4194,7 +4194,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAgentKnowledgeBaseInput, UpdateAgentKnowledgeBaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4267,7 +4267,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDataSourceInput, UpdateDataSourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4341,7 +4341,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFlowInput, UpdateFlowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4415,7 +4415,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFlowAliasInput, UpdateFlowAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4497,7 +4497,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateKnowledgeBaseInput, UpdateKnowledgeBaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4571,7 +4571,7 @@ extension BedrockAgentClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePromptInput, UpdatePromptOutput> = provider.create()
             builder.interceptors.add(i)
         }

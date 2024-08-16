@@ -233,7 +233,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -314,7 +314,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddEndpointsInput, AddEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -387,7 +387,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -458,7 +458,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -531,7 +531,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAcceleratorInput, CreateAcceleratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -605,7 +605,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -679,7 +679,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -756,7 +756,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -830,7 +830,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -906,7 +906,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEndpointGroupInput, CreateEndpointGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -980,7 +980,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateListenerInput, CreateListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1055,7 +1055,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAcceleratorInput, DeleteAcceleratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1128,7 +1128,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1202,7 +1202,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1273,7 +1273,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1345,7 +1345,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1416,7 +1416,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEndpointGroupInput, DeleteEndpointGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1488,7 +1488,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteListenerInput, DeleteListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1559,7 +1559,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1632,7 +1632,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1703,7 +1703,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAcceleratorInput, DescribeAcceleratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1774,7 +1774,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1846,7 +1846,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1917,7 +1917,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1988,7 +1988,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2059,7 +2059,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2130,7 +2130,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2201,7 +2201,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEndpointGroupInput, DescribeEndpointGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2272,7 +2272,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeListenerInput, DescribeListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2343,7 +2343,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAcceleratorsInput, ListAcceleratorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2415,7 +2415,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListByoipCidrsInput, ListByoipCidrsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2487,7 +2487,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2557,7 +2557,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2630,7 +2630,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2701,7 +2701,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2773,7 +2773,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2845,7 +2845,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2918,7 +2918,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2990,7 +2990,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3062,7 +3062,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEndpointGroupsInput, ListEndpointGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3134,7 +3134,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListListenersInput, ListListenersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3208,7 +3208,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3281,7 +3281,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ProvisionByoipCidrInput, ProvisionByoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3355,7 +3355,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3432,7 +3432,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveEndpointsInput, RemoveEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3503,7 +3503,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3574,7 +3574,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3659,7 +3659,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAcceleratorInput, UpdateAcceleratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3732,7 +3732,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3806,7 +3806,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3879,7 +3879,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3952,7 +3952,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4025,7 +4025,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4098,7 +4098,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEndpointGroupInput, UpdateEndpointGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4171,7 +4171,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateListenerInput, UpdateListenerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4244,7 +4244,7 @@ extension GlobalAcceleratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<WithdrawByoipCidrInput, WithdrawByoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }

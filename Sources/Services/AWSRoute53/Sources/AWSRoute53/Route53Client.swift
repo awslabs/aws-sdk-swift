@@ -232,7 +232,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -320,7 +320,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -398,7 +398,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ChangeCidrCollectionInput, ChangeCidrCollectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -479,7 +479,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -552,7 +552,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ChangeTagsForResourceInput, ChangeTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -623,7 +623,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCidrCollectionInput, CreateCidrCollectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -703,7 +703,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateHealthCheckInput, CreateHealthCheckOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -803,7 +803,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateHostedZoneInput, CreateHostedZoneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -880,7 +880,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateKeySigningKeyInput, CreateKeySigningKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1004,7 +1004,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1099,7 +1099,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1170,7 +1170,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrafficPolicyInput, CreateTrafficPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1242,7 +1242,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1314,7 +1314,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1386,7 +1386,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1461,7 +1461,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1530,7 +1530,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCidrCollectionInput, DeleteCidrCollectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1597,7 +1597,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteHealthCheckInput, DeleteHealthCheckOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1670,7 +1670,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteHostedZoneInput, DeleteHostedZoneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1741,7 +1741,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1809,7 +1809,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1877,7 +1877,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1952,7 +1952,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2019,7 +2019,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2088,7 +2088,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2164,7 +2164,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2254,7 +2254,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2331,7 +2331,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2397,7 +2397,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccountLimitInput, GetAccountLimitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2467,7 +2467,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetChangeInput, GetChangeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2527,7 +2527,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCheckerIpRangesInput, GetCheckerIpRangesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2594,7 +2594,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDNSSECInput, GetDNSSECOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2661,7 +2661,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGeoLocationInput, GetGeoLocationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2729,7 +2729,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHealthCheckInput, GetHealthCheckOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2789,7 +2789,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHealthCheckCountInput, GetHealthCheckCountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2855,7 +2855,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2921,7 +2921,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHealthCheckStatusInput, GetHealthCheckStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2987,7 +2987,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHostedZoneInput, GetHostedZoneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3053,7 +3053,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHostedZoneCountInput, GetHostedZoneCountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3120,7 +3120,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHostedZoneLimitInput, GetHostedZoneLimitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3187,7 +3187,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3254,7 +3254,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReusableDelegationSetInput, GetReusableDelegationSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3321,7 +3321,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3388,7 +3388,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTrafficPolicyInput, GetTrafficPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3454,7 +3454,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3514,7 +3514,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3581,7 +3581,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCidrBlocksInput, ListCidrBlocksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3647,7 +3647,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCidrCollectionsInput, ListCidrCollectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3714,7 +3714,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCidrLocationsInput, ListCidrLocationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3780,7 +3780,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGeoLocationsInput, ListGeoLocationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3847,7 +3847,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListHealthChecksInput, ListHealthChecksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3915,7 +3915,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListHostedZonesInput, ListHostedZonesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3990,7 +3990,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListHostedZonesByNameInput, ListHostedZonesByNameOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4073,7 +4073,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4141,7 +4141,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4208,7 +4208,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourceRecordSetsInput, ListResourceRecordSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4275,7 +4275,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4345,7 +4345,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4414,7 +4414,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourcesInput, ListTagsForResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4482,7 +4482,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTrafficPoliciesInput, ListTrafficPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4549,7 +4549,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4617,7 +4617,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4685,7 +4685,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4752,7 +4752,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4820,7 +4820,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4888,7 +4888,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestDNSAnswerInput, TestDNSAnswerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4956,7 +4956,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateHealthCheckInput, UpdateHealthCheckOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5026,7 +5026,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5097,7 +5097,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5175,7 +5175,7 @@ extension Route53Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }

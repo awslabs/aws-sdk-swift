@@ -560,7 +560,6 @@ extension IAMClientTypes {
         /// * An access key exists but has not been used since IAM began tracking this information.
         ///
         /// * There is no sign-in data associated with the user.
-        /// This member is required.
         public var lastUsedDate: Foundation.Date?
         /// The Amazon Web Services Region where this access key was most recently used. The value for this field is "N/A" in the following situations:
         ///

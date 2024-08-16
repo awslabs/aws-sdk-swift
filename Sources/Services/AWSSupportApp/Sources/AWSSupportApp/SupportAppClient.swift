@@ -248,7 +248,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -318,7 +318,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccountAliasInput, DeleteAccountAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -399,7 +399,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -483,7 +483,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSlackWorkspaceConfigurationInput, DeleteSlackWorkspaceConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -551,7 +551,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccountAliasInput, GetAccountAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -617,7 +617,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -686,7 +686,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -756,7 +756,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutAccountAliasInput, PutAccountAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -851,7 +851,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterSlackWorkspaceForOrganizationInput, RegisterSlackWorkspaceForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -935,7 +935,7 @@ extension SupportAppClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }

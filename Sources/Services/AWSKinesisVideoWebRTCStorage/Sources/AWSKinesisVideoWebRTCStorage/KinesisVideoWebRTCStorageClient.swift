@@ -241,7 +241,7 @@ extension KinesisVideoWebRTCStorageClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<JoinStorageSessionInput, JoinStorageSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -312,7 +312,7 @@ extension KinesisVideoWebRTCStorageClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput> = provider.create()
             builder.interceptors.add(i)
         }

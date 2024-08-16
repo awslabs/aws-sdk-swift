@@ -12,6 +12,36 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension S3Client {
+    /// Paginate over `[ListBucketsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBucketsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBucketsOutput`
+    public func listBucketsPaginated(input: ListBucketsInput) -> ClientRuntime.PaginatorSequence<ListBucketsInput, ListBucketsOutput> {
+        return ClientRuntime.PaginatorSequence<ListBucketsInput, ListBucketsOutput>(input: input, inputKey: \.continuationToken, outputKey: \.continuationToken, paginationFunction: self.listBuckets(input:))
+    }
+}
+
+extension ListBucketsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBucketsInput {
+        return ListBucketsInput(
+            continuationToken: token,
+            maxBuckets: self.maxBuckets
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListBucketsInput, OperationStackOutput == ListBucketsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listBucketsPaginated`
+    /// to access the nested member `[S3ClientTypes.Bucket]`
+    /// - Returns: `[S3ClientTypes.Bucket]`
+    public func buckets() async throws -> [S3ClientTypes.Bucket] {
+        return try await self.asyncCompactMap { item in item.buckets }
+    }
+}
+extension S3Client {
     /// Paginate over `[ListDirectoryBucketsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

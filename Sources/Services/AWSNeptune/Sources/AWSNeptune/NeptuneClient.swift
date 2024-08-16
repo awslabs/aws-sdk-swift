@@ -229,7 +229,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddRoleToDBClusterInput, AddRoleToDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -298,7 +298,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -368,7 +368,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddTagsToResourceInput, AddTagsToResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -436,7 +436,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -506,7 +506,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -579,7 +579,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -649,7 +649,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyDBParameterGroupInput, CopyDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -733,7 +733,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBClusterInput, CreateDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -817,7 +817,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -886,7 +886,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -958,7 +958,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1043,7 +1043,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBInstanceInput, CreateDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1112,7 +1112,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBParameterGroupInput, CreateDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1184,7 +1184,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1258,7 +1258,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEventSubscriptionInput, CreateEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1329,7 +1329,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGlobalClusterInput, CreateGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1401,7 +1401,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBClusterInput, DeleteDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1482,7 +1482,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1551,7 +1551,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1620,7 +1620,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1692,7 +1692,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBInstanceInput, DeleteDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1761,7 +1761,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1831,7 +1831,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1900,7 +1900,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1969,7 +1969,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGlobalClusterInput, DeleteGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2037,7 +2037,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2105,7 +2105,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2173,7 +2173,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2241,7 +2241,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2309,7 +2309,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2377,7 +2377,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClustersInput, DescribeDBClustersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2440,7 +2440,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2508,7 +2508,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBInstancesInput, DescribeDBInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2576,7 +2576,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2644,7 +2644,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBParametersInput, DescribeDBParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2712,7 +2712,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2775,7 +2775,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2838,7 +2838,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2901,7 +2901,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventCategoriesInput, DescribeEventCategoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2969,7 +2969,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3032,7 +3032,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsInput, DescribeEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3100,7 +3100,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeGlobalClustersInput, DescribeGlobalClustersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3163,7 +3163,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3231,7 +3231,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3300,7 +3300,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3370,7 +3370,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<FailoverDBClusterInput, FailoverDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3441,7 +3441,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<FailoverGlobalClusterInput, FailoverGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3511,7 +3511,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3590,7 +3590,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBClusterInput, ModifyDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3673,7 +3673,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3742,7 +3742,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3812,7 +3812,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3895,7 +3895,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBInstanceInput, ModifyDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3964,7 +3964,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4036,7 +4036,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4109,7 +4109,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4178,7 +4178,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyGlobalClusterInput, ModifyGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4247,7 +4247,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4316,7 +4316,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootDBInstanceInput, RebootDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4386,7 +4386,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4456,7 +4456,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4525,7 +4525,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4595,7 +4595,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4664,7 +4664,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4733,7 +4733,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetDBParameterGroupInput, ResetDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4816,7 +4816,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4900,7 +4900,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4970,7 +4970,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDBClusterInput, StartDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5040,7 +5040,7 @@ extension NeptuneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopDBClusterInput, StopDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
