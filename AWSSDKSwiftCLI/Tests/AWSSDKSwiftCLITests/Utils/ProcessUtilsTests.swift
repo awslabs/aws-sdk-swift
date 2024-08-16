@@ -6,7 +6,6 @@
 //
 
 @testable import AWSSDKSwiftCLI
-import PackageDescription
 import ArgumentParser
 import XCTest
 import AWSCLIUtils

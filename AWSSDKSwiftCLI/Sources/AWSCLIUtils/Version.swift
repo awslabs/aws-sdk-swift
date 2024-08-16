@@ -7,15 +7,46 @@
 
 import Foundation
 import ArgumentParser
-import PackageDescription
 
-// MARK: - Decodable
+public struct Version: Equatable {
+    public let major: Int
+    public let minor: Int
+    public let patch: Int
 
-extension Version: Decodable {
+    private var versionString: String { "\(major).\(minor).\(patch)" }
+
+    init(_ major: Int, _ minor: Int, _ patch: Int) {
+        self.major = major
+        self.minor = minor
+        self.patch = patch
+    }
+
+    public init(_ value: String) throws {
+        let components = value.split(separator: ".")
+        guard components.count == 3 else {
+            throw Error("Version does not have three components")
+        }
+        guard let major = Int(components[0]), let minor = Int(components[1]), let patch = Int(components[2]) else {
+            throw Error("Version components are not all Int")
+        }
+        self.init(major, minor, patch)
+    }
+}
+
+extension Version: CustomStringConvertible {
+    public var description: String { versionString }
+}
+
+// MARK: - Codable
+
+extension Version: Codable {
+
     public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let value = try container.decode(String.self)
-        self.init(stringLiteral: value)
+        try self.init(try String(from: decoder))
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        try versionString.encode(to: encoder)
     }
 }
 
@@ -37,11 +68,7 @@ public extension Version {
         
         let normalizedVersionString = versionString.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        guard let version = Version.init(normalizedVersionString) else {
-            throw Error("Failed to parse version from string \(normalizedVersionString)")
-        }
-        
-        return version
+        return try Version(normalizedVersionString)
     }
 }
 
@@ -55,9 +82,7 @@ public extension Version {
        Version(
             self.major + 1,
             0,
-            0,
-            prereleaseIdentifiers: prereleaseIdentifiers,
-            buildMetadataIdentifiers: buildMetadataIdentifiers
+            0
         )
     }
     
@@ -68,9 +93,7 @@ public extension Version {
         Version(
             self.major,
             self.minor + 1,
-            0,
-            prereleaseIdentifiers: prereleaseIdentifiers,
-            buildMetadataIdentifiers: buildMetadataIdentifiers
+            0
         )
     }
     
@@ -81,9 +104,7 @@ public extension Version {
         Version(
             self.major,
             self.minor,
-            self.patch + 1,
-            prereleaseIdentifiers: prereleaseIdentifiers,
-            buildMetadataIdentifiers: buildMetadataIdentifiers
+            self.patch + 1
         )
     }
 }
@@ -91,7 +112,8 @@ public extension Version {
 // MARK: - ExpressibleByArgument
 
 extension Version: ExpressibleByArgument {
+
     public init?(argument: String) {
-        self.init(argument)
+        try? self.init(argument)
     }
 }
