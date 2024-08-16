@@ -39,8 +39,8 @@ addResolvedTargets()
 
 """
 
-    func testBuild() {
-        let subject = PackageManifestBuilder(
+    func testBuild() throws {
+        let subject = try PackageManifestBuilder(
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
             services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0) },

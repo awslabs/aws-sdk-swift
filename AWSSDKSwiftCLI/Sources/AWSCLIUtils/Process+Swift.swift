@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PackageDescription
 
 public extension Process {
     struct Swift {
