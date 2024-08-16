@@ -230,7 +230,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCertificateAuthorityInput, CreateCertificateAuthorityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -304,7 +304,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCertificateAuthorityAuditReportInput, CreateCertificateAuthorityAuditReportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -384,7 +384,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePermissionInput, CreatePermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -456,7 +456,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCertificateAuthorityInput, DeleteCertificateAuthorityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -534,7 +534,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePermissionInput, DeletePermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -616,7 +616,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePolicyInput, DeletePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -700,7 +700,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCertificateAuthorityInput, DescribeCertificateAuthorityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -771,7 +771,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -844,7 +844,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCertificateInput, GetCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -915,7 +915,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCertificateAuthorityCertificateInput, GetCertificateAuthorityCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -988,7 +988,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1068,7 +1068,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPolicyInput, GetPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1221,7 +1221,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportCertificateAuthorityCertificateInput, ImportCertificateAuthorityCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1295,7 +1295,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<IssueCertificateInput, IssueCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1364,7 +1364,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1443,7 +1443,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPermissionsInput, ListPermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1514,7 +1514,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsInput, ListTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1597,7 +1597,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutPolicyInput, PutPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1668,7 +1668,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreCertificateAuthorityInput, RestoreCertificateAuthorityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1745,7 +1745,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RevokeCertificateInput, RevokeCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1818,7 +1818,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagCertificateAuthorityInput, TagCertificateAuthorityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1890,7 +1890,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagCertificateAuthorityInput, UntagCertificateAuthorityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1964,7 +1964,7 @@ extension ACMPCAClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCertificateAuthorityInput, UpdateCertificateAuthorityOutput> = provider.create()
             builder.interceptors.add(i)
         }

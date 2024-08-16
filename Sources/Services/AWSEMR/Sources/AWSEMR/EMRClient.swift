@@ -228,7 +228,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddInstanceFleetInput, AddInstanceFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -297,7 +297,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddInstanceGroupsInput, AddInstanceGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -366,7 +366,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddJobFlowStepsInput, AddJobFlowStepsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -436,7 +436,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddTagsInput, AddTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -506,7 +506,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelStepsInput, CancelStepsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -576,7 +576,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -646,7 +646,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStudioInput, CreateStudioOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -716,7 +716,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -786,7 +786,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -856,7 +856,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteStudioInput, DeleteStudioOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -926,7 +926,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -996,7 +996,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterInput, DescribeClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1073,7 +1073,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeJobFlowsInput, DescribeJobFlowsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1143,7 +1143,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1213,7 +1213,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReleaseLabelInput, DescribeReleaseLabelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1283,7 +1283,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1353,7 +1353,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStepInput, DescribeStepOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1423,7 +1423,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStudioInput, DescribeStudioOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1487,7 +1487,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1557,7 +1557,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1627,7 +1627,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1691,7 +1691,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1761,7 +1761,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetStudioSessionMappingInput, GetStudioSessionMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1831,7 +1831,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBootstrapActionsInput, ListBootstrapActionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1901,7 +1901,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListClustersInput, ListClustersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1971,7 +1971,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInstanceFleetsInput, ListInstanceFleetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2041,7 +2041,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInstanceGroupsInput, ListInstanceGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2111,7 +2111,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInstancesInput, ListInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2181,7 +2181,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListNotebookExecutionsInput, ListNotebookExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2251,7 +2251,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReleaseLabelsInput, ListReleaseLabelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2321,7 +2321,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2391,7 +2391,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStepsInput, ListStepsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2461,7 +2461,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2531,7 +2531,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStudiosInput, ListStudiosOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2601,7 +2601,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2671,7 +2671,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClusterInput, ModifyClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2741,7 +2741,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceFleetInput, ModifyInstanceFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2810,7 +2810,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2874,7 +2874,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2938,7 +2938,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3008,7 +3008,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3072,7 +3072,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3136,7 +3136,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3200,7 +3200,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3264,7 +3264,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3334,7 +3334,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveTagsInput, RemoveTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3403,7 +3403,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RunJobFlowInput, RunJobFlowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3472,7 +3472,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3541,7 +3541,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetTerminationProtectionInput, SetTerminationProtectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3610,7 +3610,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetUnhealthyNodeReplacementInput, SetUnhealthyNodeReplacementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3679,7 +3679,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3749,7 +3749,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartNotebookExecutionInput, StartNotebookExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3819,7 +3819,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopNotebookExecutionInput, StopNotebookExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3888,7 +3888,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TerminateJobFlowsInput, TerminateJobFlowsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3958,7 +3958,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateStudioInput, UpdateStudioOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4028,7 +4028,7 @@ extension EMRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }

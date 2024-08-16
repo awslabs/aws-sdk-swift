@@ -238,7 +238,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -313,7 +313,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddPermissionInput, AddPermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -386,7 +386,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAliasInput, CreateAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -455,7 +455,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -571,7 +571,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEventSourceMappingInput, CreateEventSourceMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -647,7 +647,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFunctionInput, CreateFunctionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -719,7 +719,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -791,7 +791,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAliasInput, DeleteAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -859,7 +859,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -929,7 +929,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -998,7 +998,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFunctionInput, DeleteFunctionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1069,7 +1069,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1138,7 +1138,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1207,7 +1207,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1276,7 +1276,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1343,7 +1343,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLayerVersionInput, DeleteLayerVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1412,7 +1412,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1479,7 +1479,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccountSettingsInput, GetAccountSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1547,7 +1547,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAliasInput, GetAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1614,7 +1614,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCodeSigningConfigInput, GetCodeSigningConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1682,7 +1682,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEventSourceMappingInput, GetEventSourceMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1750,7 +1750,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFunctionInput, GetFunctionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1819,7 +1819,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1887,7 +1887,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1955,7 +1955,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFunctionConfigurationInput, GetFunctionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2024,7 +2024,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2093,7 +2093,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2162,7 +2162,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLayerVersionInput, GetLayerVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2230,7 +2230,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLayerVersionByArnInput, GetLayerVersionByArnOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2299,7 +2299,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2367,7 +2367,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPolicyInput, GetPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2437,7 +2437,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2506,7 +2506,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2601,7 +2601,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InvokeInput, InvokeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2676,7 +2676,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InvokeAsyncInput, InvokeAsyncOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2773,7 +2773,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2846,7 +2846,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAliasesInput, ListAliasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2913,7 +2913,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2982,7 +2982,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEventSourceMappingsInput, ListEventSourceMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3051,7 +3051,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3120,7 +3120,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3188,7 +3188,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFunctionsInput, ListFunctionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3256,7 +3256,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3325,7 +3325,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLayerVersionsInput, ListLayerVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3393,7 +3393,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLayersInput, ListLayersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3462,7 +3462,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3531,7 +3531,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsInput, ListTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3599,7 +3599,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVersionsByFunctionInput, ListVersionsByFunctionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3669,7 +3669,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PublishLayerVersionInput, PublishLayerVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3743,7 +3743,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PublishVersionInput, PublishVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3816,7 +3816,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3888,7 +3888,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3960,7 +3960,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4033,7 +4033,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4106,7 +4106,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4179,7 +4179,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4249,7 +4249,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemovePermissionInput, RemovePermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4319,7 +4319,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4391,7 +4391,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4462,7 +4462,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAliasInput, UpdateAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4532,7 +4532,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4649,7 +4649,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4726,7 +4726,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFunctionCodeInput, UpdateFunctionCodeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4802,7 +4802,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4874,7 +4874,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4947,7 +4947,7 @@ extension LambdaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }

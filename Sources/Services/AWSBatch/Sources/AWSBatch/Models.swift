@@ -652,6 +652,8 @@ public struct CreateComputeEnvironmentInput {
     public var computeEnvironmentName: Swift.String?
     /// Details about the compute resources managed by the compute environment. This parameter is required for managed compute environments. For more information, see [Compute Environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide.
     public var computeResources: BatchClientTypes.ComputeResource?
+    /// Reserved.
+    public var context: Swift.String?
     /// The details for the Amazon EKS cluster that supports the compute environment.
     public var eksConfiguration: BatchClientTypes.EksConfiguration?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see [Friendly names and paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) in the IAM User Guide. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
@@ -669,6 +671,7 @@ public struct CreateComputeEnvironmentInput {
     public init(
         computeEnvironmentName: Swift.String? = nil,
         computeResources: BatchClientTypes.ComputeResource? = nil,
+        context: Swift.String? = nil,
         eksConfiguration: BatchClientTypes.EksConfiguration? = nil,
         serviceRole: Swift.String? = nil,
         state: BatchClientTypes.CEState? = nil,
@@ -679,6 +682,7 @@ public struct CreateComputeEnvironmentInput {
     {
         self.computeEnvironmentName = computeEnvironmentName
         self.computeResources = computeResources
+        self.context = context
         self.eksConfiguration = eksConfiguration
         self.serviceRole = serviceRole
         self.state = state
@@ -1181,6 +1185,8 @@ extension BatchClientTypes {
         public var computeResources: BatchClientTypes.ComputeResource?
         /// The orchestration type of the compute environment. The valid values are ECS (default) or EKS.
         public var containerOrchestrationType: BatchClientTypes.OrchestrationType?
+        /// Reserved.
+        public var context: Swift.String?
         /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster that the compute environment uses.
         public var ecsClusterArn: Swift.String?
         /// The configuration for the Amazon EKS cluster that supports the Batch compute environment. Only specify this parameter if the containerOrchestrationType is EKS.
@@ -1209,6 +1215,7 @@ extension BatchClientTypes {
             computeEnvironmentName: Swift.String? = nil,
             computeResources: BatchClientTypes.ComputeResource? = nil,
             containerOrchestrationType: BatchClientTypes.OrchestrationType? = nil,
+            context: Swift.String? = nil,
             ecsClusterArn: Swift.String? = nil,
             eksConfiguration: BatchClientTypes.EksConfiguration? = nil,
             serviceRole: Swift.String? = nil,
@@ -1226,6 +1233,7 @@ extension BatchClientTypes {
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
             self.containerOrchestrationType = containerOrchestrationType
+            self.context = context
             self.ecsClusterArn = ecsClusterArn
             self.eksConfiguration = eksConfiguration
             self.serviceRole = serviceRole
@@ -4719,6 +4727,8 @@ public struct UpdateComputeEnvironmentInput {
     public var computeEnvironment: Swift.String?
     /// Details of the compute resources managed by the compute environment. Required for a managed compute environment. For more information, see [Compute Environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide.
     public var computeResources: BatchClientTypes.ComputeResourceUpdate?
+    /// Reserved.
+    public var context: Swift.String?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     public var serviceRole: Swift.String?
     /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see [State](https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state) in the Batch User Guide. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
@@ -4731,6 +4741,7 @@ public struct UpdateComputeEnvironmentInput {
     public init(
         computeEnvironment: Swift.String? = nil,
         computeResources: BatchClientTypes.ComputeResourceUpdate? = nil,
+        context: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
         state: BatchClientTypes.CEState? = nil,
         unmanagedvCpus: Swift.Int? = nil,
@@ -4739,6 +4750,7 @@ public struct UpdateComputeEnvironmentInput {
     {
         self.computeEnvironment = computeEnvironment
         self.computeResources = computeResources
+        self.context = context
         self.serviceRole = serviceRole
         self.state = state
         self.unmanagedvCpus = unmanagedvCpus
@@ -5050,6 +5062,7 @@ extension CreateComputeEnvironmentInput {
         guard let value else { return }
         try writer["computeEnvironmentName"].write(value.computeEnvironmentName)
         try writer["computeResources"].write(value.computeResources, with: BatchClientTypes.ComputeResource.write(value:to:))
+        try writer["context"].write(value.context)
         try writer["eksConfiguration"].write(value.eksConfiguration, with: BatchClientTypes.EksConfiguration.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["state"].write(value.state)
@@ -5260,6 +5273,7 @@ extension UpdateComputeEnvironmentInput {
         guard let value else { return }
         try writer["computeEnvironment"].write(value.computeEnvironment)
         try writer["computeResources"].write(value.computeResources, with: BatchClientTypes.ComputeResourceUpdate.write(value:to:))
+        try writer["context"].write(value.context)
         try writer["serviceRole"].write(value.serviceRole)
         try writer["state"].write(value.state)
         try writer["unmanagedvCpus"].write(value.unmanagedvCpus)
@@ -5979,6 +5993,7 @@ extension BatchClientTypes.ComputeEnvironmentDetail {
         value.eksConfiguration = try reader["eksConfiguration"].readIfPresent(with: BatchClientTypes.EksConfiguration.read(from:))
         value.containerOrchestrationType = try reader["containerOrchestrationType"].readIfPresent()
         value.uuid = try reader["uuid"].readIfPresent()
+        value.context = try reader["context"].readIfPresent()
         return value
     }
 }

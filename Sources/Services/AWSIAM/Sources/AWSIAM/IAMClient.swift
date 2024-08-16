@@ -229,7 +229,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -301,7 +301,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -371,7 +371,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddUserToGroupInput, AddUserToGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -443,7 +443,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachGroupPolicyInput, AttachGroupPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -516,7 +516,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachRolePolicyInput, AttachRolePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -588,7 +588,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachUserPolicyInput, AttachUserPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -661,7 +661,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ChangePasswordInput, ChangePasswordOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -731,7 +731,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAccessKeyInput, CreateAccessKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -802,7 +802,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAccountAliasInput, CreateAccountAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -873,7 +873,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGroupInput, CreateGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -945,7 +945,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstanceProfileInput, CreateInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1017,7 +1017,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLoginProfileInput, CreateLoginProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1101,7 +1101,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1174,7 +1174,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePolicyInput, CreatePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1246,7 +1246,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePolicyVersionInput, CreatePolicyVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1319,7 +1319,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRoleInput, CreateRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1391,7 +1391,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSAMLProviderInput, CreateSAMLProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1462,7 +1462,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1532,7 +1532,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1605,7 +1605,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserInput, CreateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1677,7 +1677,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1749,7 +1749,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeactivateMFADeviceInput, DeactivateMFADeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1819,7 +1819,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccessKeyInput, DeleteAccessKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1890,7 +1890,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccountAliasInput, DeleteAccountAliasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1960,7 +1960,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2031,7 +2031,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGroupInput, DeleteGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2101,7 +2101,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGroupPolicyInput, DeleteGroupPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2172,7 +2172,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInstanceProfileInput, DeleteInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2243,7 +2243,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLoginProfileInput, DeleteLoginProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2313,7 +2313,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2394,7 +2394,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePolicyInput, DeletePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2466,7 +2466,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePolicyVersionInput, DeletePolicyVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2550,7 +2550,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRoleInput, DeleteRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2620,7 +2620,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2691,7 +2691,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRolePolicyInput, DeleteRolePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2762,7 +2762,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSAMLProviderInput, DeleteSAMLProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2830,7 +2830,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2901,7 +2901,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteServerCertificateInput, DeleteServerCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2971,7 +2971,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3039,7 +3039,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3110,7 +3110,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSigningCertificateInput, DeleteSigningCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3200,7 +3200,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserInput, DeleteUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3269,7 +3269,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3339,7 +3339,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserPolicyInput, DeleteUserPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3411,7 +3411,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3482,7 +3482,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachGroupPolicyInput, DetachGroupPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3554,7 +3554,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachRolePolicyInput, DetachRolePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3625,7 +3625,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachUserPolicyInput, DetachUserPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3699,7 +3699,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableMFADeviceInput, EnableMFADeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3768,7 +3768,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GenerateCredentialReportInput, GenerateCredentialReportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3858,7 +3858,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3934,7 +3934,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3997,7 +3997,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4065,7 +4065,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4134,7 +4134,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4202,7 +4202,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccountSummaryInput, GetAccountSummaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4270,7 +4270,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4339,7 +4339,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4410,7 +4410,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCredentialReportInput, GetCredentialReportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4479,7 +4479,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGroupInput, GetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4548,7 +4548,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGroupPolicyInput, GetGroupPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4617,7 +4617,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceProfileInput, GetInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4686,7 +4686,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLoginProfileInput, GetLoginProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4755,7 +4755,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMFADeviceInput, GetMFADeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4825,7 +4825,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4893,7 +4893,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4963,7 +4963,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPolicyInput, GetPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5033,7 +5033,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPolicyVersionInput, GetPolicyVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5102,7 +5102,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRoleInput, GetRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5171,7 +5171,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRolePolicyInput, GetRolePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5241,7 +5241,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSAMLProviderInput, GetSAMLProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5310,7 +5310,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSSHPublicKeyInput, GetSSHPublicKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5379,7 +5379,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServerCertificateInput, GetServerCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5459,7 +5459,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5535,7 +5535,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5605,7 +5605,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5674,7 +5674,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetUserInput, GetUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5743,7 +5743,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetUserPolicyInput, GetUserPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5812,7 +5812,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccessKeysInput, ListAccessKeysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5880,7 +5880,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccountAliasesInput, ListAccountAliasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5950,7 +5950,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6020,7 +6020,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6090,7 +6090,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6160,7 +6160,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6229,7 +6229,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGroupPoliciesInput, ListGroupPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6297,7 +6297,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGroupsInput, ListGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6366,7 +6366,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGroupsForUserInput, ListGroupsForUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6435,7 +6435,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6503,7 +6503,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInstanceProfilesInput, ListInstanceProfilesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6572,7 +6572,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6642,7 +6642,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMFADeviceTagsInput, ListMFADeviceTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6711,7 +6711,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMFADevicesInput, ListMFADevicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6781,7 +6781,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6849,7 +6849,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6917,7 +6917,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPoliciesInput, ListPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6995,7 +6995,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7065,7 +7065,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPolicyTagsInput, ListPolicyTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7135,7 +7135,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPolicyVersionsInput, ListPolicyVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7204,7 +7204,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRolePoliciesInput, ListRolePoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7273,7 +7273,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRoleTagsInput, ListRoleTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7350,7 +7350,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRolesInput, ListRolesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7420,7 +7420,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7488,7 +7488,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSAMLProvidersInput, ListSAMLProvidersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7556,7 +7556,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSSHPublicKeysInput, ListSSHPublicKeysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7625,7 +7625,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListServerCertificateTagsInput, ListServerCertificateTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7693,7 +7693,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListServerCertificatesInput, ListServerCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7762,7 +7762,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7831,7 +7831,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSigningCertificatesInput, ListSigningCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7900,7 +7900,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUserPoliciesInput, ListUserPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7969,7 +7969,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUserTagsInput, ListUserTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8044,7 +8044,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUsersInput, ListUsersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8107,7 +8107,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8178,7 +8178,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutGroupPolicyInput, PutGroupPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8250,7 +8250,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8322,7 +8322,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRolePolicyInput, PutRolePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8393,7 +8393,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8464,7 +8464,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutUserPolicyInput, PutUserPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8534,7 +8534,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8605,7 +8605,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8675,7 +8675,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveUserFromGroupInput, RemoveUserFromGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8743,7 +8743,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8815,7 +8815,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResyncMFADeviceInput, ResyncMFADeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8886,7 +8886,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8954,7 +8954,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9023,7 +9023,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SimulateCustomPolicyInput, SimulateCustomPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9093,7 +9093,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9176,7 +9176,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagInstanceProfileInput, TagInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9259,7 +9259,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagMFADeviceInput, TagMFADeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9342,7 +9342,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9425,7 +9425,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagPolicyInput, TagPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9513,7 +9513,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagRoleInput, TagRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9596,7 +9596,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagSAMLProviderInput, TagSAMLProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9681,7 +9681,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagServerCertificateInput, TagServerCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9769,7 +9769,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagUserInput, TagUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9840,7 +9840,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagInstanceProfileInput, UntagInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9911,7 +9911,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagMFADeviceInput, UntagMFADeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9982,7 +9982,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10053,7 +10053,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagPolicyInput, UntagPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10123,7 +10123,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagRoleInput, UntagRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10194,7 +10194,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagSAMLProviderInput, UntagSAMLProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10265,7 +10265,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagServerCertificateInput, UntagServerCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10335,7 +10335,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagUserInput, UntagUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10405,7 +10405,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAccessKeyInput, UpdateAccessKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10476,7 +10476,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10548,7 +10548,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10619,7 +10619,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGroupInput, UpdateGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10691,7 +10691,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLoginProfileInput, UpdateLoginProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10761,7 +10761,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10831,7 +10831,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRoleInput, UpdateRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10901,7 +10901,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10972,7 +10972,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSAMLProviderInput, UpdateSAMLProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11040,7 +11040,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11111,7 +11111,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateServerCertificateInput, UpdateServerCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11179,7 +11179,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11249,7 +11249,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSigningCertificateInput, UpdateSigningCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11322,7 +11322,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateUserInput, UpdateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11394,7 +11394,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11468,7 +11468,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UploadServerCertificateInput, UploadServerCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11543,7 +11543,7 @@ extension IAMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UploadSigningCertificateInput, UploadSigningCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }

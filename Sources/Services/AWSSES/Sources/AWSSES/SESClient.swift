@@ -227,7 +227,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CloneReceiptRuleSetInput, CloneReceiptRuleSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -297,7 +297,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateConfigurationSetInput, CreateConfigurationSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -370,7 +370,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -444,7 +444,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateConfigurationSetTrackingOptionsInput, CreateConfigurationSetTrackingOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -515,7 +515,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCustomVerificationEmailTemplateInput, CreateCustomVerificationEmailTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -584,7 +584,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReceiptFilterInput, CreateReceiptFilterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -658,7 +658,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReceiptRuleInput, CreateReceiptRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -727,7 +727,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReceiptRuleSetInput, CreateReceiptRuleSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -797,7 +797,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTemplateInput, CreateTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -865,7 +865,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConfigurationSetInput, DeleteConfigurationSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -934,7 +934,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1003,7 +1003,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConfigurationSetTrackingOptionsInput, DeleteConfigurationSetTrackingOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1066,7 +1066,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomVerificationEmailTemplateInput, DeleteCustomVerificationEmailTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1129,7 +1129,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIdentityInput, DeleteIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1192,7 +1192,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIdentityPolicyInput, DeleteIdentityPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1255,7 +1255,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReceiptFilterInput, DeleteReceiptFilterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1323,7 +1323,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReceiptRuleInput, DeleteReceiptRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1391,7 +1391,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReceiptRuleSetInput, DeleteReceiptRuleSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1454,7 +1454,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTemplateInput, DeleteTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1517,7 +1517,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVerifiedEmailAddressInput, DeleteVerifiedEmailAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1580,7 +1580,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeActiveReceiptRuleSetInput, DescribeActiveReceiptRuleSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1648,7 +1648,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeConfigurationSetInput, DescribeConfigurationSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1717,7 +1717,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReceiptRuleInput, DescribeReceiptRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1785,7 +1785,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReceiptRuleSetInput, DescribeReceiptRuleSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1848,7 +1848,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccountSendingEnabledInput, GetAccountSendingEnabledOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1916,7 +1916,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCustomVerificationEmailTemplateInput, GetCustomVerificationEmailTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1988,7 +1988,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdentityDkimAttributesInput, GetIdentityDkimAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2051,7 +2051,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdentityMailFromDomainAttributesInput, GetIdentityMailFromDomainAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2114,7 +2114,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdentityNotificationAttributesInput, GetIdentityNotificationAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2177,7 +2177,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdentityPoliciesInput, GetIdentityPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2240,7 +2240,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2303,7 +2303,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSendQuotaInput, GetSendQuotaOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2366,7 +2366,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSendStatisticsInput, GetSendStatisticsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2434,7 +2434,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTemplateInput, GetTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2497,7 +2497,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListConfigurationSetsInput, ListConfigurationSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2560,7 +2560,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2623,7 +2623,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdentitiesInput, ListIdentitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2686,7 +2686,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdentityPoliciesInput, ListIdentityPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2749,7 +2749,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReceiptFiltersInput, ListReceiptFiltersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2812,7 +2812,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReceiptRuleSetsInput, ListReceiptRuleSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2875,7 +2875,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTemplatesInput, ListTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2938,7 +2938,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVerifiedEmailAddressesInput, ListVerifiedEmailAddressesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3007,7 +3007,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3075,7 +3075,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutIdentityPolicyInput, PutIdentityPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3144,7 +3144,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReorderReceiptRuleSetInput, ReorderReceiptRuleSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3212,7 +3212,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendBounceInput, SendBounceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3299,7 +3299,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendBulkTemplatedEmailInput, SendBulkTemplatedEmailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3371,7 +3371,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendCustomVerificationEmailInput, SendCustomVerificationEmailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3456,7 +3456,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendEmailInput, SendEmailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3560,7 +3560,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendRawEmailInput, SendRawEmailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3648,7 +3648,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendTemplatedEmailInput, SendTemplatedEmailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3716,7 +3716,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetActiveReceiptRuleSetInput, SetActiveReceiptRuleSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3779,7 +3779,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetIdentityDkimEnabledInput, SetIdentityDkimEnabledOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3842,7 +3842,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetIdentityFeedbackForwardingEnabledInput, SetIdentityFeedbackForwardingEnabledOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3905,7 +3905,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetIdentityHeadersInNotificationsEnabledInput, SetIdentityHeadersInNotificationsEnabledOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3968,7 +3968,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetIdentityMailFromDomainInput, SetIdentityMailFromDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4031,7 +4031,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetIdentityNotificationTopicInput, SetIdentityNotificationTopicOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4100,7 +4100,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetReceiptRulePositionInput, SetReceiptRulePositionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4170,7 +4170,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestRenderTemplateInput, TestRenderTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4233,7 +4233,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAccountSendingEnabledInput, UpdateAccountSendingEnabledOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4305,7 +4305,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4373,7 +4373,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateConfigurationSetReputationMetricsEnabledInput, UpdateConfigurationSetReputationMetricsEnabledOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4441,7 +4441,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateConfigurationSetSendingEnabledInput, UpdateConfigurationSetSendingEnabledOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4515,7 +4515,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateConfigurationSetTrackingOptionsInput, UpdateConfigurationSetTrackingOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4585,7 +4585,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCustomVerificationEmailTemplateInput, UpdateCustomVerificationEmailTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4658,7 +4658,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateReceiptRuleInput, UpdateReceiptRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4727,7 +4727,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTemplateInput, UpdateTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4799,7 +4799,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyDomainDkimInput, VerifyDomainDkimOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4862,7 +4862,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyDomainIdentityInput, VerifyDomainIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4925,7 +4925,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyEmailAddressInput, VerifyEmailAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4988,7 +4988,7 @@ extension SESClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyEmailIdentityInput, VerifyEmailIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -239,7 +239,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -317,7 +317,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -406,7 +406,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -484,7 +484,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -562,7 +562,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetCommitsInput, BatchGetCommitsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -638,7 +638,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetRepositoriesInput, BatchGetRepositoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -713,7 +713,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -795,7 +795,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBranchInput, CreateBranchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -901,7 +901,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCommitInput, CreateCommitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -994,7 +994,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePullRequestInput, CreatePullRequestOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1078,7 +1078,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1162,7 +1162,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRepositoryInput, CreateRepositoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1266,7 +1266,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1337,7 +1337,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1416,7 +1416,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBranchInput, DeleteBranchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1488,7 +1488,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCommentContentInput, DeleteCommentContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1578,7 +1578,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFileInput, DeleteFileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1658,7 +1658,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1733,7 +1733,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRepositoryInput, DeleteRepositoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1824,7 +1824,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMergeConflictsInput, DescribeMergeConflictsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1905,7 +1905,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePullRequestEventsInput, DescribePullRequestEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1984,7 +1984,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2063,7 +2063,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2134,7 +2134,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2214,7 +2214,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBlobInput, GetBlobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2293,7 +2293,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBranchInput, GetBranchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2370,7 +2370,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCommentInput, GetCommentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2445,7 +2445,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCommentReactionsInput, GetCommentReactionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2526,7 +2526,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2611,7 +2611,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2690,7 +2690,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCommitInput, GetCommitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2774,7 +2774,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDifferencesInput, GetDifferencesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2856,7 +2856,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFileInput, GetFileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2937,7 +2937,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFolderInput, GetFolderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3018,7 +3018,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMergeCommitInput, GetMergeCommitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3108,7 +3108,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMergeConflictsInput, GetMergeConflictsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3192,7 +3192,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMergeOptionsInput, GetMergeOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3268,7 +3268,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPullRequestInput, GetPullRequestOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3346,7 +3346,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3424,7 +3424,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3500,7 +3500,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRepositoryInput, GetRepositoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3576,7 +3576,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRepositoryTriggersInput, GetRepositoryTriggersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3646,7 +3646,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3724,7 +3724,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3801,7 +3801,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBranchesInput, ListBranchesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3883,7 +3883,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFileCommitHistoryInput, ListFileCommitHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3964,7 +3964,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPullRequestsInput, ListPullRequestsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4035,7 +4035,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRepositoriesInput, ListRepositoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4113,7 +4113,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4185,7 +4185,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4272,7 +4272,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4379,7 +4379,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MergeBranchesBySquashInput, MergeBranchesBySquashOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4486,7 +4486,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4573,7 +4573,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4679,7 +4679,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MergePullRequestBySquashInput, MergePullRequestBySquashOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4785,7 +4785,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4868,7 +4868,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4959,7 +4959,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5055,7 +5055,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PostCommentForPullRequestInput, PostCommentForPullRequestOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5132,7 +5132,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PostCommentReplyInput, PostCommentReplyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5208,7 +5208,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutCommentReactionInput, PutCommentReactionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5306,7 +5306,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutFileInput, PutFileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5395,7 +5395,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRepositoryTriggersInput, PutRepositoryTriggersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5472,7 +5472,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5561,7 +5561,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestRepositoryTriggersInput, TestRepositoryTriggersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5638,7 +5638,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5712,7 +5712,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5784,7 +5784,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5856,7 +5856,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5931,7 +5931,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCommentInput, UpdateCommentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6010,7 +6010,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDefaultBranchInput, UpdateDefaultBranchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6094,7 +6094,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6178,7 +6178,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6251,7 +6251,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6330,7 +6330,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6404,7 +6404,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6481,7 +6481,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6560,7 +6560,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRepositoryEncryptionKeyInput, UpdateRepositoryEncryptionKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6632,7 +6632,7 @@ extension CodeCommitClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRepositoryNameInput, UpdateRepositoryNameOutput> = provider.create()
             builder.interceptors.add(i)
         }

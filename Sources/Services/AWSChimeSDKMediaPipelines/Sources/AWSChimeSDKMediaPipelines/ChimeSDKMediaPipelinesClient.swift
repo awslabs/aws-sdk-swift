@@ -233,7 +233,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -308,7 +308,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMediaConcatenationPipelineInput, CreateMediaConcatenationPipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -384,7 +384,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMediaInsightsPipelineInput, CreateMediaInsightsPipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -460,7 +460,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMediaInsightsPipelineConfigurationInput, CreateMediaInsightsPipelineConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -535,7 +535,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMediaLiveConnectorPipelineInput, CreateMediaLiveConnectorPipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -611,7 +611,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMediaPipelineKinesisVideoStreamPoolInput, CreateMediaPipelineKinesisVideoStreamPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -687,7 +687,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMediaStreamPipelineInput, CreateMediaStreamPipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -762,7 +762,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMediaCapturePipelineInput, DeleteMediaCapturePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -834,7 +834,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMediaInsightsPipelineConfigurationInput, DeleteMediaInsightsPipelineConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -906,7 +906,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMediaPipelineInput, DeleteMediaPipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -978,7 +978,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMediaPipelineKinesisVideoStreamPoolInput, DeleteMediaPipelineKinesisVideoStreamPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1049,7 +1049,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMediaCapturePipelineInput, GetMediaCapturePipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1120,7 +1120,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMediaInsightsPipelineConfigurationInput, GetMediaInsightsPipelineConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1191,7 +1191,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMediaPipelineInput, GetMediaPipelineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1262,7 +1262,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMediaPipelineKinesisVideoStreamPoolInput, GetMediaPipelineKinesisVideoStreamPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1333,7 +1333,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSpeakerSearchTaskInput, GetSpeakerSearchTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1404,7 +1404,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceToneAnalysisTaskInput, GetVoiceToneAnalysisTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1475,7 +1475,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1547,7 +1547,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1619,7 +1619,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1691,7 +1691,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMediaPipelinesInput, ListMediaPipelinesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1763,7 +1763,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1836,7 +1836,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1913,7 +1913,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1990,7 +1990,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopSpeakerSearchTaskInput, StopSpeakerSearchTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2063,7 +2063,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopVoiceToneAnalysisTaskInput, StopVoiceToneAnalysisTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2135,7 +2135,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2210,7 +2210,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2286,7 +2286,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateMediaInsightsPipelineConfigurationInput, UpdateMediaInsightsPipelineConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2361,7 +2361,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateMediaInsightsPipelineStatusInput, UpdateMediaInsightsPipelineStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2436,7 +2436,7 @@ extension ChimeSDKMediaPipelinesClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateMediaPipelineKinesisVideoStreamPoolInput, UpdateMediaPipelineKinesisVideoStreamPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }

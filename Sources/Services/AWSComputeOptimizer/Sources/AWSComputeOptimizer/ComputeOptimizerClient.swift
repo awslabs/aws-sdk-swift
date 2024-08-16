@@ -234,7 +234,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -310,7 +310,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -386,7 +386,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -462,7 +462,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -538,7 +538,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -614,7 +614,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -690,7 +690,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -766,7 +766,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -842,7 +842,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -918,7 +918,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -994,7 +994,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1070,7 +1070,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1146,7 +1146,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1222,7 +1222,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1298,7 +1298,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1374,7 +1374,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1448,7 +1448,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEnrollmentStatusInput, GetEnrollmentStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1522,7 +1522,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1598,7 +1598,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1674,7 +1674,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1750,7 +1750,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1826,7 +1826,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1902,7 +1902,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1987,7 +1987,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRecommendationSummariesInput, GetRecommendationSummariesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2063,7 +2063,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2137,7 +2137,7 @@ extension ComputeOptimizerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -228,7 +228,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CloneBackendInput, CloneBackendOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -299,7 +299,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBackendInput, CreateBackendOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -370,7 +370,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBackendAPIInput, CreateBackendAPIOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -441,7 +441,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBackendAuthInput, CreateBackendAuthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -512,7 +512,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBackendConfigInput, CreateBackendConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -583,7 +583,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBackendStorageInput, CreateBackendStorageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -654,7 +654,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTokenInput, CreateTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -722,7 +722,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBackendInput, DeleteBackendOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -790,7 +790,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBackendAPIInput, DeleteBackendAPIOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -861,7 +861,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBackendAuthInput, DeleteBackendAuthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -932,7 +932,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBackendStorageInput, DeleteBackendStorageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1003,7 +1003,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTokenInput, DeleteTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1071,7 +1071,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1142,7 +1142,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBackendInput, GetBackendOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1213,7 +1213,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBackendAPIInput, GetBackendAPIOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1284,7 +1284,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBackendAPIModelsInput, GetBackendAPIModelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1355,7 +1355,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBackendAuthInput, GetBackendAuthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1426,7 +1426,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBackendJobInput, GetBackendJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1494,7 +1494,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBackendStorageInput, GetBackendStorageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1565,7 +1565,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTokenInput, GetTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1633,7 +1633,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportBackendAuthInput, ImportBackendAuthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1704,7 +1704,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportBackendStorageInput, ImportBackendStorageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1775,7 +1775,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBackendJobsInput, ListBackendJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1846,7 +1846,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListS3BucketsInput, ListS3BucketsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1917,7 +1917,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveAllBackendsInput, RemoveAllBackendsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1988,7 +1988,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveBackendConfigInput, RemoveBackendConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2056,7 +2056,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBackendAPIInput, UpdateBackendAPIOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2127,7 +2127,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBackendAuthInput, UpdateBackendAuthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2198,7 +2198,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBackendConfigInput, UpdateBackendConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2269,7 +2269,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBackendJobInput, UpdateBackendJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2340,7 +2340,7 @@ extension AmplifyBackendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBackendStorageInput, UpdateBackendStorageOutput> = provider.create()
             builder.interceptors.add(i)
         }
