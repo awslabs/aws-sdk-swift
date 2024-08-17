@@ -229,7 +229,7 @@ extension SageMakerFeatureStoreRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetRecordInput, BatchGetRecordOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -307,7 +307,7 @@ extension SageMakerFeatureStoreRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRecordInput, DeleteRecordOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -377,7 +377,7 @@ extension SageMakerFeatureStoreRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRecordInput, GetRecordOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -446,7 +446,7 @@ extension SageMakerFeatureStoreRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRecordInput, PutRecordOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -231,7 +231,7 @@ extension MediaStoreDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteObjectInput, DeleteObjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -298,7 +298,7 @@ extension MediaStoreDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeObjectInput, DescribeObjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -366,7 +366,7 @@ extension MediaStoreDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetObjectInput, GetObjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -433,7 +433,7 @@ extension MediaStoreDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListItemsInput, ListItemsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -500,7 +500,7 @@ extension MediaStoreDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutObjectInput, PutObjectOutput> = provider.create()
             builder.interceptors.add(i)
         }

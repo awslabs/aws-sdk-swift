@@ -231,7 +231,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCellInput, CreateCellOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -303,7 +303,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCrossAccountAuthorizationInput, CreateCrossAccountAuthorizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -375,7 +375,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReadinessCheckInput, CreateReadinessCheckOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -447,7 +447,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRecoveryGroupInput, CreateRecoveryGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -519,7 +519,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateResourceSetInput, CreateResourceSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -591,7 +591,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCellInput, DeleteCellOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -659,7 +659,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCrossAccountAuthorizationInput, DeleteCrossAccountAuthorizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -728,7 +728,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReadinessCheckInput, DeleteReadinessCheckOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -797,7 +797,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRecoveryGroupInput, DeleteRecoveryGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -866,7 +866,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteResourceSetInput, DeleteResourceSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -935,7 +935,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetArchitectureRecommendationsInput, GetArchitectureRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1005,7 +1005,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCellInput, GetCellOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1074,7 +1074,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCellReadinessSummaryInput, GetCellReadinessSummaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1144,7 +1144,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReadinessCheckInput, GetReadinessCheckOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1213,7 +1213,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReadinessCheckResourceStatusInput, GetReadinessCheckResourceStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1283,7 +1283,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReadinessCheckStatusInput, GetReadinessCheckStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1353,7 +1353,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRecoveryGroupInput, GetRecoveryGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1422,7 +1422,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRecoveryGroupReadinessSummaryInput, GetRecoveryGroupReadinessSummaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1492,7 +1492,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetResourceSetInput, GetResourceSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1560,7 +1560,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCellsInput, ListCellsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1629,7 +1629,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCrossAccountAuthorizationsInput, ListCrossAccountAuthorizationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1698,7 +1698,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReadinessChecksInput, ListReadinessChecksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1767,7 +1767,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRecoveryGroupsInput, ListRecoveryGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1836,7 +1836,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourceSetsInput, ListResourceSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1905,7 +1905,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRulesInput, ListRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1973,7 +1973,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourcesInput, ListTagsForResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2040,7 +2040,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2110,7 +2110,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2180,7 +2180,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCellInput, UpdateCellOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2252,7 +2252,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateReadinessCheckInput, UpdateReadinessCheckOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2324,7 +2324,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRecoveryGroupInput, UpdateRecoveryGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2396,7 +2396,7 @@ extension Route53RecoveryReadinessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateResourceSetInput, UpdateResourceSetOutput> = provider.create()
             builder.interceptors.add(i)
         }

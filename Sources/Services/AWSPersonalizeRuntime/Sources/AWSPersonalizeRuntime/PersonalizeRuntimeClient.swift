@@ -226,7 +226,7 @@ extension PersonalizeRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetActionRecommendationsInput, GetActionRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -295,7 +295,7 @@ extension PersonalizeRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPersonalizedRankingInput, GetPersonalizedRankingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -371,7 +371,7 @@ extension PersonalizeRuntimeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRecommendationsInput, GetRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }

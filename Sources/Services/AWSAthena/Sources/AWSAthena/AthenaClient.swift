@@ -228,7 +228,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetNamedQueryInput, BatchGetNamedQueryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -298,7 +298,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -368,7 +368,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -438,7 +438,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelCapacityReservationInput, CancelCapacityReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -508,7 +508,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCapacityReservationInput, CreateCapacityReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -578,7 +578,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDataCatalogInput, CreateDataCatalogOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -648,7 +648,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNamedQueryInput, CreateNamedQueryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -720,7 +720,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNotebookInput, CreateNotebookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -790,7 +790,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePreparedStatementInput, CreatePreparedStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -861,7 +861,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -931,7 +931,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWorkGroupInput, CreateWorkGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1001,7 +1001,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCapacityReservationInput, DeleteCapacityReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1071,7 +1071,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDataCatalogInput, DeleteDataCatalogOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1141,7 +1141,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNamedQueryInput, DeleteNamedQueryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1213,7 +1213,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNotebookInput, DeleteNotebookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1284,7 +1284,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePreparedStatementInput, DeletePreparedStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1354,7 +1354,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWorkGroupInput, DeleteWorkGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1425,7 +1425,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportNotebookInput, ExportNotebookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1496,7 +1496,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCalculationExecutionInput, GetCalculationExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1567,7 +1567,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1638,7 +1638,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1708,7 +1708,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1778,7 +1778,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCapacityReservationInput, GetCapacityReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1848,7 +1848,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDataCatalogInput, GetDataCatalogOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1919,7 +1919,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDatabaseInput, GetDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1989,7 +1989,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetNamedQueryInput, GetNamedQueryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2060,7 +2060,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetNotebookMetadataInput, GetNotebookMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2131,7 +2131,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPreparedStatementInput, GetPreparedStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2201,7 +2201,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetQueryExecutionInput, GetQueryExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2272,7 +2272,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetQueryResultsInput, GetQueryResultsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2342,7 +2342,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2413,7 +2413,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSessionInput, GetSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2484,7 +2484,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSessionStatusInput, GetSessionStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2555,7 +2555,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTableMetadataInput, GetTableMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2625,7 +2625,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkGroupInput, GetWorkGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2696,7 +2696,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportNotebookInput, ImportNotebookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2767,7 +2767,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2838,7 +2838,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCalculationExecutionsInput, ListCalculationExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2908,7 +2908,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCapacityReservationsInput, ListCapacityReservationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2978,7 +2978,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDataCatalogsInput, ListDataCatalogsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3049,7 +3049,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDatabasesInput, ListDatabasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3119,7 +3119,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEngineVersionsInput, ListEngineVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3190,7 +3190,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListExecutorsInput, ListExecutorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3260,7 +3260,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListNamedQueriesInput, ListNamedQueriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3331,7 +3331,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListNotebookMetadataInput, ListNotebookMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3402,7 +3402,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListNotebookSessionsInput, ListNotebookSessionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3472,7 +3472,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPreparedStatementsInput, ListPreparedStatementsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3542,7 +3542,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListQueryExecutionsInput, ListQueryExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3613,7 +3613,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSessionsInput, ListSessionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3684,7 +3684,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTableMetadataInput, ListTableMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3755,7 +3755,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3825,7 +3825,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkGroupsInput, ListWorkGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3895,7 +3895,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3966,7 +3966,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartCalculationExecutionInput, StartCalculationExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4037,7 +4037,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartQueryExecutionInput, StartQueryExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4111,7 +4111,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartSessionInput, StartSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4182,7 +4182,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopCalculationExecutionInput, StopCalculationExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4252,7 +4252,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopQueryExecutionInput, StopQueryExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4324,7 +4324,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4395,7 +4395,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TerminateSessionInput, TerminateSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4466,7 +4466,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4536,7 +4536,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCapacityReservationInput, UpdateCapacityReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4606,7 +4606,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDataCatalogInput, UpdateDataCatalogOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4676,7 +4676,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateNamedQueryInput, UpdateNamedQueryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4747,7 +4747,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateNotebookInput, UpdateNotebookOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4818,7 +4818,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4889,7 +4889,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePreparedStatementInput, UpdatePreparedStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4959,7 +4959,7 @@ extension AthenaClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWorkGroupInput, UpdateWorkGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }

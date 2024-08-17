@@ -230,7 +230,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateApiInput, CreateApiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -301,7 +301,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateApiMappingInput, CreateApiMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -372,7 +372,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAuthorizerInput, CreateAuthorizerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -443,7 +443,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDeploymentInput, CreateDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -515,7 +515,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDomainNameInput, CreateDomainNameOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -586,7 +586,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIntegrationInput, CreateIntegrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -657,7 +657,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIntegrationResponseInput, CreateIntegrationResponseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -728,7 +728,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateModelInput, CreateModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -799,7 +799,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRouteInput, CreateRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -870,7 +870,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRouteResponseInput, CreateRouteResponseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -941,7 +941,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStageInput, CreateStageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1010,7 +1010,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVpcLinkInput, CreateVpcLinkOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1079,7 +1079,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccessLogSettingsInput, DeleteAccessLogSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1145,7 +1145,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApiInput, DeleteApiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1212,7 +1212,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApiMappingInput, DeleteApiMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1278,7 +1278,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAuthorizerInput, DeleteAuthorizerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1344,7 +1344,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCorsConfigurationInput, DeleteCorsConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1410,7 +1410,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDeploymentInput, DeleteDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1476,7 +1476,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDomainNameInput, DeleteDomainNameOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1542,7 +1542,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIntegrationInput, DeleteIntegrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1608,7 +1608,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIntegrationResponseInput, DeleteIntegrationResponseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1674,7 +1674,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteModelInput, DeleteModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1740,7 +1740,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRouteInput, DeleteRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1806,7 +1806,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRouteRequestParameterInput, DeleteRouteRequestParameterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1872,7 +1872,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRouteResponseInput, DeleteRouteResponseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1938,7 +1938,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRouteSettingsInput, DeleteRouteSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2004,7 +2004,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteStageInput, DeleteStageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2070,7 +2070,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVpcLinkInput, DeleteVpcLinkOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2136,7 +2136,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportApiInput, ExportApiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2203,7 +2203,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApiInput, GetApiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2270,7 +2270,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApiMappingInput, GetApiMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2337,7 +2337,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApiMappingsInput, GetApiMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2405,7 +2405,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApisInput, GetApisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2472,7 +2472,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAuthorizerInput, GetAuthorizerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2539,7 +2539,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAuthorizersInput, GetAuthorizersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2606,7 +2606,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeploymentInput, GetDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2673,7 +2673,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeploymentsInput, GetDeploymentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2740,7 +2740,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDomainNameInput, GetDomainNameOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2807,7 +2807,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDomainNamesInput, GetDomainNamesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2874,7 +2874,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIntegrationInput, GetIntegrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2940,7 +2940,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIntegrationResponseInput, GetIntegrationResponseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3007,7 +3007,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIntegrationResponsesInput, GetIntegrationResponsesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3075,7 +3075,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIntegrationsInput, GetIntegrationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3142,7 +3142,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetModelInput, GetModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3208,7 +3208,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetModelTemplateInput, GetModelTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3275,7 +3275,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetModelsInput, GetModelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3342,7 +3342,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRouteInput, GetRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3408,7 +3408,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRouteResponseInput, GetRouteResponseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3475,7 +3475,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRouteResponsesInput, GetRouteResponsesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3543,7 +3543,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRoutesInput, GetRoutesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3610,7 +3610,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetStageInput, GetStageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3677,7 +3677,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetStagesInput, GetStagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3746,7 +3746,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTagsInput, GetTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3812,7 +3812,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVpcLinkInput, GetVpcLinkOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3878,7 +3878,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVpcLinksInput, GetVpcLinksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3947,7 +3947,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportApiInput, ImportApiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4019,7 +4019,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReimportApiInput, ReimportApiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4089,7 +4089,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetAuthorizersCacheInput, ResetAuthorizersCacheOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4157,7 +4157,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4228,7 +4228,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4297,7 +4297,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApiInput, UpdateApiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4368,7 +4368,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApiMappingInput, UpdateApiMappingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4439,7 +4439,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAuthorizerInput, UpdateAuthorizerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4510,7 +4510,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDeploymentInput, UpdateDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4581,7 +4581,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDomainNameInput, UpdateDomainNameOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4652,7 +4652,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIntegrationInput, UpdateIntegrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4723,7 +4723,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIntegrationResponseInput, UpdateIntegrationResponseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4794,7 +4794,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateModelInput, UpdateModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4865,7 +4865,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRouteInput, UpdateRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4936,7 +4936,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRouteResponseInput, UpdateRouteResponseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5007,7 +5007,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateStageInput, UpdateStageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5077,7 +5077,7 @@ extension ApiGatewayV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVpcLinkInput, UpdateVpcLinkOutput> = provider.create()
             builder.interceptors.add(i)
         }

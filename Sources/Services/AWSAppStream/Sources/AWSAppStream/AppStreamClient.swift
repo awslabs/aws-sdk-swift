@@ -231,7 +231,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -304,7 +304,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateApplicationFleetInput, AssociateApplicationFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -376,7 +376,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -450,7 +450,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateFleetInput, AssociateFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -520,7 +520,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchAssociateUserStackInput, BatchAssociateUserStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -590,7 +590,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -664,7 +664,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyImageInput, CopyImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -736,7 +736,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppBlockInput, CreateAppBlockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -814,7 +814,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -884,7 +884,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -957,7 +957,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateApplicationInput, CreateApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1031,7 +1031,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDirectoryConfigInput, CreateDirectoryConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1103,7 +1103,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEntitlementInput, CreateEntitlementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1182,7 +1182,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFleetInput, CreateFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1261,7 +1261,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateImageBuilderInput, CreateImageBuilderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1331,7 +1331,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1407,7 +1407,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStackInput, CreateStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1479,7 +1479,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStreamingURLInput, CreateStreamingURLOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1553,7 +1553,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateThemeForStackInput, CreateThemeForStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1628,7 +1628,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUpdatedImageInput, CreateUpdatedImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1699,7 +1699,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1772,7 +1772,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserInput, CreateUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1843,7 +1843,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppBlockInput, DeleteAppBlockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1915,7 +1915,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1987,7 +1987,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApplicationInput, DeleteApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2057,7 +2057,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2129,7 +2129,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEntitlementInput, DeleteEntitlementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2200,7 +2200,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFleetInput, DeleteFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2272,7 +2272,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteImageInput, DeleteImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2343,7 +2343,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteImageBuilderInput, DeleteImageBuilderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2413,7 +2413,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteImagePermissionsInput, DeleteImagePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2485,7 +2485,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteStackInput, DeleteStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2556,7 +2556,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteThemeForStackInput, DeleteThemeForStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2626,7 +2626,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2695,7 +2695,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserInput, DeleteUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2765,7 +2765,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2835,7 +2835,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2905,7 +2905,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAppBlocksInput, DescribeAppBlocksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2975,7 +2975,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3045,7 +3045,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeApplicationsInput, DescribeApplicationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3114,7 +3114,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3185,7 +3185,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEntitlementsInput, DescribeEntitlementsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3254,7 +3254,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFleetsInput, DescribeFleetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3323,7 +3323,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImageBuildersInput, DescribeImageBuildersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3392,7 +3392,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImagePermissionsInput, DescribeImagePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3462,7 +3462,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImagesInput, DescribeImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3531,7 +3531,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSessionsInput, DescribeSessionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3600,7 +3600,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStacksInput, DescribeStacksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3670,7 +3670,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeThemeForStackInput, DescribeThemeForStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3740,7 +3740,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3814,7 +3814,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3885,7 +3885,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUsersInput, DescribeUsersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3954,7 +3954,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableUserInput, DisableUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4026,7 +4026,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4097,7 +4097,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4168,7 +4168,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4240,7 +4240,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateFleetInput, DisassociateFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4310,7 +4310,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableUserInput, EnableUserOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4374,7 +4374,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExpireSessionInput, ExpireSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4438,7 +4438,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAssociatedFleetsInput, ListAssociatedFleetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4502,7 +4502,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAssociatedStacksInput, ListAssociatedStacksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4573,7 +4573,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEntitledApplicationsInput, ListEntitledApplicationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4642,7 +4642,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4717,7 +4717,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartAppBlockBuilderInput, StartAppBlockBuilderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4793,7 +4793,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartFleetInput, StartFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4866,7 +4866,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartImageBuilderInput, StartImageBuilderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4937,7 +4937,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopAppBlockBuilderInput, StopAppBlockBuilderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5007,7 +5007,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopFleetInput, StopFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5078,7 +5078,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopImageBuilderInput, StopImageBuilderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5149,7 +5149,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5218,7 +5218,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5296,7 +5296,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5367,7 +5367,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApplicationInput, UpdateApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5440,7 +5440,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5512,7 +5512,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEntitlementInput, UpdateEntitlementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5598,7 +5598,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFleetInput, UpdateFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5669,7 +5669,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateImagePermissionsInput, UpdateImagePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5746,7 +5746,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateStackInput, UpdateStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5820,7 +5820,7 @@ extension AppStreamClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateThemeForStackInput, UpdateThemeForStackOutput> = provider.create()
             builder.interceptors.add(i)
         }

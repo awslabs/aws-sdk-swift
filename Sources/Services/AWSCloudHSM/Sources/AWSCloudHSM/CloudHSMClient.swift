@@ -229,7 +229,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddTagsToResourceInput, AddTagsToResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -301,7 +301,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateHapgInput, CreateHapgOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -373,7 +373,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateHsmInput, CreateHsmOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -445,7 +445,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLunaClientInput, CreateLunaClientOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -517,7 +517,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteHapgInput, DeleteHapgOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -589,7 +589,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteHsmInput, DeleteHsmOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -661,7 +661,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLunaClientInput, DeleteLunaClientOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -733,7 +733,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeHapgInput, DescribeHapgOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -805,7 +805,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeHsmInput, DescribeHsmOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -877,7 +877,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLunaClientInput, DescribeLunaClientOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -949,7 +949,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetConfigInput, GetConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1021,7 +1021,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAvailableZonesInput, ListAvailableZonesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1093,7 +1093,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListHapgsInput, ListHapgsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1165,7 +1165,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListHsmsInput, ListHsmsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1237,7 +1237,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLunaClientsInput, ListLunaClientsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1309,7 +1309,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1381,7 +1381,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyHapgInput, ModifyHapgOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1453,7 +1453,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyHsmInput, ModifyHsmOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1523,7 +1523,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyLunaClientInput, ModifyLunaClientOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1595,7 +1595,7 @@ extension CloudHSMClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }

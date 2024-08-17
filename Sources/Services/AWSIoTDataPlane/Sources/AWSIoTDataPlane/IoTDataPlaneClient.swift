@@ -235,7 +235,7 @@ extension IoTDataPlaneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteThingShadowInput, DeleteThingShadowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -307,7 +307,7 @@ extension IoTDataPlaneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRetainedMessageInput, GetRetainedMessageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -379,7 +379,7 @@ extension IoTDataPlaneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetThingShadowInput, GetThingShadowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -451,7 +451,7 @@ extension IoTDataPlaneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListNamedShadowsForThingInput, ListNamedShadowsForThingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -522,7 +522,7 @@ extension IoTDataPlaneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRetainedMessagesInput, ListRetainedMessagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -592,7 +592,7 @@ extension IoTDataPlaneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PublishInput, PublishOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -670,7 +670,7 @@ extension IoTDataPlaneClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateThingShadowInput, UpdateThingShadowOutput> = provider.create()
             builder.interceptors.add(i)
         }

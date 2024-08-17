@@ -233,7 +233,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateServiceQuotaTemplateInput, AssociateServiceQuotaTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -310,7 +310,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteServiceQuotaIncreaseRequestFromTemplateInput, DeleteServiceQuotaIncreaseRequestFromTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -386,7 +386,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateServiceQuotaTemplateInput, DisassociateServiceQuotaTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -459,7 +459,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAWSDefaultServiceQuotaInput, GetAWSDefaultServiceQuotaOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -535,7 +535,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAssociationForServiceQuotaTemplateInput, GetAssociationForServiceQuotaTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -608,7 +608,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRequestedServiceQuotaChangeInput, GetRequestedServiceQuotaChangeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -681,7 +681,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServiceQuotaInput, GetServiceQuotaOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -758,7 +758,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServiceQuotaIncreaseRequestFromTemplateInput, GetServiceQuotaIncreaseRequestFromTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -832,7 +832,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -906,7 +906,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -980,7 +980,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1056,7 +1056,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1130,7 +1130,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListServiceQuotasInput, ListServiceQuotasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1203,7 +1203,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListServicesInput, ListServicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1276,7 +1276,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1354,7 +1354,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutServiceQuotaIncreaseRequestIntoTemplateInput, PutServiceQuotaIncreaseRequestIntoTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1431,7 +1431,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RequestServiceQuotaIncreaseInput, RequestServiceQuotaIncreaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1506,7 +1506,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1579,7 +1579,7 @@ extension ServiceQuotasClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -229,7 +229,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateGatewayToServerInput, AssociateGatewayToServerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -300,7 +300,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGatewayInput, CreateGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -372,7 +372,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGatewayInput, DeleteGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -446,7 +446,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteHypervisorInput, DeleteHypervisorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -519,7 +519,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -591,7 +591,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -663,7 +663,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGatewayInput, GetGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -735,7 +735,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHypervisorInput, GetHypervisorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -807,7 +807,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -879,7 +879,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVirtualMachineInput, GetVirtualMachineOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -952,7 +952,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1023,7 +1023,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGatewaysInput, ListGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1094,7 +1094,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListHypervisorsInput, ListHypervisorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1166,7 +1166,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1237,7 +1237,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVirtualMachinesInput, ListVirtualMachinesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1309,7 +1309,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1383,7 +1383,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1456,7 +1456,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1529,7 +1529,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1601,7 +1601,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1674,7 +1674,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1746,7 +1746,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1819,7 +1819,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGatewayInformationInput, UpdateGatewayInformationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1891,7 +1891,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1965,7 +1965,7 @@ extension BackupGatewayClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateHypervisorInput, UpdateHypervisorOutput> = provider.create()
             builder.interceptors.add(i)
         }

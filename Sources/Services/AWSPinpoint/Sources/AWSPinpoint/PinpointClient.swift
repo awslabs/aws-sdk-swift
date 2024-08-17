@@ -233,7 +233,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAppInput, CreateAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -307,7 +307,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCampaignInput, CreateCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -379,7 +379,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEmailTemplateInput, CreateEmailTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -453,7 +453,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateExportJobInput, CreateExportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -527,7 +527,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateImportJobInput, CreateImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -599,7 +599,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInAppTemplateInput, CreateInAppTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -673,7 +673,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateJourneyInput, CreateJourneyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -745,7 +745,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePushTemplateInput, CreatePushTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -819,7 +819,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRecommenderConfigurationInput, CreateRecommenderConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -893,7 +893,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSegmentInput, CreateSegmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -965,7 +965,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSmsTemplateInput, CreateSmsTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1037,7 +1037,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVoiceTemplateInput, CreateVoiceTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1111,7 +1111,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAdmChannelInput, DeleteAdmChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1182,7 +1182,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApnsChannelInput, DeleteApnsChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1253,7 +1253,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApnsSandboxChannelInput, DeleteApnsSandboxChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1324,7 +1324,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApnsVoipChannelInput, DeleteApnsVoipChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1395,7 +1395,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApnsVoipSandboxChannelInput, DeleteApnsVoipSandboxChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1466,7 +1466,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAppInput, DeleteAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1537,7 +1537,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBaiduChannelInput, DeleteBaiduChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1608,7 +1608,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCampaignInput, DeleteCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1679,7 +1679,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEmailChannelInput, DeleteEmailChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1750,7 +1750,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEmailTemplateInput, DeleteEmailTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1822,7 +1822,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEndpointInput, DeleteEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1893,7 +1893,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEventStreamInput, DeleteEventStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1964,7 +1964,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGcmChannelInput, DeleteGcmChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2035,7 +2035,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInAppTemplateInput, DeleteInAppTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2107,7 +2107,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteJourneyInput, DeleteJourneyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2178,7 +2178,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePushTemplateInput, DeletePushTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2250,7 +2250,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRecommenderConfigurationInput, DeleteRecommenderConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2321,7 +2321,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSegmentInput, DeleteSegmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2392,7 +2392,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSmsChannelInput, DeleteSmsChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2463,7 +2463,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSmsTemplateInput, DeleteSmsTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2535,7 +2535,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserEndpointsInput, DeleteUserEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2606,7 +2606,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceChannelInput, DeleteVoiceChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2677,7 +2677,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceTemplateInput, DeleteVoiceTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2749,7 +2749,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAdmChannelInput, GetAdmChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2820,7 +2820,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApnsChannelInput, GetApnsChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2891,7 +2891,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApnsSandboxChannelInput, GetApnsSandboxChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2962,7 +2962,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApnsVoipChannelInput, GetApnsVoipChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3033,7 +3033,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApnsVoipSandboxChannelInput, GetApnsVoipSandboxChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3104,7 +3104,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAppInput, GetAppOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3175,7 +3175,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApplicationDateRangeKpiInput, GetApplicationDateRangeKpiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3247,7 +3247,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApplicationSettingsInput, GetApplicationSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3318,7 +3318,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAppsInput, GetAppsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3390,7 +3390,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBaiduChannelInput, GetBaiduChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3461,7 +3461,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCampaignInput, GetCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3532,7 +3532,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCampaignActivitiesInput, GetCampaignActivitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3604,7 +3604,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCampaignDateRangeKpiInput, GetCampaignDateRangeKpiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3676,7 +3676,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCampaignVersionInput, GetCampaignVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3747,7 +3747,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCampaignVersionsInput, GetCampaignVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3819,7 +3819,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCampaignsInput, GetCampaignsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3891,7 +3891,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetChannelsInput, GetChannelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3962,7 +3962,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEmailChannelInput, GetEmailChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4033,7 +4033,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEmailTemplateInput, GetEmailTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4105,7 +4105,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEndpointInput, GetEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4176,7 +4176,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEventStreamInput, GetEventStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4247,7 +4247,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetExportJobInput, GetExportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4318,7 +4318,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetExportJobsInput, GetExportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4390,7 +4390,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGcmChannelInput, GetGcmChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4461,7 +4461,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetImportJobInput, GetImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4532,7 +4532,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetImportJobsInput, GetImportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4604,7 +4604,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInAppMessagesInput, GetInAppMessagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4675,7 +4675,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInAppTemplateInput, GetInAppTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4747,7 +4747,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetJourneyInput, GetJourneyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4818,7 +4818,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetJourneyDateRangeKpiInput, GetJourneyDateRangeKpiOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4890,7 +4890,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetJourneyExecutionActivityMetricsInput, GetJourneyExecutionActivityMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4962,7 +4962,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetJourneyExecutionMetricsInput, GetJourneyExecutionMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5034,7 +5034,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetJourneyRunExecutionActivityMetricsInput, GetJourneyRunExecutionActivityMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5106,7 +5106,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetJourneyRunExecutionMetricsInput, GetJourneyRunExecutionMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5178,7 +5178,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetJourneyRunsInput, GetJourneyRunsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5250,7 +5250,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPushTemplateInput, GetPushTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5322,7 +5322,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRecommenderConfigurationInput, GetRecommenderConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5393,7 +5393,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRecommenderConfigurationsInput, GetRecommenderConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5465,7 +5465,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSegmentInput, GetSegmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5536,7 +5536,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSegmentExportJobsInput, GetSegmentExportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5608,7 +5608,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSegmentImportJobsInput, GetSegmentImportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5680,7 +5680,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSegmentVersionInput, GetSegmentVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5751,7 +5751,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSegmentVersionsInput, GetSegmentVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5823,7 +5823,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSegmentsInput, GetSegmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5895,7 +5895,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSmsChannelInput, GetSmsChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5966,7 +5966,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSmsTemplateInput, GetSmsTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6038,7 +6038,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetUserEndpointsInput, GetUserEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6109,7 +6109,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceChannelInput, GetVoiceChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6180,7 +6180,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceTemplateInput, GetVoiceTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6252,7 +6252,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListJourneysInput, ListJourneysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6313,7 +6313,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6384,7 +6384,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTemplateVersionsInput, ListTemplateVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6454,7 +6454,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTemplatesInput, ListTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6526,7 +6526,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PhoneNumberValidateInput, PhoneNumberValidateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6600,7 +6600,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutEventStreamInput, PutEventStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6674,7 +6674,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutEventsInput, PutEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6748,7 +6748,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveAttributesInput, RemoveAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6822,7 +6822,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendMessagesInput, SendMessagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6896,7 +6896,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendOTPMessageInput, SendOTPMessageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6970,7 +6970,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendUsersMessagesInput, SendUsersMessagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7033,7 +7033,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7096,7 +7096,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7168,7 +7168,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAdmChannelInput, UpdateAdmChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7242,7 +7242,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApnsChannelInput, UpdateApnsChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7316,7 +7316,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApnsSandboxChannelInput, UpdateApnsSandboxChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7390,7 +7390,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApnsVoipChannelInput, UpdateApnsVoipChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7464,7 +7464,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApnsVoipSandboxChannelInput, UpdateApnsVoipSandboxChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7538,7 +7538,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApplicationSettingsInput, UpdateApplicationSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7612,7 +7612,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBaiduChannelInput, UpdateBaiduChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7686,7 +7686,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCampaignInput, UpdateCampaignOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7760,7 +7760,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEmailChannelInput, UpdateEmailChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7834,7 +7834,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEmailTemplateInput, UpdateEmailTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7909,7 +7909,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEndpointInput, UpdateEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7983,7 +7983,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEndpointsBatchInput, UpdateEndpointsBatchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8057,7 +8057,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGcmChannelInput, UpdateGcmChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8131,7 +8131,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateInAppTemplateInput, UpdateInAppTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8207,7 +8207,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateJourneyInput, UpdateJourneyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8281,7 +8281,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateJourneyStateInput, UpdateJourneyStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8355,7 +8355,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePushTemplateInput, UpdatePushTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8430,7 +8430,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRecommenderConfigurationInput, UpdateRecommenderConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8504,7 +8504,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSegmentInput, UpdateSegmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8578,7 +8578,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSmsChannelInput, UpdateSmsChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8652,7 +8652,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSmsTemplateInput, UpdateSmsTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8727,7 +8727,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTemplateActiveVersionInput, UpdateTemplateActiveVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8801,7 +8801,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVoiceChannelInput, UpdateVoiceChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8875,7 +8875,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVoiceTemplateInput, UpdateVoiceTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8950,7 +8950,7 @@ extension PinpointClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyOTPMessageInput, VerifyOTPMessageOutput> = provider.create()
             builder.interceptors.add(i)
         }

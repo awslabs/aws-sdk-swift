@@ -233,7 +233,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateTeamMemberInput, AssociateTeamMemberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -308,7 +308,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateProjectInput, CreateProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -378,7 +378,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserProfileInput, CreateUserProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -449,7 +449,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteProjectInput, DeleteProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -518,7 +518,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserProfileInput, DeleteUserProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -591,7 +591,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeProjectInput, DescribeProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -661,7 +661,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUserProfileInput, DescribeUserProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -733,7 +733,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateTeamMemberInput, DisassociateTeamMemberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -803,7 +803,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListProjectsInput, ListProjectsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -874,7 +874,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourcesInput, ListResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -945,7 +945,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForProjectInput, ListTagsForProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1016,7 +1016,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTeamMembersInput, ListTeamMembersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1086,7 +1086,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUserProfilesInput, ListUserProfilesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1158,7 +1158,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagProjectInput, TagProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1230,7 +1230,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagProjectInput, UntagProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1300,7 +1300,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateProjectInput, UpdateProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1375,7 +1375,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTeamMemberInput, UpdateTeamMemberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1445,7 +1445,7 @@ extension CodeStarClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateUserProfileInput, UpdateUserProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }

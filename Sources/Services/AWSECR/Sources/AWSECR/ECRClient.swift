@@ -229,7 +229,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -300,7 +300,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDeleteImageInput, BatchDeleteImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -373,7 +373,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetImageInput, BatchGetImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -445,7 +445,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -522,7 +522,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CompleteLayerUploadInput, CompleteLayerUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -599,7 +599,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -674,7 +674,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRepositoryInput, CreateRepositoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -747,7 +747,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -820,7 +820,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -892,7 +892,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -964,7 +964,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1037,7 +1037,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRepositoryInput, DeleteRepositoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1109,7 +1109,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1181,7 +1181,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1254,7 +1254,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1328,7 +1328,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1400,7 +1400,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImagesInput, DescribeImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1472,7 +1472,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1543,7 +1543,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRegistryInput, DescribeRegistryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1614,7 +1614,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRepositoriesInput, DescribeRepositoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1685,7 +1685,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1756,7 +1756,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccountSettingInput, GetAccountSettingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1826,7 +1826,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAuthorizationTokenInput, GetAuthorizationTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1900,7 +1900,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1973,7 +1973,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLifecyclePolicyInput, GetLifecyclePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2046,7 +2046,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2118,7 +2118,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRegistryPolicyInput, GetRegistryPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2189,7 +2189,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2261,7 +2261,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRepositoryPolicyInput, GetRepositoryPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2333,7 +2333,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InitiateLayerUploadInput, InitiateLayerUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2404,7 +2404,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImagesInput, ListImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2475,7 +2475,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2547,7 +2547,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutAccountSettingInput, PutAccountSettingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2625,7 +2625,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutImageInput, PutImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2697,7 +2697,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2768,7 +2768,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutImageTagMutabilityInput, PutImageTagMutabilityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2840,7 +2840,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutLifecyclePolicyInput, PutLifecyclePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2911,7 +2911,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRegistryPolicyInput, PutRegistryPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2982,7 +2982,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3053,7 +3053,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutReplicationConfigurationInput, PutReplicationConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3124,7 +3124,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetRepositoryPolicyInput, SetRepositoryPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3199,7 +3199,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartImageScanInput, StartImageScanOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3273,7 +3273,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3346,7 +3346,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3419,7 +3419,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3494,7 +3494,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3566,7 +3566,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3641,7 +3641,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UploadLayerPartInput, UploadLayerPartOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3713,7 +3713,7 @@ extension ECRClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }

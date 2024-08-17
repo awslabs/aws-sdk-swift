@@ -236,7 +236,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddNotificationChannelsInput, AddNotificationChannelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -307,7 +307,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchGetFrameMetricDataInput, BatchGetFrameMetricDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -379,7 +379,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ConfigureAgentInput, ConfigureAgentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -451,7 +451,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateProfilingGroupInput, CreateProfilingGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -525,7 +525,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteProfilingGroupInput, DeleteProfilingGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -593,7 +593,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeProfilingGroupInput, DescribeProfilingGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -660,7 +660,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -729,7 +729,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetNotificationConfigurationInput, GetNotificationConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -796,7 +796,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPolicyInput, GetPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -880,7 +880,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetProfileInput, GetProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -950,7 +950,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRecommendationsInput, GetRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1019,7 +1019,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFindingsReportsInput, ListFindingsReportsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1088,7 +1088,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListProfileTimesInput, ListProfileTimesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1155,7 +1155,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListProfilingGroupsInput, ListProfilingGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1223,7 +1223,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1291,7 +1291,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PostAgentProfileInput, PostAgentProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1366,7 +1366,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutPermissionInput, PutPermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1437,7 +1437,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveNotificationChannelInput, RemoveNotificationChannelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1506,7 +1506,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemovePermissionInput, RemovePermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1575,7 +1575,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SubmitFeedbackInput, SubmitFeedbackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1645,7 +1645,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1715,7 +1715,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1785,7 +1785,7 @@ extension CodeGuruProfilerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateProfilingGroupInput, UpdateProfilingGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }

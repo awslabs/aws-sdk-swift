@@ -225,7 +225,7 @@ extension SagemakerEdgeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeploymentsInput, GetDeploymentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -293,7 +293,7 @@ extension SagemakerEdgeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeviceRegistrationInput, GetDeviceRegistrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -361,7 +361,7 @@ extension SagemakerEdgeClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendHeartbeatInput, SendHeartbeatOutput> = provider.create()
             builder.interceptors.add(i)
         }

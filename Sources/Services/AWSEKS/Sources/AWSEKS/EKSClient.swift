@@ -230,7 +230,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateAccessPolicyInput, AssociateAccessPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -303,7 +303,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -377,7 +377,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -451,7 +451,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAccessEntryInput, CreateAccessEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -525,7 +525,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAddonInput, CreateAddonOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -600,7 +600,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateClusterInput, CreateClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -673,7 +673,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEksAnywhereSubscriptionInput, CreateEksAnywhereSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -747,7 +747,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFargateProfileInput, CreateFargateProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -822,7 +822,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNodegroupInput, CreateNodegroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -896,7 +896,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePodIdentityAssociationInput, CreatePodIdentityAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -967,7 +967,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccessEntryInput, DeleteAccessEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1036,7 +1036,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAddonInput, DeleteAddonOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1106,7 +1106,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteClusterInput, DeleteClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1174,7 +1174,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEksAnywhereSubscriptionInput, DeleteEksAnywhereSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1242,7 +1242,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFargateProfileInput, DeleteFargateProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1312,7 +1312,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNodegroupInput, DeleteNodegroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1380,7 +1380,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePodIdentityAssociationInput, DeletePodIdentityAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1450,7 +1450,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterClusterInput, DeregisterClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1517,7 +1517,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccessEntryInput, DescribeAccessEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1586,7 +1586,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAddonInput, DescribeAddonOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1653,7 +1653,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAddonConfigurationInput, DescribeAddonConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1721,7 +1721,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAddonVersionsInput, DescribeAddonVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1790,7 +1790,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClusterInput, DescribeClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1858,7 +1858,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEksAnywhereSubscriptionInput, DescribeEksAnywhereSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1926,7 +1926,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFargateProfileInput, DescribeFargateProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1995,7 +1995,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2066,7 +2066,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInsightInput, DescribeInsightOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2135,7 +2135,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNodegroupInput, DescribeNodegroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2203,7 +2203,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePodIdentityAssociationInput, DescribePodIdentityAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2271,7 +2271,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeUpdateInput, DescribeUpdateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2339,7 +2339,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateAccessPolicyInput, DisassociateAccessPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2409,7 +2409,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2481,7 +2481,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccessEntriesInput, ListAccessEntriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2547,7 +2547,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccessPoliciesInput, ListAccessPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2617,7 +2617,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAddonsInput, ListAddonsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2685,7 +2685,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2754,7 +2754,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListClustersInput, ListClustersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2823,7 +2823,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEksAnywhereSubscriptionsInput, ListEksAnywhereSubscriptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2892,7 +2892,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFargateProfilesInput, ListFargateProfilesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2962,7 +2962,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3031,7 +3031,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInsightsInput, ListInsightsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3103,7 +3103,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListNodegroupsInput, ListNodegroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3172,7 +3172,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPodIdentityAssociationsInput, ListPodIdentityAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3239,7 +3239,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3307,7 +3307,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUpdatesInput, ListUpdatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3380,7 +3380,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterClusterInput, RegisterClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3450,7 +3450,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3519,7 +3519,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3588,7 +3588,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAccessEntryInput, UpdateAccessEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3662,7 +3662,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAddonInput, UpdateAddonOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3736,7 +3736,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateClusterConfigInput, UpdateClusterConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3810,7 +3810,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateClusterVersionInput, UpdateClusterVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3883,7 +3883,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEksAnywhereSubscriptionInput, UpdateEksAnywhereSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3957,7 +3957,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4031,7 +4031,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4103,7 +4103,7 @@ extension EKSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePodIdentityAssociationInput, UpdatePodIdentityAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }

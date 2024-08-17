@@ -246,7 +246,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchExecuteStatementInput, BatchExecuteStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -319,7 +319,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelStatementInput, CancelStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -390,7 +390,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStatementInput, DescribeStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -477,7 +477,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTableInput, DescribeTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -564,7 +564,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExecuteStatementInput, ExecuteStatementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -636,7 +636,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetStatementResultInput, GetStatementResultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -723,7 +723,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDatabasesInput, ListDatabasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -810,7 +810,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSchemasInput, ListSchemasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -880,7 +880,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStatementsInput, ListStatementsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -967,7 +967,7 @@ extension RedshiftDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTablesInput, ListTablesOutput> = provider.create()
             builder.interceptors.add(i)
         }

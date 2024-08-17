@@ -226,7 +226,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -300,7 +300,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -374,7 +374,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -438,7 +438,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -502,7 +502,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -571,7 +571,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventAggregatesInput, DescribeEventAggregatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -640,7 +640,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventDetailsInput, DescribeEventDetailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -716,7 +716,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -786,7 +786,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventTypesInput, DescribeEventTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -860,7 +860,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsInput, DescribeEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -939,7 +939,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1003,7 +1003,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1072,7 +1072,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1148,7 +1148,7 @@ extension HealthClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }

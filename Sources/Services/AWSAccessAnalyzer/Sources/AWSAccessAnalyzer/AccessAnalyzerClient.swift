@@ -232,7 +232,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ApplyArchiveRuleInput, ApplyArchiveRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -304,7 +304,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelPolicyGenerationInput, CancelPolicyGenerationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -374,7 +374,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CheckAccessNotGrantedInput, CheckAccessNotGrantedOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -447,7 +447,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CheckNoNewAccessInput, CheckNoNewAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -520,7 +520,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CheckNoPublicAccessInput, CheckNoPublicAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -594,7 +594,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAccessPreviewInput, CreateAccessPreviewOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -668,7 +668,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAnalyzerInput, CreateAnalyzerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -743,7 +743,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateArchiveRuleInput, CreateArchiveRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -816,7 +816,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAnalyzerInput, DeleteAnalyzerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -887,7 +887,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteArchiveRuleInput, DeleteArchiveRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -957,7 +957,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GenerateFindingRecommendationInput, GenerateFindingRecommendationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1027,7 +1027,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccessPreviewInput, GetAccessPreviewOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1097,7 +1097,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAnalyzedResourceInput, GetAnalyzedResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1167,7 +1167,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAnalyzerInput, GetAnalyzerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1236,7 +1236,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetArchiveRuleInput, GetArchiveRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1305,7 +1305,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFindingInput, GetFindingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1375,7 +1375,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFindingRecommendationInput, GetFindingRecommendationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1445,7 +1445,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFindingV2Input, GetFindingV2Output> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1514,7 +1514,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGeneratedPolicyInput, GetGeneratedPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1585,7 +1585,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccessPreviewFindingsInput, ListAccessPreviewFindingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1657,7 +1657,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccessPreviewsInput, ListAccessPreviewsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1727,7 +1727,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnalyzedResourcesInput, ListAnalyzedResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1798,7 +1798,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnalyzersInput, ListAnalyzersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1867,7 +1867,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListArchiveRulesInput, ListArchiveRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1937,7 +1937,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFindingsInput, ListFindingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2009,7 +2009,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFindingsV2Input, ListFindingsV2Output> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2080,7 +2080,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPolicyGenerationsInput, ListPolicyGenerationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2150,7 +2150,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2220,7 +2220,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartPolicyGenerationInput, StartPolicyGenerationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2293,7 +2293,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartResourceScanInput, StartResourceScanOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2365,7 +2365,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2437,7 +2437,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2507,7 +2507,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateArchiveRuleInput, UpdateArchiveRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2580,7 +2580,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFindingsInput, UpdateFindingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2652,7 +2652,7 @@ extension AccessAnalyzerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ValidatePolicyInput, ValidatePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }

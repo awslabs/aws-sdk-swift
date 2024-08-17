@@ -252,7 +252,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AnalyzeDocumentInput, AnalyzeDocumentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -333,7 +333,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AnalyzeExpenseInput, AnalyzeExpenseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -410,7 +410,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AnalyzeIDInput, AnalyzeIDOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -488,7 +488,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAdapterInput, CreateAdapterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -570,7 +570,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAdapterVersionInput, CreateAdapterVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -647,7 +647,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAdapterInput, DeleteAdapterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -723,7 +723,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAdapterVersionInput, DeleteAdapterVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -800,7 +800,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectDocumentTextInput, DetectDocumentTextOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -875,7 +875,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAdapterInput, GetAdapterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -950,7 +950,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAdapterVersionInput, GetAdapterVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1039,7 +1039,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDocumentAnalysisInput, GetDocumentAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1115,7 +1115,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1191,7 +1191,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetExpenseAnalysisInput, GetExpenseAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1267,7 +1267,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLendingAnalysisInput, GetLendingAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1343,7 +1343,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1418,7 +1418,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAdapterVersionsInput, ListAdapterVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1492,7 +1492,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAdaptersInput, ListAdaptersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1567,7 +1567,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1647,7 +1647,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDocumentAnalysisInput, StartDocumentAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1727,7 +1727,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1807,7 +1807,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartExpenseAnalysisInput, StartExpenseAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1893,7 +1893,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartLendingAnalysisInput, StartLendingAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1969,7 +1969,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2044,7 +2044,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2120,7 +2120,7 @@ extension TextractClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAdapterInput, UpdateAdapterOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -233,7 +233,7 @@ extension PollyClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLexiconInput, DeleteLexiconOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -299,7 +299,7 @@ extension PollyClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVoicesInput, DescribeVoicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -366,7 +366,7 @@ extension PollyClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLexiconInput, GetLexiconOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -433,7 +433,7 @@ extension PollyClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSpeechSynthesisTaskInput, GetSpeechSynthesisTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -499,7 +499,7 @@ extension PollyClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLexiconsInput, ListLexiconsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -566,7 +566,7 @@ extension PollyClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSpeechSynthesisTasksInput, ListSpeechSynthesisTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -638,7 +638,7 @@ extension PollyClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutLexiconInput, PutLexiconOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -717,7 +717,7 @@ extension PollyClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartSpeechSynthesisTaskInput, StartSpeechSynthesisTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -793,7 +793,7 @@ extension PollyClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SynthesizeSpeechInput, SynthesizeSpeechOutput> = provider.create()
             builder.interceptors.add(i)
         }

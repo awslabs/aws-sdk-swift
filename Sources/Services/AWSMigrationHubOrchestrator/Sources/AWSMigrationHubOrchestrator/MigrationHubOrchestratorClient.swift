@@ -232,7 +232,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTemplateInput, CreateTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -304,7 +304,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWorkflowInput, CreateWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -375,7 +375,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWorkflowStepInput, CreateWorkflowStepOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -446,7 +446,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWorkflowStepGroupInput, CreateWorkflowStepGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -518,7 +518,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTemplateInput, DeleteTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -587,7 +587,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWorkflowInput, DeleteWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -656,7 +656,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWorkflowStepInput, DeleteWorkflowStepOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -726,7 +726,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWorkflowStepGroupInput, DeleteWorkflowStepGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -795,7 +795,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTemplateInput, GetTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -864,7 +864,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTemplateStepInput, GetTemplateStepOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -934,7 +934,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTemplateStepGroupInput, GetTemplateStepGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1003,7 +1003,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkflowInput, GetWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1071,7 +1071,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkflowStepInput, GetWorkflowStepOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1141,7 +1141,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkflowStepGroupInput, GetWorkflowStepGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1209,7 +1209,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPluginsInput, ListPluginsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1276,7 +1276,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1344,7 +1344,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTemplateStepGroupsInput, ListTemplateStepGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1414,7 +1414,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTemplateStepsInput, ListTemplateStepsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1482,7 +1482,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTemplatesInput, ListTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1552,7 +1552,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkflowStepGroupsInput, ListWorkflowStepGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1621,7 +1621,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkflowStepsInput, ListWorkflowStepsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1691,7 +1691,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkflowsInput, ListWorkflowsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1760,7 +1760,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RetryWorkflowStepInput, RetryWorkflowStepOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1830,7 +1830,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartWorkflowInput, StartWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1899,7 +1899,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopWorkflowInput, StopWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1965,7 +1965,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2034,7 +2034,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2104,7 +2104,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTemplateInput, UpdateTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2177,7 +2177,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWorkflowInput, UpdateWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2248,7 +2248,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWorkflowStepInput, UpdateWorkflowStepOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2320,7 +2320,7 @@ extension MigrationHubOrchestratorClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWorkflowStepGroupInput, UpdateWorkflowStepGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }

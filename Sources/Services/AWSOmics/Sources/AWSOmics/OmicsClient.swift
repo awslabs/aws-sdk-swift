@@ -240,7 +240,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AbortMultipartReadSetUploadInput, AbortMultipartReadSetUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -311,7 +311,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptShareInput, AcceptShareOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -381,7 +381,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDeleteReadSetInput, BatchDeleteReadSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -453,7 +453,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelAnnotationImportJobInput, CancelAnnotationImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -525,7 +525,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelRunInput, CancelRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -594,7 +594,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelVariantImportJobInput, CancelVariantImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -666,7 +666,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CompleteMultipartReadSetUploadInput, CompleteMultipartReadSetUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -740,7 +740,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAnnotationStoreInput, CreateAnnotationStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -814,7 +814,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAnnotationStoreVersionInput, CreateAnnotationStoreVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -889,7 +889,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMultipartReadSetUploadInput, CreateMultipartReadSetUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -962,7 +962,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReferenceStoreInput, CreateReferenceStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1037,7 +1037,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRunGroupInput, CreateRunGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1111,7 +1111,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSequenceStoreInput, CreateSequenceStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1191,7 +1191,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateShareInput, CreateShareOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1265,7 +1265,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVariantStoreInput, CreateVariantStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1340,7 +1340,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWorkflowInput, CreateWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1414,7 +1414,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAnnotationStoreInput, DeleteAnnotationStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1485,7 +1485,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAnnotationStoreVersionsInput, DeleteAnnotationStoreVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1560,7 +1560,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReferenceInput, DeleteReferenceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1631,7 +1631,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReferenceStoreInput, DeleteReferenceStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1703,7 +1703,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRunInput, DeleteRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1775,7 +1775,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRunGroupInput, DeleteRunGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1846,7 +1846,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSequenceStoreInput, DeleteSequenceStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1917,7 +1917,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteShareInput, DeleteShareOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1987,7 +1987,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVariantStoreInput, DeleteVariantStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2060,7 +2060,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWorkflowInput, DeleteWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2129,7 +2129,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAnnotationImportJobInput, GetAnnotationImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2198,7 +2198,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAnnotationStoreInput, GetAnnotationStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2267,7 +2267,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAnnotationStoreVersionInput, GetAnnotationStoreVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2339,7 +2339,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReadSetInput, GetReadSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2410,7 +2410,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReadSetActivationJobInput, GetReadSetActivationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2480,7 +2480,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReadSetExportJobInput, GetReadSetExportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2550,7 +2550,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReadSetImportJobInput, GetReadSetImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2620,7 +2620,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReadSetMetadataInput, GetReadSetMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2691,7 +2691,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReferenceInput, GetReferenceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2763,7 +2763,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReferenceImportJobInput, GetReferenceImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2833,7 +2833,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReferenceMetadataInput, GetReferenceMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2903,7 +2903,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReferenceStoreInput, GetReferenceStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2975,7 +2975,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRunInput, GetRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3048,7 +3048,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRunGroupInput, GetRunGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3120,7 +3120,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRunTaskInput, GetRunTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3190,7 +3190,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSequenceStoreInput, GetSequenceStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3261,7 +3261,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetShareInput, GetShareOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3330,7 +3330,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVariantImportJobInput, GetVariantImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3399,7 +3399,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVariantStoreInput, GetVariantStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3471,7 +3471,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkflowInput, GetWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3541,7 +3541,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnnotationImportJobsInput, ListAnnotationImportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3614,7 +3614,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnnotationStoreVersionsInput, ListAnnotationStoreVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3687,7 +3687,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnnotationStoresInput, ListAnnotationStoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3763,7 +3763,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMultipartReadSetUploadsInput, ListMultipartReadSetUploadsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3834,7 +3834,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReadSetActivationJobsInput, ListReadSetActivationJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3908,7 +3908,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReadSetExportJobsInput, ListReadSetExportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3982,7 +3982,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReadSetImportJobsInput, ListReadSetImportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4058,7 +4058,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReadSetUploadPartsInput, ListReadSetUploadPartsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4132,7 +4132,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReadSetsInput, ListReadSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4206,7 +4206,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReferenceImportJobsInput, ListReferenceImportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4279,7 +4279,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReferenceStoresInput, ListReferenceStoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4353,7 +4353,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReferencesInput, ListReferencesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4429,7 +4429,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRunGroupsInput, ListRunGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4502,7 +4502,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRunTasksInput, ListRunTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4575,7 +4575,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRunsInput, ListRunsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4645,7 +4645,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSequenceStoresInput, ListSequenceStoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4720,7 +4720,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSharesInput, ListSharesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4796,7 +4796,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4865,7 +4865,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVariantImportJobsInput, ListVariantImportJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4938,7 +4938,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVariantStoresInput, ListVariantStoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5014,7 +5014,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkflowsInput, ListWorkflowsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5085,7 +5085,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartAnnotationImportJobInput, StartAnnotationImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5159,7 +5159,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartReadSetActivationJobInput, StartReadSetActivationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5233,7 +5233,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartReadSetExportJobInput, StartReadSetExportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5307,7 +5307,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartReadSetImportJobInput, StartReadSetImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5381,7 +5381,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartReferenceImportJobInput, StartReferenceImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5456,7 +5456,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartRunInput, StartRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5530,7 +5530,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartVariantImportJobInput, StartVariantImportJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5605,7 +5605,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5680,7 +5680,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5750,7 +5750,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAnnotationStoreInput, UpdateAnnotationStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5822,7 +5822,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAnnotationStoreVersionInput, UpdateAnnotationStoreVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5897,7 +5897,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRunGroupInput, UpdateRunGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5969,7 +5969,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVariantStoreInput, UpdateVariantStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6044,7 +6044,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWorkflowInput, UpdateWorkflowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6119,7 +6119,7 @@ extension OmicsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UploadReadSetPartInput, UploadReadSetPartOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -235,7 +235,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -309,7 +309,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -382,7 +382,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -455,7 +455,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -528,7 +528,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -601,7 +601,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -674,7 +674,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -747,7 +747,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelMulticastGroupSessionInput, CancelMulticastGroupSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -817,7 +817,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDestinationInput, CreateDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -890,7 +890,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDeviceProfileInput, CreateDeviceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -964,7 +964,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFuotaTaskInput, CreateFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1038,7 +1038,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMulticastGroupInput, CreateMulticastGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1112,7 +1112,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1185,7 +1185,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateServiceProfileInput, CreateServiceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1259,7 +1259,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWirelessDeviceInput, CreateWirelessDeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1339,7 +1339,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWirelessGatewayInput, CreateWirelessGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1413,7 +1413,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1486,7 +1486,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1560,7 +1560,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDestinationInput, DeleteDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1630,7 +1630,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDeviceProfileInput, DeleteDeviceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1699,7 +1699,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFuotaTaskInput, DeleteFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1769,7 +1769,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMulticastGroupInput, DeleteMulticastGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1839,7 +1839,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkAnalyzerConfigurationInput, DeleteNetworkAnalyzerConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1908,7 +1908,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteQueuedMessagesInput, DeleteQueuedMessagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1979,7 +1979,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteServiceProfileInput, DeleteServiceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2048,7 +2048,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWirelessDeviceInput, DeleteWirelessDeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2118,7 +2118,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWirelessDeviceImportTaskInput, DeleteWirelessDeviceImportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2194,7 +2194,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWirelessGatewayInput, DeleteWirelessGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2263,7 +2263,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWirelessGatewayTaskInput, DeleteWirelessGatewayTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2332,7 +2332,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWirelessGatewayTaskDefinitionInput, DeleteWirelessGatewayTaskDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2400,7 +2400,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterWirelessDeviceInput, DeregisterWirelessDeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2469,7 +2469,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateAwsAccountFromPartnerAccountInput, DisassociateAwsAccountFromPartnerAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2539,7 +2539,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateMulticastGroupFromFuotaTaskInput, DisassociateMulticastGroupFromFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2609,7 +2609,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateWirelessDeviceFromFuotaTaskInput, DisassociateWirelessDeviceFromFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2678,7 +2678,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateWirelessDeviceFromMulticastGroupInput, DisassociateWirelessDeviceFromMulticastGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2748,7 +2748,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateWirelessDeviceFromThingInput, DisassociateWirelessDeviceFromThingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2817,7 +2817,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateWirelessGatewayFromCertificateInput, DisassociateWirelessGatewayFromCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2887,7 +2887,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateWirelessGatewayFromThingInput, DisassociateWirelessGatewayFromThingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2956,7 +2956,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDestinationInput, GetDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3025,7 +3025,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeviceProfileInput, GetDeviceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3092,7 +3092,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEventConfigurationByResourceTypesInput, GetEventConfigurationByResourceTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3161,7 +3161,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFuotaTaskInput, GetFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3230,7 +3230,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLogLevelsByResourceTypesInput, GetLogLevelsByResourceTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3300,7 +3300,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMetricConfigurationInput, GetMetricConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3370,7 +3370,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMetricsInput, GetMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3442,7 +3442,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMulticastGroupInput, GetMulticastGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3511,7 +3511,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetMulticastGroupSessionInput, GetMulticastGroupSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3580,7 +3580,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetNetworkAnalyzerConfigurationInput, GetNetworkAnalyzerConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3648,7 +3648,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPartnerAccountInput, GetPartnerAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3719,7 +3719,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPositionInput, GetPositionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3790,7 +3790,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPositionConfigurationInput, GetPositionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3860,7 +3860,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPositionEstimateInput, GetPositionEstimateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3932,7 +3932,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetResourceEventConfigurationInput, GetResourceEventConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4002,7 +4002,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetResourceLogLevelInput, GetResourceLogLevelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4072,7 +4072,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetResourcePositionInput, GetResourcePositionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4141,7 +4141,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServiceEndpointInput, GetServiceEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4211,7 +4211,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServiceProfileInput, GetServiceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4280,7 +4280,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWirelessDeviceInput, GetWirelessDeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4351,7 +4351,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWirelessDeviceImportTaskInput, GetWirelessDeviceImportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4420,7 +4420,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWirelessDeviceStatisticsInput, GetWirelessDeviceStatisticsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4489,7 +4489,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWirelessGatewayInput, GetWirelessGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4559,7 +4559,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWirelessGatewayCertificateInput, GetWirelessGatewayCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4628,7 +4628,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWirelessGatewayFirmwareInformationInput, GetWirelessGatewayFirmwareInformationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4697,7 +4697,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWirelessGatewayStatisticsInput, GetWirelessGatewayStatisticsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4766,7 +4766,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWirelessGatewayTaskInput, GetWirelessGatewayTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4835,7 +4835,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWirelessGatewayTaskDefinitionInput, GetWirelessGatewayTaskDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4903,7 +4903,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDestinationsInput, ListDestinationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4972,7 +4972,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDeviceProfilesInput, ListDeviceProfilesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5043,7 +5043,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDevicesForWirelessDeviceImportTaskInput, ListDevicesForWirelessDeviceImportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5112,7 +5112,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEventConfigurationsInput, ListEventConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5181,7 +5181,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFuotaTasksInput, ListFuotaTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5250,7 +5250,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMulticastGroupsInput, ListMulticastGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5320,7 +5320,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5389,7 +5389,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5458,7 +5458,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPartnerAccountsInput, ListPartnerAccountsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5528,7 +5528,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPositionConfigurationsInput, ListPositionConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5598,7 +5598,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListQueuedMessagesInput, ListQueuedMessagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5667,7 +5667,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListServiceProfilesInput, ListServiceProfilesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5737,7 +5737,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5808,7 +5808,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWirelessDeviceImportTasksInput, ListWirelessDeviceImportTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5877,7 +5877,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWirelessDevicesInput, ListWirelessDevicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5946,7 +5946,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWirelessGatewayTaskDefinitionsInput, ListWirelessGatewayTaskDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6015,7 +6015,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWirelessGatewaysInput, ListWirelessGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6086,7 +6086,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutPositionConfigurationInput, PutPositionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6159,7 +6159,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutResourceLogLevelInput, PutResourceLogLevelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6232,7 +6232,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetAllResourceLogLevelsInput, ResetAllResourceLogLevelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6301,7 +6301,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetResourceLogLevelInput, ResetResourceLogLevelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6372,7 +6372,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6443,7 +6443,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6515,7 +6515,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6587,7 +6587,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6660,7 +6660,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartFuotaTaskInput, StartFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6733,7 +6733,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6806,7 +6806,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6880,7 +6880,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6954,7 +6954,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7026,7 +7026,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestWirelessDeviceInput, TestWirelessDeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7095,7 +7095,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7165,7 +7165,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDestinationInput, UpdateDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7236,7 +7236,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7309,7 +7309,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFuotaTaskInput, UpdateFuotaTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7382,7 +7382,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7455,7 +7455,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateMetricConfigurationInput, UpdateMetricConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7528,7 +7528,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateMulticastGroupInput, UpdateMulticastGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7600,7 +7600,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7671,7 +7671,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePartnerAccountInput, UpdatePartnerAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7745,7 +7745,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePositionInput, UpdatePositionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7819,7 +7819,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7892,7 +7892,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateResourcePositionInput, UpdateResourcePositionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7965,7 +7965,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8038,7 +8038,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8110,7 +8110,7 @@ extension IoTWirelessClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
