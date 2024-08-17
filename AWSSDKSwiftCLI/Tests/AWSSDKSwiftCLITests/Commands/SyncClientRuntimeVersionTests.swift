@@ -6,14 +6,13 @@
 //
 
 @testable import AWSSDKSwiftCLI
-import PackageDescription
 import XCTest
 
 class SyncClientRuntimeVersionTests: CLITestCase {
     
     // MARK: - Helpers
     
-    func createGoldenPathEnvironment() {
+    func createGoldenPathEnvironment() throws {
         try! FileManager.default.createDirectory(
             atPath: "aws-sdk-swift",
             withIntermediateDirectories: false
@@ -27,7 +26,7 @@ class SyncClientRuntimeVersionTests: CLITestCase {
             atomically: true,
             encoding: .utf8
         )
-        let dependencies = PackageDependencies(
+        let dependencies = try PackageDependencies(
             awsCRTSwiftVersion: .init("0.0.1"),
             clientRuntimeVersion: .init("0.0.1")
         )
@@ -38,13 +37,13 @@ class SyncClientRuntimeVersionTests: CLITestCase {
     
     // MARK: Golden Path
     
-    func testGoldenPath() {
-        createGoldenPathEnvironment()
+    func testGoldenPath() throws {
+        try createGoldenPathEnvironment()
         let subject = SyncClientRuntimeVersion.mock(repoPath: "aws-sdk-swift")
         try! subject.run()
         let result = try! PackageDependencies.load()
-        XCTAssertEqual(result.clientRuntimeVersion, .init("1.2.3"))
-        XCTAssertEqual(result.awsCRTSwiftVersion, .init("0.0.1"))
+        try XCTAssertEqual(result.clientRuntimeVersion, .init("1.2.3"))
+        try XCTAssertEqual(result.awsCRTSwiftVersion, .init("0.0.1"))
     }
     
     // MARK: resolveSmithySwiftPath()
