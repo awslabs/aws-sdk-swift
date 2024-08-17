@@ -157,7 +157,7 @@ class OperationEndpointResolverMiddleware(
                 tempVarSet.addAll(visitor.tempVars)
 
                 // The name of the variable that holds the final evaluated value of the JMESPath string.
-                val name =  actual.name
+                val name = actual.name
                 // Handle default logic
                 when {
                     param.default.isPresent -> {
