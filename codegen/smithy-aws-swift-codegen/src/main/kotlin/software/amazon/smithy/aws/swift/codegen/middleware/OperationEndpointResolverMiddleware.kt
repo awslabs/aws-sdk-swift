@@ -156,8 +156,16 @@ class OperationEndpointResolverMiddleware(
                 // Add names of used temp vars
                 tempVarSet.addAll(visitor.tempVars)
 
-                // Return the name of the variable that holds the final evaluated value of the JMESPath string.
-                return actual.name
+                // The name of the variable that holds the final evaluated value of the JMESPath string.
+                val name =  actual.name
+                // Handle default logic
+                when {
+                    param.default.isPresent -> {
+                        return "$name ?? ${param.defaultValueLiteral}"
+                    } else -> {
+                        return name
+                    }
+                }
             }
             clientContextParam != null -> {
                 when {
