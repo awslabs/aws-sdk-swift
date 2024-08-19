@@ -899,6 +899,7 @@ extension CodeBuildClientTypes {
         case linuxContainer
         case linuxGpuContainer
         case linuxLambdaContainer
+        case macArm
         case windowsContainer
         case windowsServer2019Container
         case sdkUnknown(Swift.String)
@@ -910,6 +911,7 @@ extension CodeBuildClientTypes {
                 .linuxContainer,
                 .linuxGpuContainer,
                 .linuxLambdaContainer,
+                .macArm,
                 .windowsContainer,
                 .windowsServer2019Container
             ]
@@ -927,6 +929,7 @@ extension CodeBuildClientTypes {
             case .linuxContainer: return "LINUX_CONTAINER"
             case .linuxGpuContainer: return "LINUX_GPU_CONTAINER"
             case .linuxLambdaContainer: return "LINUX_LAMBDA_CONTAINER"
+            case .macArm: return "MAC_ARM"
             case .windowsContainer: return "WINDOWS_CONTAINER"
             case .windowsServer2019Container: return "WINDOWS_SERVER_2019_CONTAINER"
             case let .sdkUnknown(s): return s
@@ -2341,6 +2344,8 @@ extension CodeBuildClientTypes {
     public enum FleetContextCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case actionRequired
         case createFailed
+        case insufficientCapacity
+        case pendingDeletion
         case updateFailed
         case sdkUnknown(Swift.String)
 
@@ -2348,6 +2353,8 @@ extension CodeBuildClientTypes {
             return [
                 .actionRequired,
                 .createFailed,
+                .insufficientCapacity,
+                .pendingDeletion,
                 .updateFailed
             ]
         }
@@ -2361,6 +2368,8 @@ extension CodeBuildClientTypes {
             switch self {
             case .actionRequired: return "ACTION_REQUIRED"
             case .createFailed: return "CREATE_FAILED"
+            case .insufficientCapacity: return "INSUFFICIENT_CAPACITY"
+            case .pendingDeletion: return "PENDING_DELETION"
             case .updateFailed: return "UPDATE_FAILED"
             case let .sdkUnknown(s): return s
             }
@@ -2540,6 +2549,8 @@ extension CodeBuildClientTypes {
         public var fleetServiceRole: Swift.String?
         /// The ID of the compute fleet.
         public var id: Swift.String?
+        /// The Amazon Machine Image (AMI) of the compute fleet.
+        public var imageId: Swift.String?
         /// The time at which the compute fleet was last modified.
         public var lastModified: Foundation.Date?
         /// The name of the compute fleet.
@@ -2567,6 +2578,7 @@ extension CodeBuildClientTypes {
             environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
             fleetServiceRole: Swift.String? = nil,
             id: Swift.String? = nil,
+            imageId: Swift.String? = nil,
             lastModified: Foundation.Date? = nil,
             name: Swift.String? = nil,
             overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
@@ -2583,6 +2595,7 @@ extension CodeBuildClientTypes {
             self.environmentType = environmentType
             self.fleetServiceRole = fleetServiceRole
             self.id = id
+            self.imageId = imageId
             self.lastModified = lastModified
             self.name = name
             self.overflowBehavior = overflowBehavior
@@ -3787,6 +3800,8 @@ public struct CreateFleetInput {
     public var environmentType: CodeBuildClientTypes.EnvironmentType?
     /// The service role associated with the compute fleet. For more information, see [ Allow a user to add a permission policy for a fleet service role](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html) in the CodeBuild User Guide.
     public var fleetServiceRole: Swift.String?
+    /// The Amazon Machine Image (AMI) of the compute fleet.
+    public var imageId: Swift.String?
     /// The name of the compute fleet.
     /// This member is required.
     public var name: Swift.String?
@@ -3808,6 +3823,7 @@ public struct CreateFleetInput {
         computeType: CodeBuildClientTypes.ComputeType? = nil,
         environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
         fleetServiceRole: Swift.String? = nil,
+        imageId: Swift.String? = nil,
         name: Swift.String? = nil,
         overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
@@ -3819,6 +3835,7 @@ public struct CreateFleetInput {
         self.computeType = computeType
         self.environmentType = environmentType
         self.fleetServiceRole = fleetServiceRole
+        self.imageId = imageId
         self.name = name
         self.overflowBehavior = overflowBehavior
         self.scalingConfiguration = scalingConfiguration
@@ -6192,6 +6209,8 @@ public struct UpdateFleetInput {
     public var environmentType: CodeBuildClientTypes.EnvironmentType?
     /// The service role associated with the compute fleet. For more information, see [ Allow a user to add a permission policy for a fleet service role](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html) in the CodeBuild User Guide.
     public var fleetServiceRole: Swift.String?
+    /// The Amazon Machine Image (AMI) of the compute fleet.
+    public var imageId: Swift.String?
     /// The compute fleet overflow behavior.
     ///
     /// * For overflow behavior QUEUE, your overflow builds need to wait on the existing fleet instance to become available.
@@ -6211,6 +6230,7 @@ public struct UpdateFleetInput {
         computeType: CodeBuildClientTypes.ComputeType? = nil,
         environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
         fleetServiceRole: Swift.String? = nil,
+        imageId: Swift.String? = nil,
         overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil,
@@ -6222,6 +6242,7 @@ public struct UpdateFleetInput {
         self.computeType = computeType
         self.environmentType = environmentType
         self.fleetServiceRole = fleetServiceRole
+        self.imageId = imageId
         self.overflowBehavior = overflowBehavior
         self.scalingConfiguration = scalingConfiguration
         self.tags = tags
@@ -6893,6 +6914,7 @@ extension CreateFleetInput {
         try writer["computeType"].write(value.computeType)
         try writer["environmentType"].write(value.environmentType)
         try writer["fleetServiceRole"].write(value.fleetServiceRole)
+        try writer["imageId"].write(value.imageId)
         try writer["name"].write(value.name)
         try writer["overflowBehavior"].write(value.overflowBehavior)
         try writer["scalingConfiguration"].write(value.scalingConfiguration, with: CodeBuildClientTypes.ScalingConfigurationInput.write(value:to:))
@@ -7346,6 +7368,7 @@ extension UpdateFleetInput {
         try writer["computeType"].write(value.computeType)
         try writer["environmentType"].write(value.environmentType)
         try writer["fleetServiceRole"].write(value.fleetServiceRole)
+        try writer["imageId"].write(value.imageId)
         try writer["overflowBehavior"].write(value.overflowBehavior)
         try writer["scalingConfiguration"].write(value.scalingConfiguration, with: CodeBuildClientTypes.ScalingConfigurationInput.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: CodeBuildClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9398,6 +9421,7 @@ extension CodeBuildClientTypes.Fleet {
         value.scalingConfiguration = try reader["scalingConfiguration"].readIfPresent(with: CodeBuildClientTypes.ScalingConfigurationOutput.read(from:))
         value.overflowBehavior = try reader["overflowBehavior"].readIfPresent()
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: CodeBuildClientTypes.VpcConfig.read(from:))
+        value.imageId = try reader["imageId"].readIfPresent()
         value.fleetServiceRole = try reader["fleetServiceRole"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value

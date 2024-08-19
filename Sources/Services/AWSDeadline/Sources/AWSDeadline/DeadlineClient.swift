@@ -1205,7 +1205,7 @@ extension DeadlineClient {
 
     /// Performs the `CreateJob` operation on the `Deadline` service.
     ///
-    /// Creates a job. A job is a render submission submitted by a user. It contains specific job properties outlined as steps and tasks.
+    /// Creates a job. A job is a set of instructions that AWS Deadline Cloud uses to schedule and run work on available workers. For more information, see [Deadline Cloud jobs](https://docs.aws.amazon.com/deadline-cloud/latest/userguide/deadline-cloud-jobs.html).
     ///
     /// - Parameter CreateJobInput : [no documentation found]
     ///
@@ -2219,7 +2219,7 @@ extension DeadlineClient {
 
     /// Performs the `DeleteQueue` operation on the `Deadline` service.
     ///
-    /// Deletes a queue.
+    /// Deletes a queue. You can't recover the jobs in a queue if you delete the queue. Deleting the queue also deletes the jobs in that queue.
     ///
     /// - Parameter DeleteQueueInput : [no documentation found]
     ///
@@ -6187,7 +6187,7 @@ extension DeadlineClient {
 
     /// Performs the `StartSessionsStatisticsAggregation` operation on the `Deadline` service.
     ///
-    /// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAggregation operation. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
+    /// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAggregation operation. You can only have one running aggregation for your Deadline Cloud farm. Call the GetSessionsStatisticsAggregation operation and check the status field to see if an aggregation is running. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
     ///
     /// - Parameter StartSessionsStatisticsAggregationInput : [no documentation found]
     ///
@@ -6624,7 +6624,7 @@ extension DeadlineClient {
 
     /// Performs the `UpdateJob` operation on the `Deadline` service.
     ///
-    /// Updates a job.
+    /// Updates a job. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived. An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
     ///
     /// - Parameter UpdateJobInput : [no documentation found]
     ///

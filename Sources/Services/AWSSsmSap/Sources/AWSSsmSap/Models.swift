@@ -180,6 +180,8 @@ extension SsmSapClientTypes {
         public var appRegistryArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the application.
         public var arn: Swift.String?
+        /// The Amazon Resource Names of the associated AWS Systems Manager for SAP applications.
+        public var associatedApplicationArns: [Swift.String]?
         /// The components of the application.
         public var components: [Swift.String]?
         /// The latest discovery result for the application.
@@ -198,6 +200,7 @@ extension SsmSapClientTypes {
         public init(
             appRegistryArn: Swift.String? = nil,
             arn: Swift.String? = nil,
+            associatedApplicationArns: [Swift.String]? = nil,
             components: [Swift.String]? = nil,
             discoveryStatus: SsmSapClientTypes.ApplicationDiscoveryStatus? = nil,
             id: Swift.String? = nil,
@@ -209,6 +212,7 @@ extension SsmSapClientTypes {
         {
             self.appRegistryArn = appRegistryArn
             self.arn = arn
+            self.associatedApplicationArns = associatedApplicationArns
             self.components = components
             self.discoveryStatus = discoveryStatus
             self.id = id
@@ -1041,6 +1045,8 @@ extension SsmSapClientTypes {
         public var arn: Swift.String?
         /// The ID of the component.
         public var componentId: Swift.String?
+        /// The Amazon Resource Names of the connected AWS Systems Manager for SAP components.
+        public var connectedComponentArns: [Swift.String]?
         /// The credentials of the database.
         public var credentials: [SsmSapClientTypes.ApplicationCredential]?
         /// The ID of the SAP HANA database.
@@ -1062,6 +1068,7 @@ extension SsmSapClientTypes {
             applicationId: Swift.String? = nil,
             arn: Swift.String? = nil,
             componentId: Swift.String? = nil,
+            connectedComponentArns: [Swift.String]? = nil,
             credentials: [SsmSapClientTypes.ApplicationCredential]? = nil,
             databaseId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
@@ -1075,6 +1082,7 @@ extension SsmSapClientTypes {
             self.applicationId = applicationId
             self.arn = arn
             self.componentId = componentId
+            self.connectedComponentArns = connectedComponentArns
             self.credentials = credentials
             self.databaseId = databaseId
             self.databaseName = databaseName
@@ -3218,6 +3226,7 @@ extension SsmSapClientTypes.Application {
         value.components = try reader["Components"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: .epochSeconds)
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.associatedApplicationArns = try reader["AssociatedApplicationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3333,6 +3342,7 @@ extension SsmSapClientTypes.Database {
         value.primaryHost = try reader["PrimaryHost"].readIfPresent()
         value.sqlPort = try reader["SQLPort"].readIfPresent()
         value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: .epochSeconds)
+        value.connectedComponentArns = try reader["ConnectedComponentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
