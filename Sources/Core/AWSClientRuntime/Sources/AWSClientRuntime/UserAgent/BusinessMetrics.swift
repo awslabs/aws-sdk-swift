@@ -14,7 +14,7 @@ struct BusinessMetrics {
     let features: [String: String]
 
     init(
-        config: DefaultClientConfiguration & AWSDefaultClientConfiguration,
+        config: UserAgentValuesFromConfig,
         context: Context
     ) {
         setFlagsIntoContext(config: config, context: context)
@@ -24,7 +24,7 @@ struct BusinessMetrics {
 
 extension BusinessMetrics: CustomStringConvertible {
     var description: String {
-        var commaSeparatedMetricValues = features.values.joined(separator: ",")
+        var commaSeparatedMetricValues = features.values.sorted().joined(separator: ",")
         // Cut last metric value from string until the
         //  comma-separated list of metric values are at or below 1024 bytes in size
         if commaSeparatedMetricValues.lengthOfBytes(using: .ascii) > 1024 {
@@ -83,7 +83,7 @@ public let businessMetricsKey = AttributeKey<Dictionary<String, String>>(name: "
     "RESOLVED_ACCOUNT_ID"       : "T"
  */
 fileprivate func setFlagsIntoContext(
-    config: DefaultClientConfiguration & AWSDefaultClientConfiguration,
+    config: UserAgentValuesFromConfig,
     context: Context
 ) {
     // Handle D, E, F

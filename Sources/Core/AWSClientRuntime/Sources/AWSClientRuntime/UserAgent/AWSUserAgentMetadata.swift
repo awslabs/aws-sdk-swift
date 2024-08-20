@@ -72,7 +72,7 @@ public struct AWSUserAgentMetadata {
     public static func fromConfigAndContext(
         serviceID: String,
         version: String,
-        config: DefaultClientConfiguration & AWSDefaultClientConfiguration,
+        config: UserAgentValuesFromConfig,
         context: Context
     ) -> AWSUserAgentMetadata {
         let apiMetadata = APIMetadata(serviceID: serviceID, version: version)
@@ -96,5 +96,23 @@ public struct AWSUserAgentMetadata {
             appIDMetadata: appIDMetadata,
             frameworkMetadata: frameworkMetadata
         )
+    }
+}
+
+public class UserAgentValuesFromConfig {
+    var appID: String?
+    var endpoint: String?
+    var awsRetryMode: AWSRetryMode
+
+    public init(appID: String?, endpoint: String?, awsRetryMode: AWSRetryMode) {
+        self.endpoint = endpoint
+        self.awsRetryMode = awsRetryMode
+        self.appID = appID
+    }
+
+    public init(config: DefaultClientConfiguration & AWSDefaultClientConfiguration) {
+        self.appID = config.appID
+        self.endpoint = config.endpoint
+        self.awsRetryMode = config.awsRetryMode
     }
 }

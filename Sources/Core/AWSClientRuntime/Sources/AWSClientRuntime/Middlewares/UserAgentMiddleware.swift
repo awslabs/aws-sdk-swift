@@ -38,7 +38,7 @@ extension UserAgentMiddleware: HttpInterceptor {
         let awsUserAgentString = AWSUserAgentMetadata.fromConfigAndContext(
             serviceID: serviceID,
             version: version,
-            config: config,
+            config: UserAgentValuesFromConfig(config: config),
             context: context.getAttributes()
         ).userAgent
         let builder = context.getRequest().toBuilder()
