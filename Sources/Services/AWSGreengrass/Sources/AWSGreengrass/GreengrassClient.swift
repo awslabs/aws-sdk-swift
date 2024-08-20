@@ -228,7 +228,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateRoleToGroupInput, AssociateRoleToGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -299,7 +299,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -369,7 +369,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -440,7 +440,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -511,7 +511,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCoreDefinitionInput, CreateCoreDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -582,7 +582,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -653,7 +653,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDeploymentInput, CreateDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -724,7 +724,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -795,7 +795,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -866,7 +866,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -937,7 +937,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1008,7 +1008,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGroupInput, CreateGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1080,7 +1080,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1148,7 +1148,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGroupVersionInput, CreateGroupVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1219,7 +1219,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1290,7 +1290,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1361,7 +1361,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateResourceDefinitionInput, CreateResourceDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1432,7 +1432,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1504,7 +1504,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1575,7 +1575,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1646,7 +1646,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1717,7 +1717,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConnectorDefinitionInput, DeleteConnectorDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1784,7 +1784,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCoreDefinitionInput, DeleteCoreDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1851,7 +1851,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDeviceDefinitionInput, DeleteDeviceDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1918,7 +1918,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFunctionDefinitionInput, DeleteFunctionDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1985,7 +1985,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGroupInput, DeleteGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2052,7 +2052,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLoggerDefinitionInput, DeleteLoggerDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2119,7 +2119,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteResourceDefinitionInput, DeleteResourceDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2186,7 +2186,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSubscriptionDefinitionInput, DeleteSubscriptionDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2254,7 +2254,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateRoleFromGroupInput, DisassociateRoleFromGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2321,7 +2321,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2389,7 +2389,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAssociatedRoleInput, GetAssociatedRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2456,7 +2456,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBulkDeploymentStatusInput, GetBulkDeploymentStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2524,7 +2524,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetConnectivityInfoInput, GetConnectivityInfoOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2591,7 +2591,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetConnectorDefinitionInput, GetConnectorDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2658,7 +2658,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2726,7 +2726,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCoreDefinitionInput, GetCoreDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2793,7 +2793,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCoreDefinitionVersionInput, GetCoreDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2860,7 +2860,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeploymentStatusInput, GetDeploymentStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2927,7 +2927,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeviceDefinitionInput, GetDeviceDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2994,7 +2994,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3062,7 +3062,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFunctionDefinitionInput, GetFunctionDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3129,7 +3129,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3197,7 +3197,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGroupInput, GetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3265,7 +3265,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGroupCertificateAuthorityInput, GetGroupCertificateAuthorityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3333,7 +3333,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGroupCertificateConfigurationInput, GetGroupCertificateConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3400,7 +3400,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGroupVersionInput, GetGroupVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3467,7 +3467,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLoggerDefinitionInput, GetLoggerDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3534,7 +3534,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3602,7 +3602,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetResourceDefinitionInput, GetResourceDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3669,7 +3669,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetResourceDefinitionVersionInput, GetResourceDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3736,7 +3736,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3803,7 +3803,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSubscriptionDefinitionInput, GetSubscriptionDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3870,7 +3870,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3939,7 +3939,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetThingRuntimeConfigurationInput, GetThingRuntimeConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4006,7 +4006,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4074,7 +4074,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBulkDeploymentsInput, ListBulkDeploymentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4142,7 +4142,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4205,7 +4205,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4273,7 +4273,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4336,7 +4336,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCoreDefinitionsInput, ListCoreDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4404,7 +4404,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDeploymentsInput, ListDeploymentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4472,7 +4472,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4535,7 +4535,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4603,7 +4603,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4666,7 +4666,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4735,7 +4735,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGroupCertificateAuthoritiesInput, ListGroupCertificateAuthoritiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4802,7 +4802,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGroupVersionsInput, ListGroupVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4865,7 +4865,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGroupsInput, ListGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4933,7 +4933,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4996,7 +4996,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5064,7 +5064,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5127,7 +5127,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourceDefinitionsInput, ListResourceDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5195,7 +5195,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5258,7 +5258,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5326,7 +5326,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5393,7 +5393,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetDeploymentsInput, ResetDeploymentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5464,7 +5464,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartBulkDeploymentInput, StartBulkDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5535,7 +5535,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopBulkDeploymentInput, StopBulkDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5602,7 +5602,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5672,7 +5672,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5741,7 +5741,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5811,7 +5811,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5881,7 +5881,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5951,7 +5951,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6021,7 +6021,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6091,7 +6091,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGroupInput, UpdateGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6162,7 +6162,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6232,7 +6232,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6302,7 +6302,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6372,7 +6372,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6443,7 +6443,7 @@ extension GreengrassClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }

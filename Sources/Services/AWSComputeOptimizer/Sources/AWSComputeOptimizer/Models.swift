@@ -2891,7 +2891,7 @@ extension ComputeOptimizerClientTypes {
         public var name: ComputeOptimizerClientTypes.ECSServiceRecommendationFilterName?
         /// The value of the filter. The valid values for this parameter are as follows:
         ///
-        /// * If you specify the name parameter as Finding, specify Optimized, NotOptimized, or Unavailable.
+        /// * If you specify the name parameter as Finding, specify Optimized, Underprovisioned, or Overprovisioned.
         ///
         /// * If you specify the name parameter as FindingReasonCode, specify CPUUnderprovisioned, CPUOverprovisioned, MemoryUnderprovisioned, or MemoryOverprovisioned.
         public var values: [Swift.String]?
@@ -7776,6 +7776,10 @@ public struct PutRecommendationPreferencesInput {
     /// The status of the inferred workload types recommendation preference to create or update. The inferred workload type feature is active by default. To deactivate it, create a recommendation preference. Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html) in the Compute Optimizer User Guide.
     public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
     /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    ///
+    /// * Amazon EC2 instance lookback preferences can be set at the organization, account, and resource levels.
+    ///
+    /// * Auto Scaling group lookback preferences can only be set at the resource level.
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
     /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
     public var preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?

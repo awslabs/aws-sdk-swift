@@ -18,7 +18,7 @@ import struct SmithyIdentity.BearerTokenIdentity
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CodeStarClientEndpointPlugin: Plugin {
+public class SSMQuickSetupClientEndpointPlugin: Plugin {
     private var endpointResolver: EndpointResolver
 
     public init(endpointResolver: EndpointResolver) {
@@ -30,7 +30,7 @@ public class CodeStarClientEndpointPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? CodeStarClient.CodeStarClientConfiguration {
+        if let config = clientConfiguration as? SSMQuickSetupClient.SSMQuickSetupClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -41,8 +41,8 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? CodeStarClient.CodeStarClientConfiguration {
-            config.authSchemeResolver = DefaultCodeStarAuthSchemeResolver()
+        if let config = clientConfiguration as? SSMQuickSetupClient.SSMQuickSetupClientConfiguration {
+            config.authSchemeResolver = DefaultSSMQuickSetupAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
@@ -50,13 +50,13 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     }
 }
 
-public class CodeStarClientAuthSchemePlugin: ClientRuntime.Plugin {
+public class SSMQuickSetupClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
     private var bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)?
 
-    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: CodeStarAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
+    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SSMQuickSetupAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
         self.authSchemeResolver = authSchemeResolver
         self.authSchemes = authSchemes
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
@@ -64,7 +64,7 @@ public class CodeStarClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? CodeStarClient.CodeStarClientConfiguration {
+        if let config = clientConfiguration as? SSMQuickSetupClient.SSMQuickSetupClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

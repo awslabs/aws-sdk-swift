@@ -20,6 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct SmithyReadWrite.ReadingClosureBox
+import struct SmithyReadWrite.WritingClosureBox
 
 /// The specified parameter is invalid. Review the available parameters for the API request.
 public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -1109,8 +1111,6 @@ public struct CreatePullThroughCacheRuleInput {
     /// * GitHub Container Registry (github-container-registry) - ghcr.io
     ///
     /// * Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
-    ///
-    /// * GitLab Container Registry (gitlab-container-registry) - registry.gitlab.com
     /// This member is required.
     public var upstreamRegistryUrl: Swift.String?
 
@@ -1265,9 +1265,9 @@ extension ECRClientTypes {
 }
 
 extension ECRClientTypes {
-    /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest. By default, when no encryption configuration is set or the AES256 encryption type is used, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts your data at rest using an AES-256 encryption algorithm. This does not require any action on your part. For more control over the encryption of the contents of your repository, you can use server-side encryption with Key Management Service key stored in Key Management Service (KMS) to encrypt your images. For more information, see [Amazon ECR encryption at rest](https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html) in the Amazon Elastic Container Registry User Guide.
+    /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest. By default, when no encryption configuration is set or the AES256 encryption type is used, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts your data at rest using an AES256 encryption algorithm. This does not require any action on your part. For more control over the encryption of the contents of your repository, you can use server-side encryption with Key Management Service key stored in Key Management Service (KMS) to encrypt your images. For more information, see [Amazon ECR encryption at rest](https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html) in the Amazon Elastic Container Registry User Guide.
     public struct EncryptionConfiguration {
-        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see [Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html) in the Amazon Simple Storage Service Console Developer Guide. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES-256 encryption algorithm. For more information, see [Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the Amazon Simple Storage Service Console Developer Guide.
+        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see [Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html) in the Amazon Simple Storage Service Console Developer Guide. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see [Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the Amazon Simple Storage Service Console Developer Guide.
         /// This member is required.
         public var encryptionType: ECRClientTypes.EncryptionType?
         /// If you use the KMS encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
@@ -1438,6 +1438,198 @@ public struct CreateRepositoryOutput {
     )
     {
         self.repository = repository
+    }
+}
+
+/// The repository creation template already exists. Specify a unique prefix and try again.
+public struct TemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TemplateAlreadyExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension ECRClientTypes {
+
+    public enum RCTAppliedFor: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pullThroughCache
+        case replication
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RCTAppliedFor] {
+            return [
+                .pullThroughCache,
+                .replication
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pullThroughCache: return "PULL_THROUGH_CACHE"
+            case .replication: return "REPLICATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+    /// The encryption configuration to associate with the repository creation template.
+    public struct EncryptionConfigurationForRepositoryCreationTemplate {
+        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see [Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html) in the Amazon Simple Storage Service Console Developer Guide. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see [Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the Amazon Simple Storage Service Console Developer Guide.
+        /// This member is required.
+        public var encryptionType: ECRClientTypes.EncryptionType?
+        /// If you use the KMS encryption type, specify the KMS key to use for encryption. The full ARN of the KMS key must be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
+        public var kmsKey: Swift.String?
+
+        public init(
+            encryptionType: ECRClientTypes.EncryptionType? = nil,
+            kmsKey: Swift.String? = nil
+        )
+        {
+            self.encryptionType = encryptionType
+            self.kmsKey = kmsKey
+        }
+    }
+
+}
+
+public struct CreateRepositoryCreationTemplateInput {
+    /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+    /// This member is required.
+    public var appliedFor: [ECRClientTypes.RCTAppliedFor]?
+    /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
+    public var customRoleArn: Swift.String?
+    /// A description for the repository creation template.
+    public var description: Swift.String?
+    /// The encryption configuration to use for repositories created using the template.
+    public var encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?
+    /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+    public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+    /// The lifecycle policy to use for repositories created using the template.
+    public var lifecyclePolicy: Swift.String?
+    /// The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. Similarly, a prefix of prod/team would apply to all repositories beginning with prod/team/. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix. There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/. When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well.
+    /// This member is required.
+    public var `prefix`: Swift.String?
+    /// The repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
+    public var repositoryPolicy: Swift.String?
+    /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    public var resourceTags: [ECRClientTypes.Tag]?
+
+    public init(
+        appliedFor: [ECRClientTypes.RCTAppliedFor]? = nil,
+        customRoleArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate? = nil,
+        imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+        lifecyclePolicy: Swift.String? = nil,
+        `prefix`: Swift.String? = nil,
+        repositoryPolicy: Swift.String? = nil,
+        resourceTags: [ECRClientTypes.Tag]? = nil
+    )
+    {
+        self.appliedFor = appliedFor
+        self.customRoleArn = customRoleArn
+        self.description = description
+        self.encryptionConfiguration = encryptionConfiguration
+        self.imageTagMutability = imageTagMutability
+        self.lifecyclePolicy = lifecyclePolicy
+        self.`prefix` = `prefix`
+        self.repositoryPolicy = repositoryPolicy
+        self.resourceTags = resourceTags
+    }
+}
+
+extension ECRClientTypes {
+    /// The details of the repository creation template associated with the request.
+    public struct RepositoryCreationTemplate {
+        /// A list of enumerable Strings representing the repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+        public var appliedFor: [ECRClientTypes.RCTAppliedFor]?
+        /// The date and time, in JavaScript date format, when the repository creation template was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the role to be assumed by Amazon ECR. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
+        public var customRoleArn: Swift.String?
+        /// The description associated with the repository creation template.
+        public var description: Swift.String?
+        /// The encryption configuration associated with the repository creation template.
+        public var encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?
+        /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+        public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+        /// The lifecycle policy to use for repositories created using the template.
+        public var lifecyclePolicy: Swift.String?
+        /// The repository namespace prefix associated with the repository creation template.
+        public var `prefix`: Swift.String?
+        /// he repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
+        public var repositoryPolicy: Swift.String?
+        /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public var resourceTags: [ECRClientTypes.Tag]?
+        /// The date and time, in JavaScript date format, when the repository creation template was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            appliedFor: [ECRClientTypes.RCTAppliedFor]? = nil,
+            createdAt: Foundation.Date? = nil,
+            customRoleArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate? = nil,
+            imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+            lifecyclePolicy: Swift.String? = nil,
+            `prefix`: Swift.String? = nil,
+            repositoryPolicy: Swift.String? = nil,
+            resourceTags: [ECRClientTypes.Tag]? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.appliedFor = appliedFor
+            self.createdAt = createdAt
+            self.customRoleArn = customRoleArn
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.imageTagMutability = imageTagMutability
+            self.lifecyclePolicy = lifecyclePolicy
+            self.`prefix` = `prefix`
+            self.repositoryPolicy = repositoryPolicy
+            self.resourceTags = resourceTags
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+public struct CreateRepositoryCreationTemplateOutput {
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The details of the repository creation template associated with the request.
+    public var repositoryCreationTemplate: ECRClientTypes.RepositoryCreationTemplate?
+
+    public init(
+        registryId: Swift.String? = nil,
+        repositoryCreationTemplate: ECRClientTypes.RepositoryCreationTemplate? = nil
+    )
+    {
+        self.registryId = registryId
+        self.repositoryCreationTemplate = repositoryCreationTemplate
     }
 }
 
@@ -1675,6 +1867,59 @@ public struct DeleteRepositoryOutput {
     )
     {
         self.repository = repository
+    }
+}
+
+/// The specified repository creation template can't be found. Verify the registry ID and prefix and try again.
+public struct TemplateNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TemplateNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteRepositoryCreationTemplateInput {
+    /// The repository namespace prefix associated with the repository creation template.
+    /// This member is required.
+    public var `prefix`: Swift.String?
+
+    public init(
+        `prefix`: Swift.String? = nil
+    )
+    {
+        self.`prefix` = `prefix`
+    }
+}
+
+public struct DeleteRepositoryCreationTemplateOutput {
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The details of the repository creation template that was deleted.
+    public var repositoryCreationTemplate: ECRClientTypes.RepositoryCreationTemplate?
+
+    public init(
+        registryId: Swift.String? = nil,
+        repositoryCreationTemplate: ECRClientTypes.RepositoryCreationTemplate? = nil
+    )
+    {
+        self.registryId = registryId
+        self.repositoryCreationTemplate = repositoryCreationTemplate
     }
 }
 
@@ -2904,7 +3149,7 @@ extension ECRClientTypes {
 }
 
 public struct DescribeRegistryOutput {
-    /// The ID of the registry.
+    /// The registry ID associated with the request.
     public var registryId: Swift.String?
     /// The replication configuration for the registry.
     public var replicationConfiguration: ECRClientTypes.ReplicationConfiguration?
@@ -2956,6 +3201,75 @@ public struct DescribeRepositoriesOutput {
     {
         self.nextToken = nextToken
         self.repositories = repositories
+    }
+}
+
+public struct DescribeRepositoryCreationTemplatesInput {
+    /// The maximum number of repository results returned by DescribeRepositoryCreationTemplatesRequest in paginated output. When this parameter is used, DescribeRepositoryCreationTemplatesRequest only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositoryCreationTemplatesRequest request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositoryCreationTemplatesRequest returns up to 100 results and a nextToken value, if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated DescribeRepositoryCreationTemplates request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The repository namespace prefixes associated with the repository creation templates to describe. If this value is not specified, all repository creation templates are returned.
+    public var prefixes: [Swift.String]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        prefixes: [Swift.String]? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.prefixes = prefixes
+    }
+}
+
+public struct DescribeRepositoryCreationTemplatesOutput {
+    /// The nextToken value to include in a future DescribeRepositoryCreationTemplates request. When the results of a DescribeRepositoryCreationTemplates request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The details of the repository creation templates.
+    public var repositoryCreationTemplates: [ECRClientTypes.RepositoryCreationTemplate]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        repositoryCreationTemplates: [ECRClientTypes.RepositoryCreationTemplate]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.registryId = registryId
+        self.repositoryCreationTemplates = repositoryCreationTemplates
+    }
+}
+
+public struct GetAccountSettingInput {
+    /// Basic scan type version name.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+public struct GetAccountSettingOutput {
+    /// Retrieves the basic scan type version name.
+    public var name: Swift.String?
+    /// Retrieves the value that specifies what basic scan type is being used: AWS_NATIVE or CLAIR.
+    public var value: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        value: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.value = value
     }
 }
 
@@ -3403,7 +3717,7 @@ public struct GetRegistryPolicyInput {
 public struct GetRegistryPolicyOutput {
     /// The JSON text of the permissions policy for a registry.
     public var policyText: Swift.String?
-    /// The ID of the registry.
+    /// The registry ID associated with the request.
     public var registryId: Swift.String?
 
     public init(
@@ -3493,7 +3807,7 @@ extension ECRClientTypes {
 }
 
 public struct GetRegistryScanningConfigurationOutput {
-    /// The ID of the registry.
+    /// The registry ID associated with the request.
     public var registryId: Swift.String?
     /// The scanning configuration for the registry.
     public var scanningConfiguration: ECRClientTypes.RegistryScanningConfiguration?
@@ -3661,6 +3975,40 @@ public struct ListTagsForResourceOutput {
     )
     {
         self.tags = tags
+    }
+}
+
+public struct PutAccountSettingInput {
+    /// Basic scan type version name.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Setting value that determines what basic scan type is being used: AWS_NATIVE or CLAIR.
+    /// This member is required.
+    public var value: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        value: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.value = value
+    }
+}
+
+public struct PutAccountSettingOutput {
+    /// Retrieves the the basic scan type version name.
+    public var name: Swift.String?
+    /// Retrieves the basic scan type value, either AWS_NATIVE or -.
+    public var value: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        value: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.value = value
     }
 }
 
@@ -3949,7 +4297,7 @@ public struct PutRegistryPolicyInput {
 public struct PutRegistryPolicyOutput {
     /// The JSON policy text for your registry.
     public var policyText: Swift.String?
-    /// The registry ID.
+    /// The registry ID associated with the request.
     public var registryId: Swift.String?
 
     public init(
@@ -4292,6 +4640,67 @@ public struct UpdatePullThroughCacheRuleOutput {
     }
 }
 
+public struct UpdateRepositoryCreationTemplateInput {
+    /// Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+    public var appliedFor: [ECRClientTypes.RCTAppliedFor]?
+    /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
+    public var customRoleArn: Swift.String?
+    /// A description for the repository creation template.
+    public var description: Swift.String?
+    /// The encryption configuration to associate with the repository creation template.
+    public var encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?
+    /// Updates the tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+    public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+    /// Updates the lifecycle policy associated with the specified repository creation template.
+    public var lifecyclePolicy: Swift.String?
+    /// The repository namespace prefix that matches an existing repository creation template in the registry. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. This includes a repository named prod/team1 as well as a repository named prod/repository1. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.
+    /// This member is required.
+    public var `prefix`: Swift.String?
+    /// Updates the repository policy created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
+    public var repositoryPolicy: Swift.String?
+    /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    public var resourceTags: [ECRClientTypes.Tag]?
+
+    public init(
+        appliedFor: [ECRClientTypes.RCTAppliedFor]? = nil,
+        customRoleArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate? = nil,
+        imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+        lifecyclePolicy: Swift.String? = nil,
+        `prefix`: Swift.String? = nil,
+        repositoryPolicy: Swift.String? = nil,
+        resourceTags: [ECRClientTypes.Tag]? = nil
+    )
+    {
+        self.appliedFor = appliedFor
+        self.customRoleArn = customRoleArn
+        self.description = description
+        self.encryptionConfiguration = encryptionConfiguration
+        self.imageTagMutability = imageTagMutability
+        self.lifecyclePolicy = lifecyclePolicy
+        self.`prefix` = `prefix`
+        self.repositoryPolicy = repositoryPolicy
+        self.resourceTags = resourceTags
+    }
+}
+
+public struct UpdateRepositoryCreationTemplateOutput {
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The details of the repository creation template associated with the request.
+    public var repositoryCreationTemplate: ECRClientTypes.RepositoryCreationTemplate?
+
+    public init(
+        registryId: Swift.String? = nil,
+        repositoryCreationTemplate: ECRClientTypes.RepositoryCreationTemplate? = nil
+    )
+    {
+        self.registryId = registryId
+        self.repositoryCreationTemplate = repositoryCreationTemplate
+    }
+}
+
 /// The layer part size is not valid, or the first byte specified is not consecutive to the last byte of a previous layer part upload.
 public struct InvalidLayerPartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -4492,6 +4901,13 @@ extension CreateRepositoryInput {
     }
 }
 
+extension CreateRepositoryCreationTemplateInput {
+
+    static func urlPathProvider(_ value: CreateRepositoryCreationTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteLifecyclePolicyInput {
 
     static func urlPathProvider(_ value: DeleteLifecyclePolicyInput) -> Swift.String? {
@@ -4516,6 +4932,13 @@ extension DeleteRegistryPolicyInput {
 extension DeleteRepositoryInput {
 
     static func urlPathProvider(_ value: DeleteRepositoryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteRepositoryCreationTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteRepositoryCreationTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4565,6 +4988,20 @@ extension DescribeRegistryInput {
 extension DescribeRepositoriesInput {
 
     static func urlPathProvider(_ value: DescribeRepositoriesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeRepositoryCreationTemplatesInput {
+
+    static func urlPathProvider(_ value: DescribeRepositoryCreationTemplatesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetAccountSettingInput {
+
+    static func urlPathProvider(_ value: GetAccountSettingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4635,6 +5072,13 @@ extension ListImagesInput {
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutAccountSettingInput {
+
+    static func urlPathProvider(_ value: PutAccountSettingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4730,6 +5174,13 @@ extension UpdatePullThroughCacheRuleInput {
     }
 }
 
+extension UpdateRepositoryCreationTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateRepositoryCreationTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UploadLayerPartInput {
 
     static func urlPathProvider(_ value: UploadLayerPartInput) -> Swift.String? {
@@ -4819,6 +5270,22 @@ extension CreateRepositoryInput {
     }
 }
 
+extension CreateRepositoryCreationTemplateInput {
+
+    static func write(value: CreateRepositoryCreationTemplateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appliedFor"].writeList(value.appliedFor, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECRClientTypes.RCTAppliedFor>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["customRoleArn"].write(value.customRoleArn)
+        try writer["description"].write(value.description)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate.write(value:to:))
+        try writer["imageTagMutability"].write(value.imageTagMutability)
+        try writer["lifecyclePolicy"].write(value.lifecyclePolicy)
+        try writer["prefix"].write(value.`prefix`)
+        try writer["repositoryPolicy"].write(value.repositoryPolicy)
+        try writer["resourceTags"].writeList(value.resourceTags, memberWritingClosure: ECRClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DeleteLifecyclePolicyInput {
 
     static func write(value: DeleteLifecyclePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -4852,6 +5319,14 @@ extension DeleteRepositoryInput {
         try writer["force"].write(value.force)
         try writer["registryId"].write(value.registryId)
         try writer["repositoryName"].write(value.repositoryName)
+    }
+}
+
+extension DeleteRepositoryCreationTemplateInput {
+
+    static func write(value: DeleteRepositoryCreationTemplateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["prefix"].write(value.`prefix`)
     }
 }
 
@@ -4926,6 +5401,24 @@ extension DescribeRepositoriesInput {
         try writer["nextToken"].write(value.nextToken)
         try writer["registryId"].write(value.registryId)
         try writer["repositoryNames"].writeList(value.repositoryNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeRepositoryCreationTemplatesInput {
+
+    static func write(value: DescribeRepositoryCreationTemplatesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["prefixes"].writeList(value.prefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetAccountSettingInput {
+
+    static func write(value: GetAccountSettingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
@@ -5020,6 +5513,15 @@ extension ListTagsForResourceInput {
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["resourceArn"].write(value.resourceArn)
+    }
+}
+
+extension PutAccountSettingInput {
+
+    static func write(value: PutAccountSettingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
     }
 }
 
@@ -5150,6 +5652,22 @@ extension UpdatePullThroughCacheRuleInput {
     }
 }
 
+extension UpdateRepositoryCreationTemplateInput {
+
+    static func write(value: UpdateRepositoryCreationTemplateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appliedFor"].writeList(value.appliedFor, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECRClientTypes.RCTAppliedFor>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["customRoleArn"].write(value.customRoleArn)
+        try writer["description"].write(value.description)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate.write(value:to:))
+        try writer["imageTagMutability"].write(value.imageTagMutability)
+        try writer["lifecyclePolicy"].write(value.lifecyclePolicy)
+        try writer["prefix"].write(value.`prefix`)
+        try writer["repositoryPolicy"].write(value.repositoryPolicy)
+        try writer["resourceTags"].writeList(value.resourceTags, memberWritingClosure: ECRClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UploadLayerPartInput {
 
     static func write(value: UploadLayerPartInput?, to writer: SmithyJSON.Writer) throws {
@@ -5268,6 +5786,19 @@ extension CreateRepositoryOutput {
     }
 }
 
+extension CreateRepositoryCreationTemplateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRepositoryCreationTemplateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRepositoryCreationTemplateOutput()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryCreationTemplate = try reader["repositoryCreationTemplate"].readIfPresent(with: ECRClientTypes.RepositoryCreationTemplate.read(from:))
+        return value
+    }
+}
+
 extension DeleteLifecyclePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLifecyclePolicyOutput {
@@ -5320,6 +5851,19 @@ extension DeleteRepositoryOutput {
         let reader = responseReader
         var value = DeleteRepositoryOutput()
         value.repository = try reader["repository"].readIfPresent(with: ECRClientTypes.Repository.read(from:))
+        return value
+    }
+}
+
+extension DeleteRepositoryCreationTemplateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRepositoryCreationTemplateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRepositoryCreationTemplateOutput()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryCreationTemplate = try reader["repositoryCreationTemplate"].readIfPresent(with: ECRClientTypes.RepositoryCreationTemplate.read(from:))
         return value
     }
 }
@@ -5417,6 +5961,33 @@ extension DescribeRepositoriesOutput {
         var value = DescribeRepositoriesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.repositories = try reader["repositories"].readListIfPresent(memberReadingClosure: ECRClientTypes.Repository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeRepositoryCreationTemplatesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRepositoryCreationTemplatesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeRepositoryCreationTemplatesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryCreationTemplates = try reader["repositoryCreationTemplates"].readListIfPresent(memberReadingClosure: ECRClientTypes.RepositoryCreationTemplate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetAccountSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccountSettingOutput()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
@@ -5553,6 +6124,19 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ECRClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutAccountSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutAccountSettingOutput()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
@@ -5721,6 +6305,19 @@ extension UpdatePullThroughCacheRuleOutput {
     }
 }
 
+extension UpdateRepositoryCreationTemplateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRepositoryCreationTemplateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRepositoryCreationTemplateOutput()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryCreationTemplate = try reader["repositoryCreationTemplate"].readIfPresent(with: ECRClientTypes.RepositoryCreationTemplate.read(from:))
+        return value
+    }
+}
+
 extension UploadLayerPartOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UploadLayerPartOutput {
@@ -5884,6 +6481,24 @@ enum CreateRepositoryOutputError {
     }
 }
 
+enum CreateRepositoryCreationTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "TemplateAlreadyExistsException": return try TemplateAlreadyExistsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteLifecyclePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5949,6 +6564,23 @@ enum DeleteRepositoryOutputError {
             case "RepositoryNotEmptyException": return try RepositoryNotEmptyException.makeError(baseError: baseError)
             case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRepositoryCreationTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "TemplateNotFoundException": return try TemplateNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6069,6 +6701,38 @@ enum DescribeRepositoriesOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeRepositoryCreationTemplatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAccountSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6238,6 +6902,23 @@ enum ListTagsForResourceOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAccountSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6469,6 +7150,23 @@ enum UpdatePullThroughCacheRuleOutputError {
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "UnableToAccessSecretException": return try UnableToAccessSecretException.makeError(baseError: baseError)
             case "UnableToDecryptSecretValueException": return try UnableToDecryptSecretValueException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRepositoryCreationTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "TemplateNotFoundException": return try TemplateNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6773,6 +7471,19 @@ extension TooManyTagsException {
     }
 }
 
+extension TemplateAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TemplateAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = TemplateAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension LifecyclePolicyNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LifecyclePolicyNotFoundException {
@@ -6817,6 +7528,19 @@ extension RepositoryNotEmptyException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RepositoryNotEmptyException {
         let reader = baseError.errorBodyReader
         var value = RepositoryNotEmptyException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TemplateNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TemplateNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = TemplateNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7167,6 +7891,60 @@ extension ECRClientTypes.ImageScanningConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.ImageScanningConfiguration()
         value.scanOnPush = try reader["scanOnPush"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ECRClientTypes.RepositoryCreationTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.RepositoryCreationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.RepositoryCreationTemplate()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate.read(from:))
+        value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: ECRClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageTagMutability = try reader["imageTagMutability"].readIfPresent()
+        value.repositoryPolicy = try reader["repositoryPolicy"].readIfPresent()
+        value.lifecyclePolicy = try reader["lifecyclePolicy"].readIfPresent()
+        value.appliedFor = try reader["appliedFor"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECRClientTypes.RCTAppliedFor>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customRoleArn = try reader["customRoleArn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension ECRClientTypes.Tag {
+
+    static func write(value: ECRClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate {
+
+    static func write(value: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionType"].write(value.encryptionType)
+        try writer["kmsKey"].write(value.kmsKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate()
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.kmsKey = try reader["kmsKey"].readIfPresent()
         return value
     }
 }
@@ -7587,23 +8365,6 @@ extension ECRClientTypes.RegistryScanningRule {
         var value = ECRClientTypes.RegistryScanningRule()
         value.scanFrequency = try reader["scanFrequency"].readIfPresent()
         value.repositoryFilters = try reader["repositoryFilters"].readListIfPresent(memberReadingClosure: ECRClientTypes.ScanningRepositoryFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ECRClientTypes.Tag {
-
-    static func write(value: ECRClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }

@@ -245,7 +245,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIdentityPoolInput, CreateIdentityPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -318,7 +318,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIdentitiesInput, DeleteIdentitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -393,7 +393,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIdentityPoolInput, DeleteIdentityPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -468,7 +468,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIdentityInput, DescribeIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -543,7 +543,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIdentityPoolInput, DescribeIdentityPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -619,7 +619,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -695,7 +695,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdInput, GetIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -771,7 +771,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -846,7 +846,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetOpenIdTokenInput, GetOpenIdTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -923,7 +923,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -998,7 +998,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1073,7 +1073,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdentitiesInput, ListIdentitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1148,7 +1148,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdentityPoolsInput, ListIdentityPoolsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1223,7 +1223,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1299,7 +1299,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1375,7 +1375,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1452,7 +1452,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1527,7 +1527,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1602,7 +1602,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1678,7 +1678,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1753,7 +1753,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UnlinkIdentityInput, UnlinkIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1828,7 +1828,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1906,7 +1906,7 @@ extension CognitoIdentityClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIdentityPoolInput, UpdateIdentityPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }

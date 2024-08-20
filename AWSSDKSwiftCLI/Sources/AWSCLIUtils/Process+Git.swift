@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PackageDescription
 import struct ArgumentParser.ExitCode
 
 public extension Process {

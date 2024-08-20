@@ -234,7 +234,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -312,7 +312,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -389,7 +389,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -466,7 +466,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -544,7 +544,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -620,7 +620,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateProxySessionInput, CreateProxySessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -698,7 +698,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -775,7 +775,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -853,7 +853,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSipRuleInput, CreateSipRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -930,7 +930,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVoiceConnectorInput, CreateVoiceConnectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1007,7 +1007,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1087,7 +1087,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVoiceProfileInput, CreateVoiceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1165,7 +1165,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVoiceProfileDomainInput, CreateVoiceProfileDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1241,7 +1241,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePhoneNumberInput, DeletePhoneNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1314,7 +1314,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteProxySessionInput, DeleteProxySessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1388,7 +1388,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1462,7 +1462,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSipRuleInput, DeleteSipRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1536,7 +1536,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1609,7 +1609,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1683,7 +1683,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1756,7 +1756,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1829,7 +1829,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1902,7 +1902,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1975,7 +1975,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2048,7 +2048,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2127,7 +2127,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceProfileInput, DeleteVoiceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2202,7 +2202,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceProfileDomainInput, DeleteVoiceProfileDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2275,7 +2275,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2352,7 +2352,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2428,7 +2428,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGlobalSettingsInput, GetGlobalSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2501,7 +2501,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPhoneNumberInput, GetPhoneNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2574,7 +2574,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2646,7 +2646,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2719,7 +2719,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetProxySessionInput, GetProxySessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2792,7 +2792,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSipMediaApplicationInput, GetSipMediaApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2866,7 +2866,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSipMediaApplicationAlexaSkillConfigurationInput, GetSipMediaApplicationAlexaSkillConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2939,7 +2939,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3012,7 +3012,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSipRuleInput, GetSipRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3087,7 +3087,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSpeakerSearchTaskInput, GetSpeakerSearchTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3160,7 +3160,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceConnectorInput, GetVoiceConnectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3233,7 +3233,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3306,7 +3306,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3379,7 +3379,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3452,7 +3452,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3525,7 +3525,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3598,7 +3598,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3671,7 +3671,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3744,7 +3744,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3818,7 +3818,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceProfileInput, GetVoiceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3892,7 +3892,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceProfileDomainInput, GetVoiceProfileDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3967,7 +3967,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVoiceToneAnalysisTaskInput, GetVoiceToneAnalysisTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4040,7 +4040,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAvailableVoiceConnectorRegionsInput, ListAvailableVoiceConnectorRegionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4112,7 +4112,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4186,7 +4186,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPhoneNumbersInput, ListPhoneNumbersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4260,7 +4260,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListProxySessionsInput, ListProxySessionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4333,7 +4333,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4406,7 +4406,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSipRulesInput, ListSipRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4480,7 +4480,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4553,7 +4553,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4626,7 +4626,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4700,7 +4700,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4772,7 +4772,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVoiceConnectorsInput, ListVoiceConnectorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4846,7 +4846,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4920,7 +4920,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVoiceProfilesInput, ListVoiceProfilesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4995,7 +4995,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutSipMediaApplicationAlexaSkillConfigurationInput, PutSipMediaApplicationAlexaSkillConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5071,7 +5071,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5147,7 +5147,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5223,7 +5223,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5299,7 +5299,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5376,7 +5376,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5452,7 +5452,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5529,7 +5529,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5605,7 +5605,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5683,7 +5683,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestorePhoneNumberInput, RestorePhoneNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5757,7 +5757,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5836,7 +5836,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5917,7 +5917,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5996,7 +5996,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopSpeakerSearchTaskInput, StopSpeakerSearchTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6073,7 +6073,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopVoiceToneAnalysisTaskInput, StopVoiceToneAnalysisTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6147,7 +6147,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6223,7 +6223,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6299,7 +6299,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6376,7 +6376,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePhoneNumberInput, UpdatePhoneNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6451,7 +6451,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6527,7 +6527,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateProxySessionInput, UpdateProxySessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6604,7 +6604,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6681,7 +6681,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6759,7 +6759,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSipRuleInput, UpdateSipRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6835,7 +6835,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6912,7 +6912,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6991,7 +6991,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVoiceProfileInput, UpdateVoiceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7068,7 +7068,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVoiceProfileDomainInput, UpdateVoiceProfileDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7144,7 +7144,7 @@ extension ChimeSDKVoiceClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ValidateE911AddressInput, ValidateE911AddressOutput> = provider.create()
             builder.interceptors.add(i)
         }

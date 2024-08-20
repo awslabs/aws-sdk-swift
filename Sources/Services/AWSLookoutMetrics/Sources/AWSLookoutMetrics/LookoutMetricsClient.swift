@@ -232,7 +232,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ActivateAnomalyDetectorInput, ActivateAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -306,7 +306,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BackTestAnomalyDetectorInput, BackTestAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -382,7 +382,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAlertInput, CreateAlertOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -457,7 +457,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -533,7 +533,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMetricSetInput, CreateMetricSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -608,7 +608,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeactivateAnomalyDetectorInput, DeactivateAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -682,7 +682,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAlertInput, DeleteAlertOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -757,7 +757,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -831,7 +831,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAlertInput, DescribeAlertOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -905,7 +905,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAnomalyDetectionExecutionsInput, DescribeAnomalyDetectionExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -979,7 +979,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1053,7 +1053,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMetricSetInput, DescribeMetricSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1127,7 +1127,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectMetricSetConfigInput, DetectMetricSetConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1201,7 +1201,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAnomalyGroupInput, GetAnomalyGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1275,7 +1275,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDataQualityMetricsInput, GetDataQualityMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1349,7 +1349,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFeedbackInput, GetFeedbackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1423,7 +1423,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSampleDataInput, GetSampleDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1497,7 +1497,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAlertsInput, ListAlertsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1571,7 +1571,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1645,7 +1645,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnomalyGroupRelatedMetricsInput, ListAnomalyGroupRelatedMetricsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1719,7 +1719,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnomalyGroupSummariesInput, ListAnomalyGroupSummariesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1793,7 +1793,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnomalyGroupTimeSeriesInput, ListAnomalyGroupTimeSeriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1867,7 +1867,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMetricSetsInput, ListMetricSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1939,7 +1939,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2010,7 +2010,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutFeedbackInput, PutFeedbackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2082,7 +2082,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2154,7 +2154,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2226,7 +2226,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAlertInput, UpdateAlertOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2300,7 +2300,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAnomalyDetectorInput, UpdateAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2375,7 +2375,7 @@ extension LookoutMetricsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateMetricSetInput, UpdateMetricSetOutput> = provider.create()
             builder.interceptors.add(i)
         }

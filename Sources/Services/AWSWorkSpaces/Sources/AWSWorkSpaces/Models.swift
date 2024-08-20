@@ -1452,7 +1452,7 @@ extension WorkSpacesClientTypes {
 extension WorkSpacesClientTypes {
     /// Describes the user capacity for a pool of WorkSpaces.
     public struct Capacity {
-        /// The desired number of user sessions for a multi-session pool. This is not allowed for single-session pools.
+        /// The desired number of user sessions for the WorkSpaces in the pool.
         /// This member is required.
         public var desiredUserSessions: Swift.Int?
 
@@ -1469,13 +1469,13 @@ extension WorkSpacesClientTypes {
 extension WorkSpacesClientTypes {
     /// Describes the capacity status for a pool of WorkSpaces.
     public struct CapacityStatus {
-        /// The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.
+        /// The number of user sessions currently being used for your pool.
         /// This member is required.
         public var activeUserSessions: Swift.Int?
-        /// The total number of session slots that are available for a pool of WorkSpaces.
+        /// The total number of user sessions that are available for streaming or are currently streaming in your pool. ActualUserSessions = AvailableUserSessions + ActiveUserSessions
         /// This member is required.
         public var actualUserSessions: Swift.Int?
-        /// The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.
+        /// The number of user sessions currently available for streaming from your pool. AvailableUserSessions = ActualUserSessions - ActiveUserSessions
         /// This member is required.
         public var availableUserSessions: Swift.Int?
         /// The total number of sessions slots that are either running or pending. This represents the total number of concurrent streaming sessions your pool can support in a steady state.
@@ -2755,7 +2755,7 @@ extension WorkSpacesClientTypes {
         public var protocols: [WorkSpacesClientTypes.ModelProtocol]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see [Modify a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html).
         public var rootVolumeSizeGib: Swift.Int?
-        /// The running mode. For more information, see [Manage the WorkSpace Running Mode](https://docs.aws.amazon.com/workspaces/latest/adminguide/running-mode.html). The MANUAL value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
+        /// The running mode. For more information, see [Manage the WorkSpace Running Mode](https://docs.aws.amazon.com/workspaces/latest/adminguide/running-mode.html). The MANUAL value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/). Review your running mode to ensure you are using one that is optimal for your needs and budget. For more information on switching running modes, see [ Can I switch between hourly and monthly billing?](http://aws.amazon.com/workspaces-family/workspaces/faqs/#:~:text=Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%20on%20WorkSpaces%20Personal%3F)
         public var runningMode: WorkSpacesClientTypes.RunningMode?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60-minute intervals.
         public var runningModeAutoStopTimeoutInMinutes: Swift.Int?
@@ -6456,6 +6456,7 @@ extension WorkSpacesClientTypes {
         case byolGraphicspro
         case byolGraphicsG4dn
         case byolGraphicsG4dnByop
+        case byolGraphicsG4dnWsp
         case byolRegular
         case byolRegularByop
         case byolRegularWsp
@@ -6467,6 +6468,7 @@ extension WorkSpacesClientTypes {
                 .byolGraphicspro,
                 .byolGraphicsG4dn,
                 .byolGraphicsG4dnByop,
+                .byolGraphicsG4dnWsp,
                 .byolRegular,
                 .byolRegularByop,
                 .byolRegularWsp
@@ -6484,6 +6486,7 @@ extension WorkSpacesClientTypes {
             case .byolGraphicspro: return "BYOL_GRAPHICSPRO"
             case .byolGraphicsG4dn: return "BYOL_GRAPHICS_G4DN"
             case .byolGraphicsG4dnByop: return "BYOL_GRAPHICS_G4DN_BYOP"
+            case .byolGraphicsG4dnWsp: return "BYOL_GRAPHICS_G4DN_WSP"
             case .byolRegular: return "BYOL_REGULAR"
             case .byolRegularByop: return "BYOL_REGULAR_BYOP"
             case .byolRegularWsp: return "BYOL_REGULAR_WSP"
@@ -6498,7 +6501,7 @@ public struct ImportWorkspaceImageInput {
     ///
     /// * Although this parameter is an array, only one item is allowed at this time.
     ///
-    /// * Windows 11 only supports Microsoft_Office_2019.
+    /// * During the image import process, non-GPU WSP WorkSpaces with Windows 11 support only Microsoft_Office_2019. GPU WSP WorkSpaces with Windows 11 do not support Office installation.
     public var applications: [WorkSpacesClientTypes.Application]?
     /// The identifier of the EC2 image.
     /// This member is required.

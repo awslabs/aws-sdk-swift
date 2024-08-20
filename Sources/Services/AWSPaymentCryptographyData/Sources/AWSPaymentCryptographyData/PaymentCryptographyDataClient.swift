@@ -235,7 +235,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DecryptDataInput, DecryptDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -317,7 +317,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EncryptDataInput, EncryptDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -395,7 +395,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GenerateCardValidationDataInput, GenerateCardValidationDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -471,7 +471,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GenerateMacInput, GenerateMacOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -551,7 +551,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GeneratePinDataInput, GeneratePinDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -633,7 +633,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReEncryptDataInput, ReEncryptDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -711,7 +711,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TranslatePinDataInput, TranslatePinDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -790,7 +790,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyAuthRequestCryptogramInput, VerifyAuthRequestCryptogramOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -871,7 +871,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyCardValidationDataInput, VerifyCardValidationDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -948,7 +948,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyMacInput, VerifyMacOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1027,7 +1027,7 @@ extension PaymentCryptographyDataClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyPinDataInput, VerifyPinDataOutput> = provider.create()
             builder.interceptors.add(i)
         }

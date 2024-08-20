@@ -227,7 +227,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddTagsToResourceInput, AddTagsToResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -298,7 +298,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -371,7 +371,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchStartRecommendationsInput, BatchStartRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -444,7 +444,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelReplicationTaskAssessmentRunInput, CancelReplicationTaskAssessmentRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -517,7 +517,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDataProviderInput, CreateDataProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -594,7 +594,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEndpointInput, CreateEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -674,7 +674,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEventSubscriptionInput, CreateEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -749,7 +749,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFleetAdvisorCollectorInput, CreateFleetAdvisorCollectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -827,7 +827,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstanceProfileInput, CreateInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -903,7 +903,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMigrationProjectInput, CreateMigrationProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -981,7 +981,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReplicationConfigInput, CreateReplicationConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1061,7 +1061,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReplicationInstanceInput, CreateReplicationInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1137,7 +1137,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReplicationSubnetGroupInput, CreateReplicationSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1213,7 +1213,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReplicationTaskInput, CreateReplicationTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1285,7 +1285,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCertificateInput, DeleteCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1358,7 +1358,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConnectionInput, DeleteConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1431,7 +1431,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDataProviderInput, DeleteDataProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1503,7 +1503,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEndpointInput, DeleteEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1575,7 +1575,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1647,7 +1647,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFleetAdvisorCollectorInput, DeleteFleetAdvisorCollectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1719,7 +1719,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFleetAdvisorDatabasesInput, DeleteFleetAdvisorDatabasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1792,7 +1792,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInstanceProfileInput, DeleteInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1865,7 +1865,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMigrationProjectInput, DeleteMigrationProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1938,7 +1938,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReplicationConfigInput, DeleteReplicationConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2010,7 +2010,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReplicationInstanceInput, DeleteReplicationInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2082,7 +2082,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReplicationSubnetGroupInput, DeleteReplicationSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2154,7 +2154,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReplicationTaskInput, DeleteReplicationTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2227,7 +2227,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteReplicationTaskAssessmentRunInput, DeleteReplicationTaskAssessmentRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2293,7 +2293,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountAttributesInput, DescribeAccountAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2366,7 +2366,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeApplicableIndividualAssessmentsInput, DescribeApplicableIndividualAssessmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2437,7 +2437,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCertificatesInput, DescribeCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2508,7 +2508,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeConnectionsInput, DescribeConnectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2579,7 +2579,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeConversionConfigurationInput, DescribeConversionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2651,7 +2651,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDataProvidersInput, DescribeDataProvidersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2717,7 +2717,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEndpointSettingsInput, DescribeEndpointSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2783,7 +2783,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEndpointTypesInput, DescribeEndpointTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2854,7 +2854,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEndpointsInput, DescribeEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2920,7 +2920,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEngineVersionsInput, DescribeEngineVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2986,7 +2986,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventCategoriesInput, DescribeEventCategoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3057,7 +3057,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3123,7 +3123,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsInput, DescribeEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3189,7 +3189,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3260,7 +3260,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFleetAdvisorCollectorsInput, DescribeFleetAdvisorCollectorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3331,7 +3331,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFleetAdvisorDatabasesInput, DescribeFleetAdvisorDatabasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3402,7 +3402,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFleetAdvisorLsaAnalysisInput, DescribeFleetAdvisorLsaAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3473,7 +3473,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFleetAdvisorSchemaObjectSummaryInput, DescribeFleetAdvisorSchemaObjectSummaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3544,7 +3544,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFleetAdvisorSchemasInput, DescribeFleetAdvisorSchemasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3616,7 +3616,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceProfilesInput, DescribeInstanceProfilesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3687,7 +3687,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3758,7 +3758,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3829,7 +3829,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3900,7 +3900,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3971,7 +3971,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4043,7 +4043,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMigrationProjectsInput, DescribeMigrationProjectsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4109,7 +4109,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOrderableReplicationInstancesInput, DescribeOrderableReplicationInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4180,7 +4180,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4252,7 +4252,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4324,7 +4324,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRecommendationsInput, DescribeRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4396,7 +4396,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRefreshSchemasStatusInput, DescribeRefreshSchemasStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4467,7 +4467,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationConfigsInput, DescribeReplicationConfigsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4539,7 +4539,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationInstanceTaskLogsInput, DescribeReplicationInstanceTaskLogsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4610,7 +4610,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4681,7 +4681,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationSubnetGroupsInput, DescribeReplicationSubnetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4753,7 +4753,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationTableStatisticsInput, DescribeReplicationTableStatisticsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4824,7 +4824,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationTaskAssessmentResultsInput, DescribeReplicationTaskAssessmentResultsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4895,7 +4895,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationTaskAssessmentRunsInput, DescribeReplicationTaskAssessmentRunsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4966,7 +4966,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationTaskIndividualAssessmentsInput, DescribeReplicationTaskIndividualAssessmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5037,7 +5037,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationTasksInput, DescribeReplicationTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5108,7 +5108,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplicationsInput, DescribeReplicationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5180,7 +5180,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSchemasInput, DescribeSchemasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5252,7 +5252,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTableStatisticsInput, DescribeTableStatisticsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5323,7 +5323,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportMetadataModelAssessmentInput, ExportMetadataModelAssessmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5396,7 +5396,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportCertificateInput, ImportCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5467,7 +5467,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5539,7 +5539,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyConversionConfigurationInput, ModifyConversionConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5612,7 +5612,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDataProviderInput, ModifyDataProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5687,7 +5687,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyEndpointInput, ModifyEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5766,7 +5766,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5842,7 +5842,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceProfileInput, ModifyInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5917,7 +5917,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyMigrationProjectInput, ModifyMigrationProjectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5993,7 +5993,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyReplicationConfigInput, ModifyReplicationConfigOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6070,7 +6070,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyReplicationInstanceInput, ModifyReplicationInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6146,7 +6146,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyReplicationSubnetGroupInput, ModifyReplicationSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6220,7 +6220,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyReplicationTaskInput, ModifyReplicationTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6295,7 +6295,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MoveReplicationTaskInput, MoveReplicationTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6367,7 +6367,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootReplicationInstanceInput, RebootReplicationInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6441,7 +6441,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RefreshSchemasInput, RefreshSchemasOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6513,7 +6513,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReloadReplicationTablesInput, ReloadReplicationTablesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6585,7 +6585,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReloadTablesInput, ReloadTablesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6656,7 +6656,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6728,7 +6728,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RunFleetAdvisorLsaAnalysisInput, RunFleetAdvisorLsaAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6806,7 +6806,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartExtensionPackAssociationInput, StartExtensionPackAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6884,7 +6884,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMetadataModelAssessmentInput, StartMetadataModelAssessmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6962,7 +6962,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMetadataModelConversionInput, StartMetadataModelConversionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7040,7 +7040,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMetadataModelExportAsScriptInput, StartMetadataModelExportAsScriptOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7118,7 +7118,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMetadataModelExportToTargetInput, StartMetadataModelExportToTargetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7196,7 +7196,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMetadataModelImportInput, StartMetadataModelImportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7269,7 +7269,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartRecommendationsInput, StartRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7342,7 +7342,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartReplicationInput, StartReplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7415,7 +7415,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartReplicationTaskInput, StartReplicationTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7494,7 +7494,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartReplicationTaskAssessmentInput, StartReplicationTaskAssessmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7576,7 +7576,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartReplicationTaskAssessmentRunInput, StartReplicationTaskAssessmentRunOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7649,7 +7649,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopReplicationInput, StopReplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7721,7 +7721,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopReplicationTaskInput, StopReplicationTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7796,7 +7796,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestConnectionInput, TestConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7868,7 +7868,7 @@ extension DatabaseMigrationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSubscriptionsToEventBridgeInput, UpdateSubscriptionsToEventBridgeOutput> = provider.create()
             builder.interceptors.add(i)
         }

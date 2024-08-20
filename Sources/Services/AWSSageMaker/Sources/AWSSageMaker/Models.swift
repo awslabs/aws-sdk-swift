@@ -2761,6 +2761,26 @@ extension SageMakerClientTypes {
         case mlP4de24xlarge
         case mlP4d24xlarge
         case mlP548xlarge
+        case mlR5d12xlarge
+        case mlR5d16xlarge
+        case mlR5d24xlarge
+        case mlR5d2xlarge
+        case mlR5d4xlarge
+        case mlR5d8xlarge
+        case mlR5dLarge
+        case mlR5dXlarge
+        case mlR512xlarge
+        case mlR516xlarge
+        case mlR524xlarge
+        case mlR52xlarge
+        case mlR54xlarge
+        case mlR58xlarge
+        case mlR5Large
+        case mlR5Xlarge
+        case mlT32xlarge
+        case mlT3Large
+        case mlT3Medium
+        case mlT3Xlarge
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
@@ -2834,6 +2854,26 @@ extension SageMakerClientTypes {
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
                 .mlP548xlarge,
+                .mlR5d12xlarge,
+                .mlR5d16xlarge,
+                .mlR5d24xlarge,
+                .mlR5d2xlarge,
+                .mlR5d4xlarge,
+                .mlR5d8xlarge,
+                .mlR5dLarge,
+                .mlR5dXlarge,
+                .mlR512xlarge,
+                .mlR516xlarge,
+                .mlR524xlarge,
+                .mlR52xlarge,
+                .mlR54xlarge,
+                .mlR58xlarge,
+                .mlR5Large,
+                .mlR5Xlarge,
+                .mlT32xlarge,
+                .mlT3Large,
+                .mlT3Medium,
+                .mlT3Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
                 .mlTrn132xlarge
@@ -2913,6 +2953,26 @@ extension SageMakerClientTypes {
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlR5d12xlarge: return "ml.r5d.12xlarge"
+            case .mlR5d16xlarge: return "ml.r5d.16xlarge"
+            case .mlR5d24xlarge: return "ml.r5d.24xlarge"
+            case .mlR5d2xlarge: return "ml.r5d.2xlarge"
+            case .mlR5d4xlarge: return "ml.r5d.4xlarge"
+            case .mlR5d8xlarge: return "ml.r5d.8xlarge"
+            case .mlR5dLarge: return "ml.r5d.large"
+            case .mlR5dXlarge: return "ml.r5d.xlarge"
+            case .mlR512xlarge: return "ml.r5.12xlarge"
+            case .mlR516xlarge: return "ml.r5.16xlarge"
+            case .mlR524xlarge: return "ml.r5.24xlarge"
+            case .mlR52xlarge: return "ml.r5.2xlarge"
+            case .mlR54xlarge: return "ml.r5.4xlarge"
+            case .mlR58xlarge: return "ml.r5.8xlarge"
+            case .mlR5Large: return "ml.r5.large"
+            case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlT32xlarge: return "ml.t3.2xlarge"
+            case .mlT3Large: return "ml.t3.large"
+            case .mlT3Medium: return "ml.t3.medium"
+            case .mlT3Xlarge: return "ml.t3.xlarge"
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
@@ -6431,6 +6491,39 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// This data type is intended for use exclusively by SageMaker Canvas and cannot be used in other contexts at the moment. Specifies the compute configuration for the EMR Serverless job.
+    public struct EmrServerlessComputeConfig {
+        /// The ARN of the IAM role granting the AutoML job V2 the necessary permissions access policies to list, connect to, or manage EMR Serverless jobs. For detailed information about the required permissions of this role, see "How to configure AutoML to initiate a remote job on EMR Serverless for large datasets" in [Create a regression or classification job for tabular data using the AutoML API](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html) or [Create an AutoML job for time-series forecasting using the API](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-create-experiment-timeseries-forecasting.html#timeseries-forecasting-api-optional-params).
+        /// This member is required.
+        public var executionRoleARN: Swift.String?
+
+        public init(
+            executionRoleARN: Swift.String? = nil
+        )
+        {
+            self.executionRoleARN = executionRoleARN
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// This data type is intended for use exclusively by SageMaker Canvas and cannot be used in other contexts at the moment. Specifies the compute configuration for an AutoML job V2.
+    public struct AutoMLComputeConfig {
+        /// The configuration for using [ EMR Serverless](https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/emr-serverless.html) to run the AutoML job V2. To allow your AutoML job V2 to automatically initiate a remote job on EMR Serverless when additional compute resources are needed to process large datasets, you need to provide an EmrServerlessComputeConfig object, which includes an ExecutionRoleARN attribute, to the AutoMLComputeConfig of the AutoML job V2 input request. By seamlessly transitioning to EMR Serverless when required, the AutoML job can handle datasets that would otherwise exceed the initially provisioned resources, without any manual intervention from you. EMR Serverless is available for the tabular and time series problem types. We recommend setting up this option for tabular datasets larger than 5 GB and time series datasets larger than 30 GB.
+        public var emrServerlessComputeConfig: SageMakerClientTypes.EmrServerlessComputeConfig?
+
+        public init(
+            emrServerlessComputeConfig: SageMakerClientTypes.EmrServerlessComputeConfig? = nil
+        )
+        {
+            self.emrServerlessComputeConfig = emrServerlessComputeConfig
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// This structure specifies how to split the data into train and validation datasets. The validation and training datasets must contain the same headers. For jobs created by calling CreateAutoMLJob, the validation dataset must be less than 2 GB in size.
     public struct AutoMLDataSplitConfig {
         /// The validation fraction (optional) is a float that specifies the portion of the training dataset to be used for validation. The default value is 0.2, and values must be greater than 0 and less than 1. We recommend setting this value to be less than 0.5.
@@ -6911,7 +7004,7 @@ extension SageMakerClientTypes {
     public struct AutoMLOutputDataConfig {
         /// The Key Management Service encryption key ID.
         public var kmsKeyId: Swift.String?
-        /// The Amazon S3 output path. Must be 128 characters or less.
+        /// The Amazon S3 output path. Must be 512 characters or less.
         /// This member is required.
         public var s3OutputPath: Swift.String?
 
@@ -8393,6 +8486,26 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// The settings for running Amazon EMR Serverless jobs in SageMaker Canvas.
+    public struct EmrServerlessSettings {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM role that is assumed for running Amazon EMR Serverless jobs in SageMaker Canvas. This role should have the necessary permissions to read and write data attached and a trust relationship with EMR Serverless.
+        public var executionRoleArn: Swift.String?
+        /// Describes whether Amazon EMR Serverless job capabilities are enabled or disabled in the SageMaker Canvas application.
+        public var status: SageMakerClientTypes.FeatureStatus?
+
+        public init(
+            executionRoleArn: Swift.String? = nil,
+            status: SageMakerClientTypes.FeatureStatus? = nil
+        )
+        {
+            self.executionRoleArn = executionRoleArn
+            self.status = status
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// The generative AI settings for the SageMaker Canvas application. Configure these settings for Canvas users starting chats with generative AI foundation models. For more information, see [ Use generative AI with foundation models](https://docs.aws.amazon.com/sagemaker/latest/dg/canvas-fm-chat.html).
     public struct GenerativeAiSettings {
         /// The ARN of an Amazon Web Services IAM role that allows fine-tuning of large language models (LLMs) in Amazon Bedrock. The IAM role should have Amazon S3 read and write permissions, as well as a trust relationship that establishes bedrock.amazonaws.com as a service principal.
@@ -8542,6 +8655,8 @@ extension SageMakerClientTypes {
     public struct CanvasAppSettings {
         /// The model deployment settings for the SageMaker Canvas application.
         public var directDeploySettings: SageMakerClientTypes.DirectDeploySettings?
+        /// The settings for running Amazon EMR Serverless data processing jobs in SageMaker Canvas.
+        public var emrServerlessSettings: SageMakerClientTypes.EmrServerlessSettings?
         /// The generative AI settings for the SageMaker Canvas application.
         public var generativeAiSettings: SageMakerClientTypes.GenerativeAiSettings?
         /// The settings for connecting to an external data source with OAuth.
@@ -8557,6 +8672,7 @@ extension SageMakerClientTypes {
 
         public init(
             directDeploySettings: SageMakerClientTypes.DirectDeploySettings? = nil,
+            emrServerlessSettings: SageMakerClientTypes.EmrServerlessSettings? = nil,
             generativeAiSettings: SageMakerClientTypes.GenerativeAiSettings? = nil,
             identityProviderOAuthSettings: [SageMakerClientTypes.IdentityProviderOAuthSetting]? = nil,
             kendraSettings: SageMakerClientTypes.KendraSettings? = nil,
@@ -8566,6 +8682,7 @@ extension SageMakerClientTypes {
         )
         {
             self.directDeploySettings = directDeploySettings
+            self.emrServerlessSettings = emrServerlessSettings
             self.generativeAiSettings = generativeAiSettings
             self.identityProviderOAuthSettings = identityProviderOAuthSettings
             self.kendraSettings = kendraSettings
@@ -11599,6 +11716,8 @@ public struct CreateAutoMLJobOutput {
 }
 
 public struct CreateAutoMLJobV2Input {
+    /// Specifies the compute configuration for the AutoML job V2.
+    public var autoMLComputeConfig: SageMakerClientTypes.AutoMLComputeConfig?
     /// An array of channel objects describing the input data and their location. Each channel is a named input source. Similar to the [InputDataConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html#sagemaker-CreateAutoMLJob-request-InputDataConfig) attribute in the CreateAutoMLJob input parameters. The supported formats depend on the problem type:
     ///
     /// * For tabular problem types: S3Prefix, ManifestFile.
@@ -11640,6 +11759,7 @@ public struct CreateAutoMLJobV2Input {
     public var tags: [SageMakerClientTypes.Tag]?
 
     public init(
+        autoMLComputeConfig: SageMakerClientTypes.AutoMLComputeConfig? = nil,
         autoMLJobInputDataConfig: [SageMakerClientTypes.AutoMLJobChannel]? = nil,
         autoMLJobName: Swift.String? = nil,
         autoMLJobObjective: SageMakerClientTypes.AutoMLJobObjective? = nil,
@@ -11652,6 +11772,7 @@ public struct CreateAutoMLJobV2Input {
         tags: [SageMakerClientTypes.Tag]? = nil
     )
     {
+        self.autoMLComputeConfig = autoMLComputeConfig
         self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
         self.autoMLJobName = autoMLJobName
         self.autoMLJobObjective = autoMLJobObjective
@@ -12588,6 +12709,14 @@ extension SageMakerClientTypes {
         case mlG4dn4xlarge
         case mlG4dn8xlarge
         case mlG4dnXlarge
+        case mlG512xlarge
+        case mlG516xlarge
+        case mlG524xlarge
+        case mlG52xlarge
+        case mlG548xlarge
+        case mlG54xlarge
+        case mlG58xlarge
+        case mlG5Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -12605,6 +12734,14 @@ extension SageMakerClientTypes {
         case mlP316xlarge
         case mlP32xlarge
         case mlP38xlarge
+        case mlR5d12xlarge
+        case mlR5d16xlarge
+        case mlR5d24xlarge
+        case mlR5d2xlarge
+        case mlR5d4xlarge
+        case mlR5d8xlarge
+        case mlR5dLarge
+        case mlR5dXlarge
         case mlR512xlarge
         case mlR516xlarge
         case mlR524xlarge
@@ -12636,6 +12773,14 @@ extension SageMakerClientTypes {
                 .mlG4dn4xlarge,
                 .mlG4dn8xlarge,
                 .mlG4dnXlarge,
+                .mlG512xlarge,
+                .mlG516xlarge,
+                .mlG524xlarge,
+                .mlG52xlarge,
+                .mlG548xlarge,
+                .mlG54xlarge,
+                .mlG58xlarge,
+                .mlG5Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -12653,6 +12798,14 @@ extension SageMakerClientTypes {
                 .mlP316xlarge,
                 .mlP32xlarge,
                 .mlP38xlarge,
+                .mlR5d12xlarge,
+                .mlR5d16xlarge,
+                .mlR5d24xlarge,
+                .mlR5d2xlarge,
+                .mlR5d4xlarge,
+                .mlR5d8xlarge,
+                .mlR5dLarge,
+                .mlR5dXlarge,
                 .mlR512xlarge,
                 .mlR516xlarge,
                 .mlR524xlarge,
@@ -12690,6 +12843,14 @@ extension SageMakerClientTypes {
             case .mlG4dn4xlarge: return "ml.g4dn.4xlarge"
             case .mlG4dn8xlarge: return "ml.g4dn.8xlarge"
             case .mlG4dnXlarge: return "ml.g4dn.xlarge"
+            case .mlG512xlarge: return "ml.g5.12xlarge"
+            case .mlG516xlarge: return "ml.g5.16xlarge"
+            case .mlG524xlarge: return "ml.g5.24xlarge"
+            case .mlG52xlarge: return "ml.g5.2xlarge"
+            case .mlG548xlarge: return "ml.g5.48xlarge"
+            case .mlG54xlarge: return "ml.g5.4xlarge"
+            case .mlG58xlarge: return "ml.g5.8xlarge"
+            case .mlG5Xlarge: return "ml.g5.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -12707,6 +12868,14 @@ extension SageMakerClientTypes {
             case .mlP316xlarge: return "ml.p3.16xlarge"
             case .mlP32xlarge: return "ml.p3.2xlarge"
             case .mlP38xlarge: return "ml.p3.8xlarge"
+            case .mlR5d12xlarge: return "ml.r5d.12xlarge"
+            case .mlR5d16xlarge: return "ml.r5d.16xlarge"
+            case .mlR5d24xlarge: return "ml.r5d.24xlarge"
+            case .mlR5d2xlarge: return "ml.r5d.2xlarge"
+            case .mlR5d4xlarge: return "ml.r5d.4xlarge"
+            case .mlR5d8xlarge: return "ml.r5d.8xlarge"
+            case .mlR5dLarge: return "ml.r5d.large"
+            case .mlR5dXlarge: return "ml.r5d.xlarge"
             case .mlR512xlarge: return "ml.r5.12xlarge"
             case .mlR516xlarge: return "ml.r5.16xlarge"
             case .mlR524xlarge: return "ml.r5.24xlarge"
@@ -13034,6 +13203,26 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// The configuration parameters that specify the IAM roles assumed by the execution role of SageMaker (assumable roles) and the cluster instances or job execution environments (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
+    public struct EmrSettings {
+        /// An array of Amazon Resource Names (ARNs) of the IAM roles that the execution role of SageMaker can assume for performing operations or tasks related to Amazon EMR clusters or Amazon EMR Serverless applications. These roles define the permissions and access policies required when performing Amazon EMR-related operations, such as listing, connecting to, or terminating Amazon EMR clusters or Amazon EMR Serverless applications. They are typically used in cross-account access scenarios, where the Amazon EMR resources (clusters or serverless applications) are located in a different Amazon Web Services account than the SageMaker domain.
+        public var assumableRoleArns: [Swift.String]?
+        /// An array of Amazon Resource Names (ARNs) of the IAM roles used by the Amazon EMR cluster instances or job execution environments to access other Amazon Web Services services and resources needed during the runtime of your Amazon EMR or Amazon EMR Serverless workloads, such as Amazon S3 for data access, Amazon CloudWatch for logging, or other Amazon Web Services services based on the particular workload requirements.
+        public var executionRoleArns: [Swift.String]?
+
+        public init(
+            assumableRoleArns: [Swift.String]? = nil,
+            executionRoleArns: [Swift.String]? = nil
+        )
+        {
+            self.assumableRoleArns = assumableRoleArns
+            self.executionRoleArns = executionRoleArns
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// The settings for the JupyterLab application.
     public struct JupyterLabAppSettings {
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
@@ -13042,6 +13231,8 @@ extension SageMakerClientTypes {
         public var customImages: [SageMakerClientTypes.CustomImage]?
         /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
+        /// The configuration parameters that specify the IAM roles assumed by the execution role of SageMaker (assumable roles) and the cluster instances or job execution environments (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
+        public var emrSettings: SageMakerClientTypes.EmrSettings?
         /// The Amazon Resource Name (ARN) of the lifecycle configurations attached to the user profile or domain. To remove a lifecycle config, you must set LifecycleConfigArns to an empty list.
         public var lifecycleConfigArns: [Swift.String]?
 
@@ -13049,12 +13240,14 @@ extension SageMakerClientTypes {
             codeRepositories: [SageMakerClientTypes.CodeRepository]? = nil,
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
+            emrSettings: SageMakerClientTypes.EmrSettings? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
         )
         {
             self.codeRepositories = codeRepositories
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
+            self.emrSettings = emrSettings
             self.lifecycleConfigArns = lifecycleConfigArns
         }
     }
@@ -13380,6 +13573,7 @@ extension SageMakerClientTypes {
         case endpoints
         case experiments
         case featureStore
+        case inferenceOptimization
         case inferenceRecommender
         case jumpStart
         case models
@@ -13397,6 +13591,7 @@ extension SageMakerClientTypes {
                 .endpoints,
                 .experiments,
                 .featureStore,
+                .inferenceOptimization,
                 .inferenceRecommender,
                 .jumpStart,
                 .models,
@@ -13420,6 +13615,7 @@ extension SageMakerClientTypes {
             case .endpoints: return "Endpoints"
             case .experiments: return "Experiments"
             case .featureStore: return "FeatureStore"
+            case .inferenceOptimization: return "InferenceOptimization"
             case .inferenceRecommender: return "InferenceRecommender"
             case .jumpStart: return "JumpStart"
             case .models: return "Models"
@@ -14403,7 +14599,15 @@ extension SageMakerClientTypes {
         public var coreDumpConfig: SageMakerClientTypes.ProductionVariantCoreDumpConfig?
         /// You can use this parameter to turn on native Amazon Web Services Systems Manager (SSM) access for a production variant behind an endpoint. By default, SSM access is disabled for all production variants behind an endpoint. You can turn on or turn off SSM access for a production variant behind an existing endpoint by creating a new endpoint configuration and calling UpdateEndpoint.
         public var enableSSMAccess: Swift.Bool?
-        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions.
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions. The AMI version names, and their configurations, are the following: al2-ami-sagemaker-inference-gpu-2
+        ///
+        /// * Accelerator: GPU
+        ///
+        /// * NVIDIA driver version: 535.54.03
+        ///
+        /// * CUDA driver version: 12.2
+        ///
+        /// * Supported instance types: ml.g4dn.*, ml.g5.*, ml.g6.*, ml.p3.*, ml.p4d.*, ml.p4de.*, ml.p5.*
         public var inferenceAmiVersion: SageMakerClientTypes.ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public var initialInstanceCount: Swift.Int?
@@ -22138,7 +22342,6 @@ extension SageMakerClientTypes {
     /// Configuration for uploading output data to Amazon S3 from the processing container.
     public struct ProcessingS3Output {
         /// The local path of a directory where you want Amazon SageMaker to upload its contents to Amazon S3. LocalPath is an absolute path to a directory containing output files. This directory will be created by the platform and exist when your container's entrypoint is invoked.
-        /// This member is required.
         public var localPath: Swift.String?
         /// Whether to upload the results of the processing job continuously or after the job completes.
         /// This member is required.
@@ -25848,6 +26051,8 @@ public struct DescribeAutoMLJobV2Input {
 }
 
 public struct DescribeAutoMLJobV2Output {
+    /// The compute configuration used for the AutoML job V2.
+    public var autoMLComputeConfig: SageMakerClientTypes.AutoMLComputeConfig?
     /// Returns the Amazon Resource Name (ARN) of the AutoML job V2.
     /// This member is required.
     public var autoMLJobArn: Swift.String?
@@ -25903,6 +26108,7 @@ public struct DescribeAutoMLJobV2Output {
     public var securityConfig: SageMakerClientTypes.AutoMLSecurityConfig?
 
     public init(
+        autoMLComputeConfig: SageMakerClientTypes.AutoMLComputeConfig? = nil,
         autoMLJobArn: Swift.String? = nil,
         autoMLJobArtifacts: SageMakerClientTypes.AutoMLJobArtifacts? = nil,
         autoMLJobInputDataConfig: [SageMakerClientTypes.AutoMLJobChannel]? = nil,
@@ -25927,6 +26133,7 @@ public struct DescribeAutoMLJobV2Output {
         securityConfig: SageMakerClientTypes.AutoMLSecurityConfig? = nil
     )
     {
+        self.autoMLComputeConfig = autoMLComputeConfig
         self.autoMLJobArn = autoMLJobArn
         self.autoMLJobArtifacts = autoMLJobArtifacts
         self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
@@ -34825,6 +35032,22 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// Metadata for an endpoint configuration step.
+    public struct EndpointConfigStepMetadata {
+        /// The Amazon Resource Name (ARN) of the endpoint configuration used in the step.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// Provides summary information for an endpoint configuration.
     public struct EndpointConfigSummary {
         /// A timestamp that shows when the endpoint configuration was created.
@@ -34881,6 +35104,22 @@ extension SageMakerClientTypes {
             }
         }
     }
+}
+
+extension SageMakerClientTypes {
+    /// Metadata for an endpoint step.
+    public struct EndpointStepMetadata {
+        /// The Amazon Resource Name (ARN) of the endpoint in the step.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+        }
+    }
+
 }
 
 extension SageMakerClientTypes {
@@ -42627,6 +42866,10 @@ extension SageMakerClientTypes {
         public var condition: SageMakerClientTypes.ConditionStepMetadata?
         /// The configurations and outcomes of an Amazon EMR step execution.
         public var emr: SageMakerClientTypes.EMRStepMetadata?
+        /// The endpoint that was invoked during this step execution.
+        public var endpoint: SageMakerClientTypes.EndpointStepMetadata?
+        /// The endpoint configuration used to create an endpoint during this step execution.
+        public var endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata?
         /// The configurations and outcomes of a Fail step execution.
         public var fail: SageMakerClientTypes.FailStepMetadata?
         /// The Amazon Resource Name (ARN) of the Lambda function that was run by this step execution and a list of output parameters.
@@ -42668,6 +42911,8 @@ extension SageMakerClientTypes {
             clarifyCheck: SageMakerClientTypes.ClarifyCheckStepMetadata? = nil,
             condition: SageMakerClientTypes.ConditionStepMetadata? = nil,
             emr: SageMakerClientTypes.EMRStepMetadata? = nil,
+            endpoint: SageMakerClientTypes.EndpointStepMetadata? = nil,
+            endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata? = nil,
             fail: SageMakerClientTypes.FailStepMetadata? = nil,
             lambda: SageMakerClientTypes.LambdaStepMetadata? = nil,
             model: SageMakerClientTypes.ModelStepMetadata? = nil,
@@ -42684,6 +42929,8 @@ extension SageMakerClientTypes {
             self.clarifyCheck = clarifyCheck
             self.condition = condition
             self.emr = emr
+            self.endpoint = endpoint
+            self.endpointConfig = endpointConfig
             self.fail = fail
             self.lambda = lambda
             self.model = model
@@ -51321,6 +51568,7 @@ extension CreateAutoMLJobV2Input {
 
     static func write(value: CreateAutoMLJobV2Input?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutoMLComputeConfig"].write(value.autoMLComputeConfig, with: SageMakerClientTypes.AutoMLComputeConfig.write(value:to:))
         try writer["AutoMLJobInputDataConfig"].writeList(value.autoMLJobInputDataConfig, memberWritingClosure: SageMakerClientTypes.AutoMLJobChannel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AutoMLJobName"].write(value.autoMLJobName)
         try writer["AutoMLJobObjective"].write(value.autoMLJobObjective, with: SageMakerClientTypes.AutoMLJobObjective.write(value:to:))
@@ -56384,6 +56632,7 @@ extension DescribeAutoMLJobV2Output {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAutoMLJobV2Output()
+        value.autoMLComputeConfig = try reader["AutoMLComputeConfig"].readIfPresent(with: SageMakerClientTypes.AutoMLComputeConfig.read(from:))
         value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent()
         value.autoMLJobArtifacts = try reader["AutoMLJobArtifacts"].readIfPresent(with: SageMakerClientTypes.AutoMLJobArtifacts.read(from:))
         value.autoMLJobInputDataConfig = try reader["AutoMLJobInputDataConfig"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLJobChannel.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -65967,6 +66216,36 @@ extension SageMakerClientTypes.TabularResolvedAttributes {
     }
 }
 
+extension SageMakerClientTypes.AutoMLComputeConfig {
+
+    static func write(value: SageMakerClientTypes.AutoMLComputeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EmrServerlessComputeConfig"].write(value.emrServerlessComputeConfig, with: SageMakerClientTypes.EmrServerlessComputeConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLComputeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.AutoMLComputeConfig()
+        value.emrServerlessComputeConfig = try reader["EmrServerlessComputeConfig"].readIfPresent(with: SageMakerClientTypes.EmrServerlessComputeConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EmrServerlessComputeConfig {
+
+    static func write(value: SageMakerClientTypes.EmrServerlessComputeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutionRoleARN"].write(value.executionRoleARN)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EmrServerlessComputeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EmrServerlessComputeConfig()
+        value.executionRoleARN = try reader["ExecutionRoleARN"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ClusterInstanceGroupDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterInstanceGroupDetails {
@@ -66771,6 +67050,7 @@ extension SageMakerClientTypes.JupyterLabAppSettings {
         try writer["CodeRepositories"].writeList(value.codeRepositories, memberWritingClosure: SageMakerClientTypes.CodeRepository.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CustomImages"].writeList(value.customImages, memberWritingClosure: SageMakerClientTypes.CustomImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DefaultResourceSpec"].write(value.defaultResourceSpec, with: SageMakerClientTypes.ResourceSpec.write(value:to:))
+        try writer["EmrSettings"].write(value.emrSettings, with: SageMakerClientTypes.EmrSettings.write(value:to:))
         try writer["LifecycleConfigArns"].writeList(value.lifecycleConfigArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -66781,6 +67061,24 @@ extension SageMakerClientTypes.JupyterLabAppSettings {
         value.customImages = try reader["CustomImages"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CustomImage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lifecycleConfigArns = try reader["LifecycleConfigArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRepositories = try reader["CodeRepositories"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CodeRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.emrSettings = try reader["EmrSettings"].readIfPresent(with: SageMakerClientTypes.EmrSettings.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EmrSettings {
+
+    static func write(value: SageMakerClientTypes.EmrSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssumableRoleArns"].writeList(value.assumableRoleArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExecutionRoleArns"].writeList(value.executionRoleArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EmrSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EmrSettings()
+        value.assumableRoleArns = try reader["AssumableRoleArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionRoleArns = try reader["ExecutionRoleArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -66843,6 +67141,7 @@ extension SageMakerClientTypes.CanvasAppSettings {
     static func write(value: SageMakerClientTypes.CanvasAppSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DirectDeploySettings"].write(value.directDeploySettings, with: SageMakerClientTypes.DirectDeploySettings.write(value:to:))
+        try writer["EmrServerlessSettings"].write(value.emrServerlessSettings, with: SageMakerClientTypes.EmrServerlessSettings.write(value:to:))
         try writer["GenerativeAiSettings"].write(value.generativeAiSettings, with: SageMakerClientTypes.GenerativeAiSettings.write(value:to:))
         try writer["IdentityProviderOAuthSettings"].writeList(value.identityProviderOAuthSettings, memberWritingClosure: SageMakerClientTypes.IdentityProviderOAuthSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["KendraSettings"].write(value.kendraSettings, with: SageMakerClientTypes.KendraSettings.write(value:to:))
@@ -66861,6 +67160,24 @@ extension SageMakerClientTypes.CanvasAppSettings {
         value.directDeploySettings = try reader["DirectDeploySettings"].readIfPresent(with: SageMakerClientTypes.DirectDeploySettings.read(from:))
         value.kendraSettings = try reader["KendraSettings"].readIfPresent(with: SageMakerClientTypes.KendraSettings.read(from:))
         value.generativeAiSettings = try reader["GenerativeAiSettings"].readIfPresent(with: SageMakerClientTypes.GenerativeAiSettings.read(from:))
+        value.emrServerlessSettings = try reader["EmrServerlessSettings"].readIfPresent(with: SageMakerClientTypes.EmrServerlessSettings.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EmrServerlessSettings {
+
+    static func write(value: SageMakerClientTypes.EmrServerlessSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EmrServerlessSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EmrServerlessSettings()
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -72970,6 +73287,28 @@ extension SageMakerClientTypes.PipelineExecutionStepMetadata {
         value.clarifyCheck = try reader["ClarifyCheck"].readIfPresent(with: SageMakerClientTypes.ClarifyCheckStepMetadata.read(from:))
         value.fail = try reader["Fail"].readIfPresent(with: SageMakerClientTypes.FailStepMetadata.read(from:))
         value.autoMLJob = try reader["AutoMLJob"].readIfPresent(with: SageMakerClientTypes.AutoMLJobStepMetadata.read(from:))
+        value.endpoint = try reader["Endpoint"].readIfPresent(with: SageMakerClientTypes.EndpointStepMetadata.read(from:))
+        value.endpointConfig = try reader["EndpointConfig"].readIfPresent(with: SageMakerClientTypes.EndpointConfigStepMetadata.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EndpointConfigStepMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointConfigStepMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EndpointConfigStepMetadata()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EndpointStepMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointStepMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EndpointStepMetadata()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }

@@ -229,7 +229,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddRoleToDBClusterInput, AddRoleToDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -302,7 +302,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddRoleToDBInstanceInput, AddRoleToDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -373,7 +373,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -451,7 +451,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddTagsToResourceInput, AddTagsToResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -523,7 +523,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -596,7 +596,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AuthorizeDBSecurityGroupIngressInput, AuthorizeDBSecurityGroupIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -667,7 +667,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BacktrackDBClusterInput, BacktrackDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -738,7 +738,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelExportTaskInput, CancelExportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -810,7 +810,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -894,7 +894,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -966,7 +966,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyDBParameterGroupInput, CopyDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1041,7 +1041,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyDBSnapshotInput, CopyDBSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1113,7 +1113,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyOptionGroupInput, CopyOptionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1193,7 +1193,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBlueGreenDeploymentInput, CreateBlueGreenDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1267,7 +1267,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCustomDBEngineVersionInput, CreateCustomDBEngineVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1357,7 +1357,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBClusterInput, CreateDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1443,7 +1443,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1514,7 +1514,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1588,7 +1588,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1679,7 +1679,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBInstanceInput, CreateDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1772,7 +1772,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBInstanceReadReplicaInput, CreateDBInstanceReadReplicaOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1843,7 +1843,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBParameterGroupInput, CreateDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1915,7 +1915,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBProxyInput, CreateDBProxyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1989,7 +1989,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBProxyEndpointInput, CreateDBProxyEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2061,7 +2061,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBSecurityGroupInput, CreateDBSecurityGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2137,7 +2137,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBShardGroupInput, CreateDBShardGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2210,7 +2210,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBSnapshotInput, CreateDBSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2284,7 +2284,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2360,7 +2360,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEventSubscriptionInput, CreateEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2433,7 +2433,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGlobalClusterInput, CreateGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2508,7 +2508,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIntegrationInput, CreateIntegrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2579,7 +2579,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateOptionGroupInput, CreateOptionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2655,7 +2655,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTenantDatabaseInput, CreateTenantDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2726,7 +2726,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBlueGreenDeploymentInput, DeleteBlueGreenDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2804,7 +2804,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomDBEngineVersionInput, DeleteCustomDBEngineVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2879,7 +2879,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBClusterInput, DeleteDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2950,7 +2950,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBClusterAutomatedBackupInput, DeleteDBClusterAutomatedBackupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3033,7 +3033,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3104,7 +3104,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3175,7 +3175,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3257,7 +3257,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBInstanceInput, DeleteDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3328,7 +3328,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBInstanceAutomatedBackupInput, DeleteDBInstanceAutomatedBackupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3399,7 +3399,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3470,7 +3470,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBProxyInput, DeleteDBProxyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3541,7 +3541,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBProxyEndpointInput, DeleteDBProxyEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3612,7 +3612,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBSecurityGroupInput, DeleteDBSecurityGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3684,7 +3684,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBShardGroupInput, DeleteDBShardGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3755,7 +3755,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBSnapshotInput, DeleteDBSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3827,7 +3827,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3898,7 +3898,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3969,7 +3969,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGlobalClusterInput, DeleteGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4041,7 +4041,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIntegrationInput, DeleteIntegrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4112,7 +4112,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteOptionGroupInput, DeleteOptionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4184,7 +4184,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTenantDatabaseInput, DeleteTenantDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4257,7 +4257,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterDBProxyTargetsInput, DeregisterDBProxyTargetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4322,7 +4322,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountAttributesInput, DescribeAccountAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4392,7 +4392,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4462,7 +4462,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCertificatesInput, DescribeCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4532,7 +4532,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4603,7 +4603,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterBacktracksInput, DescribeDBClusterBacktracksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4673,7 +4673,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4743,7 +4743,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4813,7 +4813,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4883,7 +4883,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4953,7 +4953,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5023,7 +5023,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBClustersInput, DescribeDBClustersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5088,7 +5088,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5158,7 +5158,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBInstanceAutomatedBackupsInput, DescribeDBInstanceAutomatedBackupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5228,7 +5228,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBInstancesInput, DescribeDBInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5298,7 +5298,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBLogFilesInput, DescribeDBLogFilesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5368,7 +5368,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5438,7 +5438,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBParametersInput, DescribeDBParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5508,7 +5508,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBProxiesInput, DescribeDBProxiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5579,7 +5579,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBProxyEndpointsInput, DescribeDBProxyEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5651,7 +5651,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBProxyTargetGroupsInput, DescribeDBProxyTargetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5724,7 +5724,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBProxyTargetsInput, DescribeDBProxyTargetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5789,7 +5789,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBRecommendationsInput, DescribeDBRecommendationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5859,7 +5859,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBSecurityGroupsInput, DescribeDBSecurityGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5930,7 +5930,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBShardGroupsInput, DescribeDBShardGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6000,7 +6000,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBSnapshotAttributesInput, DescribeDBSnapshotAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6070,7 +6070,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBSnapshotTenantDatabasesInput, DescribeDBSnapshotTenantDatabasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6140,7 +6140,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6210,7 +6210,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6275,7 +6275,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6340,7 +6340,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6405,7 +6405,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventCategoriesInput, DescribeEventCategoriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6475,7 +6475,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6540,7 +6540,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsInput, DescribeEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6610,7 +6610,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeExportTasksInput, DescribeExportTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6680,7 +6680,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeGlobalClustersInput, DescribeGlobalClustersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6750,7 +6750,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIntegrationsInput, DescribeIntegrationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6815,7 +6815,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOptionGroupOptionsInput, DescribeOptionGroupOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6885,7 +6885,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOptionGroupsInput, DescribeOptionGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6950,7 +6950,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6987,7 +6987,7 @@ extension RDSClient {
 
     /// Performs the `DescribePendingMaintenanceActions` operation on the `AmazonRDSv19` service.
     ///
-    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action. This API follows an eventual consistency model. This means that the result of the DescribePendingMaintenanceActions command might not be immediately visible to all subsequent RDS commands. Keep this in mind when you use DescribePendingMaintenanceActions immediately after using a previous API command such as ApplyPendingMaintenanceActions.
     ///
     /// - Parameter DescribePendingMaintenanceActionsInput :
     ///
@@ -7020,7 +7020,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7090,7 +7090,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedDBInstancesInput, DescribeReservedDBInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7160,7 +7160,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedDBInstancesOfferingsInput, DescribeReservedDBInstancesOfferingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7225,7 +7225,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSourceRegionsInput, DescribeSourceRegionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7295,7 +7295,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7366,7 +7366,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7437,7 +7437,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableHttpEndpointInput, DisableHttpEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7508,7 +7508,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DownloadDBLogFilePortionInput, DownloadDBLogFilePortionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7579,7 +7579,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableHttpEndpointInput, EnableHttpEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7651,7 +7651,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<FailoverDBClusterInput, FailoverDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7735,7 +7735,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<FailoverGlobalClusterInput, FailoverGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7813,7 +7813,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7885,7 +7885,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyActivityStreamInput, ModifyActivityStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7962,7 +7962,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyCertificatesInput, ModifyCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8034,7 +8034,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyCurrentDBClusterCapacityInput, ModifyCurrentDBClusterCapacityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8105,7 +8105,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyCustomDBEngineVersionInput, ModifyCustomDBEngineVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8189,7 +8189,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBClusterInput, ModifyDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8274,7 +8274,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8345,7 +8345,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8417,7 +8417,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8507,7 +8507,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBInstanceInput, ModifyDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8578,7 +8578,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8650,7 +8650,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBProxyInput, ModifyDBProxyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8723,7 +8723,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBProxyEndpointInput, ModifyDBProxyEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8795,7 +8795,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBProxyTargetGroupInput, ModifyDBProxyTargetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8860,7 +8860,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBRecommendationInput, ModifyDBRecommendationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8933,7 +8933,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBShardGroupInput, ModifyDBShardGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9003,7 +9003,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBSnapshotInput, ModifyDBSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9075,7 +9075,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBSnapshotAttributeInput, ModifyDBSnapshotAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9149,7 +9149,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9224,7 +9224,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9297,7 +9297,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyGlobalClusterInput, ModifyGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9369,7 +9369,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyIntegrationInput, ModifyIntegrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9440,7 +9440,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyOptionGroupInput, ModifyOptionGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9516,7 +9516,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTenantDatabaseInput, ModifyTenantDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9591,7 +9591,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PromoteReadReplicaInput, PromoteReadReplicaOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9662,7 +9662,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9734,7 +9734,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PurchaseReservedDBInstancesOfferingInput, PurchaseReservedDBInstancesOfferingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9806,7 +9806,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootDBClusterInput, RebootDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9877,7 +9877,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootDBInstanceInput, RebootDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9948,7 +9948,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootDBShardGroupInput, RebootDBShardGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10026,7 +10026,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterDBProxyTargetsInput, RegisterDBProxyTargetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10098,7 +10098,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10170,7 +10170,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10242,7 +10242,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveRoleFromDBInstanceInput, RemoveRoleFromDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10313,7 +10313,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10391,7 +10391,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10462,7 +10462,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10533,7 +10533,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetDBParameterGroupInput, ResetDBParameterGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10617,7 +10617,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreDBClusterFromS3Input, RestoreDBClusterFromS3Output> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10706,7 +10706,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10795,7 +10795,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10888,7 +10888,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreDBInstanceFromDBSnapshotInput, RestoreDBInstanceFromDBSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10976,7 +10976,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreDBInstanceFromS3Input, RestoreDBInstanceFromS3Output> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11070,7 +11070,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreDBInstanceToPointInTimeInput, RestoreDBInstanceToPointInTimeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11142,7 +11142,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RevokeDBSecurityGroupIngressInput, RevokeDBSecurityGroupIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11217,7 +11217,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartActivityStreamInput, StartActivityStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11289,7 +11289,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDBClusterInput, StartDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11369,7 +11369,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDBInstanceInput, StartDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11443,7 +11443,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDBInstanceAutomatedBackupsReplicationInput, StartDBInstanceAutomatedBackupsReplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11522,7 +11522,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartExportTaskInput, StartExportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11596,7 +11596,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopActivityStreamInput, StopActivityStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11668,7 +11668,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopDBClusterInput, StopDBClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11742,7 +11742,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopDBInstanceInput, StopDBInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11813,7 +11813,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopDBInstanceAutomatedBackupsReplicationInput, StopDBInstanceAutomatedBackupsReplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11884,7 +11884,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SwitchoverBlueGreenDeploymentInput, SwitchoverBlueGreenDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11957,7 +11957,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SwitchoverGlobalClusterInput, SwitchoverGlobalClusterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12028,7 +12028,7 @@ extension RDSClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SwitchoverReadReplicaInput, SwitchoverReadReplicaOutput> = provider.create()
             builder.interceptors.add(i)
         }

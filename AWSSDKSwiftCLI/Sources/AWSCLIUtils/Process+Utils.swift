@@ -49,6 +49,14 @@ public func _run(_ process: Process) throws {
 }
 
 public func _runReturningStdOut(_ process: Process) throws -> String? {
+    // If debug and we have a non-nil test runner, then use that
+    // This allows developers to intercept processes when they run to assert that it is the expected process
+    #if DEBUG
+    if let testRunner = ProcessRunner.testRunner {
+        try testRunner.run(process)
+        return nil
+    }
+    #endif
     let stdOut = Pipe()
     process.standardOutput = stdOut
     

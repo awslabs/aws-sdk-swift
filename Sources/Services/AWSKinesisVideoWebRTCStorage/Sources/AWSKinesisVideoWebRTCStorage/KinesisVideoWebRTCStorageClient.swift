@@ -192,7 +192,20 @@ extension KinesisVideoWebRTCStorageClient {
 extension KinesisVideoWebRTCStorageClient {
     /// Performs the `JoinStorageSession` operation on the `AWSAcuityRoutingServiceLambda` service.
     ///
-    /// Join the ongoing one way-video and/or multi-way audio WebRTC session as a video producing device for an input channel. If there’s no existing session for the channel, a new streaming session needs to be created, and the Amazon Resource Name (ARN) of the signaling channel must be provided. Currently for the SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join the session first, and wait for other participants. While participants are having peer to peer conversations through webRTC, the ingested media session will be stored into the Kinesis Video Stream. Multiple viewers are able to playback real-time media. Customers can also use existing Kinesis Video Streams features like HLS or DASH playback, Image generation, and more with ingested WebRTC media. Assume that only one video producing device client can be associated with a session for the channel. If more than one client joins the session of a specific channel as a video producing device, the most recent client request takes precedence.
+    /// Before using this API, you must call the GetSignalingChannelEndpoint API to request the WEBRTC endpoint. You then specify the endpoint and region in your JoinStorageSession API request. Join the ongoing one way-video and/or multi-way audio WebRTC session as a video producing device for an input channel. If there’s no existing session for the channel, a new streaming session needs to be created, and the Amazon Resource Name (ARN) of the signaling channel must be provided. Currently for the SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream. Only video producing devices can join the session and record media. Both audio and video tracks are currently required for WebRTC ingestion. Current requirements:
+    ///
+    /// * Video track: H.264
+    ///
+    /// * Audio track: Opus
+    ///
+    ///
+    /// The resulting ingested video in the Kinesis video stream will have the following parameters: H.264 video and AAC audio. Once a master participant has negotiated a connection through WebRTC, the ingested media session will be stored in the Kinesis video stream. Multiple viewers are then able to play back real-time media through our Playback APIs. You can also use existing Kinesis Video Streams features like HLS or DASH playback, image generation via [GetImages](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/gs-getImages.html), and more with ingested WebRTC media. S3 image delivery and notifications are not currently supported. Assume that only one video producing device client can be associated with a session for the channel. If more than one client joins the session of a specific channel as a video producing device, the most recent client request takes precedence. Additional information
+    ///
+    /// * Idempotent - This API is not idempotent.
+    ///
+    /// * Retry behavior - This is counted as a new API call.
+    ///
+    /// * Concurrent calls - Concurrent calls are allowed. An offer is sent once per each call.
     ///
     /// - Parameter JoinStorageSessionInput : [no documentation found]
     ///
@@ -228,7 +241,7 @@ extension KinesisVideoWebRTCStorageClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<JoinStorageSessionInput, JoinStorageSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -257,6 +270,82 @@ extension KinesisVideoWebRTCStorageClient {
                 metricsAttributes: metricsAttributes,
                 meterScope: serviceName,
                 tracerScope: serviceName
+<<<<<<< HEAD
+=======
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `JoinStorageSessionAsViewer` operation on the `AWSAcuityRoutingServiceLambda` service.
+    ///
+    /// Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an input channel. If there’s no existing session for the channel, create a new streaming session and provide the Amazon Resource Name (ARN) of the signaling channel (channelArn) and client id (clientId). Currently for SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join a session first and wait for other participants. While participants are having peer to peer conversations through WebRTC, the ingested media session will be stored into the Kinesis Video Stream. Multiple viewers are able to playback real-time media. Customers can also use existing Kinesis Video Streams features like HLS or DASH playback, Image generation, and more with ingested WebRTC media. If there’s an existing session with the same clientId that's found in the join session request, the new request takes precedence.
+    ///
+    /// - Parameter JoinStorageSessionAsViewerInput : [no documentation found]
+    ///
+    /// - Returns: `JoinStorageSessionAsViewerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have required permissions to perform this operation.
+    /// - `ClientLimitExceededException` : Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
+    /// - `InvalidArgumentException` : The value for this input parameter is invalid.
+    /// - `ResourceNotFoundException` : The specified resource is not found.
+    public func joinStorageSessionAsViewer(input: JoinStorageSessionAsViewerInput) async throws -> JoinStorageSessionAsViewerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "joinStorageSessionAsViewer")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "kinesisvideo")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>(JoinStorageSessionAsViewerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: JoinStorageSessionAsViewerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<JoinStorageSessionAsViewerOutput>(JoinStorageSessionAsViewerOutput.httpOutput(from:), JoinStorageSessionAsViewerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<JoinStorageSessionAsViewerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<JoinStorageSessionAsViewerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<JoinStorageSessionAsViewerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisVideoWebRTCStorage")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "JoinStorageSessionAsViewer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+>>>>>>> main
             ))
             .executeRequest(client)
             .build()

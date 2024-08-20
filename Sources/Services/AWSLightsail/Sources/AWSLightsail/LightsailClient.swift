@@ -234,7 +234,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AllocateStaticIpInput, AllocateStaticIpOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -310,7 +310,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -387,7 +387,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachDiskInput, AttachDiskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -464,7 +464,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -541,7 +541,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -618,7 +618,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachStaticIpInput, AttachStaticIpOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -695,7 +695,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -772,7 +772,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopySnapshotInput, CopySnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -846,7 +846,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBucketInput, CreateBucketOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -921,7 +921,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -996,7 +996,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCertificateInput, CreateCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1073,7 +1073,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCloudFormationStackInput, CreateCloudFormationStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1149,7 +1149,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateContactMethodInput, CreateContactMethodOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1224,7 +1224,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateContainerServiceInput, CreateContainerServiceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1299,7 +1299,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1374,7 +1374,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1451,7 +1451,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDiskInput, CreateDiskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1528,7 +1528,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1605,7 +1605,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDiskSnapshotInput, CreateDiskSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1681,7 +1681,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDistributionInput, CreateDistributionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1758,7 +1758,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDomainInput, CreateDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1835,7 +1835,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDomainEntryInput, CreateDomainEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1910,7 +1910,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1987,7 +1987,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2064,7 +2064,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstancesInput, CreateInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2141,7 +2141,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2218,7 +2218,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateKeyPairInput, CreateKeyPairOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2295,7 +2295,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLoadBalancerInput, CreateLoadBalancerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2372,7 +2372,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2449,7 +2449,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2526,7 +2526,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2603,7 +2603,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2679,7 +2679,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAlarmInput, DeleteAlarmOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2755,7 +2755,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2830,7 +2830,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBucketInput, DeleteBucketOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2905,7 +2905,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2980,7 +2980,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCertificateInput, DeleteCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3056,7 +3056,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteContactMethodInput, DeleteContactMethodOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3131,7 +3131,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteContainerImageInput, DeleteContainerImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3206,7 +3206,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteContainerServiceInput, DeleteContainerServiceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3283,7 +3283,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDiskInput, DeleteDiskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3360,7 +3360,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3436,7 +3436,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDistributionInput, DeleteDistributionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3513,7 +3513,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDomainInput, DeleteDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3590,7 +3590,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDomainEntryInput, DeleteDomainEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3667,7 +3667,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInstanceInput, DeleteInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3744,7 +3744,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3821,7 +3821,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteKeyPairInput, DeleteKeyPairOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3898,7 +3898,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3975,7 +3975,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLoadBalancerInput, DeleteLoadBalancerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4052,7 +4052,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4129,7 +4129,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4206,7 +4206,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4282,7 +4282,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4359,7 +4359,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachDiskInput, DetachDiskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4436,7 +4436,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4513,7 +4513,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachStaticIpInput, DetachStaticIpOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4589,7 +4589,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableAddOnInput, DisableAddOnOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4666,7 +4666,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4742,7 +4742,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableAddOnInput, EnableAddOnOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4819,7 +4819,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportSnapshotInput, ExportSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4896,7 +4896,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetActiveNamesInput, GetActiveNamesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4972,7 +4972,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAlarmsInput, GetAlarmsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5048,7 +5048,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAutoSnapshotsInput, GetAutoSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5125,7 +5125,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBlueprintsInput, GetBlueprintsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5200,7 +5200,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBucketAccessKeysInput, GetBucketAccessKeysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5274,7 +5274,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBucketBundlesInput, GetBucketBundlesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5349,7 +5349,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBucketMetricDataInput, GetBucketMetricDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5424,7 +5424,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBucketsInput, GetBucketsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5501,7 +5501,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBundlesInput, GetBundlesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5576,7 +5576,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCertificatesInput, GetCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5653,7 +5653,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5729,7 +5729,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContactMethodsInput, GetContactMethodsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5802,7 +5802,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5877,7 +5877,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContainerImagesInput, GetContainerImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5952,7 +5952,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContainerLogInput, GetContainerLogOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6028,7 +6028,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6103,7 +6103,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6179,7 +6179,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContainerServicePowersInput, GetContainerServicePowersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6254,7 +6254,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetContainerServicesInput, GetContainerServicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6330,7 +6330,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCostEstimateInput, GetCostEstimateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6407,7 +6407,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDiskInput, GetDiskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6484,7 +6484,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDiskSnapshotInput, GetDiskSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6561,7 +6561,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDiskSnapshotsInput, GetDiskSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6638,7 +6638,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDisksInput, GetDisksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6714,7 +6714,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDistributionBundlesInput, GetDistributionBundlesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6790,7 +6790,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6866,7 +6866,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDistributionMetricDataInput, GetDistributionMetricDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6942,7 +6942,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDistributionsInput, GetDistributionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7019,7 +7019,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDomainInput, GetDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7096,7 +7096,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDomainsInput, GetDomainsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7173,7 +7173,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7250,7 +7250,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceInput, GetInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7327,7 +7327,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7404,7 +7404,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceMetricDataInput, GetInstanceMetricDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7481,7 +7481,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstancePortStatesInput, GetInstancePortStatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7558,7 +7558,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceSnapshotInput, GetInstanceSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7635,7 +7635,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7712,7 +7712,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceStateInput, GetInstanceStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7789,7 +7789,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstancesInput, GetInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7866,7 +7866,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetKeyPairInput, GetKeyPairOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7943,7 +7943,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetKeyPairsInput, GetKeyPairsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8020,7 +8020,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLoadBalancerInput, GetLoadBalancerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8097,7 +8097,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8174,7 +8174,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8249,7 +8249,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8326,7 +8326,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLoadBalancersInput, GetLoadBalancersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8403,7 +8403,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetOperationInput, GetOperationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8480,7 +8480,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetOperationsInput, GetOperationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8557,7 +8557,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetOperationsForResourceInput, GetOperationsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8634,7 +8634,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRegionsInput, GetRegionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8711,7 +8711,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseInput, GetRelationalDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8788,7 +8788,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8865,7 +8865,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8942,7 +8942,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9019,7 +9019,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9096,7 +9096,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9173,7 +9173,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9250,7 +9250,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9327,7 +9327,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9404,7 +9404,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9481,7 +9481,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9558,7 +9558,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRelationalDatabasesInput, GetRelationalDatabasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9633,7 +9633,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSetupHistoryInput, GetSetupHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9710,7 +9710,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetStaticIpInput, GetStaticIpOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9787,7 +9787,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetStaticIpsInput, GetStaticIpsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9864,7 +9864,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportKeyPairInput, ImportKeyPairOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9941,7 +9941,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<IsVpcPeeredInput, IsVpcPeeredOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10018,7 +10018,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10095,7 +10095,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PeerVpcInput, PeerVpcOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10171,7 +10171,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutAlarmInput, PutAlarmOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10248,7 +10248,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutInstancePublicPortsInput, PutInstancePublicPortsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10325,7 +10325,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootInstanceInput, RebootInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10402,7 +10402,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10477,7 +10477,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterContainerImageInput, RegisterContainerImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10554,7 +10554,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReleaseStaticIpInput, ReleaseStaticIpOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10630,7 +10630,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetDistributionCacheInput, ResetDistributionCacheOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10706,7 +10706,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendContactMethodVerificationInput, SendContactMethodVerificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10783,7 +10783,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetIpAddressTypeInput, SetIpAddressTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10858,7 +10858,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10933,7 +10933,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetupInstanceHttpsInput, SetupInstanceHttpsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11008,7 +11008,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartGUISessionInput, StartGUISessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11085,7 +11085,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartInstanceInput, StartInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11162,7 +11162,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartRelationalDatabaseInput, StartRelationalDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11237,7 +11237,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopGUISessionInput, StopGUISessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11314,7 +11314,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopInstanceInput, StopInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11391,7 +11391,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopRelationalDatabaseInput, StopRelationalDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11468,7 +11468,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11544,7 +11544,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestAlarmInput, TestAlarmOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11621,7 +11621,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UnpeerVpcInput, UnpeerVpcOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11698,7 +11698,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11773,7 +11773,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBucketInput, UpdateBucketOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11848,7 +11848,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBucketBundleInput, UpdateBucketBundleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11923,7 +11923,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateContainerServiceInput, UpdateContainerServiceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11999,7 +11999,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDistributionInput, UpdateDistributionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12075,7 +12075,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDistributionBundleInput, UpdateDistributionBundleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12152,7 +12152,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateDomainEntryInput, UpdateDomainEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12229,7 +12229,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12306,7 +12306,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12383,7 +12383,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12460,7 +12460,7 @@ extension LightsailClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutput> = provider.create()
             builder.interceptors.add(i)
         }

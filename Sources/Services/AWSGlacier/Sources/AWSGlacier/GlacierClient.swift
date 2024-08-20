@@ -236,7 +236,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AbortMultipartUploadInput, AbortMultipartUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -317,7 +317,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AbortVaultLockInput, AbortVaultLockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -399,7 +399,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AddTagsToVaultInput, AddTagsToVaultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -484,7 +484,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CompleteMultipartUploadInput, CompleteMultipartUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -566,7 +566,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CompleteVaultLockInput, CompleteVaultLockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -654,7 +654,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVaultInput, CreateVaultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -742,7 +742,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteArchiveInput, DeleteArchiveOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -823,7 +823,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVaultInput, DeleteVaultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -904,7 +904,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -985,7 +985,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1066,7 +1066,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeJobInput, DescribeJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1147,7 +1147,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVaultInput, DescribeVaultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1227,7 +1227,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1308,7 +1308,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetJobOutputInput, GetJobOutputOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1390,7 +1390,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1482,7 +1482,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVaultLockInput, GetVaultLockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1563,7 +1563,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVaultNotificationsInput, GetVaultNotificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1646,7 +1646,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InitiateJobInput, InitiateJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1730,7 +1730,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InitiateMultipartUploadInput, InitiateMultipartUploadOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1821,7 +1821,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<InitiateVaultLockInput, InitiateVaultLockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1905,7 +1905,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListJobsInput, ListJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1987,7 +1987,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMultipartUploadsInput, ListMultipartUploadsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2069,7 +2069,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPartsInput, ListPartsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2150,7 +2150,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListProvisionedCapacityInput, ListProvisionedCapacityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2231,7 +2231,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForVaultInput, ListTagsForVaultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2312,7 +2312,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVaultsInput, ListVaultsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2394,7 +2394,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2475,7 +2475,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2559,7 +2559,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2643,7 +2643,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2734,7 +2734,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetVaultNotificationsInput, SetVaultNotificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2819,7 +2819,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UploadArchiveInput, UploadArchiveOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2914,7 +2914,7 @@ extension GlacierClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UploadMultipartPartInput, UploadMultipartPartOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -234,7 +234,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -311,7 +311,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -388,7 +388,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateAccountAssignmentInput, CreateAccountAssignmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -465,7 +465,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateApplicationInput, CreateApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -543,7 +543,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -623,7 +623,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstanceInput, CreateInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -700,7 +700,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -777,7 +777,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePermissionSetInput, CreatePermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -853,7 +853,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -930,7 +930,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1006,7 +1006,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApplicationInput, DeleteApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1082,7 +1082,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1158,7 +1158,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1234,7 +1234,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1310,7 +1310,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteApplicationGrantInput, DeleteApplicationGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1386,7 +1386,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1461,7 +1461,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInstanceInput, DeleteInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1537,7 +1537,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1613,7 +1613,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePermissionSetInput, DeletePermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1689,7 +1689,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1765,7 +1765,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1840,7 +1840,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1915,7 +1915,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1990,7 +1990,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeApplicationInput, DescribeApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2065,7 +2065,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2140,7 +2140,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeApplicationProviderInput, DescribeApplicationProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2220,7 +2220,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceInput, DescribeInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2295,7 +2295,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2370,7 +2370,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePermissionSetInput, DescribePermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2445,7 +2445,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2520,7 +2520,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2596,7 +2596,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2672,7 +2672,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2747,7 +2747,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2822,7 +2822,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2897,7 +2897,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2972,7 +2972,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetApplicationGrantInput, GetApplicationGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3047,7 +3047,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3122,7 +3122,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3197,7 +3197,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3272,7 +3272,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3347,7 +3347,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccountAssignmentsInput, ListAccountAssignmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3422,7 +3422,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3497,7 +3497,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3572,7 +3572,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3647,7 +3647,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3722,7 +3722,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3797,7 +3797,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3872,7 +3872,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListApplicationGrantsInput, ListApplicationGrantsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3946,7 +3946,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListApplicationProvidersInput, ListApplicationProvidersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4020,7 +4020,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListApplicationsInput, ListApplicationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4095,7 +4095,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4169,7 +4169,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListInstancesInput, ListInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4244,7 +4244,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4319,7 +4319,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4394,7 +4394,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPermissionSetsInput, ListPermissionSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4469,7 +4469,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4544,7 +4544,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4618,7 +4618,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4694,7 +4694,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ProvisionPermissionSetInput, ProvisionPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4770,7 +4770,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4846,7 +4846,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4922,7 +4922,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4998,7 +4998,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutApplicationGrantInput, PutApplicationGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5075,7 +5075,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5151,7 +5151,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5228,7 +5228,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5304,7 +5304,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5380,7 +5380,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateApplicationInput, UpdateApplicationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5455,7 +5455,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateInstanceInput, UpdateInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5531,7 +5531,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5607,7 +5607,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePermissionSetInput, UpdatePermissionSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5683,7 +5683,7 @@ extension SSOAdminClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -2948,6 +2948,30 @@ public struct ExpiredCodeException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
+/// The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
+public struct PasswordHistoryPolicyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PasswordHistoryPolicyViolationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
 public struct SoftwareTokenMFANotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -3403,6 +3427,51 @@ extension AdminUserGlobalSignOutInput: Swift.CustomDebugStringConvertible {
 public struct AdminUserGlobalSignOutOutput {
 
     public init() { }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum AdvancedSecurityEnabledModeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audit
+        case enforced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdvancedSecurityEnabledModeType] {
+            return [
+                .audit,
+                .enforced
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audit: return "AUDIT"
+            case .enforced: return "ENFORCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+    /// Advanced security configuration options for additional authentication types in your user pool, including custom authentication.
+    public struct AdvancedSecurityAdditionalFlowsType {
+        /// The operating mode of advanced security features in custom authentication with [ Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+        public var customAuthMode: CognitoIdentityProviderClientTypes.AdvancedSecurityEnabledModeType?
+
+        public init(
+            customAuthMode: CognitoIdentityProviderClientTypes.AdvancedSecurityEnabledModeType? = nil
+        )
+        {
+            self.customAuthMode = customAuthMode
+        }
+    }
+
 }
 
 extension CognitoIdentityProviderClientTypes {
@@ -4742,6 +4811,8 @@ extension CognitoIdentityProviderClientTypes {
     public struct PasswordPolicyType {
         /// The minimum length of the password in the policy that you have set. This value can't be less than 6.
         public var minimumLength: Swift.Int?
+        /// The number of previous passwords that you want Amazon Cognito to restrict each user from reusing. Users can't set a password that matches any of n previous passwords, where n is the value of PasswordHistorySize. Password history isn't enforced and isn't displayed in [DescribeUserPool](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_DescribeUserPool.html) responses when you set this value to 0 or don't provide it. To activate this setting, [ advanced security features](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html) must be active in your user pool.
+        public var passwordHistorySize: Swift.Int?
         /// In the password policy that you have set, refers to whether you have required users to use at least one lowercase letter in their password.
         public var requireLowercase: Swift.Bool
         /// In the password policy that you have set, refers to whether you have required users to use at least one number in their password.
@@ -4755,6 +4826,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             minimumLength: Swift.Int? = nil,
+            passwordHistorySize: Swift.Int? = nil,
             requireLowercase: Swift.Bool = false,
             requireNumbers: Swift.Bool = false,
             requireSymbols: Swift.Bool = false,
@@ -4763,6 +4835,7 @@ extension CognitoIdentityProviderClientTypes {
         )
         {
             self.minimumLength = minimumLength
+            self.passwordHistorySize = passwordHistorySize
             self.requireLowercase = requireLowercase
             self.requireNumbers = requireNumbers
             self.requireSymbols = requireSymbols
@@ -4879,14 +4952,18 @@ extension CognitoIdentityProviderClientTypes {
 extension CognitoIdentityProviderClientTypes {
     /// User pool add-ons. Contains settings for activation of advanced security features. To log user security information but take no action, set to AUDIT. To configure automatic security responses to risky traffic to your user pool, set to ENFORCED. For more information, see [Adding advanced security to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html).
     public struct UserPoolAddOnsType {
-        /// The operating mode of advanced security features in your user pool.
+        /// Advanced security configuration options for additional authentication types in your user pool, including custom authentication.
+        public var advancedSecurityAdditionalFlows: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType?
+        /// The operating mode of advanced security features for standard authentication types in your user pool, including username-password and secure remote password (SRP) authentication.
         /// This member is required.
         public var advancedSecurityMode: CognitoIdentityProviderClientTypes.AdvancedSecurityModeType?
 
         public init(
+            advancedSecurityAdditionalFlows: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType? = nil,
             advancedSecurityMode: CognitoIdentityProviderClientTypes.AdvancedSecurityModeType? = nil
         )
         {
+            self.advancedSecurityAdditionalFlows = advancedSecurityAdditionalFlows
             self.advancedSecurityMode = advancedSecurityMode
         }
     }
@@ -5548,6 +5625,9 @@ public struct CreateUserPoolClientInput {
     /// * ENABLED - This prevents user existence-related errors.
     ///
     /// * LEGACY - This represents the early behavior of Amazon Cognito where user existence related errors aren't prevented.
+    ///
+    ///
+    /// Defaults to LEGACY when you don't provide a value.
     public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
     /// The list of user attributes that you want your app client to have read-only access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. An example of this kind of activity is when your user selects a link to view their profile information. Your app makes a [GetUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html) API request to retrieve and display your user's profile data. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the Standard attributes of your user pool. When your user pool has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
     public var readAttributes: [Swift.String]?
@@ -5698,7 +5778,10 @@ extension CognitoIdentityProviderClientTypes {
         ///
         /// * ENABLED - This prevents user existence-related errors.
         ///
-        /// * LEGACY - This represents the old behavior of Amazon Cognito where user existence related errors aren't prevented.
+        /// * LEGACY - This represents the early behavior of Amazon Cognito where user existence related errors aren't prevented.
+        ///
+        ///
+        /// Defaults to LEGACY when you don't provide a value.
         public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
         /// The list of user attributes that you want your app client to have read-only access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. An example of this kind of activity is when your user selects a link to view their profile information. Your app makes a [GetUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html) API request to retrieve and display your user's profile data. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the Standard attributes of your user pool. When your user pool has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
         public var readAttributes: [Swift.String]?
@@ -6724,7 +6807,7 @@ public struct GetIdentityProviderByIdentifierOutput {
 }
 
 public struct GetLogDeliveryConfigurationInput {
-    /// The ID of the user pool where you want to view detailed activity logging configuration.
+    /// The ID of the user pool that has the logging configuration that you want to view.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -6737,7 +6820,7 @@ public struct GetLogDeliveryConfigurationInput {
 }
 
 extension CognitoIdentityProviderClientTypes {
-    /// The CloudWatch logging destination of a user pool detailed activity logging configuration.
+    /// Configuration for the CloudWatch log group destination of user pool detailed activity logging, or of user activity log export with advanced security features.
     public struct CloudWatchLogsConfigurationType {
         /// The Amazon Resource Name (arn) of a CloudWatch Logs log group where your user pool sends logs. The log group must not be encrypted with Key Management Service and must be in the same Amazon Web Services account as your user pool. To send logs to log groups with a resource policy of a size greater than 5120 characters, configure a log group with a path that starts with /aws/vendedlogs. For more information, see [Enabling logging from certain Amazon Web Services services](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html).
         public var logGroupArn: Swift.String?
@@ -6755,11 +6838,13 @@ extension CognitoIdentityProviderClientTypes {
 extension CognitoIdentityProviderClientTypes {
 
     public enum EventSourceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case userAuthEvents
         case userNotification
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventSourceName] {
             return [
+                .userAuthEvents,
                 .userNotification
             ]
         }
@@ -6771,6 +6856,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .userAuthEvents: return "userAuthEvents"
             case .userNotification: return "userNotification"
             case let .sdkUnknown(s): return s
             }
@@ -6779,14 +6865,32 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 extension CognitoIdentityProviderClientTypes {
+    /// Configuration for the Amazon Data Firehose stream destination of user activity log export with advanced security features.
+    public struct FirehoseConfigurationType {
+        /// The ARN of an Amazon Data Firehose stream that's the destination for advanced security features log export.
+        public var streamArn: Swift.String?
+
+        public init(
+            streamArn: Swift.String? = nil
+        )
+        {
+            self.streamArn = streamArn
+        }
+    }
+
+}
+
+extension CognitoIdentityProviderClientTypes {
 
     public enum LogLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case error
+        case info
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogLevel] {
             return [
-                .error
+                .error,
+                .info
             ]
         }
 
@@ -6798,6 +6902,7 @@ extension CognitoIdentityProviderClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .error: return "ERROR"
+            case .info: return "INFO"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6805,26 +6910,16 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 extension CognitoIdentityProviderClientTypes {
-    /// The logging parameters of a user pool.
-    public struct LogConfigurationType {
-        /// The CloudWatch logging destination of a user pool.
-        public var cloudWatchLogsConfiguration: CognitoIdentityProviderClientTypes.CloudWatchLogsConfigurationType?
-        /// The source of events that your user pool sends for detailed activity logging.
-        /// This member is required.
-        public var eventSource: CognitoIdentityProviderClientTypes.EventSourceName?
-        /// The errorlevel selection of logs that a user pool sends for detailed activity logging.
-        /// This member is required.
-        public var logLevel: CognitoIdentityProviderClientTypes.LogLevel?
+    /// Configuration for the Amazon S3 bucket destination of user activity log export with advanced security features.
+    public struct S3ConfigurationType {
+        /// The ARN of an Amazon S3 bucket that's the destination for advanced security features log export.
+        public var bucketArn: Swift.String?
 
         public init(
-            cloudWatchLogsConfiguration: CognitoIdentityProviderClientTypes.CloudWatchLogsConfigurationType? = nil,
-            eventSource: CognitoIdentityProviderClientTypes.EventSourceName? = nil,
-            logLevel: CognitoIdentityProviderClientTypes.LogLevel? = nil
+            bucketArn: Swift.String? = nil
         )
         {
-            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
-            self.eventSource = eventSource
-            self.logLevel = logLevel
+            self.bucketArn = bucketArn
         }
     }
 
@@ -6832,11 +6927,45 @@ extension CognitoIdentityProviderClientTypes {
 
 extension CognitoIdentityProviderClientTypes {
     /// The logging parameters of a user pool.
+    public struct LogConfigurationType {
+        /// The CloudWatch log group destination of user pool detailed activity logs, or of user activity log export with advanced security features.
+        public var cloudWatchLogsConfiguration: CognitoIdentityProviderClientTypes.CloudWatchLogsConfigurationType?
+        /// The source of events that your user pool sends for logging. To send error-level logs about user notification activity, set to userNotification. To send info-level logs about advanced security features user activity, set to userAuthEvents.
+        /// This member is required.
+        public var eventSource: CognitoIdentityProviderClientTypes.EventSourceName?
+        /// The Amazon Data Firehose stream destination of user activity log export with advanced security features. To activate this setting, [ advanced security features](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html) must be active in your user pool.
+        public var firehoseConfiguration: CognitoIdentityProviderClientTypes.FirehoseConfigurationType?
+        /// The errorlevel selection of logs that a user pool sends for detailed activity logging. To send userNotification activity with [information about message delivery](https://docs.aws.amazon.com/cognito/latest/developerguide/tracking-quotas-and-usage-in-cloud-watch-logs.html), choose ERROR with CloudWatchLogsConfiguration. To send userAuthEvents activity with user logs from advanced security features, choose INFO with one of CloudWatchLogsConfiguration, FirehoseConfiguration, or S3Configuration.
+        /// This member is required.
+        public var logLevel: CognitoIdentityProviderClientTypes.LogLevel?
+        /// The Amazon S3 bucket destination of user activity log export with advanced security features. To activate this setting, [ advanced security features](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html) must be active in your user pool.
+        public var s3Configuration: CognitoIdentityProviderClientTypes.S3ConfigurationType?
+
+        public init(
+            cloudWatchLogsConfiguration: CognitoIdentityProviderClientTypes.CloudWatchLogsConfigurationType? = nil,
+            eventSource: CognitoIdentityProviderClientTypes.EventSourceName? = nil,
+            firehoseConfiguration: CognitoIdentityProviderClientTypes.FirehoseConfigurationType? = nil,
+            logLevel: CognitoIdentityProviderClientTypes.LogLevel? = nil,
+            s3Configuration: CognitoIdentityProviderClientTypes.S3ConfigurationType? = nil
+        )
+        {
+            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
+            self.eventSource = eventSource
+            self.firehoseConfiguration = firehoseConfiguration
+            self.logLevel = logLevel
+            self.s3Configuration = s3Configuration
+        }
+    }
+
+}
+
+extension CognitoIdentityProviderClientTypes {
+    /// The logging parameters of a user pool returned in response to GetLogDeliveryConfiguration.
     public struct LogDeliveryConfigurationType {
-        /// The detailed activity logging destination of a user pool.
+        /// A logging destination of a user pool. User pools can have multiple logging destinations for message-delivery and user-activity logs.
         /// This member is required.
         public var logConfigurations: [CognitoIdentityProviderClientTypes.LogConfigurationType]?
-        /// The ID of the user pool where you configured detailed activity logging.
+        /// The ID of the user pool where you configured logging.
         /// This member is required.
         public var userPoolId: Swift.String?
 
@@ -6853,7 +6982,7 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 public struct GetLogDeliveryConfigurationOutput {
-    /// The detailed activity logging configuration of the requested user pool.
+    /// The logging configuration of the requested user pool.
     public var logDeliveryConfiguration: CognitoIdentityProviderClientTypes.LogDeliveryConfigurationType?
 
     public init(
@@ -8071,10 +8200,10 @@ public struct RevokeTokenOutput {
 }
 
 public struct SetLogDeliveryConfigurationInput {
-    /// A collection of all of the detailed activity logging configurations for a user pool.
+    /// A collection of the logging configurations for a user pool.
     /// This member is required.
     public var logConfigurations: [CognitoIdentityProviderClientTypes.LogConfigurationType]?
-    /// The ID of the user pool where you want to configure detailed activity logging .
+    /// The ID of the user pool where you want to configure logging.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -8374,7 +8503,7 @@ public struct SignUpOutput {
     /// A response from the server indicating that a user registration has been confirmed.
     /// This member is required.
     public var userConfirmed: Swift.Bool
-    /// The UUID of the authenticated user. This isn't the same as username.
+    /// The 128-bit ID of the authenticated user. This isn't the same as username.
     /// This member is required.
     public var userSub: Swift.String?
 
@@ -8927,6 +9056,9 @@ public struct UpdateUserPoolClientInput {
     /// * ENABLED - This prevents user existence-related errors.
     ///
     /// * LEGACY - This represents the early behavior of Amazon Cognito where user existence related errors aren't prevented.
+    ///
+    ///
+    /// Defaults to LEGACY when you don't provide a value.
     public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
     /// The list of user attributes that you want your app client to have read-only access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. An example of this kind of activity is when your user selects a link to view their profile information. Your app makes a [GetUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html) API request to retrieve and display your user's profile data. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the Standard attributes of your user pool. When your user pool has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
     public var readAttributes: [Swift.String]?
@@ -12525,6 +12657,7 @@ enum AdminRespondToAuthChallengeOutputError {
             case "InvalidUserPoolConfigurationException": return try InvalidUserPoolConfigurationException.makeError(baseError: baseError)
             case "MFAMethodNotFoundException": return try MFAMethodNotFoundException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PasswordHistoryPolicyViolationException": return try PasswordHistoryPolicyViolationException.makeError(baseError: baseError)
             case "PasswordResetRequiredException": return try PasswordResetRequiredException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "SoftwareTokenMFANotFoundException": return try SoftwareTokenMFANotFoundException.makeError(baseError: baseError)
@@ -12570,6 +12703,7 @@ enum AdminSetUserPasswordOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidPasswordException": return try InvalidPasswordException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PasswordHistoryPolicyViolationException": return try PasswordHistoryPolicyViolationException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UserNotFoundException": return try UserNotFoundException.makeError(baseError: baseError)
@@ -12715,6 +12849,7 @@ enum ChangePasswordOutputError {
             case "InvalidPasswordException": return try InvalidPasswordException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PasswordHistoryPolicyViolationException": return try PasswordHistoryPolicyViolationException.makeError(baseError: baseError)
             case "PasswordResetRequiredException": return try PasswordResetRequiredException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -12768,6 +12903,7 @@ enum ConfirmForgotPasswordOutputError {
             case "InvalidPasswordException": return try InvalidPasswordException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PasswordHistoryPolicyViolationException": return try PasswordHistoryPolicyViolationException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyFailedAttemptsException": return try TooManyFailedAttemptsException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -13762,6 +13898,7 @@ enum RespondToAuthChallengeOutputError {
             case "InvalidUserPoolConfigurationException": return try InvalidUserPoolConfigurationException.makeError(baseError: baseError)
             case "MFAMethodNotFoundException": return try MFAMethodNotFoundException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "PasswordHistoryPolicyViolationException": return try PasswordHistoryPolicyViolationException.makeError(baseError: baseError)
             case "PasswordResetRequiredException": return try PasswordResetRequiredException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "SoftwareTokenMFANotFoundException": return try SoftwareTokenMFANotFoundException.makeError(baseError: baseError)
@@ -14628,6 +14765,19 @@ extension CodeMismatchException {
     }
 }
 
+extension PasswordHistoryPolicyViolationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PasswordHistoryPolicyViolationException {
+        let reader = baseError.errorBodyReader
+        var value = PasswordHistoryPolicyViolationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension SoftwareTokenMFANotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SoftwareTokenMFANotFoundException {
@@ -15131,6 +15281,7 @@ extension CognitoIdentityProviderClientTypes.UserPoolAddOnsType {
 
     static func write(value: CognitoIdentityProviderClientTypes.UserPoolAddOnsType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdvancedSecurityAdditionalFlows"].write(value.advancedSecurityAdditionalFlows, with: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType.write(value:to:))
         try writer["AdvancedSecurityMode"].write(value.advancedSecurityMode)
     }
 
@@ -15138,6 +15289,22 @@ extension CognitoIdentityProviderClientTypes.UserPoolAddOnsType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.UserPoolAddOnsType()
         value.advancedSecurityMode = try reader["AdvancedSecurityMode"].readIfPresent()
+        value.advancedSecurityAdditionalFlows = try reader["AdvancedSecurityAdditionalFlows"].readIfPresent(with: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType.read(from:))
+        return value
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType {
+
+    static func write(value: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomAuthMode"].write(value.customAuthMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType()
+        value.customAuthMode = try reader["CustomAuthMode"].readIfPresent()
         return value
     }
 }
@@ -15452,6 +15619,7 @@ extension CognitoIdentityProviderClientTypes.PasswordPolicyType {
     static func write(value: CognitoIdentityProviderClientTypes.PasswordPolicyType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["MinimumLength"].write(value.minimumLength)
+        try writer["PasswordHistorySize"].write(value.passwordHistorySize)
         try writer["RequireLowercase"].write(value.requireLowercase)
         try writer["RequireNumbers"].write(value.requireNumbers)
         try writer["RequireSymbols"].write(value.requireSymbols)
@@ -15467,6 +15635,7 @@ extension CognitoIdentityProviderClientTypes.PasswordPolicyType {
         value.requireLowercase = try reader["RequireLowercase"].readIfPresent() ?? false
         value.requireNumbers = try reader["RequireNumbers"].readIfPresent() ?? false
         value.requireSymbols = try reader["RequireSymbols"].readIfPresent() ?? false
+        value.passwordHistorySize = try reader["PasswordHistorySize"].readIfPresent()
         value.temporaryPasswordValidityDays = try reader["TemporaryPasswordValidityDays"].readIfPresent() ?? 0
         return value
     }
@@ -15770,7 +15939,9 @@ extension CognitoIdentityProviderClientTypes.LogConfigurationType {
         guard let value else { return }
         try writer["CloudWatchLogsConfiguration"].write(value.cloudWatchLogsConfiguration, with: CognitoIdentityProviderClientTypes.CloudWatchLogsConfigurationType.write(value:to:))
         try writer["EventSource"].write(value.eventSource)
+        try writer["FirehoseConfiguration"].write(value.firehoseConfiguration, with: CognitoIdentityProviderClientTypes.FirehoseConfigurationType.write(value:to:))
         try writer["LogLevel"].write(value.logLevel)
+        try writer["S3Configuration"].write(value.s3Configuration, with: CognitoIdentityProviderClientTypes.S3ConfigurationType.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.LogConfigurationType {
@@ -15779,6 +15950,38 @@ extension CognitoIdentityProviderClientTypes.LogConfigurationType {
         value.logLevel = try reader["LogLevel"].readIfPresent()
         value.eventSource = try reader["EventSource"].readIfPresent()
         value.cloudWatchLogsConfiguration = try reader["CloudWatchLogsConfiguration"].readIfPresent(with: CognitoIdentityProviderClientTypes.CloudWatchLogsConfigurationType.read(from:))
+        value.s3Configuration = try reader["S3Configuration"].readIfPresent(with: CognitoIdentityProviderClientTypes.S3ConfigurationType.read(from:))
+        value.firehoseConfiguration = try reader["FirehoseConfiguration"].readIfPresent(with: CognitoIdentityProviderClientTypes.FirehoseConfigurationType.read(from:))
+        return value
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.FirehoseConfigurationType {
+
+    static func write(value: CognitoIdentityProviderClientTypes.FirehoseConfigurationType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StreamArn"].write(value.streamArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.FirehoseConfigurationType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityProviderClientTypes.FirehoseConfigurationType()
+        value.streamArn = try reader["StreamArn"].readIfPresent()
+        return value
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.S3ConfigurationType {
+
+    static func write(value: CognitoIdentityProviderClientTypes.S3ConfigurationType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketArn"].write(value.bucketArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.S3ConfigurationType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityProviderClientTypes.S3ConfigurationType()
+        value.bucketArn = try reader["BucketArn"].readIfPresent()
         return value
     }
 }

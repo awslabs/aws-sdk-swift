@@ -234,7 +234,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGatewayRouteInput, CreateGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -313,7 +313,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateMeshInput, CreateMeshOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -391,7 +391,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRouteInput, CreateRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -470,7 +470,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVirtualGatewayInput, CreateVirtualGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -549,7 +549,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVirtualNodeInput, CreateVirtualNodeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -628,7 +628,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVirtualRouterInput, CreateVirtualRouterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -707,7 +707,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVirtualServiceInput, CreateVirtualServiceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -785,7 +785,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGatewayRouteInput, DeleteGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -859,7 +859,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMeshInput, DeleteMeshOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -932,7 +932,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRouteInput, DeleteRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1006,7 +1006,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVirtualGatewayInput, DeleteVirtualGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1080,7 +1080,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVirtualNodeInput, DeleteVirtualNodeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1154,7 +1154,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVirtualRouterInput, DeleteVirtualRouterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1228,7 +1228,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVirtualServiceInput, DeleteVirtualServiceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1301,7 +1301,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeGatewayRouteInput, DescribeGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1374,7 +1374,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMeshInput, DescribeMeshOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1447,7 +1447,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRouteInput, DescribeRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1520,7 +1520,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVirtualGatewayInput, DescribeVirtualGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1593,7 +1593,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVirtualNodeInput, DescribeVirtualNodeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1666,7 +1666,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVirtualRouterInput, DescribeVirtualRouterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1739,7 +1739,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVirtualServiceInput, DescribeVirtualServiceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1812,7 +1812,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGatewayRoutesInput, ListGatewayRoutesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1885,7 +1885,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListMeshesInput, ListMeshesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1958,7 +1958,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRoutesInput, ListRoutesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2031,7 +2031,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2104,7 +2104,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVirtualGatewaysInput, ListVirtualGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2177,7 +2177,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVirtualNodesInput, ListVirtualNodesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2250,7 +2250,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVirtualRoutersInput, ListVirtualRoutersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2323,7 +2323,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListVirtualServicesInput, ListVirtualServicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2397,7 +2397,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2473,7 +2473,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2551,7 +2551,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGatewayRouteInput, UpdateGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2629,7 +2629,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateMeshInput, UpdateMeshOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2707,7 +2707,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateRouteInput, UpdateRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2786,7 +2786,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVirtualGatewayInput, UpdateVirtualGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2865,7 +2865,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVirtualNodeInput, UpdateVirtualNodeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2944,7 +2944,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVirtualRouterInput, UpdateVirtualRouterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3023,7 +3023,7 @@ extension AppMeshClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateVirtualServiceInput, UpdateVirtualServiceOutput> = provider.create()
             builder.interceptors.add(i)
         }

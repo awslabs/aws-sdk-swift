@@ -203,7 +203,11 @@ public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-/// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+/// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+///
+/// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+///
+/// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
 public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1314,7 +1318,7 @@ public struct CreateEventSourceMappingInput {
     public var functionName: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
@@ -2174,7 +2178,7 @@ public struct CreateFunctionInput {
     /// The Amazon Resource Name (ARN) of the function's execution role.
     /// This member is required.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
@@ -2800,7 +2804,7 @@ public struct CreateFunctionOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -3777,7 +3781,7 @@ extension LambdaClientTypes {
         public var revisionId: Swift.String?
         /// The function's execution role.
         public var role: Swift.String?
-        /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+        /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
         public var runtime: LambdaClientTypes.Runtime?
         /// The ARN of the runtime and any errors that occured.
         public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -4065,7 +4069,7 @@ public struct GetFunctionConfigurationOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -4230,6 +4234,60 @@ public struct GetFunctionEventInvokeConfigOutput {
     }
 }
 
+public struct GetFunctionRecursionConfigInput {
+    ///
+    /// This member is required.
+    public var functionName: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil
+    )
+    {
+        self.functionName = functionName
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum RecursiveLoop: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case terminate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecursiveLoop] {
+            return [
+                .allow,
+                .terminate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "Allow"
+            case .terminate: return "Terminate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetFunctionRecursionConfigOutput {
+    /// If your function's recursive loop detection configuration is Allow, Lambda doesn't take any action when it detects your function being invoked as part of a recursive loop. If your function's recursive loop detection configuration is Terminate, Lambda stops your function being invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate. You can update this configuration using the [PutFunctionRecursionConfig] action.
+    public var recursiveLoop: LambdaClientTypes.RecursiveLoop?
+
+    public init(
+        recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
+    )
+    {
+        self.recursiveLoop = recursiveLoop
+    }
+}
+
 public struct GetFunctionUrlConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -4354,7 +4412,7 @@ extension LambdaClientTypes {
 public struct GetLayerVersionOutput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// Details about the layer version.
     public var content: LambdaClientTypes.LayerVersionContentOutput?
@@ -4411,7 +4469,7 @@ public struct GetLayerVersionByArnInput {
 public struct GetLayerVersionByArnOutput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// Details about the layer version.
     public var content: LambdaClientTypes.LayerVersionContentOutput?
@@ -6311,7 +6369,7 @@ public struct ListFunctionUrlConfigsOutput {
 public struct ListLayersInput {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// A runtime identifier. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntime: LambdaClientTypes.Runtime?
     /// A pagination token returned by a previous call.
     public var marker: Swift.String?
@@ -6337,7 +6395,7 @@ extension LambdaClientTypes {
     public struct LayerVersionsListItem {
         /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
         public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
         public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
         /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000.
         public var createdDate: Swift.String?
@@ -6415,7 +6473,7 @@ public struct ListLayersOutput {
 public struct ListLayerVersionsInput {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// A runtime identifier. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntime: LambdaClientTypes.Runtime?
     /// The name or Amazon Resource Name (ARN) of the layer.
     /// This member is required.
@@ -6690,7 +6748,7 @@ public struct PublishLayerVersionInput {
 public struct PublishLayerVersionOutput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// Details about the layer version.
     public var content: LambdaClientTypes.LayerVersionContentOutput?
@@ -6815,7 +6873,7 @@ public struct PublishVersionOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -7090,6 +7148,45 @@ public struct PutFunctionEventInvokeConfigOutput {
         self.lastModified = lastModified
         self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+    }
+}
+
+public struct PutFunctionRecursionConfigInput {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name – my-function.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// If you set your function's recursive loop detection configuration to Allow, Lambda doesn't take any action when it detects your function being invoked as part of a recursive loop. We recommend that you only use this setting if your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes it. If you set your function's recursive loop detection configuration to Terminate, Lambda stops your function being invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate. If your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes the function, then use caution and implement suitable guard rails to prevent unexpected charges being billed to your Amazon Web Services account. To learn more about best practices for using recursive invocation patterns, see [Recursive patterns that cause run-away Lambda functions](https://serverlessland.com/content/service/lambda/guides/aws-lambda-operator-guide/recursive-runaway) in Serverless Land.
+    /// This member is required.
+    public var recursiveLoop: LambdaClientTypes.RecursiveLoop?
+
+    public init(
+        functionName: Swift.String? = nil,
+        recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
+    )
+    {
+        self.functionName = functionName
+        self.recursiveLoop = recursiveLoop
+    }
+}
+
+public struct PutFunctionRecursionConfigOutput {
+    /// The status of your function's recursive loop detection configuration. When this value is set to Allowand Lambda detects your function being invoked as part of a recursive loop, it doesn't take any action. When this value is set to Terminate and Lambda detects your function being invoked as part of a recursive loop, it stops your function being invoked and notifies you.
+    public var recursiveLoop: LambdaClientTypes.RecursiveLoop?
+
+    public init(
+        recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
+    )
+    {
+        self.recursiveLoop = recursiveLoop
     }
 }
 
@@ -7474,7 +7571,7 @@ public struct UpdateEventSourceMappingInput {
     public var functionName: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
@@ -7760,7 +7857,7 @@ public struct UpdateFunctionCodeOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -7902,7 +7999,7 @@ public struct UpdateFunctionConfigurationInput {
     public var revisionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
@@ -8007,7 +8104,7 @@ public struct UpdateFunctionConfigurationOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -8661,6 +8758,16 @@ extension GetFunctionEventInvokeConfigInput {
     }
 }
 
+extension GetFunctionRecursionConfigInput {
+
+    static func urlPathProvider(_ value: GetFunctionRecursionConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
+            return nil
+        }
+        return "/2024-08-31/functions/\(functionName.urlPercentEncoding())/recursion-config"
+    }
+}
+
 extension GetFunctionUrlConfigInput {
 
     static func urlPathProvider(_ value: GetFunctionUrlConfigInput) -> Swift.String? {
@@ -9270,6 +9377,16 @@ extension PutFunctionEventInvokeConfigInput {
     }
 }
 
+extension PutFunctionRecursionConfigInput {
+
+    static func urlPathProvider(_ value: PutFunctionRecursionConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
+            return nil
+        }
+        return "/2024-08-31/functions/\(functionName.urlPercentEncoding())/recursion-config"
+    }
+}
+
 extension PutProvisionedConcurrencyConfigInput {
 
     static func urlPathProvider(_ value: PutProvisionedConcurrencyConfigInput) -> Swift.String? {
@@ -9694,6 +9811,14 @@ extension PutFunctionEventInvokeConfigInput {
         try writer["DestinationConfig"].write(value.destinationConfig, with: LambdaClientTypes.DestinationConfig.write(value:to:))
         try writer["MaximumEventAgeInSeconds"].write(value.maximumEventAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
+    }
+}
+
+extension PutFunctionRecursionConfigInput {
+
+    static func write(value: PutFunctionRecursionConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecursiveLoop"].write(value.recursiveLoop)
     }
 }
 
@@ -10266,6 +10391,18 @@ extension GetFunctionEventInvokeConfigOutput {
     }
 }
 
+extension GetFunctionRecursionConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFunctionRecursionConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFunctionRecursionConfigOutput()
+        value.recursiveLoop = try reader["RecursiveLoop"].readIfPresent()
+        return value
+    }
+}
+
 extension GetFunctionUrlConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFunctionUrlConfigOutput {
@@ -10695,6 +10832,18 @@ extension PutFunctionEventInvokeConfigOutput {
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        return value
+    }
+}
+
+extension PutFunctionRecursionConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutFunctionRecursionConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutFunctionRecursionConfigOutput()
+        value.recursiveLoop = try reader["RecursiveLoop"].readIfPresent()
         return value
     }
 }
@@ -11410,6 +11559,23 @@ enum GetFunctionEventInvokeConfigOutputError {
     }
 }
 
+enum GetFunctionRecursionConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFunctionUrlConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11909,6 +12075,24 @@ enum PutFunctionConcurrencyOutputError {
 }
 
 enum PutFunctionEventInvokeConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutFunctionRecursionConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

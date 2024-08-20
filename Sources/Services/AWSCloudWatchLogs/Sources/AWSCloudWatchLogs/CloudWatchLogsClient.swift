@@ -237,7 +237,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateKmsKeyInput, AssociateKmsKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -311,7 +311,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelExportTaskInput, CancelExportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -399,7 +399,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDeliveryInput, CreateDeliveryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -475,7 +475,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateExportTaskInput, CreateExportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -550,7 +550,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLogAnomalyDetectorInput, CreateLogAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -636,7 +636,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLogGroupInput, CreateLogGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -716,7 +716,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLogStreamInput, CreateLogStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -794,7 +794,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccountPolicyInput, DeleteAccountPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -868,7 +868,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDataProtectionPolicyInput, DeleteDataProtectionPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -944,7 +944,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDeliveryInput, DeleteDeliveryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1020,7 +1020,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDeliveryDestinationInput, DeleteDeliveryDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1094,7 +1094,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDeliveryDestinationPolicyInput, DeleteDeliveryDestinationPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1170,7 +1170,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDeliverySourceInput, DeleteDeliverySourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1244,7 +1244,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDestinationInput, DeleteDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1318,7 +1318,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLogAnomalyDetectorInput, DeleteLogAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1392,7 +1392,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLogGroupInput, DeleteLogGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1466,7 +1466,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLogStreamInput, DeleteLogStreamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1540,7 +1540,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMetricFilterInput, DeleteMetricFilterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1613,7 +1613,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteQueryDefinitionInput, DeleteQueryDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1686,7 +1686,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteResourcePolicyInput, DeleteResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1760,7 +1760,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1834,7 +1834,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSubscriptionFilterInput, DeleteSubscriptionFilterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1908,7 +1908,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountPoliciesInput, DescribeAccountPoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1982,7 +1982,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDeliveriesInput, DescribeDeliveriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2056,7 +2056,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDeliveryDestinationsInput, DescribeDeliveryDestinationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2130,7 +2130,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDeliverySourcesInput, DescribeDeliverySourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2202,7 +2202,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDestinationsInput, DescribeDestinationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2274,7 +2274,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeExportTasksInput, DescribeExportTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2346,7 +2346,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLogGroupsInput, DescribeLogGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2419,7 +2419,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLogStreamsInput, DescribeLogStreamsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2492,7 +2492,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMetricFiltersInput, DescribeMetricFiltersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2565,7 +2565,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeQueriesInput, DescribeQueriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2637,7 +2637,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeQueryDefinitionsInput, DescribeQueryDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2709,7 +2709,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeResourcePoliciesInput, DescribeResourcePoliciesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2782,7 +2782,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2863,7 +2863,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateKmsKeyInput, DisassociateKmsKeyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2936,7 +2936,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<FilterLogEventsInput, FilterLogEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3010,7 +3010,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3085,7 +3085,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeliveryInput, GetDeliveryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3160,7 +3160,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeliveryDestinationInput, GetDeliveryDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3233,7 +3233,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeliveryDestinationPolicyInput, GetDeliveryDestinationPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3308,7 +3308,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDeliverySourceInput, GetDeliverySourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3382,7 +3382,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLogAnomalyDetectorInput, GetLogAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3455,7 +3455,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLogEventsInput, GetLogEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3529,7 +3529,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLogGroupFieldsInput, GetLogGroupFieldsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3603,7 +3603,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLogRecordInput, GetLogRecordOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3676,7 +3676,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetQueryResultsInput, GetQueryResultsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3750,7 +3750,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAnomaliesInput, ListAnomaliesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3824,7 +3824,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLogAnomalyDetectorsInput, ListLogAnomalyDetectorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3897,7 +3897,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3970,7 +3970,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsLogGroupInput, ListTagsLogGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4055,7 +4055,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutAccountPolicyInput, PutAccountPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4130,7 +4130,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4217,7 +4217,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutDeliveryDestinationInput, PutDeliveryDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4302,7 +4302,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutDeliveryDestinationPolicyInput, PutDeliveryDestinationPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4389,7 +4389,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutDeliverySourceInput, PutDeliverySourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4462,7 +4462,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutDestinationInput, PutDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4535,7 +4535,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutDestinationPolicyInput, PutDestinationPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4630,7 +4630,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutLogEventsInput, PutLogEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4705,7 +4705,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutMetricFilterInput, PutMetricFilterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4779,7 +4779,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutQueryDefinitionInput, PutQueryDefinitionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4853,7 +4853,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutResourcePolicyInput, PutResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4927,7 +4927,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRetentionPolicyInput, PutRetentionPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5013,7 +5013,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutSubscriptionFilterInput, PutSubscriptionFilterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5099,7 +5099,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartLiveTailInput, StartLiveTailOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5174,7 +5174,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartQueryInput, StartQueryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5247,7 +5247,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopQueryInput, StopQueryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5320,7 +5320,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagLogGroupInput, TagLogGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5394,7 +5394,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5466,7 +5466,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestMetricFilterInput, TestMetricFilterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5538,7 +5538,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagLogGroupInput, UntagLogGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5611,7 +5611,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5685,7 +5685,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateAnomalyInput, UpdateAnomalyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5759,7 +5759,7 @@ extension CloudWatchLogsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLogAnomalyDetectorInput, UpdateLogAnomalyDetectorOutput> = provider.create()
             builder.interceptors.add(i)
         }

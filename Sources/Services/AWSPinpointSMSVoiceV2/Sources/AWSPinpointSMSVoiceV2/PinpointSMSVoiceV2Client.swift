@@ -234,7 +234,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -311,7 +311,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -387,7 +387,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateConfigurationSetInput, CreateConfigurationSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -465,7 +465,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEventDestinationInput, CreateEventDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -542,7 +542,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateOptOutListInput, CreateOptOutListOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -620,7 +620,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePoolInput, CreatePoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -696,7 +696,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateProtectConfigurationInput, CreateProtectConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -773,7 +773,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRegistrationInput, CreateRegistrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -851,7 +851,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -927,7 +927,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1005,7 +1005,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRegistrationVersionInput, CreateRegistrationVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1081,7 +1081,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1157,7 +1157,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1232,7 +1232,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteConfigurationSetInput, DeleteConfigurationSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1307,7 +1307,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1382,7 +1382,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1457,7 +1457,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEventDestinationInput, DeleteEventDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1533,7 +1533,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteKeywordInput, DeleteKeywordOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1607,7 +1607,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1683,7 +1683,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteOptOutListInput, DeleteOptOutListOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1759,7 +1759,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1835,7 +1835,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePoolInput, DeletePoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1911,7 +1911,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1987,7 +1987,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRegistrationInput, DeleteRegistrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2063,7 +2063,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2139,7 +2139,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2213,7 +2213,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2289,7 +2289,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2363,7 +2363,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2437,7 +2437,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountAttributesInput, DescribeAccountAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2511,7 +2511,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2586,7 +2586,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2661,7 +2661,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeKeywordsInput, DescribeKeywordsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2736,7 +2736,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOptOutListsInput, DescribeOptOutListsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2811,7 +2811,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2886,7 +2886,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePhoneNumbersInput, DescribePhoneNumbersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2961,7 +2961,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePoolsInput, DescribePoolsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3036,7 +3036,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3111,7 +3111,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3185,7 +3185,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3260,7 +3260,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3334,7 +3334,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3408,7 +3408,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3483,7 +3483,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3558,7 +3558,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRegistrationsInput, DescribeRegistrationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3633,7 +3633,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSenderIdsInput, DescribeSenderIdsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3707,7 +3707,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSpendLimitsInput, DescribeSpendLimitsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3782,7 +3782,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3858,7 +3858,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3935,7 +3935,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4011,7 +4011,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4086,7 +4086,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4161,7 +4161,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4236,7 +4236,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4311,7 +4311,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4388,7 +4388,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutKeywordInput, PutKeywordOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4463,7 +4463,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutOptedOutNumberInput, PutOptedOutNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4539,7 +4539,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4615,7 +4615,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReleasePhoneNumberInput, ReleasePhoneNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4691,7 +4691,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReleaseSenderIdInput, ReleaseSenderIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4768,7 +4768,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RequestPhoneNumberInput, RequestPhoneNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4845,7 +4845,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RequestSenderIdInput, RequestSenderIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4923,7 +4923,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5000,7 +5000,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendMediaMessageInput, SendMediaMessageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5077,7 +5077,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendTextMessageInput, SendTextMessageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5154,7 +5154,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendVoiceMessageInput, SendVoiceMessageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5229,7 +5229,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5304,7 +5304,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5379,7 +5379,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetDefaultSenderIdInput, SetDefaultSenderIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5453,7 +5453,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5527,7 +5527,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5601,7 +5601,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5677,7 +5677,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5753,7 +5753,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5828,7 +5828,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5904,7 +5904,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEventDestinationInput, UpdateEventDestinationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5980,7 +5980,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePhoneNumberInput, UpdatePhoneNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6056,7 +6056,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePoolInput, UpdatePoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6131,7 +6131,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6206,7 +6206,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6281,7 +6281,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSenderIdInput, UpdateSenderIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6357,7 +6357,7 @@ extension PinpointSMSVoiceV2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<VerifyDestinationNumberInput, VerifyDestinationNumberOutput> = provider.create()
             builder.interceptors.add(i)
         }

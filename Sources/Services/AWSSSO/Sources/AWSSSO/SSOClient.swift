@@ -224,7 +224,7 @@ extension SSOClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetRoleCredentialsInput, GetRoleCredentialsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -294,7 +294,7 @@ extension SSOClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccountRolesInput, ListAccountRolesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -364,7 +364,7 @@ extension SSOClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAccountsInput, ListAccountsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -433,7 +433,7 @@ extension SSOClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<LogoutInput, LogoutOutput> = provider.create()
             builder.interceptors.add(i)
         }

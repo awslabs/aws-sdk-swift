@@ -231,7 +231,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDetectDominantLanguageInput, BatchDetectDominantLanguageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -306,7 +306,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDetectEntitiesInput, BatchDetectEntitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -381,7 +381,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDetectKeyPhrasesInput, BatchDetectKeyPhrasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -456,7 +456,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDetectSentimentInput, BatchDetectSentimentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -531,7 +531,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDetectSyntaxInput, BatchDetectSyntaxOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -606,7 +606,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDetectTargetedSentimentInput, BatchDetectTargetedSentimentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -687,7 +687,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ClassifyDocumentInput, ClassifyDocumentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -761,7 +761,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ContainsPiiEntitiesInput, ContainsPiiEntitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -838,7 +838,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDatasetInput, CreateDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -917,7 +917,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDocumentClassifierInput, CreateDocumentClassifierOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -996,7 +996,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEndpointInput, CreateEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1075,7 +1075,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEntityRecognizerInput, CreateEntityRecognizerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1156,7 +1156,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFlywheelInput, CreateFlywheelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1233,7 +1233,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDocumentClassifierInput, DeleteDocumentClassifierOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1308,7 +1308,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEndpointInput, DeleteEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1384,7 +1384,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEntityRecognizerInput, DeleteEntityRecognizerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1460,7 +1460,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFlywheelInput, DeleteFlywheelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1533,7 +1533,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteResourcePolicyInput, DeleteResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1607,7 +1607,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDatasetInput, DescribeDatasetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1681,7 +1681,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDocumentClassificationJobInput, DescribeDocumentClassificationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1755,7 +1755,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDocumentClassifierInput, DescribeDocumentClassifierOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1829,7 +1829,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDominantLanguageDetectionJobInput, DescribeDominantLanguageDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1903,7 +1903,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEndpointInput, DescribeEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1977,7 +1977,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEntitiesDetectionJobInput, DescribeEntitiesDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2051,7 +2051,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEntityRecognizerInput, DescribeEntityRecognizerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2125,7 +2125,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEventsDetectionJobInput, DescribeEventsDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2199,7 +2199,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFlywheelInput, DescribeFlywheelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2273,7 +2273,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFlywheelIterationInput, DescribeFlywheelIterationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2347,7 +2347,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeKeyPhrasesDetectionJobInput, DescribeKeyPhrasesDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2421,7 +2421,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePiiEntitiesDetectionJobInput, DescribePiiEntitiesDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2494,7 +2494,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeResourcePolicyInput, DescribeResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2568,7 +2568,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSentimentDetectionJobInput, DescribeSentimentDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2642,7 +2642,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTargetedSentimentDetectionJobInput, DescribeTargetedSentimentDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2716,7 +2716,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTopicsDetectionJobInput, DescribeTopicsDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2789,7 +2789,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectDominantLanguageInput, DetectDominantLanguageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2864,7 +2864,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectEntitiesInput, DetectEntitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2938,7 +2938,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectKeyPhrasesInput, DetectKeyPhrasesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3012,7 +3012,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectPiiEntitiesInput, DetectPiiEntitiesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3086,7 +3086,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectSentimentInput, DetectSentimentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3160,7 +3160,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectSyntaxInput, DetectSyntaxOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3234,7 +3234,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectTargetedSentimentInput, DetectTargetedSentimentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3308,7 +3308,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectToxicContentInput, DetectToxicContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3387,7 +3387,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportModelInput, ImportModelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3462,7 +3462,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDatasetsInput, ListDatasetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3536,7 +3536,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3609,7 +3609,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3683,7 +3683,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDocumentClassifiersInput, ListDocumentClassifiersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3757,7 +3757,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3830,7 +3830,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEndpointsInput, ListEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3904,7 +3904,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3977,7 +3977,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4051,7 +4051,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEntityRecognizersInput, ListEntityRecognizersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4125,7 +4125,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4200,7 +4200,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4274,7 +4274,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFlywheelsInput, ListFlywheelsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4348,7 +4348,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4422,7 +4422,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4496,7 +4496,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4569,7 +4569,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4643,7 +4643,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4717,7 +4717,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4790,7 +4790,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PutResourcePolicyInput, PutResourcePolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4868,7 +4868,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDocumentClassificationJobInput, StartDocumentClassificationJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4945,7 +4945,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartDominantLanguageDetectionJobInput, StartDominantLanguageDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5024,7 +5024,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartEntitiesDetectionJobInput, StartEntitiesDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5101,7 +5101,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartEventsDetectionJobInput, StartEventsDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5177,7 +5177,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartFlywheelIterationInput, StartFlywheelIterationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5253,7 +5253,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartKeyPhrasesDetectionJobInput, StartKeyPhrasesDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5330,7 +5330,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartPiiEntitiesDetectionJobInput, StartPiiEntitiesDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5407,7 +5407,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartSentimentDetectionJobInput, StartSentimentDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5484,7 +5484,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartTargetedSentimentDetectionJobInput, StartTargetedSentimentDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5561,7 +5561,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartTopicsDetectionJobInput, StartTopicsDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5635,7 +5635,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopDominantLanguageDetectionJobInput, StopDominantLanguageDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5708,7 +5708,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopEntitiesDetectionJobInput, StopEntitiesDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5781,7 +5781,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopEventsDetectionJobInput, StopEventsDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5854,7 +5854,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopKeyPhrasesDetectionJobInput, StopKeyPhrasesDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5927,7 +5927,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopPiiEntitiesDetectionJobInput, StopPiiEntitiesDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6000,7 +6000,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopSentimentDetectionJobInput, StopSentimentDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6073,7 +6073,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopTargetedSentimentDetectionJobInput, StopTargetedSentimentDetectionJobOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6147,7 +6147,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopTrainingDocumentClassifierInput, StopTrainingDocumentClassifierOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6221,7 +6221,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopTrainingEntityRecognizerInput, StopTrainingEntityRecognizerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6296,7 +6296,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6371,7 +6371,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6448,7 +6448,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateEndpointInput, UpdateEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6523,7 +6523,7 @@ extension ComprehendClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateFlywheelInput, UpdateFlywheelOutput> = provider.create()
             builder.interceptors.add(i)
         }

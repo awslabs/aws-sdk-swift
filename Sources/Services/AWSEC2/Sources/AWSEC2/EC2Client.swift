@@ -222,7 +222,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptAddressTransferInput, AcceptAddressTransferOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -287,7 +287,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptReservedInstancesExchangeQuoteInput, AcceptReservedInstancesExchangeQuoteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -352,7 +352,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptTransitGatewayMulticastDomainAssociationsInput, AcceptTransitGatewayMulticastDomainAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -417,7 +417,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptTransitGatewayPeeringAttachmentInput, AcceptTransitGatewayPeeringAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -482,7 +482,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptTransitGatewayVpcAttachmentInput, AcceptTransitGatewayVpcAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -547,7 +547,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptVpcEndpointConnectionsInput, AcceptVpcEndpointConnectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -612,7 +612,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptVpcPeeringConnectionInput, AcceptVpcPeeringConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -677,7 +677,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -742,7 +742,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AllocateAddressInput, AllocateAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -807,7 +807,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AllocateHostsInput, AllocateHostsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -872,7 +872,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AllocateIpamPoolCidrInput, AllocateIpamPoolCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -938,7 +938,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ApplySecurityGroupsToClientVpnTargetNetworkInput, ApplySecurityGroupsToClientVpnTargetNetworkOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1003,7 +1003,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssignIpv6AddressesInput, AssignIpv6AddressesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1068,7 +1068,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssignPrivateIpAddressesInput, AssignPrivateIpAddressesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1133,7 +1133,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssignPrivateNatGatewayAddressInput, AssignPrivateNatGatewayAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1198,7 +1198,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateAddressInput, AssociateAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1263,7 +1263,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateClientVpnTargetNetworkInput, AssociateClientVpnTargetNetworkOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1329,7 +1329,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateDhcpOptionsInput, AssociateDhcpOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1394,7 +1394,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateEnclaveCertificateIamRoleInput, AssociateEnclaveCertificateIamRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1459,7 +1459,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateIamInstanceProfileInput, AssociateIamInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1524,7 +1524,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateInstanceEventWindowInput, AssociateInstanceEventWindowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1589,7 +1589,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateIpamByoasnInput, AssociateIpamByoasnOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1654,7 +1654,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateIpamResourceDiscoveryInput, AssociateIpamResourceDiscoveryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1720,7 +1720,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateNatGatewayAddressInput, AssociateNatGatewayAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1785,7 +1785,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateRouteTableInput, AssociateRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1850,7 +1850,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateSubnetCidrBlockInput, AssociateSubnetCidrBlockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1915,7 +1915,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateTransitGatewayMulticastDomainInput, AssociateTransitGatewayMulticastDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1980,7 +1980,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateTransitGatewayPolicyTableInput, AssociateTransitGatewayPolicyTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2045,7 +2045,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateTransitGatewayRouteTableInput, AssociateTransitGatewayRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2110,7 +2110,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateTrunkInterfaceInput, AssociateTrunkInterfaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2176,7 +2176,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateVpcCidrBlockInput, AssociateVpcCidrBlockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2241,7 +2241,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachClassicLinkVpcInput, AttachClassicLinkVpcOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2306,7 +2306,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachInternetGatewayInput, AttachInternetGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2371,7 +2371,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachNetworkInterfaceInput, AttachNetworkInterfaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2436,7 +2436,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachVerifiedAccessTrustProviderInput, AttachVerifiedAccessTrustProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2513,7 +2513,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachVolumeInput, AttachVolumeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2578,7 +2578,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AttachVpnGatewayInput, AttachVpnGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2643,7 +2643,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AuthorizeClientVpnIngressInput, AuthorizeClientVpnIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2709,7 +2709,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AuthorizeSecurityGroupEgressInput, AuthorizeSecurityGroupEgressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2774,7 +2774,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AuthorizeSecurityGroupIngressInput, AuthorizeSecurityGroupIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2839,7 +2839,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BundleInstanceInput, BundleInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2904,7 +2904,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelBundleTaskInput, CancelBundleTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2969,7 +2969,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelCapacityReservationInput, CancelCapacityReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3040,7 +3040,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelCapacityReservationFleetsInput, CancelCapacityReservationFleetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3105,7 +3105,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelConversionTaskInput, CancelConversionTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3170,7 +3170,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelExportTaskInput, CancelExportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3235,7 +3235,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelImageLaunchPermissionInput, CancelImageLaunchPermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3300,7 +3300,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelImportTaskInput, CancelImportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3365,7 +3365,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelReservedInstancesListingInput, CancelReservedInstancesListingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3432,7 +3432,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelSpotFleetRequestsInput, CancelSpotFleetRequestsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3497,7 +3497,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelSpotInstanceRequestsInput, CancelSpotInstanceRequestsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3562,7 +3562,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ConfirmProductInstanceInput, ConfirmProductInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3627,7 +3627,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyFpgaImageInput, CopyFpgaImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3692,7 +3692,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopyImageInput, CopyImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3757,7 +3757,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CopySnapshotInput, CopySnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3822,7 +3822,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCapacityReservationInput, CreateCapacityReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3845,6 +3845,72 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityReservation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateCapacityReservationBySplitting` operation on the `AmazonEC2` service.
+    ///
+    /// Create a new Capacity Reservation by splitting the available capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
+    ///
+    /// - Parameter CreateCapacityReservationBySplittingInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCapacityReservationBySplittingOutput` : [no documentation found]
+    public func createCapacityReservationBySplitting(input: CreateCapacityReservationBySplittingInput) async throws -> CreateCapacityReservationBySplittingOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCapacityReservationBySplitting")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(CreateCapacityReservationBySplittingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityReservationBySplittingOutput>(CreateCapacityReservationBySplittingOutput.httpOutput(from:), CreateCapacityReservationBySplittingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityReservationBySplittingOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateCapacityReservationBySplittingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCapacityReservationBySplittingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCapacityReservationBySplittingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCapacityReservationBySplittingInput, CreateCapacityReservationBySplittingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityReservationBySplitting")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3887,7 +3953,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCapacityReservationFleetInput, CreateCapacityReservationFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3953,7 +4019,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCarrierGatewayInput, CreateCarrierGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4019,7 +4085,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateClientVpnEndpointInput, CreateClientVpnEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4085,7 +4151,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateClientVpnRouteInput, CreateClientVpnRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4151,7 +4217,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCoipCidrInput, CreateCoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4216,7 +4282,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCoipPoolInput, CreateCoipPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4281,7 +4347,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateCustomerGatewayInput, CreateCustomerGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4346,7 +4412,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDefaultSubnetInput, CreateDefaultSubnetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4411,7 +4477,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDefaultVpcInput, CreateDefaultVpcOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4488,7 +4554,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateDhcpOptionsInput, CreateDhcpOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4553,7 +4619,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateEgressOnlyInternetGatewayInput, CreateEgressOnlyInternetGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4618,7 +4684,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFleetInput, CreateFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4683,7 +4749,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFlowLogsInput, CreateFlowLogsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4748,7 +4814,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateFpgaImageInput, CreateFpgaImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4813,7 +4879,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateImageInput, CreateImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4878,7 +4944,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstanceConnectEndpointInput, CreateInstanceConnectEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4951,7 +5017,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstanceEventWindowInput, CreateInstanceEventWindowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5016,7 +5082,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInstanceExportTaskInput, CreateInstanceExportTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5081,7 +5147,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateInternetGatewayInput, CreateInternetGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5146,7 +5212,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIpamInput, CreateIpamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5176,6 +5242,75 @@ extension EC2Client {
                 metricsAttributes: metricsAttributes,
                 meterScope: serviceName,
                 tracerScope: serviceName
+<<<<<<< HEAD
+=======
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateIpamExternalResourceVerificationToken` operation on the `AmazonEC2` service.
+    ///
+    /// Create a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
+    ///
+    /// - Parameter CreateIpamExternalResourceVerificationTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIpamExternalResourceVerificationTokenOutput` : [no documentation found]
+    public func createIpamExternalResourceVerificationToken(input: CreateIpamExternalResourceVerificationTokenInput) async throws -> CreateIpamExternalResourceVerificationTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createIpamExternalResourceVerificationToken")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(CreateIpamExternalResourceVerificationTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpamExternalResourceVerificationTokenOutput>(CreateIpamExternalResourceVerificationTokenOutput.httpOutput(from:), CreateIpamExternalResourceVerificationTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpamExternalResourceVerificationTokenOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateIpamExternalResourceVerificationTokenOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIpamExternalResourceVerificationTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIpamExternalResourceVerificationTokenInput, CreateIpamExternalResourceVerificationTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpamExternalResourceVerificationToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+>>>>>>> main
             ))
             .executeRequest(client)
             .build()
@@ -5212,7 +5347,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIpamPoolInput, CreateIpamPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5278,7 +5413,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIpamResourceDiscoveryInput, CreateIpamResourceDiscoveryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5344,7 +5479,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIpamScopeInput, CreateIpamScopeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5410,7 +5545,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateKeyPairInput, CreateKeyPairOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5475,7 +5610,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLaunchTemplateInput, CreateLaunchTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5540,7 +5675,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLaunchTemplateVersionInput, CreateLaunchTemplateVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5609,7 +5744,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLocalGatewayRouteInput, CreateLocalGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5674,7 +5809,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLocalGatewayRouteTableInput, CreateLocalGatewayRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5739,7 +5874,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput, CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5804,7 +5939,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLocalGatewayRouteTableVpcAssociationInput, CreateLocalGatewayRouteTableVpcAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5869,7 +6004,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateManagedPrefixListInput, CreateManagedPrefixListOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5935,7 +6070,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNatGatewayInput, CreateNatGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6001,7 +6136,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNetworkAclInput, CreateNetworkAclOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6067,7 +6202,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNetworkAclEntryInput, CreateNetworkAclEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6132,7 +6267,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNetworkInsightsAccessScopeInput, CreateNetworkInsightsAccessScopeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6198,7 +6333,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNetworkInsightsPathInput, CreateNetworkInsightsPathOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6264,7 +6399,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNetworkInterfaceInput, CreateNetworkInterfaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6330,7 +6465,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNetworkInterfacePermissionInput, CreateNetworkInterfacePermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6395,7 +6530,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePlacementGroupInput, CreatePlacementGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6460,7 +6595,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePublicIpv4PoolInput, CreatePublicIpv4PoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6525,7 +6660,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReplaceRootVolumeTaskInput, CreateReplaceRootVolumeTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6591,7 +6726,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateReservedInstancesListingInput, CreateReservedInstancesListingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6656,7 +6791,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRestoreImageTaskInput, CreateRestoreImageTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6728,7 +6863,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRouteInput, CreateRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6793,7 +6928,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateRouteTableInput, CreateRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6859,7 +6994,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSecurityGroupInput, CreateSecurityGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6924,7 +7059,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSnapshotInput, CreateSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -6989,7 +7124,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSnapshotsInput, CreateSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7054,7 +7189,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSpotDatafeedSubscriptionInput, CreateSpotDatafeedSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7119,7 +7254,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStoreImageTaskInput, CreateStoreImageTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7184,7 +7319,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSubnetInput, CreateSubnetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7249,7 +7384,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateSubnetCidrReservationInput, CreateSubnetCidrReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7314,7 +7449,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTagsInput, CreateTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7379,7 +7514,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrafficMirrorFilterInput, CreateTrafficMirrorFilterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7445,7 +7580,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrafficMirrorFilterRuleInput, CreateTrafficMirrorFilterRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7511,7 +7646,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrafficMirrorSessionInput, CreateTrafficMirrorSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7577,7 +7712,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrafficMirrorTargetInput, CreateTrafficMirrorTargetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7643,7 +7778,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayInput, CreateTransitGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7708,7 +7843,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayConnectInput, CreateTransitGatewayConnectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7773,7 +7908,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayConnectPeerInput, CreateTransitGatewayConnectPeerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7838,7 +7973,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayMulticastDomainInput, CreateTransitGatewayMulticastDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7903,7 +8038,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayPeeringAttachmentInput, CreateTransitGatewayPeeringAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -7968,7 +8103,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayPolicyTableInput, CreateTransitGatewayPolicyTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8033,7 +8168,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayPrefixListReferenceInput, CreateTransitGatewayPrefixListReferenceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8098,7 +8233,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayRouteInput, CreateTransitGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8163,7 +8298,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayRouteTableInput, CreateTransitGatewayRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8228,7 +8363,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayRouteTableAnnouncementInput, CreateTransitGatewayRouteTableAnnouncementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8293,7 +8428,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTransitGatewayVpcAttachmentInput, CreateTransitGatewayVpcAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8358,7 +8493,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVerifiedAccessEndpointInput, CreateVerifiedAccessEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8424,7 +8559,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVerifiedAccessGroupInput, CreateVerifiedAccessGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8490,7 +8625,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVerifiedAccessInstanceInput, CreateVerifiedAccessInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8556,7 +8691,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVerifiedAccessTrustProviderInput, CreateVerifiedAccessTrustProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8622,7 +8757,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVolumeInput, CreateVolumeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8688,7 +8823,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVpcInput, CreateVpcOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8753,7 +8888,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVpcEndpointInput, CreateVpcEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8818,7 +8953,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVpcEndpointConnectionNotificationInput, CreateVpcEndpointConnectionNotificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8890,7 +9025,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVpcEndpointServiceConfigurationInput, CreateVpcEndpointServiceConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -8955,7 +9090,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9020,7 +9155,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVpnConnectionInput, CreateVpnConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9085,7 +9220,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVpnConnectionRouteInput, CreateVpnConnectionRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9150,7 +9285,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateVpnGatewayInput, CreateVpnGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9215,7 +9350,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCarrierGatewayInput, DeleteCarrierGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9280,7 +9415,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteClientVpnEndpointInput, DeleteClientVpnEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9345,7 +9480,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteClientVpnRouteInput, DeleteClientVpnRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9410,7 +9545,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCoipCidrInput, DeleteCoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9475,7 +9610,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCoipPoolInput, DeleteCoipPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9540,7 +9675,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteCustomerGatewayInput, DeleteCustomerGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9605,7 +9740,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteDhcpOptionsInput, DeleteDhcpOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9670,7 +9805,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteEgressOnlyInternetGatewayInput, DeleteEgressOnlyInternetGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9746,7 +9881,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFleetsInput, DeleteFleetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9811,7 +9946,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFlowLogsInput, DeleteFlowLogsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9876,7 +10011,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteFpgaImageInput, DeleteFpgaImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -9941,7 +10076,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInstanceConnectEndpointInput, DeleteInstanceConnectEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10006,7 +10141,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInstanceEventWindowInput, DeleteInstanceEventWindowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10071,7 +10206,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteInternetGatewayInput, DeleteInternetGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10136,7 +10271,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIpamInput, DeleteIpamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10165,6 +10300,74 @@ extension EC2Client {
                 metricsAttributes: metricsAttributes,
                 meterScope: serviceName,
                 tracerScope: serviceName
+<<<<<<< HEAD
+=======
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteIpamExternalResourceVerificationToken` operation on the `AmazonEC2` service.
+    ///
+    /// Delete a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
+    ///
+    /// - Parameter DeleteIpamExternalResourceVerificationTokenInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIpamExternalResourceVerificationTokenOutput` : [no documentation found]
+    public func deleteIpamExternalResourceVerificationToken(input: DeleteIpamExternalResourceVerificationTokenInput) async throws -> DeleteIpamExternalResourceVerificationTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteIpamExternalResourceVerificationToken")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(DeleteIpamExternalResourceVerificationTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpamExternalResourceVerificationTokenOutput>(DeleteIpamExternalResourceVerificationTokenOutput.httpOutput(from:), DeleteIpamExternalResourceVerificationTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpamExternalResourceVerificationTokenOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteIpamExternalResourceVerificationTokenOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIpamExternalResourceVerificationTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIpamExternalResourceVerificationTokenInput, DeleteIpamExternalResourceVerificationTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIpamExternalResourceVerificationToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+>>>>>>> main
             ))
             .executeRequest(client)
             .build()
@@ -10201,7 +10404,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIpamPoolInput, DeleteIpamPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10266,7 +10469,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIpamResourceDiscoveryInput, DeleteIpamResourceDiscoveryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10331,7 +10534,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIpamScopeInput, DeleteIpamScopeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10396,7 +10599,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteKeyPairInput, DeleteKeyPairOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10461,7 +10664,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLaunchTemplateInput, DeleteLaunchTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10526,7 +10729,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLaunchTemplateVersionsInput, DeleteLaunchTemplateVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10591,7 +10794,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLocalGatewayRouteInput, DeleteLocalGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10656,7 +10859,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLocalGatewayRouteTableInput, DeleteLocalGatewayRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10721,7 +10924,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput, DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10786,7 +10989,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLocalGatewayRouteTableVpcAssociationInput, DeleteLocalGatewayRouteTableVpcAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10851,7 +11054,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteManagedPrefixListInput, DeleteManagedPrefixListOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10916,7 +11119,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNatGatewayInput, DeleteNatGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -10981,7 +11184,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkAclInput, DeleteNetworkAclOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11046,7 +11249,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkAclEntryInput, DeleteNetworkAclEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11111,7 +11314,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkInsightsAccessScopeInput, DeleteNetworkInsightsAccessScopeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11176,7 +11379,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkInsightsAccessScopeAnalysisInput, DeleteNetworkInsightsAccessScopeAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11241,7 +11444,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkInsightsAnalysisInput, DeleteNetworkInsightsAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11306,7 +11509,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkInsightsPathInput, DeleteNetworkInsightsPathOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11371,7 +11574,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkInterfaceInput, DeleteNetworkInterfaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11436,7 +11639,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkInterfacePermissionInput, DeleteNetworkInterfacePermissionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11501,7 +11704,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePlacementGroupInput, DeletePlacementGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11566,7 +11769,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePublicIpv4PoolInput, DeletePublicIpv4PoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11631,7 +11834,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteQueuedReservedInstancesInput, DeleteQueuedReservedInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11696,7 +11899,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRouteInput, DeleteRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11761,7 +11964,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteRouteTableInput, DeleteRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11826,7 +12029,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSecurityGroupInput, DeleteSecurityGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11891,7 +12094,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSnapshotInput, DeleteSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -11956,7 +12159,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSpotDatafeedSubscriptionInput, DeleteSpotDatafeedSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12021,7 +12224,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSubnetInput, DeleteSubnetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12086,7 +12289,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteSubnetCidrReservationInput, DeleteSubnetCidrReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12151,7 +12354,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTagsInput, DeleteTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12216,7 +12419,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrafficMirrorFilterInput, DeleteTrafficMirrorFilterOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12281,7 +12484,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrafficMirrorFilterRuleInput, DeleteTrafficMirrorFilterRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12346,7 +12549,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrafficMirrorSessionInput, DeleteTrafficMirrorSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12411,7 +12614,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrafficMirrorTargetInput, DeleteTrafficMirrorTargetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12476,7 +12679,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayInput, DeleteTransitGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12541,7 +12744,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayConnectInput, DeleteTransitGatewayConnectOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12606,7 +12809,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayConnectPeerInput, DeleteTransitGatewayConnectPeerOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12671,7 +12874,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayMulticastDomainInput, DeleteTransitGatewayMulticastDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12736,7 +12939,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayPeeringAttachmentInput, DeleteTransitGatewayPeeringAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12801,7 +13004,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayPolicyTableInput, DeleteTransitGatewayPolicyTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12866,7 +13069,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayPrefixListReferenceInput, DeleteTransitGatewayPrefixListReferenceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12931,7 +13134,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayRouteInput, DeleteTransitGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -12996,7 +13199,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayRouteTableInput, DeleteTransitGatewayRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13061,7 +13264,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayRouteTableAnnouncementInput, DeleteTransitGatewayRouteTableAnnouncementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13126,7 +13329,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTransitGatewayVpcAttachmentInput, DeleteTransitGatewayVpcAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13191,7 +13394,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVerifiedAccessEndpointInput, DeleteVerifiedAccessEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13257,7 +13460,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVerifiedAccessGroupInput, DeleteVerifiedAccessGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13323,7 +13526,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVerifiedAccessInstanceInput, DeleteVerifiedAccessInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13389,7 +13592,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVerifiedAccessTrustProviderInput, DeleteVerifiedAccessTrustProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13455,7 +13658,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVolumeInput, DeleteVolumeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13520,7 +13723,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVpcInput, DeleteVpcOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13585,7 +13788,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVpcEndpointConnectionNotificationsInput, DeleteVpcEndpointConnectionNotificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13650,7 +13853,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVpcEndpointServiceConfigurationsInput, DeleteVpcEndpointServiceConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13715,7 +13918,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVpcEndpointsInput, DeleteVpcEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13780,7 +13983,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13845,7 +14048,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVpnConnectionInput, DeleteVpnConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13910,7 +14113,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVpnConnectionRouteInput, DeleteVpnConnectionRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -13975,7 +14178,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteVpnGatewayInput, DeleteVpnGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14040,7 +14243,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14105,7 +14308,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeprovisionIpamByoasnInput, DeprovisionIpamByoasnOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14170,7 +14373,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeprovisionIpamPoolCidrInput, DeprovisionIpamPoolCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14235,7 +14438,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeprovisionPublicIpv4PoolCidrInput, DeprovisionPublicIpv4PoolCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14300,7 +14503,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterImageInput, DeregisterImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14365,7 +14568,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterInstanceEventNotificationAttributesInput, DeregisterInstanceEventNotificationAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14430,7 +14633,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterTransitGatewayMulticastGroupMembersInput, DeregisterTransitGatewayMulticastGroupMembersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14495,7 +14698,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterTransitGatewayMulticastGroupSourcesInput, DeregisterTransitGatewayMulticastGroupSourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14575,7 +14778,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountAttributesInput, DescribeAccountAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14612,7 +14815,7 @@ extension EC2Client {
 
     /// Performs the `DescribeAddressTransfers` operation on the `AmazonEC2` service.
     ///
-    /// Describes an Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for three days after the transfers have been accepted.
+    /// Describes an Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for 14 days after the transfers have been accepted.
     ///
     /// - Parameter DescribeAddressTransfersInput : [no documentation found]
     ///
@@ -14640,7 +14843,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAddressTransfersInput, DescribeAddressTransfersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14705,7 +14908,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAddressesInput, DescribeAddressesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14770,7 +14973,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAddressesAttributeInput, DescribeAddressesAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14835,7 +15038,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAggregateIdFormatInput, DescribeAggregateIdFormatOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14900,7 +15103,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAvailabilityZonesInput, DescribeAvailabilityZonesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -14965,7 +15168,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAwsNetworkPerformanceMetricSubscriptionsInput, DescribeAwsNetworkPerformanceMetricSubscriptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15030,7 +15233,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeBundleTasksInput, DescribeBundleTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15095,7 +15298,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeByoipCidrsInput, DescribeByoipCidrsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15160,7 +15363,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15225,7 +15428,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCapacityReservationFleetsInput, DescribeCapacityReservationFleetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15290,7 +15493,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCapacityReservationsInput, DescribeCapacityReservationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15355,7 +15558,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCarrierGatewaysInput, DescribeCarrierGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15420,7 +15623,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClassicLinkInstancesInput, DescribeClassicLinkInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15485,7 +15688,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClientVpnAuthorizationRulesInput, DescribeClientVpnAuthorizationRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15550,7 +15753,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClientVpnConnectionsInput, DescribeClientVpnConnectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15615,7 +15818,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClientVpnEndpointsInput, DescribeClientVpnEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15680,7 +15883,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClientVpnRoutesInput, DescribeClientVpnRoutesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15745,7 +15948,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeClientVpnTargetNetworksInput, DescribeClientVpnTargetNetworksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15810,7 +16013,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCoipPoolsInput, DescribeCoipPoolsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15875,7 +16078,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeConversionTasksInput, DescribeConversionTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -15940,7 +16143,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeCustomerGatewaysInput, DescribeCustomerGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16005,7 +16208,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDhcpOptionsInput, DescribeDhcpOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16070,7 +16273,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeEgressOnlyInternetGatewaysInput, DescribeEgressOnlyInternetGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16135,7 +16338,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeElasticGpusInput, DescribeElasticGpusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16200,7 +16403,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeExportImageTasksInput, DescribeExportImageTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16265,7 +16468,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeExportTasksInput, DescribeExportTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16330,7 +16533,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFastLaunchImagesInput, DescribeFastLaunchImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16395,7 +16598,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFastSnapshotRestoresInput, DescribeFastSnapshotRestoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16460,7 +16663,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFleetHistoryInput, DescribeFleetHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16525,7 +16728,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFleetInstancesInput, DescribeFleetInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16590,7 +16793,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFleetsInput, DescribeFleetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16655,7 +16858,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFlowLogsInput, DescribeFlowLogsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16720,7 +16923,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFpgaImageAttributeInput, DescribeFpgaImageAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16785,7 +16988,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeFpgaImagesInput, DescribeFpgaImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16850,7 +17053,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeHostReservationOfferingsInput, DescribeHostReservationOfferingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16915,7 +17118,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeHostReservationsInput, DescribeHostReservationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -16980,7 +17183,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeHostsInput, DescribeHostsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17045,7 +17248,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIamInstanceProfileAssociationsInput, DescribeIamInstanceProfileAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17110,7 +17313,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIdFormatInput, DescribeIdFormatOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17175,7 +17378,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIdentityIdFormatInput, DescribeIdentityIdFormatOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17240,7 +17443,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImageAttributeInput, DescribeImageAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17305,7 +17508,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImagesInput, DescribeImagesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17370,7 +17573,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImportImageTasksInput, DescribeImportImageTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17435,7 +17638,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeImportSnapshotTasksInput, DescribeImportSnapshotTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17500,7 +17703,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceAttributeInput, DescribeInstanceAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17565,7 +17768,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceConnectEndpointsInput, DescribeInstanceConnectEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17630,7 +17833,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceCreditSpecificationsInput, DescribeInstanceCreditSpecificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17695,7 +17898,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceEventNotificationAttributesInput, DescribeInstanceEventNotificationAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17760,7 +17963,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceEventWindowsInput, DescribeInstanceEventWindowsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17834,7 +18037,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceStatusInput, DescribeInstanceStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17922,7 +18125,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceTopologyInput, DescribeInstanceTopologyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -17987,7 +18190,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceTypeOfferingsInput, DescribeInstanceTypeOfferingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18052,7 +18255,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstanceTypesInput, DescribeInstanceTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18117,7 +18320,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInstancesInput, DescribeInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18182,7 +18385,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeInternetGatewaysInput, DescribeInternetGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18247,7 +18450,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIpamByoasnInput, DescribeIpamByoasnOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18276,6 +18479,74 @@ extension EC2Client {
                 metricsAttributes: metricsAttributes,
                 meterScope: serviceName,
                 tracerScope: serviceName
+<<<<<<< HEAD
+=======
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeIpamExternalResourceVerificationTokens` operation on the `AmazonEC2` service.
+    ///
+    /// Describe verification tokens. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
+    ///
+    /// - Parameter DescribeIpamExternalResourceVerificationTokensInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeIpamExternalResourceVerificationTokensOutput` : [no documentation found]
+    public func describeIpamExternalResourceVerificationTokens(input: DescribeIpamExternalResourceVerificationTokensInput) async throws -> DescribeIpamExternalResourceVerificationTokensOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeIpamExternalResourceVerificationTokens")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(DescribeIpamExternalResourceVerificationTokensInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpamExternalResourceVerificationTokensOutput>(DescribeIpamExternalResourceVerificationTokensOutput.httpOutput(from:), DescribeIpamExternalResourceVerificationTokensOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpamExternalResourceVerificationTokensOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeIpamExternalResourceVerificationTokensOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeIpamExternalResourceVerificationTokensInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIpamExternalResourceVerificationTokensOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeIpamExternalResourceVerificationTokensInput, DescribeIpamExternalResourceVerificationTokensOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpamExternalResourceVerificationTokens")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+>>>>>>> main
             ))
             .executeRequest(client)
             .build()
@@ -18312,7 +18583,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIpamPoolsInput, DescribeIpamPoolsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18377,7 +18648,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIpamResourceDiscoveriesInput, DescribeIpamResourceDiscoveriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18442,7 +18713,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIpamResourceDiscoveryAssociationsInput, DescribeIpamResourceDiscoveryAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18507,7 +18778,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIpamScopesInput, DescribeIpamScopesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18572,7 +18843,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIpamsInput, DescribeIpamsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18637,7 +18908,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeIpv6PoolsInput, DescribeIpv6PoolsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18702,7 +18973,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeKeyPairsInput, DescribeKeyPairsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18767,7 +19038,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLaunchTemplateVersionsInput, DescribeLaunchTemplateVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18832,7 +19103,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLaunchTemplatesInput, DescribeLaunchTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18897,7 +19168,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput, DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -18962,7 +19233,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLocalGatewayRouteTableVpcAssociationsInput, DescribeLocalGatewayRouteTableVpcAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19027,7 +19298,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLocalGatewayRouteTablesInput, DescribeLocalGatewayRouteTablesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19092,7 +19363,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLocalGatewayVirtualInterfaceGroupsInput, DescribeLocalGatewayVirtualInterfaceGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19157,7 +19428,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLocalGatewayVirtualInterfacesInput, DescribeLocalGatewayVirtualInterfacesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19222,7 +19493,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLocalGatewaysInput, DescribeLocalGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19287,7 +19558,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeLockedSnapshotsInput, DescribeLockedSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19352,7 +19623,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMacHostsInput, DescribeMacHostsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19417,7 +19688,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeManagedPrefixListsInput, DescribeManagedPrefixListsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19482,7 +19753,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeMovingAddressesInput, DescribeMovingAddressesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19547,7 +19818,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNatGatewaysInput, DescribeNatGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19612,7 +19883,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNetworkAclsInput, DescribeNetworkAclsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19677,7 +19948,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNetworkInsightsAccessScopeAnalysesInput, DescribeNetworkInsightsAccessScopeAnalysesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19742,7 +20013,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNetworkInsightsAccessScopesInput, DescribeNetworkInsightsAccessScopesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19807,7 +20078,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNetworkInsightsAnalysesInput, DescribeNetworkInsightsAnalysesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19872,7 +20143,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNetworkInsightsPathsInput, DescribeNetworkInsightsPathsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -19937,7 +20208,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNetworkInterfaceAttributeInput, DescribeNetworkInterfaceAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20002,7 +20273,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNetworkInterfacePermissionsInput, DescribeNetworkInterfacePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20067,7 +20338,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeNetworkInterfacesInput, DescribeNetworkInterfacesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20104,7 +20375,7 @@ extension EC2Client {
 
     /// Performs the `DescribePlacementGroups` operation on the `AmazonEC2` service.
     ///
-    /// Describes the specified placement groups or all of your placement groups. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
+    /// Describes the specified placement groups or all of your placement groups. To describe a specific placement group that is shared with your account, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DescribePlacementGroupsInput : [no documentation found]
     ///
@@ -20132,7 +20403,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePlacementGroupsInput, DescribePlacementGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20197,7 +20468,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePrefixListsInput, DescribePrefixListsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20262,7 +20533,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePrincipalIdFormatInput, DescribePrincipalIdFormatOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20327,7 +20598,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePublicIpv4PoolsInput, DescribePublicIpv4PoolsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20392,7 +20663,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRegionsInput, DescribeRegionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20457,7 +20728,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReplaceRootVolumeTasksInput, DescribeReplaceRootVolumeTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20522,7 +20793,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedInstancesInput, DescribeReservedInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20587,7 +20858,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedInstancesListingsInput, DescribeReservedInstancesListingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20652,7 +20923,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedInstancesModificationsInput, DescribeReservedInstancesModificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20717,7 +20988,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeReservedInstancesOfferingsInput, DescribeReservedInstancesOfferingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20782,7 +21053,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeRouteTablesInput, DescribeRouteTablesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20847,7 +21118,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeScheduledInstanceAvailabilityInput, DescribeScheduledInstanceAvailabilityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20912,7 +21183,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeScheduledInstancesInput, DescribeScheduledInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -20977,7 +21248,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSecurityGroupReferencesInput, DescribeSecurityGroupReferencesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21042,7 +21313,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSecurityGroupRulesInput, DescribeSecurityGroupRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21107,7 +21378,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSecurityGroupsInput, DescribeSecurityGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21172,7 +21443,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSnapshotAttributeInput, DescribeSnapshotAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21237,7 +21508,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSnapshotTierStatusInput, DescribeSnapshotTierStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21311,7 +21582,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSnapshotsInput, DescribeSnapshotsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21376,7 +21647,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSpotDatafeedSubscriptionInput, DescribeSpotDatafeedSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21441,7 +21712,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSpotFleetInstancesInput, DescribeSpotFleetInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21506,7 +21777,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSpotFleetRequestHistoryInput, DescribeSpotFleetRequestHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21571,7 +21842,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSpotFleetRequestsInput, DescribeSpotFleetRequestsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21636,7 +21907,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSpotInstanceRequestsInput, DescribeSpotInstanceRequestsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21701,7 +21972,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSpotPriceHistoryInput, DescribeSpotPriceHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21766,7 +22037,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStaleSecurityGroupsInput, DescribeStaleSecurityGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21831,7 +22102,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStoreImageTasksInput, DescribeStoreImageTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21896,7 +22167,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeSubnetsInput, DescribeSubnetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -21961,7 +22232,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTagsInput, DescribeTagsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22026,7 +22297,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrafficMirrorFilterRulesInput, DescribeTrafficMirrorFilterRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22091,7 +22362,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrafficMirrorFiltersInput, DescribeTrafficMirrorFiltersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22156,7 +22427,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrafficMirrorSessionsInput, DescribeTrafficMirrorSessionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22221,7 +22492,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrafficMirrorTargetsInput, DescribeTrafficMirrorTargetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22286,7 +22557,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewayAttachmentsInput, DescribeTransitGatewayAttachmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22351,7 +22622,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewayConnectPeersInput, DescribeTransitGatewayConnectPeersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22416,7 +22687,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewayConnectsInput, DescribeTransitGatewayConnectsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22481,7 +22752,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewayMulticastDomainsInput, DescribeTransitGatewayMulticastDomainsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22546,7 +22817,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewayPeeringAttachmentsInput, DescribeTransitGatewayPeeringAttachmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22611,7 +22882,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewayPolicyTablesInput, DescribeTransitGatewayPolicyTablesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22676,7 +22947,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewayRouteTableAnnouncementsInput, DescribeTransitGatewayRouteTableAnnouncementsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22741,7 +23012,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewayRouteTablesInput, DescribeTransitGatewayRouteTablesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22806,7 +23077,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewayVpcAttachmentsInput, DescribeTransitGatewayVpcAttachmentsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22871,7 +23142,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTransitGatewaysInput, DescribeTransitGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -22936,7 +23207,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTrunkInterfaceAssociationsInput, DescribeTrunkInterfaceAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23001,7 +23272,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVerifiedAccessEndpointsInput, DescribeVerifiedAccessEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23066,7 +23337,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVerifiedAccessGroupsInput, DescribeVerifiedAccessGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23131,7 +23402,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVerifiedAccessInstanceLoggingConfigurationsInput, DescribeVerifiedAccessInstanceLoggingConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23196,7 +23467,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVerifiedAccessInstancesInput, DescribeVerifiedAccessInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23261,7 +23532,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVerifiedAccessTrustProvidersInput, DescribeVerifiedAccessTrustProvidersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23326,7 +23597,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVolumeAttributeInput, DescribeVolumeAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23391,7 +23662,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVolumeStatusInput, DescribeVolumeStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23456,7 +23727,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVolumesInput, DescribeVolumesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23493,7 +23764,7 @@ extension EC2Client {
 
     /// Performs the `DescribeVolumesModifications` operation on the `AmazonEC2` service.
     ///
-    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most recent modification request. For more information, see [ Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html) in the Amazon EBS User Guide.
+    /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see [ Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter DescribeVolumesModificationsInput : [no documentation found]
     ///
@@ -23521,7 +23792,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVolumesModificationsInput, DescribeVolumesModificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23586,7 +23857,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcAttributeInput, DescribeVpcAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23651,7 +23922,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcClassicLinkInput, DescribeVpcClassicLinkOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23716,7 +23987,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcClassicLinkDnsSupportInput, DescribeVpcClassicLinkDnsSupportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23781,7 +24052,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcEndpointConnectionNotificationsInput, DescribeVpcEndpointConnectionNotificationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23846,7 +24117,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcEndpointConnectionsInput, DescribeVpcEndpointConnectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23911,7 +24182,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcEndpointServiceConfigurationsInput, DescribeVpcEndpointServiceConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -23976,7 +24247,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcEndpointServicePermissionsInput, DescribeVpcEndpointServicePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24041,7 +24312,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcEndpointServicesInput, DescribeVpcEndpointServicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24106,7 +24377,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24171,7 +24442,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24236,7 +24507,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpcsInput, DescribeVpcsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24301,7 +24572,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpnConnectionsInput, DescribeVpnConnectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24366,7 +24637,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeVpnGatewaysInput, DescribeVpnGatewaysOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24431,7 +24702,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachClassicLinkVpcInput, DetachClassicLinkVpcOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24496,7 +24767,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachInternetGatewayInput, DetachInternetGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24561,7 +24832,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachNetworkInterfaceInput, DetachNetworkInterfaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24626,7 +24897,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachVerifiedAccessTrustProviderInput, DetachVerifiedAccessTrustProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24692,7 +24963,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachVolumeInput, DetachVolumeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24757,7 +25028,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetachVpnGatewayInput, DetachVpnGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24822,7 +25093,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableAddressTransferInput, DisableAddressTransferOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24887,7 +25158,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableAwsNetworkPerformanceMetricSubscriptionInput, DisableAwsNetworkPerformanceMetricSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -24952,7 +25223,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableEbsEncryptionByDefaultInput, DisableEbsEncryptionByDefaultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25017,7 +25288,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableFastLaunchInput, DisableFastLaunchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25082,7 +25353,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableFastSnapshotRestoresInput, DisableFastSnapshotRestoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25147,7 +25418,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableImageInput, DisableImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25212,7 +25483,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableImageBlockPublicAccessInput, DisableImageBlockPublicAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25277,7 +25548,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableImageDeprecationInput, DisableImageDeprecationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25342,7 +25613,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableImageDeregistrationProtectionInput, DisableImageDeregistrationProtectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25407,7 +25678,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableIpamOrganizationAdminAccountInput, DisableIpamOrganizationAdminAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25472,7 +25743,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableSerialConsoleAccessInput, DisableSerialConsoleAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25537,7 +25808,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableSnapshotBlockPublicAccessInput, DisableSnapshotBlockPublicAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25602,7 +25873,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableTransitGatewayRouteTablePropagationInput, DisableTransitGatewayRouteTablePropagationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25667,7 +25938,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableVgwRoutePropagationInput, DisableVgwRoutePropagationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25732,7 +26003,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableVpcClassicLinkInput, DisableVpcClassicLinkOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25797,7 +26068,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisableVpcClassicLinkDnsSupportInput, DisableVpcClassicLinkDnsSupportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25862,7 +26133,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateAddressInput, DisassociateAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -25935,7 +26206,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateClientVpnTargetNetworkInput, DisassociateClientVpnTargetNetworkOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26000,7 +26271,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateEnclaveCertificateIamRoleInput, DisassociateEnclaveCertificateIamRoleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26065,7 +26336,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateIamInstanceProfileInput, DisassociateIamInstanceProfileOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26130,7 +26401,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateInstanceEventWindowInput, DisassociateInstanceEventWindowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26195,7 +26466,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateIpamByoasnInput, DisassociateIpamByoasnOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26260,7 +26531,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateIpamResourceDiscoveryInput, DisassociateIpamResourceDiscoveryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26325,7 +26596,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateNatGatewayAddressInput, DisassociateNatGatewayAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26390,7 +26661,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateRouteTableInput, DisassociateRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26455,7 +26726,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateSubnetCidrBlockInput, DisassociateSubnetCidrBlockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26520,7 +26791,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateTransitGatewayMulticastDomainInput, DisassociateTransitGatewayMulticastDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26585,7 +26856,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateTransitGatewayPolicyTableInput, DisassociateTransitGatewayPolicyTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26650,7 +26921,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateTransitGatewayRouteTableInput, DisassociateTransitGatewayRouteTableOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26715,7 +26986,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateTrunkInterfaceInput, DisassociateTrunkInterfaceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26781,7 +27052,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateVpcCidrBlockInput, DisassociateVpcCidrBlockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26846,7 +27117,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableAddressTransferInput, EnableAddressTransferOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26911,7 +27182,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableAwsNetworkPerformanceMetricSubscriptionInput, EnableAwsNetworkPerformanceMetricSubscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -26976,7 +27247,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableEbsEncryptionByDefaultInput, EnableEbsEncryptionByDefaultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27041,7 +27312,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableFastLaunchInput, EnableFastLaunchOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27106,7 +27377,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableFastSnapshotRestoresInput, EnableFastSnapshotRestoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27171,7 +27442,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableImageInput, EnableImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27236,7 +27507,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableImageBlockPublicAccessInput, EnableImageBlockPublicAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27301,7 +27572,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableImageDeprecationInput, EnableImageDeprecationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27366,7 +27637,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableImageDeregistrationProtectionInput, EnableImageDeregistrationProtectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27431,7 +27702,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableIpamOrganizationAdminAccountInput, EnableIpamOrganizationAdminAccountOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27496,7 +27767,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableReachabilityAnalyzerOrganizationSharingInput, EnableReachabilityAnalyzerOrganizationSharingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27561,7 +27832,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableSerialConsoleAccessInput, EnableSerialConsoleAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27626,7 +27897,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableSnapshotBlockPublicAccessInput, EnableSnapshotBlockPublicAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27691,7 +27962,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableTransitGatewayRouteTablePropagationInput, EnableTransitGatewayRouteTablePropagationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27756,7 +28027,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableVgwRoutePropagationInput, EnableVgwRoutePropagationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27821,7 +28092,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableVolumeIOInput, EnableVolumeIOOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27886,7 +28157,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableVpcClassicLinkInput, EnableVpcClassicLinkOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -27951,7 +28222,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EnableVpcClassicLinkDnsSupportInput, EnableVpcClassicLinkDnsSupportOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28016,7 +28287,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportClientVpnClientCertificateRevocationListInput, ExportClientVpnClientCertificateRevocationListOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28081,7 +28352,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportClientVpnClientConfigurationInput, ExportClientVpnClientConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28146,7 +28417,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportImageInput, ExportImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28212,7 +28483,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExportTransitGatewayRoutesInput, ExportTransitGatewayRoutesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28277,7 +28548,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAssociatedEnclaveCertificateIamRolesInput, GetAssociatedEnclaveCertificateIamRolesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28342,7 +28613,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAssociatedIpv6PoolCidrsInput, GetAssociatedIpv6PoolCidrsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28407,7 +28678,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAwsNetworkPerformanceDataInput, GetAwsNetworkPerformanceDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28472,7 +28743,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCapacityReservationUsageInput, GetCapacityReservationUsageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28537,7 +28808,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetCoipPoolUsageInput, GetCoipPoolUsageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28574,7 +28845,7 @@ extension EC2Client {
 
     /// Performs the `GetConsoleOutput` operation on the `AmazonEC2` service.
     ///
-    /// Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. By default, the console output returns buffered information that was posted shortly after an instance transition state (start, stop, reboot, or terminate). This information is available for at least one hour after the most recent post. Only the most recent 64 KB of console output is available. You can optionally retrieve the latest serial console output at any time during the instance lifecycle. This option is supported on instance types that use the Nitro hypervisor. For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html#instance-console-console-output) in the Amazon EC2 User Guide.
+    /// Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html#instance-console-console-output) in the Amazon EC2 User Guide.
     ///
     /// - Parameter GetConsoleOutputInput : [no documentation found]
     ///
@@ -28602,7 +28873,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetConsoleOutputInput, GetConsoleOutputOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28667,7 +28938,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetConsoleScreenshotInput, GetConsoleScreenshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28732,7 +29003,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetDefaultCreditSpecificationInput, GetDefaultCreditSpecificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28797,7 +29068,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEbsDefaultKmsKeyIdInput, GetEbsDefaultKmsKeyIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28862,7 +29133,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetEbsEncryptionByDefaultInput, GetEbsEncryptionByDefaultOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -28938,7 +29209,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetFlowLogsIntegrationTemplateInput, GetFlowLogsIntegrationTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29003,7 +29274,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGroupsForCapacityReservationInput, GetGroupsForCapacityReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29068,7 +29339,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetHostReservationPurchasePreviewInput, GetHostReservationPurchasePreviewOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29133,7 +29404,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetImageBlockPublicAccessStateInput, GetImageBlockPublicAccessStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29198,7 +29469,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceMetadataDefaultsInput, GetInstanceMetadataDefaultsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29263,7 +29534,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceTpmEkPubInput, GetInstanceTpmEkPubOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29328,7 +29599,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceTypesFromInstanceRequirementsInput, GetInstanceTypesFromInstanceRequirementsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29393,7 +29664,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetInstanceUefiDataInput, GetInstanceUefiDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29458,7 +29729,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIpamAddressHistoryInput, GetIpamAddressHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29523,7 +29794,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIpamDiscoveredAccountsInput, GetIpamDiscoveredAccountsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29588,7 +29859,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIpamDiscoveredPublicAddressesInput, GetIpamDiscoveredPublicAddressesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29653,7 +29924,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIpamDiscoveredResourceCidrsInput, GetIpamDiscoveredResourceCidrsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29718,7 +29989,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIpamPoolAllocationsInput, GetIpamPoolAllocationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29783,7 +30054,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIpamPoolCidrsInput, GetIpamPoolCidrsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29848,7 +30119,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIpamResourceCidrsInput, GetIpamResourceCidrsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29913,7 +30184,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLaunchTemplateDataInput, GetLaunchTemplateDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -29978,7 +30249,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetManagedPrefixListAssociationsInput, GetManagedPrefixListAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30043,7 +30314,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetManagedPrefixListEntriesInput, GetManagedPrefixListEntriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30108,7 +30379,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetNetworkInsightsAccessScopeAnalysisFindingsInput, GetNetworkInsightsAccessScopeAnalysisFindingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30173,7 +30444,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetNetworkInsightsAccessScopeContentInput, GetNetworkInsightsAccessScopeContentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30238,7 +30509,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPasswordDataInput, GetPasswordDataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30303,7 +30574,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetReservedInstancesExchangeQuoteInput, GetReservedInstancesExchangeQuoteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30368,7 +30639,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30433,7 +30704,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSerialConsoleAccessStatusInput, GetSerialConsoleAccessStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30498,7 +30769,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSnapshotBlockPublicAccessStateInput, GetSnapshotBlockPublicAccessStateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30563,7 +30834,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSpotPlacementScoresInput, GetSpotPlacementScoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30628,7 +30899,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetSubnetCidrReservationsInput, GetSubnetCidrReservationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30693,7 +30964,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTransitGatewayAttachmentPropagationsInput, GetTransitGatewayAttachmentPropagationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30758,7 +31029,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTransitGatewayMulticastDomainAssociationsInput, GetTransitGatewayMulticastDomainAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30823,7 +31094,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTransitGatewayPolicyTableAssociationsInput, GetTransitGatewayPolicyTableAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30888,7 +31159,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTransitGatewayPolicyTableEntriesInput, GetTransitGatewayPolicyTableEntriesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -30953,7 +31224,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTransitGatewayPrefixListReferencesInput, GetTransitGatewayPrefixListReferencesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31018,7 +31289,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTransitGatewayRouteTableAssociationsInput, GetTransitGatewayRouteTableAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31083,7 +31354,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTransitGatewayRouteTablePropagationsInput, GetTransitGatewayRouteTablePropagationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31148,7 +31419,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVerifiedAccessEndpointPolicyInput, GetVerifiedAccessEndpointPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31213,7 +31484,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVerifiedAccessGroupPolicyInput, GetVerifiedAccessGroupPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31278,7 +31549,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVpnConnectionDeviceSampleConfigurationInput, GetVpnConnectionDeviceSampleConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31343,7 +31614,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVpnConnectionDeviceTypesInput, GetVpnConnectionDeviceTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31408,7 +31679,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetVpnTunnelReplacementStatusInput, GetVpnTunnelReplacementStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31473,7 +31744,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportClientVpnClientCertificateRevocationListInput, ImportClientVpnClientCertificateRevocationListOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31538,7 +31809,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportImageInput, ImportImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31603,7 +31874,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportInstanceInput, ImportInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31668,7 +31939,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportKeyPairInput, ImportKeyPairOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31733,7 +32004,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportSnapshotInput, ImportSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31798,7 +32069,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportVolumeInput, ImportVolumeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31863,7 +32134,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImagesInRecycleBinInput, ListImagesInRecycleBinOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31928,7 +32199,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListSnapshotsInRecycleBinInput, ListSnapshotsInRecycleBinOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -31999,7 +32270,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<LockSnapshotInput, LockSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32064,7 +32335,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyAddressAttributeInput, ModifyAddressAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32129,7 +32400,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyAvailabilityZoneGroupInput, ModifyAvailabilityZoneGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32166,7 +32437,7 @@ extension EC2Client {
 
     /// Performs the `ModifyCapacityReservation` operation on the `AmazonEC2` service.
     ///
-    /// Modifies a Capacity Reservation's capacity and the conditions under which it is to be released. You cannot change a Capacity Reservation's instance type, EBS optimization, instance store settings, platform, Availability Zone, or instance eligibility. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes.
+    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Capacity Reservation's instance type, EBS optimization, platform, instance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes. For more information, see [Modify an active Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-reservations-modify.html).
     ///
     /// - Parameter ModifyCapacityReservationInput : [no documentation found]
     ///
@@ -32194,7 +32465,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyCapacityReservationInput, ModifyCapacityReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32259,7 +32530,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyCapacityReservationFleetInput, ModifyCapacityReservationFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32324,7 +32595,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyClientVpnEndpointInput, ModifyClientVpnEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32389,7 +32660,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyDefaultCreditSpecificationInput, ModifyDefaultCreditSpecificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32454,7 +32725,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyEbsDefaultKmsKeyIdInput, ModifyEbsDefaultKmsKeyIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32519,7 +32790,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyFleetInput, ModifyFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32584,7 +32855,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyFpgaImageAttributeInput, ModifyFpgaImageAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32649,7 +32920,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyHostsInput, ModifyHostsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32714,7 +32985,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyIdFormatInput, ModifyIdFormatOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32779,7 +33050,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyIdentityIdFormatInput, ModifyIdentityIdFormatOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32844,7 +33115,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyImageAttributeInput, ModifyImageAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32909,7 +33180,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceAttributeInput, ModifyInstanceAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -32974,7 +33245,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceCapacityReservationAttributesInput, ModifyInstanceCapacityReservationAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33039,7 +33310,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceCreditSpecificationInput, ModifyInstanceCreditSpecificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33104,7 +33375,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceEventStartTimeInput, ModifyInstanceEventStartTimeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33169,7 +33440,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceEventWindowInput, ModifyInstanceEventWindowOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33234,7 +33505,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceMaintenanceOptionsInput, ModifyInstanceMaintenanceOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33299,7 +33570,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceMetadataDefaultsInput, ModifyInstanceMetadataDefaultsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33364,7 +33635,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstanceMetadataOptionsInput, ModifyInstanceMetadataOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33440,7 +33711,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyInstancePlacementInput, ModifyInstancePlacementOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33505,7 +33776,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyIpamInput, ModifyIpamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33570,7 +33841,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyIpamPoolInput, ModifyIpamPoolOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33635,7 +33906,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyIpamResourceCidrInput, ModifyIpamResourceCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33700,7 +33971,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyIpamResourceDiscoveryInput, ModifyIpamResourceDiscoveryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33765,7 +34036,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyIpamScopeInput, ModifyIpamScopeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33830,7 +34101,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyLaunchTemplateInput, ModifyLaunchTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33895,7 +34166,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyLocalGatewayRouteInput, ModifyLocalGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -33960,7 +34231,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyManagedPrefixListInput, ModifyManagedPrefixListOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34025,7 +34296,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyNetworkInterfaceAttributeInput, ModifyNetworkInterfaceAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34090,7 +34361,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyPrivateDnsNameOptionsInput, ModifyPrivateDnsNameOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34155,7 +34426,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyReservedInstancesInput, ModifyReservedInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34220,7 +34491,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifySecurityGroupRulesInput, ModifySecurityGroupRulesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34285,7 +34556,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifySnapshotAttributeInput, ModifySnapshotAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34350,7 +34621,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifySnapshotTierInput, ModifySnapshotTierOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34415,7 +34686,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifySpotFleetRequestInput, ModifySpotFleetRequestOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34491,7 +34762,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifySubnetAttributeInput, ModifySubnetAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34556,7 +34827,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTrafficMirrorFilterNetworkServicesInput, ModifyTrafficMirrorFilterNetworkServicesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34621,7 +34892,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTrafficMirrorFilterRuleInput, ModifyTrafficMirrorFilterRuleOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34686,7 +34957,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTrafficMirrorSessionInput, ModifyTrafficMirrorSessionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34751,7 +35022,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTransitGatewayInput, ModifyTransitGatewayOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34816,7 +35087,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTransitGatewayPrefixListReferenceInput, ModifyTransitGatewayPrefixListReferenceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34881,7 +35152,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyTransitGatewayVpcAttachmentInput, ModifyTransitGatewayVpcAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -34946,7 +35217,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVerifiedAccessEndpointInput, ModifyVerifiedAccessEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35012,7 +35283,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVerifiedAccessEndpointPolicyInput, ModifyVerifiedAccessEndpointPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35078,7 +35349,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVerifiedAccessGroupInput, ModifyVerifiedAccessGroupOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35144,7 +35415,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVerifiedAccessGroupPolicyInput, ModifyVerifiedAccessGroupPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35210,7 +35481,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVerifiedAccessInstanceInput, ModifyVerifiedAccessInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35276,7 +35547,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVerifiedAccessInstanceLoggingConfigurationInput, ModifyVerifiedAccessInstanceLoggingConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35342,7 +35613,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVerifiedAccessTrustProviderInput, ModifyVerifiedAccessTrustProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35408,7 +35679,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVolumeInput, ModifyVolumeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35473,7 +35744,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVolumeAttributeInput, ModifyVolumeAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35538,7 +35809,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpcAttributeInput, ModifyVpcAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35603,7 +35874,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpcEndpointInput, ModifyVpcEndpointOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35668,7 +35939,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpcEndpointConnectionNotificationInput, ModifyVpcEndpointConnectionNotificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35733,7 +36004,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpcEndpointServiceConfigurationInput, ModifyVpcEndpointServiceConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35798,7 +36069,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpcEndpointServicePayerResponsibilityInput, ModifyVpcEndpointServicePayerResponsibilityOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35863,7 +36134,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpcEndpointServicePermissionsInput, ModifyVpcEndpointServicePermissionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35928,7 +36199,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpcPeeringConnectionOptionsInput, ModifyVpcPeeringConnectionOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -35993,7 +36264,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpcTenancyInput, ModifyVpcTenancyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36069,7 +36340,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpnConnectionInput, ModifyVpnConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36134,7 +36405,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpnConnectionOptionsInput, ModifyVpnConnectionOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36199,7 +36470,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpnTunnelCertificateInput, ModifyVpnTunnelCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36264,7 +36535,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ModifyVpnTunnelOptionsInput, ModifyVpnTunnelOptionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36329,7 +36600,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MonitorInstancesInput, MonitorInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36394,7 +36665,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MoveAddressToVpcInput, MoveAddressToVpcOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36459,7 +36730,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<MoveByoipCidrToIpamInput, MoveByoipCidrToIpamOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36488,6 +36759,87 @@ extension EC2Client {
                 metricsAttributes: metricsAttributes,
                 meterScope: serviceName,
                 tracerScope: serviceName
+<<<<<<< HEAD
+=======
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `MoveCapacityReservationInstances` operation on the `AmazonEC2` service.
+    ///
+    /// Move available capacity from a source Capacity Reservation to a destination Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active, owned by your Amazon Web Services account, and share the following:
+    ///
+    /// * Instance type
+    ///
+    /// * Platform
+    ///
+    /// * Availability Zone
+    ///
+    /// * Tenancy
+    ///
+    /// * Placement group
+    ///
+    /// * Capacity Reservation end time - At specific time or Manually.
+    ///
+    /// - Parameter MoveCapacityReservationInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `MoveCapacityReservationInstancesOutput` : [no documentation found]
+    public func moveCapacityReservationInstances(input: MoveCapacityReservationInstancesInput) async throws -> MoveCapacityReservationInstancesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "moveCapacityReservationInstances")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(MoveCapacityReservationInstancesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<MoveCapacityReservationInstancesOutput>(MoveCapacityReservationInstancesOutput.httpOutput(from:), MoveCapacityReservationInstancesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<MoveCapacityReservationInstancesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<MoveCapacityReservationInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.serialize(ClientRuntime.BodyMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: MoveCapacityReservationInstancesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<MoveCapacityReservationInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<MoveCapacityReservationInstancesInput, MoveCapacityReservationInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "MoveCapacityReservationInstances")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+>>>>>>> main
             ))
             .executeRequest(client)
             .build()
@@ -36524,7 +36876,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ProvisionByoipCidrInput, ProvisionByoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36589,7 +36941,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ProvisionIpamByoasnInput, ProvisionIpamByoasnOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36654,7 +37006,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ProvisionIpamPoolCidrInput, ProvisionIpamPoolCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36720,7 +37072,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ProvisionPublicIpv4PoolCidrInput, ProvisionPublicIpv4PoolCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36785,7 +37137,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PurchaseCapacityBlockInput, PurchaseCapacityBlockOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36850,7 +37202,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PurchaseHostReservationInput, PurchaseHostReservationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36915,7 +37267,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PurchaseReservedInstancesOfferingInput, PurchaseReservedInstancesOfferingOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -36980,7 +37332,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PurchaseScheduledInstancesInput, PurchaseScheduledInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37046,7 +37398,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RebootInstancesInput, RebootInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37120,7 +37472,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterImageInput, RegisterImageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37185,7 +37537,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterInstanceEventNotificationAttributesInput, RegisterInstanceEventNotificationAttributesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37250,7 +37602,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterTransitGatewayMulticastGroupMembersInput, RegisterTransitGatewayMulticastGroupMembersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37315,7 +37667,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterTransitGatewayMulticastGroupSourcesInput, RegisterTransitGatewayMulticastGroupSourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37380,7 +37732,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RejectTransitGatewayMulticastDomainAssociationsInput, RejectTransitGatewayMulticastDomainAssociationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37445,7 +37797,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RejectTransitGatewayPeeringAttachmentInput, RejectTransitGatewayPeeringAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37510,7 +37862,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RejectTransitGatewayVpcAttachmentInput, RejectTransitGatewayVpcAttachmentOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37575,7 +37927,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RejectVpcEndpointConnectionsInput, RejectVpcEndpointConnectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37640,7 +37992,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RejectVpcPeeringConnectionInput, RejectVpcPeeringConnectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37705,7 +38057,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReleaseAddressInput, ReleaseAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37770,7 +38122,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReleaseHostsInput, ReleaseHostsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37835,7 +38187,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReleaseIpamPoolAllocationInput, ReleaseIpamPoolAllocationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37900,7 +38252,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReplaceIamInstanceProfileAssociationInput, ReplaceIamInstanceProfileAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -37965,7 +38317,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReplaceNetworkAclAssociationInput, ReplaceNetworkAclAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38030,7 +38382,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReplaceNetworkAclEntryInput, ReplaceNetworkAclEntryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38095,7 +38447,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReplaceRouteInput, ReplaceRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38160,7 +38512,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReplaceRouteTableAssociationInput, ReplaceRouteTableAssociationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38225,7 +38577,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReplaceTransitGatewayRouteInput, ReplaceTransitGatewayRouteOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38290,7 +38642,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReplaceVpnTunnelInput, ReplaceVpnTunnelOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38355,7 +38707,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ReportInstanceStatusInput, ReportInstanceStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38420,7 +38772,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RequestSpotFleetInput, RequestSpotFleetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38485,7 +38837,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RequestSpotInstancesInput, RequestSpotInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38550,7 +38902,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetAddressAttributeInput, ResetAddressAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38615,7 +38967,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetEbsDefaultKmsKeyIdInput, ResetEbsDefaultKmsKeyIdOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38680,7 +39032,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetFpgaImageAttributeInput, ResetFpgaImageAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38745,7 +39097,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetImageAttributeInput, ResetImageAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38810,7 +39162,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetInstanceAttributeInput, ResetInstanceAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38875,7 +39227,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetNetworkInterfaceAttributeInput, ResetNetworkInterfaceAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -38940,7 +39292,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ResetSnapshotAttributeInput, ResetSnapshotAttributeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39005,7 +39357,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreAddressToClassicInput, RestoreAddressToClassicOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39070,7 +39422,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreImageFromRecycleBinInput, RestoreImageFromRecycleBinOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39135,7 +39487,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreManagedPrefixListVersionInput, RestoreManagedPrefixListVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39200,7 +39552,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreSnapshotFromRecycleBinInput, RestoreSnapshotFromRecycleBinOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39265,7 +39617,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RestoreSnapshotTierInput, RestoreSnapshotTierOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39330,7 +39682,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RevokeClientVpnIngressInput, RevokeClientVpnIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39395,7 +39747,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RevokeSecurityGroupEgressInput, RevokeSecurityGroupEgressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39460,7 +39812,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RevokeSecurityGroupIngressInput, RevokeSecurityGroupIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39538,7 +39890,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RunInstancesInput, RunInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39604,7 +39956,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RunScheduledInstancesInput, RunScheduledInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39670,7 +40022,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchLocalGatewayRoutesInput, SearchLocalGatewayRoutesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39735,7 +40087,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchTransitGatewayMulticastGroupsInput, SearchTransitGatewayMulticastGroupsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39800,7 +40152,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SearchTransitGatewayRoutesInput, SearchTransitGatewayRoutesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39865,7 +40217,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SendDiagnosticInterruptInput, SendDiagnosticInterruptOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39930,7 +40282,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartInstancesInput, StartInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -39995,7 +40347,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartNetworkInsightsAccessScopeAnalysisInput, StartNetworkInsightsAccessScopeAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40061,7 +40413,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartNetworkInsightsAnalysisInput, StartNetworkInsightsAnalysisOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40127,7 +40479,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartVpcEndpointServicePrivateDnsVerificationInput, StartVpcEndpointServicePrivateDnsVerificationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40192,7 +40544,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopInstancesInput, StopInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40257,7 +40609,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TerminateClientVpnConnectionsInput, TerminateClientVpnConnectionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40347,7 +40699,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TerminateInstancesInput, TerminateInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40412,7 +40764,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UnassignIpv6AddressesInput, UnassignIpv6AddressesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40477,7 +40829,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UnassignPrivateIpAddressesInput, UnassignPrivateIpAddressesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40542,7 +40894,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UnassignPrivateNatGatewayAddressInput, UnassignPrivateNatGatewayAddressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40607,7 +40959,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UnlockSnapshotInput, UnlockSnapshotOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40672,7 +41024,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UnmonitorInstancesInput, UnmonitorInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40737,7 +41089,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSecurityGroupRuleDescriptionsEgressInput, UpdateSecurityGroupRuleDescriptionsEgressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40802,7 +41154,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateSecurityGroupRuleDescriptionsIngressInput, UpdateSecurityGroupRuleDescriptionsIngressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -40867,7 +41219,7 @@ extension EC2Client {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<WithdrawByoipCidrInput, WithdrawByoipCidrOutput> = provider.create()
             builder.interceptors.add(i)
         }

@@ -233,7 +233,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AcceptGrantInput, AcceptGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -311,7 +311,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CheckInLicenseInput, CheckInLicenseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -392,7 +392,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -472,7 +472,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CheckoutLicenseInput, CheckoutLicenseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -549,7 +549,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGrantInput, CreateGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -626,7 +626,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGrantVersionInput, CreateGrantVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -703,7 +703,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLicenseInput, CreateLicenseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -779,7 +779,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -855,7 +855,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -933,7 +933,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1011,7 +1011,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateLicenseVersionInput, CreateLicenseVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1089,7 +1089,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTokenInput, CreateTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1166,7 +1166,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGrantInput, DeleteGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1244,7 +1244,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLicenseInput, DeleteLicenseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1319,7 +1319,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1397,7 +1397,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1474,7 +1474,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTokenInput, DeleteTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1551,7 +1551,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1626,7 +1626,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetAccessTokenInput, GetAccessTokenOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1703,7 +1703,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGrantInput, GetGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1779,7 +1779,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLicenseInput, GetLicenseOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1854,7 +1854,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLicenseConfigurationInput, GetLicenseConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1929,7 +1929,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2007,7 +2007,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2083,7 +2083,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetLicenseUsageInput, GetLicenseUsageOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2157,7 +2157,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetServiceSettingsInput, GetServiceSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2233,7 +2233,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2310,7 +2310,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDistributedGrantsInput, ListDistributedGrantsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2385,7 +2385,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2461,7 +2461,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2536,7 +2536,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2614,7 +2614,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2689,7 +2689,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2764,7 +2764,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLicenseVersionsInput, ListLicenseVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2840,7 +2840,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListLicensesInput, ListLicensesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2917,7 +2917,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReceivedGrantsInput, ListReceivedGrantsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2994,7 +2994,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3071,7 +3071,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReceivedLicensesInput, ListReceivedLicensesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3148,7 +3148,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3225,7 +3225,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourceInventoryInput, ListResourceInventoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3300,7 +3300,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3375,7 +3375,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTokensInput, ListTokensOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3451,7 +3451,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3528,7 +3528,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RejectGrantInput, RejectGrantOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3603,7 +3603,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3678,7 +3678,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3754,7 +3754,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3832,7 +3832,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3909,7 +3909,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3984,7 +3984,7 @@ extension LicenseManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateServiceSettingsInput, UpdateServiceSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }

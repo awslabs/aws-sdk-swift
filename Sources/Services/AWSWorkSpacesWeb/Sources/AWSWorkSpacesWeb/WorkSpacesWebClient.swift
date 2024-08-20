@@ -233,7 +233,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -306,7 +306,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -379,7 +379,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -452,7 +452,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateTrustStoreInput, AssociateTrustStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -525,7 +525,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -598,7 +598,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<AssociateUserSettingsInput, AssociateUserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -672,7 +672,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateBrowserSettingsInput, CreateBrowserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -749,7 +749,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIdentityProviderInput, CreateIdentityProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -825,7 +825,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -901,7 +901,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateNetworkSettingsInput, CreateNetworkSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -978,7 +978,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreatePortalInput, CreatePortalOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1054,7 +1054,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateTrustStoreInput, CreateTrustStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1130,7 +1130,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1206,7 +1206,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateUserSettingsInput, CreateUserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1281,7 +1281,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1352,7 +1352,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIdentityProviderInput, DeleteIdentityProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1423,7 +1423,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1494,7 +1494,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1565,7 +1565,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeletePortalInput, DeletePortalOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1636,7 +1636,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteTrustStoreInput, DeleteTrustStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1707,7 +1707,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1778,7 +1778,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteUserSettingsInput, DeleteUserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1850,7 +1850,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1922,7 +1922,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1994,7 +1994,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2066,7 +2066,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateTrustStoreInput, DisassociateTrustStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2138,7 +2138,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2210,7 +2210,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DisassociateUserSettingsInput, DisassociateUserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2281,7 +2281,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetBrowserSettingsInput, GetBrowserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2352,7 +2352,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIdentityProviderInput, GetIdentityProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2423,7 +2423,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetIpAccessSettingsInput, GetIpAccessSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2494,7 +2494,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetNetworkSettingsInput, GetNetworkSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2565,7 +2565,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPortalInput, GetPortalOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2636,7 +2636,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2707,7 +2707,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTrustStoreInput, GetTrustStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2778,7 +2778,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2850,7 +2850,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2921,7 +2921,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetUserSettingsInput, GetUserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2991,7 +2991,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListBrowserSettingsInput, ListBrowserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3062,7 +3062,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIdentityProvidersInput, ListIdentityProvidersOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3133,7 +3133,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListIpAccessSettingsInput, ListIpAccessSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3204,7 +3204,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListNetworkSettingsInput, ListNetworkSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3275,7 +3275,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListPortalsInput, ListPortalsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3347,7 +3347,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3418,7 +3418,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3489,7 +3489,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTrustStoresInput, ListTrustStoresOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3560,7 +3560,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3631,7 +3631,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListUserSettingsInput, ListUserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3704,7 +3704,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3779,7 +3779,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3851,7 +3851,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3926,7 +3926,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIdentityProviderInput, UpdateIdentityProviderOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4001,7 +4001,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4076,7 +4076,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4153,7 +4153,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdatePortalInput, UpdatePortalOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4228,7 +4228,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTrustStoreInput, UpdateTrustStoreOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4303,7 +4303,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4378,7 +4378,7 @@ extension WorkSpacesWebClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateUserSettingsInput, UpdateUserSettingsOutput> = provider.create()
             builder.interceptors.add(i)
         }

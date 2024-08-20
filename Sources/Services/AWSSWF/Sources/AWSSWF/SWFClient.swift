@@ -246,7 +246,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -336,7 +336,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -417,7 +417,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CountPendingActivityTasksInput, CountPendingActivityTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -498,7 +498,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -587,7 +587,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteActivityTypeInput, DeleteActivityTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -676,7 +676,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -765,7 +765,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeprecateActivityTypeInput, DeprecateActivityTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -847,7 +847,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeprecateDomainInput, DeprecateDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -936,7 +936,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1024,7 +1024,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeActivityTypeInput, DescribeActivityTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1105,7 +1105,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeDomainInput, DescribeDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1186,7 +1186,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1274,7 +1274,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1355,7 +1355,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1436,7 +1436,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListActivityTypesInput, ListActivityTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1526,7 +1526,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1606,7 +1606,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListDomainsInput, ListDomainsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1696,7 +1696,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1769,7 +1769,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1850,7 +1850,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListWorkflowTypesInput, ListWorkflowTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1932,7 +1932,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PollForActivityTaskInput, PollForActivityTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2014,7 +2014,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PollForDecisionTaskInput, PollForDecisionTaskOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2095,7 +2095,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2187,7 +2187,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterActivityTypeInput, RegisterActivityTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2270,7 +2270,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterDomainInput, RegisterDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2362,7 +2362,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2443,7 +2443,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2524,7 +2524,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2605,7 +2605,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2686,7 +2686,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2758,7 +2758,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2839,7 +2839,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2943,7 +2943,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartWorkflowExecutionInput, StartWorkflowExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3017,7 +3017,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3098,7 +3098,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3187,7 +3187,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3269,7 +3269,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UndeprecateDomainInput, UndeprecateDomainOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3358,7 +3358,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3431,7 +3431,7 @@ extension SWFClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }

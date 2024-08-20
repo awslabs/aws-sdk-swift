@@ -228,7 +228,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ActivateOrganizationsAccessInput, ActivateOrganizationsAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -299,7 +299,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ActivateTypeInput, ActivateTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -370,7 +370,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<BatchDescribeTypeConfigurationsInput, BatchDescribeTypeConfigurationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -440,7 +440,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CancelUpdateStackInput, CancelUpdateStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -510,7 +510,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ContinueUpdateRollbackInput, ContinueUpdateRollbackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -582,7 +582,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateChangeSetInput, CreateChangeSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -654,7 +654,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateGeneratedTemplateInput, CreateGeneratedTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -727,7 +727,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStackInput, CreateStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -802,7 +802,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStackInstancesInput, CreateStackInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -875,7 +875,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<CreateStackSetInput, CreateStackSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -947,7 +947,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeactivateOrganizationsAccessInput, DeactivateOrganizationsAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1018,7 +1018,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeactivateTypeInput, DeactivateTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1088,7 +1088,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteChangeSetInput, DeleteChangeSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1159,7 +1159,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteGeneratedTemplateInput, DeleteGeneratedTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1229,7 +1229,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteStackInput, DeleteStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1303,7 +1303,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteStackInstancesInput, DeleteStackInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1375,7 +1375,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeleteStackSetInput, DeleteStackSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1446,7 +1446,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DeregisterTypeInput, DeregisterTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1511,7 +1511,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1581,7 +1581,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeChangeSetInput, DescribeChangeSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1651,7 +1651,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeChangeSetHooksInput, DescribeChangeSetHooksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1721,7 +1721,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeGeneratedTemplateInput, DescribeGeneratedTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1792,7 +1792,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeOrganizationsAccessInput, DescribeOrganizationsAccessOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1866,7 +1866,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribePublisherInput, DescribePublisherOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -1936,7 +1936,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeResourceScanInput, DescribeResourceScanOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2001,7 +2001,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStackDriftDetectionStatusInput, DescribeStackDriftDetectionStatusOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2066,7 +2066,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStackEventsInput, DescribeStackEventsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2137,7 +2137,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStackInstanceInput, DescribeStackInstanceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2202,7 +2202,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStackResourceInput, DescribeStackResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2267,7 +2267,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2332,7 +2332,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStackResourcesInput, DescribeStackResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2402,7 +2402,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStackSetInput, DescribeStackSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2473,7 +2473,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStackSetOperationInput, DescribeStackSetOperationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2538,7 +2538,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeStacksInput, DescribeStacksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2609,7 +2609,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTypeInput, DescribeTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2679,7 +2679,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2744,7 +2744,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectStackDriftInput, DetectStackDriftOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2809,7 +2809,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectStackResourceDriftInput, DetectStackResourceDriftOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2890,7 +2890,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<DetectStackSetDriftInput, DetectStackSetDriftOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2956,7 +2956,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<EstimateTemplateCostInput, EstimateTemplateCostOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3029,7 +3029,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ExecuteChangeSetInput, ExecuteChangeSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3099,7 +3099,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetGeneratedTemplateInput, GetGeneratedTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3164,7 +3164,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetStackPolicyInput, GetStackPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3234,7 +3234,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTemplateInput, GetTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3304,7 +3304,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<GetTemplateSummaryInput, GetTemplateSummaryOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3380,7 +3380,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ImportStacksToStackSetInput, ImportStacksToStackSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3446,7 +3446,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListChangeSetsInput, ListChangeSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3511,7 +3511,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListExportsInput, ListExportsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3576,7 +3576,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListGeneratedTemplatesInput, ListGeneratedTemplatesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3641,7 +3641,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListImportsInput, ListImportsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3712,7 +3712,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourceScanRelatedResourcesInput, ListResourceScanRelatedResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3783,7 +3783,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourceScanResourcesInput, ListResourceScanResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3848,7 +3848,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListResourceScansInput, ListResourceScansOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3920,7 +3920,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStackInstanceResourceDriftsInput, ListStackInstanceResourceDriftsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -3990,7 +3990,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStackInstancesInput, ListStackInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4055,7 +4055,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStackResourcesInput, ListStackResourcesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4125,7 +4125,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStackSetAutoDeploymentTargetsInput, ListStackSetAutoDeploymentTargetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4196,7 +4196,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4266,7 +4266,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStackSetOperationsInput, ListStackSetOperationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4337,7 +4337,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStackSetsInput, ListStackSetsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4402,7 +4402,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListStacksInput, ListStacksOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4472,7 +4472,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTypeRegistrationsInput, ListTypeRegistrationsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4542,7 +4542,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTypeVersionsInput, ListTypeVersionsOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4612,7 +4612,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ListTypesInput, ListTypesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4683,7 +4683,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<PublishTypeInput, PublishTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4754,7 +4754,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RecordHandlerProgressInput, RecordHandlerProgressOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4824,7 +4824,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterPublisherInput, RegisterPublisherOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4903,7 +4903,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RegisterTypeInput, RegisterTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -4983,7 +4983,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<RollbackStackInput, RollbackStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5048,7 +5048,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetStackPolicyInput, SetStackPolicyOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5119,7 +5119,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetTypeConfigurationInput, SetTypeConfigurationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5190,7 +5190,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SetTypeDefaultVersionInput, SetTypeDefaultVersionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5255,7 +5255,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SignalResourceInput, SignalResourceOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5332,7 +5332,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartResourceScanInput, StartResourceScanOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5404,7 +5404,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StopStackSetOperationInput, StopStackSetOperationOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5482,7 +5482,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<TestTypeInput, TestTypeOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5554,7 +5554,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateGeneratedTemplateInput, UpdateGeneratedTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5625,7 +5625,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateStackInput, UpdateStackOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5700,7 +5700,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateStackInstancesInput, UpdateStackInstancesOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5776,7 +5776,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateStackSetInput, UpdateStackSetOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5842,7 +5842,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<UpdateTerminationProtectionInput, UpdateTerminationProtectionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -5907,7 +5907,7 @@ extension CloudFormationClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<ValidateTemplateInput, ValidateTemplateOutput> = provider.create()
             builder.interceptors.add(i)
         }

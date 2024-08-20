@@ -240,7 +240,7 @@ extension TranscribeStreamingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -325,7 +325,7 @@ extension TranscribeStreamingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -410,7 +410,7 @@ extension TranscribeStreamingClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<StartStreamTranscriptionInput, StartStreamTranscriptionOutput> = provider.create()
             builder.interceptors.add(i)
         }
