@@ -637,6 +637,10 @@ extension OpenSearchServerlessClientTypes {
         public var dashboardEndpoint: Swift.String?
         /// A description of the collection.
         public var description: Swift.String?
+        /// A failure code associated with the request.
+        public var failureCode: Swift.String?
+        /// A message associated with the failure code.
+        public var failureMessage: Swift.String?
         /// A unique identifier for the collection.
         public var id: Swift.String?
         /// The ARN of the Amazon Web Services KMS key used to encrypt the collection.
@@ -658,6 +662,8 @@ extension OpenSearchServerlessClientTypes {
             createdDate: Swift.Int? = nil,
             dashboardEndpoint: Swift.String? = nil,
             description: Swift.String? = nil,
+            failureCode: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
             id: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -672,6 +678,8 @@ extension OpenSearchServerlessClientTypes {
             self.createdDate = createdDate
             self.dashboardEndpoint = dashboardEndpoint
             self.description = description
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
             self.id = id
             self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
@@ -1073,6 +1081,10 @@ extension OpenSearchServerlessClientTypes {
     public struct VpcEndpointDetail {
         /// The date the endpoint was created.
         public var createdDate: Swift.Int?
+        /// A failure code associated with the request.
+        public var failureCode: Swift.String?
+        /// A message associated with the failure code.
+        public var failureMessage: Swift.String?
         /// The unique identifier of the endpoint.
         public var id: Swift.String?
         /// The name of the endpoint.
@@ -1088,6 +1100,8 @@ extension OpenSearchServerlessClientTypes {
 
         public init(
             createdDate: Swift.Int? = nil,
+            failureCode: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
@@ -1097,6 +1111,8 @@ extension OpenSearchServerlessClientTypes {
         )
         {
             self.createdDate = createdDate
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
             self.id = id
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -4532,6 +4548,8 @@ extension OpenSearchServerlessClientTypes.CollectionDetail {
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
         value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
         value.dashboardEndpoint = try reader["dashboardEndpoint"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
         return value
     }
 }
@@ -4618,6 +4636,8 @@ extension OpenSearchServerlessClientTypes.VpcEndpointDetail {
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
         value.createdDate = try reader["createdDate"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
         return value
     }
 }

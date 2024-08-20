@@ -340,7 +340,6 @@ let serviceTargets: [String] = [
     "AWSCodeGuruReviewer",
     "AWSCodeGuruSecurity",
     "AWSCodePipeline",
-    "AWSCodeStar",
     "AWSCodeStarconnections",
     "AWSCodeartifact",
     "AWSCodestarnotifications",
