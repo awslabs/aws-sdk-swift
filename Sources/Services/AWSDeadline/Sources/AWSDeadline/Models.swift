@@ -2039,7 +2039,7 @@ extension DeadlineClientTypes {
 extension DeadlineClientTypes {
     /// The budget action to add.
     public struct BudgetActionToAdd {
-        /// A description for the budget action to add.
+        /// A description for the budget action to add. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public var description: Swift.String?
         /// The percentage threshold for the budget action to add.
         /// This member is required.
@@ -2140,9 +2140,9 @@ public struct CreateBudgetInput {
     public var approximateDollarLimit: Swift.Float?
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
-    /// The description of the budget.
+    /// The description of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the budget.
+    /// The display name of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The farm ID to include in this budget.
@@ -2239,7 +2239,7 @@ public struct GetBudgetInput {
 extension DeadlineClientTypes {
     /// The details of a budget action.
     public struct ResponseBudgetAction {
-        /// The budget action description.
+        /// The budget action description. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public var description: Swift.String?
         /// The percentage threshold for the budget.
         /// This member is required.
@@ -2329,9 +2329,9 @@ public struct GetBudgetOutput {
     /// The user or system that created this resource.
     /// This member is required.
     public var createdBy: Swift.String?
-    /// The description of the budget.
+    /// The description of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the budget.
+    /// The display name of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The date and time the queue stopped.
@@ -2436,9 +2436,10 @@ extension DeadlineClientTypes {
         /// The user or system that created this resource.
         /// This member is required.
         public var createdBy: Swift.String?
-        /// The description of the budget summary.
+        /// The description of the budget summary. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        @available(*, deprecated, message: "ListBudgets no longer supports description. Use GetBudget if description is needed.")
         public var description: Swift.String?
-        /// The display name of the budget summary to update.
+        /// The display name of the budget summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         /// This member is required.
         public var displayName: Swift.String?
         /// The status of the budget.
@@ -2523,9 +2524,9 @@ public struct UpdateBudgetInput {
     public var budgetId: Swift.String?
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
-    /// The description of the budget to update.
+    /// The description of the budget to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the budget to update.
+    /// The display name of the budget to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var displayName: Swift.String?
     /// The farm ID of the budget to update.
     /// This member is required.
@@ -2778,9 +2779,9 @@ extension DeadlineClientTypes {
 public struct CreateFarmInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
-    /// The description of the farm.
+    /// The description of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the farm.
+    /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The ARN of the KMS key to use on the farm.
@@ -3213,9 +3214,9 @@ public struct CreateFleetInput {
     /// The configuration settings for the fleet. Customer managed fleets are self-managed. Service managed Amazon EC2 fleets are managed by Deadline Cloud.
     /// This member is required.
     public var configuration: DeadlineClientTypes.FleetConfiguration?
-    /// The description of the fleet.
+    /// The description of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the fleet.
+    /// The display name of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The farm ID of the farm to connect to the fleet.
@@ -3313,11 +3314,11 @@ public struct CreateJobInput {
     public var farmId: Swift.String?
     /// The number of task failures before the job stops running and is marked as FAILED.
     public var maxFailedTasksCount: Swift.Int?
-    /// The maximum number of retries for a job.
+    /// The maximum number of retries for each task.
     public var maxRetriesPerTask: Swift.Int?
     /// The parameters for the job.
     public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
-    /// The priority of the job on a scale of 1 to 100. The highest priority is 1.
+    /// The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
     /// This member is required.
     public var priority: Swift.Int?
     /// The ID of the queue that the job is submitted to.
@@ -3325,7 +3326,7 @@ public struct CreateJobInput {
     public var queueId: Swift.String?
     /// The storage profile ID for the storage profile to connect to the job.
     public var storageProfileId: Swift.String?
-    /// The initial status of the job's tasks when they are created. Tasks that are created with a SUSPENDED status will not run until you update their status.
+    /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
     public var targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus?
     /// The job template to use for this job.
     /// This member is required.
@@ -3429,7 +3430,7 @@ public struct CreateLicenseEndpointOutput {
 public struct CreateMonitorInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
-    /// The name that you give the monitor that is displayed in the Deadline Cloud console.
+    /// The name that you give the monitor that is displayed in the Deadline Cloud console. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM Identity Center instance that authenticates monitor users.
@@ -3515,9 +3516,9 @@ public struct CreateQueueInput {
     public var clientToken: Swift.String?
     /// The default action to take on a queue if a budget isn't configured.
     public var defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
-    /// The description of the queue.
+    /// The description of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the queue.
+    /// The display name of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The farm ID of the farm to connect to the queue.
@@ -3789,7 +3790,7 @@ extension DeadlineClientTypes {
 public struct CreateStorageProfileInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
-    /// The display name of the storage profile.
+    /// The display name of the storage profile. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The farm ID of the farm to connect to the storage profile.
@@ -4178,9 +4179,9 @@ public struct GetFleetOutput {
     /// The user or system that created this resource.
     /// This member is required.
     public var createdBy: Swift.String?
-    /// The description of the fleet.
+    /// The description of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the fleet.
+    /// The display name of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The farm ID of the farm in the fleet.
@@ -4342,7 +4343,7 @@ public struct ListFleetMembersOutput {
 }
 
 public struct ListFleetsInput {
-    /// The display names of a list of fleets.
+    /// The display names of a list of fleets. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var displayName: Swift.String?
     /// The farm ID of the fleets.
     /// This member is required.
@@ -4388,7 +4389,7 @@ extension DeadlineClientTypes {
         /// The user or system that created this resource.
         /// This member is required.
         public var createdBy: Swift.String?
-        /// The display name of the fleet summary to update.
+        /// The display name of the fleet summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         /// This member is required.
         public var displayName: Swift.String?
         /// The farm ID.
@@ -4474,9 +4475,9 @@ public struct UpdateFleetInput {
     public var clientToken: Swift.String?
     /// The fleet configuration to update.
     public var configuration: DeadlineClientTypes.FleetConfiguration?
-    /// The description of the fleet to update.
+    /// The description of the fleet to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the fleet to update.
+    /// The display name of the fleet to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var displayName: Swift.String?
     /// The farm ID to update.
     /// This member is required.
@@ -5253,9 +5254,9 @@ public struct GetFarmOutput {
     /// The user or system that created this resource.
     /// This member is required.
     public var createdBy: Swift.String?
-    /// The description of the farm.
+    /// The description of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the farm.
+    /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The farm ID of the farm to get.
@@ -5321,7 +5322,7 @@ public struct GetStorageProfileOutput {
     /// The user or system that created this resource.
     /// This member is required.
     public var createdBy: Swift.String?
-    /// The display name of the storage profile.
+    /// The display name of the storage profile. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The location of the files for the storage profile.
@@ -5468,7 +5469,7 @@ extension DeadlineClientTypes {
         /// The user or system that created this resource.
         /// This member is required.
         public var createdBy: Swift.String?
-        /// The display name of the farm.
+        /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         /// This member is required.
         public var displayName: Swift.String?
         /// The farm ID.
@@ -5544,7 +5545,7 @@ public struct ListStorageProfilesInput {
 extension DeadlineClientTypes {
     /// The details of a storage profile.
     public struct StorageProfileSummary {
-        /// The display name of the storage profile summary to update.
+        /// The display name of the storage profile summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         /// This member is required.
         public var displayName: Swift.String?
         /// The operating system (OS) family.
@@ -5757,9 +5758,9 @@ public struct GetQueueOutput {
     /// The default action taken on a queue if a budget wasn't configured.
     /// This member is required.
     public var defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
-    /// The description of the queue.
+    /// The description of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the queue.
+    /// The display name of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The farm ID for the queue.
@@ -5936,7 +5937,7 @@ public struct GetStorageProfileForQueueInput {
 }
 
 public struct GetStorageProfileForQueueOutput {
-    /// The display name of the storage profile connected to a queue.
+    /// The display name of the storage profile connected to a queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The location of the files for the storage profile within the queue.
@@ -6182,7 +6183,7 @@ public struct GetJobOutput {
     /// The user or system that created this resource.
     /// This member is required.
     public var createdBy: Swift.String?
-    /// The description of the job.
+    /// The description of the job. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
     /// The date and time the resource ended running.
     public var endedAt: Foundation.Date?
@@ -6901,7 +6902,7 @@ public struct GetStepOutput {
     public var createdBy: Swift.String?
     /// The number of dependencies in the step.
     public var dependencyCounts: DeadlineClientTypes.DependencyCounts?
-    /// The description of the step.
+    /// The description of the step. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
     /// The date and time the resource ended running.
     public var endedAt: Foundation.Date?
@@ -8131,7 +8132,7 @@ public struct UpdateJobInput {
     /// The job ID to update.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The status of a job in its lifecycle.
+    /// The status of a job in its lifecycle. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived. An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
     public var lifecycleStatus: DeadlineClientTypes.UpdateJobLifecycleStatus?
     /// The number of task failures before the job stops running and is marked as FAILED.
     public var maxFailedTasksCount: Swift.Int?
@@ -8468,7 +8469,7 @@ public struct ListQueuesInput {
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null to start from the beginning.
     public var nextToken: Swift.String?
-    /// The principal ID. This filter is only valid when using Nimble Studio credentials and should match the user ID in the credentials of the caller.
+    /// The principal IDs to include in the list of queues.
     public var principalId: Swift.String?
     /// The status of the queues listed.
     ///
@@ -8509,7 +8510,7 @@ extension DeadlineClientTypes {
         /// The default action taken on a queue summary if a budget wasn't configured.
         /// This member is required.
         public var defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
-        /// The display name of the queue summary to update.
+        /// The display name of the queue summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         /// This member is required.
         public var displayName: Swift.String?
         /// The farm ID.
@@ -8623,9 +8624,9 @@ public struct UpdateQueueInput {
     public var clientToken: Swift.String?
     /// The default action to take for a queue update if a budget isn't configured.
     public var defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
-    /// The description of the queue to update.
+    /// The description of the queue to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the queue to update.
+    /// The display name of the queue to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var displayName: Swift.String?
     /// The farm ID to update in the queue.
     /// This member is required.
@@ -8736,9 +8737,9 @@ public struct UpdateQueueEnvironmentOutput {
 }
 
 public struct UpdateFarmInput {
-    /// The description of the farm to update.
+    /// The description of the farm to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The display name of the farm to update.
+    /// The display name of the farm to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var displayName: Swift.String?
     /// The farm ID to update.
     /// This member is required.
@@ -8769,7 +8770,7 @@ public struct UpdateFarmOutput {
 public struct UpdateStorageProfileInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
-    /// The display name of the storage profile to update.
+    /// The display name of the storage profile to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var displayName: Swift.String?
     /// The farm ID to update.
     /// This member is required.
@@ -9103,7 +9104,7 @@ public struct GetSessionsStatisticsAggregationOutput {
     public var nextToken: Swift.String?
     /// The statistics for the specified fleets or queues.
     public var statistics: [DeadlineClientTypes.Statistics]?
-    /// The status of the aggregated results.
+    /// The status of the aggregated results. An aggregation may fail or time out if the results are too large. If this happens, you can call the StartSessionsStatisticsAggregation operation after you reduce the aggregation time frame, reduce the number of queues or fleets in the aggregation, or increase the period length. If you call the StartSessionsStatisticsAggregation  operation when the status is IN_PROGRESS, you will receive a ThrottlingException.
     /// This member is required.
     public var status: DeadlineClientTypes.SessionsStatisticsAggregationStatus?
     /// A message that describes the status.
@@ -9600,7 +9601,7 @@ public struct GetMonitorOutput {
     /// The user name of the person that created the monitor.
     /// This member is required.
     public var createdBy: Swift.String?
-    /// The name used to identify the monitor on the Deadline Cloud console.
+    /// The name used to identify the monitor on the Deadline Cloud console. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
     /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the monitor when it was created.
@@ -9679,7 +9680,7 @@ extension DeadlineClientTypes {
         /// The user name of the person that created the monitor.
         /// This member is required.
         public var createdBy: Swift.String?
-        /// The name of the monitor that displays on the Deadline Cloud console.
+        /// The name of the monitor that displays on the Deadline Cloud console. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         /// This member is required.
         public var displayName: Swift.String?
         /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the monitor when it was created.
@@ -9753,7 +9754,7 @@ public struct ListMonitorsOutput {
 }
 
 public struct UpdateMonitorInput {
-    /// The new value to use for the monitor's display name.
+    /// The new value to use for the monitor's display name. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var displayName: Swift.String?
     /// The unique identifier of the monitor to update.
     /// This member is required.
@@ -10017,7 +10018,7 @@ extension DeadlineClientTypes {
         public var startedAt: Foundation.Date?
         /// The task status to start with on the job.
         public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
-        /// task run status for the job.
+        /// The task run status for the job.
         ///
         /// * PENDING–pending and waiting for resources.
         ///

@@ -210,7 +210,11 @@ extension LambdaClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `PolicyLengthExceededException` : The permissions policy for the resource is too large. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
-    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -285,7 +289,11 @@ extension LambdaClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `PolicyLengthExceededException` : The permissions policy for the resource is too large. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
-    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -2055,6 +2063,74 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetFunctionRecursionConfig` operation on the `AWSGirApiService` service.
+    ///
+    /// Returns your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration.
+    ///
+    /// - Parameter GetFunctionRecursionConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetFunctionRecursionConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func getFunctionRecursionConfig(input: GetFunctionRecursionConfigInput) async throws -> GetFunctionRecursionConfigOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getFunctionRecursionConfig")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput>(GetFunctionRecursionConfigInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionRecursionConfigOutput>(GetFunctionRecursionConfigOutput.httpOutput(from:), GetFunctionRecursionConfigOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionRecursionConfigOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetFunctionRecursionConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFunctionRecursionConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFunctionRecursionConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetFunctionUrlConfig` operation on the `AWSGirApiService` service.
     ///
     /// Returns details about a Lambda function URL.
@@ -3715,7 +3791,11 @@ extension LambdaClient {
     /// __Possible Exceptions:__
     /// - `CodeStorageExceededException` : Your Amazon Web Services account has exceeded its maximum total code size. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
-    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -3994,6 +4074,78 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutFunctionRecursionConfig` operation on the `AWSGirApiService` service.
+    ///
+    /// Sets your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
+    ///
+    /// - Parameter PutFunctionRecursionConfigInput : [no documentation found]
+    ///
+    /// - Returns: `PutFunctionRecursionConfigOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func putFunctionRecursionConfig(input: PutFunctionRecursionConfigInput) async throws -> PutFunctionRecursionConfigOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putFunctionRecursionConfig")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>(PutFunctionRecursionConfigInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutFunctionRecursionConfigInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFunctionRecursionConfigOutput>(PutFunctionRecursionConfigOutput.httpOutput(from:), PutFunctionRecursionConfigOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutFunctionRecursionConfigOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutFunctionRecursionConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFunctionRecursionConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutFunctionRecursionConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutProvisionedConcurrencyConfig` operation on the `AWSGirApiService` service.
     ///
     /// Adds a provisioned concurrency configuration to a function's alias or version.
@@ -4152,7 +4304,11 @@ extension LambdaClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
-    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -4222,7 +4378,11 @@ extension LambdaClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
-    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -4434,7 +4594,11 @@ extension LambdaClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
-    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -4698,7 +4862,11 @@ extension LambdaClient {
     /// - `CodeVerificationFailedException` : The code signature failed one or more of the validation checks for signature mismatch or expiry, and the code signing policy is set to ENFORCE. Lambda blocks the deployment.
     /// - `InvalidCodeSignatureException` : The code signature failed the integrity check. If the integrity check fails, then Lambda blocks deployment, even if the code signing policy is set to WARN.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
-    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -4774,7 +4942,11 @@ extension LambdaClient {
     /// - `CodeVerificationFailedException` : The code signature failed one or more of the validation checks for signature mismatch or expiry, and the code signing policy is set to ENFORCE. Lambda blocks the deployment.
     /// - `InvalidCodeSignatureException` : The code signature failed the integrity check. If the integrity check fails, then Lambda blocks deployment, even if the code signing policy is set to WARN.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
-    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
