@@ -15,14 +15,18 @@ public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput> {
     private let X_AMZ_USER_AGENT: String = "x-amz-user-agent"
     private let USER_AGENT: String = "User-Agent"
 
-    let metadata: AWSUserAgentMetadata
+    let serviceID: String
+    let version: String
+    let config: DefaultClientConfiguration & AWSDefaultClientConfiguration
 
-    public init(metadata: AWSUserAgentMetadata) {
-        self.metadata = metadata
-    }
-
-    private func addHeader(builder: HTTPRequestBuilder) {
-        builder.withHeader(name: USER_AGENT, value: metadata.userAgent)
+    public init(
+        serviceID: String,
+        version: String,
+        config: DefaultClientConfiguration & AWSDefaultClientConfiguration
+    ) {
+        self.serviceID = serviceID
+        self.version = version
+        self.config = config
     }
 }
 
@@ -30,9 +34,15 @@ extension UserAgentMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeRetryLoop(context: some MutableRequest<Self.InputType, HTTPRequest>) async throws {
+    public func modifyBeforeTransmit(context: some MutableRequest<Self.InputType, HTTPRequest>) async throws {
+        let awsUserAgentString = AWSUserAgentMetadata.fromConfigAndContext(
+            serviceID: serviceID,
+            version: version,
+            config: config,
+            context: context.getAttributes()
+        ).userAgent
         let builder = context.getRequest().toBuilder()
-        addHeader(builder: builder)
+        builder.withHeader(name: USER_AGENT, value: awsUserAgentString)
         context.updateRequest(updated: builder.build())
     }
 }
