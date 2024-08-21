@@ -60,27 +60,27 @@ public extension Context {
 public let businessMetricsKey = AttributeKey<Dictionary<String, String>>(name: "BusinessMetrics")
 
 /* List of readable "feature ID" to "metric value"; last updated on 08/19/2024
-    [Feature ID]                  [Metric Value]
-    "RESOURCE_MODEL"            : "A",
-    "WAITER"                    : "B",
-    "PAGINATOR"                 : "C",
-    "RETRY_MODE_LEGACY"         : "D",
-    "RETRY_MODE_STANDARD"       : "E",
-    "RETRY_MODE_ADAPTIVE"       : "F",
-    "S3_TRANSFER"               : "G",
-    "S3_CRYPTO_V1N"             : "H",
-    "S3_CRYPTO_V2"              : "I",
-    "S3_EXPRESS_BUCKET"         : "J",
-    "S3_ACCESS_GRANTS"          : "K",
-    "GZIP_REQUEST_COMPRESSION"  : "L",
-    "PROTOCOL_RPC_V2_CBOR"      : "M",
-    "ENDPOINT_OVERRIDE"         : "N",
-    "ACCOUNT_ID_ENDPOINT"       : "O",
-    "ACCOUNT_ID_MODE_PREFERRED" : "P",
-    "ACCOUNT_ID_MODE_DISABLED"  : "Q",
-    "ACCOUNT_ID_MODE_REQUIRED"  : "R",
-    "SIGV4A_SIGNING"            : "S",
-    "RESOLVED_ACCOUNT_ID"       : "T"
+    [Feature ID]                [Metric Value]  [Flag Supported]
+    "RESOURCE_MODEL"            : "A"           :
+    "WAITER"                    : "B"           :
+    "PAGINATOR"                 : "C"           :
+    "RETRY_MODE_LEGACY"         : "D"           : Y
+    "RETRY_MODE_STANDARD"       : "E"           : Y
+    "RETRY_MODE_ADAPTIVE"       : "F"           : Y
+    "S3_TRANSFER"               : "G"           :
+    "S3_CRYPTO_V1N"             : "H"           :
+    "S3_CRYPTO_V2"              : "I"           :
+    "S3_EXPRESS_BUCKET"         : "J"           :
+    "S3_ACCESS_GRANTS"          : "K"           :
+    "GZIP_REQUEST_COMPRESSION"  : "L"           :
+    "PROTOCOL_RPC_V2_CBOR"      : "M"           :
+    "ENDPOINT_OVERRIDE"         : "N"           : Y
+    "ACCOUNT_ID_ENDPOINT"       : "O"           :
+    "ACCOUNT_ID_MODE_PREFERRED" : "P"           :
+    "ACCOUNT_ID_MODE_DISABLED"  : "Q"           :
+    "ACCOUNT_ID_MODE_REQUIRED"  : "R"           :
+    "SIGV4A_SIGNING"            : "S"           : Y
+    "RESOLVED_ACCOUNT_ID"       : "T"           :
  */
 fileprivate func setFlagsIntoContext(
     config: UserAgentValuesFromConfig,
