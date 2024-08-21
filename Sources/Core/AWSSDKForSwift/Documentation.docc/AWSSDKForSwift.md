@@ -229,8 +229,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSCodePipeline](../../../../../swift/api/awscodepipeline/latest)
 
-[AWSCodeStar](../../../../../swift/api/awscodestar/latest)
-
 [AWSCodeStarconnections](../../../../../swift/api/awscodestarconnections/latest)
 
 [AWSCodeartifact](../../../../../swift/api/awscodeartifact/latest)

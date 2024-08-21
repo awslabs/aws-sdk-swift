@@ -154,6 +154,7 @@ func addProtocolTests() {
         .init(name: "EventStream", sourcePath: "\(baseDirLocal)/EventStream", buildOnly: true),
         .init(name: "RPCEventStream", sourcePath: "\(baseDirLocal)/RPCEventStream", buildOnly: true),
         .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "../codegen/protocol-test-codegen-local/Tests"),
+        .init(name: "StringArrayEndpointParam", sourcePath: "\(baseDirLocal)/StringArrayEndpointParam")
     ]
     for protocolTest in protocolTests {
         let target = Target.target(
