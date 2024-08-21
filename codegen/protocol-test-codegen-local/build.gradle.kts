@@ -47,6 +47,10 @@ val codegenTests = listOf(
     CodegenTest(
         "aws.protocoltests.eventstream#RPCTestService",
         "RPCEventStream"
+    ),
+    CodegenTest(
+        "aws.endpointtests.stringarray#EndpointStringArray",
+        "StringArrayEndpointParam"
     )
 )
 
