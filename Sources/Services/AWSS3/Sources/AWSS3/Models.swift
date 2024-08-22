@@ -724,6 +724,8 @@ public struct CompleteMultipartUploadInput {
     public var checksumSHA256: Swift.String?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
+    /// Uploads the object only if the object key name does not already exist in the bucket specified. Otherwise, Amazon S3 returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should re-initiate the multipart upload with CreateMultipartUpload and re-upload each part. Expects the '*' (asterisk) character. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232), or [Conditional requests](https://docs.aws.amazon.com/AmazonS3/latest/userguide/conditional-requests.html) in the Amazon S3 User Guide.
+    public var ifNoneMatch: Swift.String?
     /// Object key for which the multipart upload was initiated.
     /// This member is required.
     public var key: Swift.String?
@@ -748,6 +750,7 @@ public struct CompleteMultipartUploadInput {
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
+        ifNoneMatch: Swift.String? = nil,
         key: Swift.String? = nil,
         multipartUpload: S3ClientTypes.CompletedMultipartUpload? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
@@ -763,6 +766,7 @@ public struct CompleteMultipartUploadInput {
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
         self.expectedBucketOwner = expectedBucketOwner
+        self.ifNoneMatch = ifNoneMatch
         self.key = key
         self.multipartUpload = multipartUpload
         self.requestPayer = requestPayer
@@ -775,7 +779,7 @@ public struct CompleteMultipartUploadInput {
 
 extension CompleteMultipartUploadInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CompleteMultipartUploadInput(bucket: \(Swift.String(describing: bucket)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), multipartUpload: \(Swift.String(describing: multipartUpload)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
+        "CompleteMultipartUploadInput(bucket: \(Swift.String(describing: bucket)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), multipartUpload: \(Swift.String(describing: multipartUpload)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
 }
 
 extension S3ClientTypes {
@@ -7047,7 +7051,7 @@ public struct GetObjectInput {
     /// The bucket name containing the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide. Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. Object Lambda access points - When you use this action with an Object Lambda access point, you must direct requests to the Object Lambda access point hostname. The Object Lambda access point hostname takes the form AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com. Access points and Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// To retrieve the checksum, this mode must be enabled.
+    /// To retrieve the checksum, this mode must be enabled. In addition, if you enable checksum mode and the object is uploaded with a [checksum](https://docs.aws.amazon.com/AmazonS3/latest/API/API_Checksum.html) and encrypted with an Key Management Service (KMS) key, you must have permission to use the kms:Decrypt action to retrieve the checksum.
     public var checksumMode: S3ClientTypes.ChecksumMode?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
@@ -8155,7 +8159,7 @@ public struct HeadObjectInput {
     /// The name of the bucket that contains the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide. Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. Access points and Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// To retrieve the checksum, this parameter must be enabled. In addition, if you enable ChecksumMode and the object is encrypted with Amazon Web Services Key Management Service (Amazon Web Services KMS), you must have permission to use the kms:Decrypt action for the request to succeed.
+    /// To retrieve the checksum, this parameter must be enabled. In addition, if you enable checksum mode and the object is uploaded with a [checksum](https://docs.aws.amazon.com/AmazonS3/latest/API/API_Checksum.html) and encrypted with an Key Management Service (KMS) key, you must have permission to use the kms:Decrypt action to retrieve the checksum.
     public var checksumMode: S3ClientTypes.ChecksumMode?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
@@ -10524,6 +10528,8 @@ public struct PutObjectInput {
     ///
     /// * This functionality is not supported for Amazon S3 on Outposts.
     public var grantWriteACP: Swift.String?
+    /// Uploads the object only if the object key name does not already exist in the bucket specified. Otherwise, Amazon S3 returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should retry the upload. Expects the '*' (asterisk) character. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232), or [Conditional requests](https://docs.aws.amazon.com/AmazonS3/latest/userguide/conditional-requests.html) in the Amazon S3 User Guide.
+    public var ifNoneMatch: Swift.String?
     /// Object key for which the PUT action was initiated.
     /// This member is required.
     public var key: Swift.String?
@@ -10583,6 +10589,7 @@ public struct PutObjectInput {
         grantRead: Swift.String? = nil,
         grantReadACP: Swift.String? = nil,
         grantWriteACP: Swift.String? = nil,
+        ifNoneMatch: Swift.String? = nil,
         key: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
@@ -10622,6 +10629,7 @@ public struct PutObjectInput {
         self.grantRead = grantRead
         self.grantReadACP = grantReadACP
         self.grantWriteACP = grantWriteACP
+        self.ifNoneMatch = ifNoneMatch
         self.key = key
         self.metadata = metadata
         self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
@@ -10642,7 +10650,7 @@ public struct PutObjectInput {
 
 extension PutObjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutObjectInput(acl: \(Swift.String(describing: acl)), body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "PutObjectInput(acl: \(Swift.String(describing: acl)), body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutObjectOutput {
@@ -11533,9 +11541,9 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    /// Describes the parameters for Select job types.
+    /// Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Describes the parameters for Select job types. Learn [How to optimize querying your data in Amazon S3](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) using [Amazon Athena](https://docs.aws.amazon.com/athena/latest/ug/what-is.html), [S3 Object Lambda](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html), or client-side filtering.
     public struct SelectParameters {
-        /// The expression that is used to query the object.
+        /// Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) The expression that is used to query the object.
         /// This member is required.
         public var expression: Swift.String?
         /// The type of the provided expression (for example, SQL).
@@ -11601,11 +11609,11 @@ extension S3ClientTypes {
         public var glacierJobParameters: S3ClientTypes.GlacierJobParameters?
         /// Describes the location where the restore job's output is stored.
         public var outputLocation: S3ClientTypes.OutputLocation?
-        /// Describes the parameters for Select job types.
+        /// Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Describes the parameters for Select job types.
         public var selectParameters: S3ClientTypes.SelectParameters?
         /// Retrieval tier at which the restore will be processed.
         public var tier: S3ClientTypes.Tier?
-        /// Type of restore request.
+        /// Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Type of restore request.
         public var type: S3ClientTypes.RestoreRequestType?
 
         public init(
@@ -11720,7 +11728,7 @@ extension S3ClientTypes {
 
 }
 
-/// Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
+/// Learn Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
 public struct SelectObjectContentInput {
     /// The S3 bucket.
     /// This member is required.
@@ -12539,6 +12547,9 @@ extension CompleteMultipartUploadInput {
         }
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let ifNoneMatch = value.ifNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
         }
         if let requestPayer = value.requestPayer {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
@@ -15568,6 +15579,9 @@ extension PutObjectInput {
         }
         if let grantWriteACP = value.grantWriteACP {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
+        }
+        if let ifNoneMatch = value.ifNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
         }
         if let objectLockLegalHoldStatus = value.objectLockLegalHoldStatus {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
@@ -21713,7 +21727,9 @@ extension GetObjectInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -21857,7 +21873,9 @@ extension PutObjectInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -21944,7 +21962,9 @@ extension GetObjectInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -22014,7 +22034,9 @@ extension PutObjectInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -22084,7 +22106,9 @@ extension UploadPartInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()

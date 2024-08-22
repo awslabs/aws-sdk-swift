@@ -8564,6 +8564,8 @@ extension GlueClientTypes {
         public var jobMode: GlueClientTypes.JobMode?
         /// The name of the job definition being used in this run.
         public var jobName: Swift.String?
+        /// Specifies whether job run queuing is enabled for the job run. A value of true means job run queuing is enabled for the job run. If false or not populated, the job run will not be considered for queueing.
+        public var jobRunQueuingEnabled: Swift.Bool?
         /// The current state of the job run. For more information about the statuses of jobs that have terminated abnormally, see [Glue Job Run Statuses](https://docs.aws.amazon.com/glue/latest/dg/job-run-statuses.html).
         public var jobRunState: GlueClientTypes.JobRunState?
         /// The last time that this job run was modified.
@@ -8592,6 +8594,8 @@ extension GlueClientTypes {
         public var securityConfiguration: Swift.String?
         /// The date and time at which this job run was started.
         public var startedOn: Foundation.Date?
+        /// This field holds details that pertain to the state of a job run. The field is nullable. For example, when a job run is in a WAITING state as a result of job run queuing, the field has the reason why the job run is in that state.
+        public var stateDetail: Swift.String?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
         /// The name of the trigger that started this job run.
@@ -8624,6 +8628,7 @@ extension GlueClientTypes {
             id: Swift.String? = nil,
             jobMode: GlueClientTypes.JobMode? = nil,
             jobName: Swift.String? = nil,
+            jobRunQueuingEnabled: Swift.Bool? = nil,
             jobRunState: GlueClientTypes.JobRunState? = nil,
             lastModifiedOn: Foundation.Date? = nil,
             logGroupName: Swift.String? = nil,
@@ -8636,6 +8641,7 @@ extension GlueClientTypes {
             profileName: Swift.String? = nil,
             securityConfiguration: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
+            stateDetail: Swift.String? = nil,
             timeout: Swift.Int? = nil,
             triggerName: Swift.String? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
@@ -8653,6 +8659,7 @@ extension GlueClientTypes {
             self.id = id
             self.jobMode = jobMode
             self.jobName = jobName
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.jobRunState = jobRunState
             self.lastModifiedOn = lastModifiedOn
             self.logGroupName = logGroupName
@@ -8665,6 +8672,7 @@ extension GlueClientTypes {
             self.profileName = profileName
             self.securityConfiguration = securityConfiguration
             self.startedOn = startedOn
+            self.stateDetail = stateDetail
             self.timeout = timeout
             self.triggerName = triggerName
             self.workerType = workerType
@@ -22414,6 +22422,8 @@ public struct StartJobRunInput {
     public var jobName: Swift.String?
     /// The ID of a previous JobRun to retry.
     public var jobRunId: Swift.String?
+    /// Specifies whether job run queuing is enabled for the job run. A value of true means job run queuing is enabled for the job run. If false or not populated, the job run will not be considered for queueing.
+    public var jobRunQueuingEnabled: Swift.Bool?
     /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
     ///
     /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
@@ -22449,6 +22459,7 @@ public struct StartJobRunInput {
         executionClass: GlueClientTypes.ExecutionClass? = nil,
         jobName: Swift.String? = nil,
         jobRunId: Swift.String? = nil,
+        jobRunQueuingEnabled: Swift.Bool? = nil,
         maxCapacity: Swift.Double? = nil,
         notificationProperty: GlueClientTypes.NotificationProperty? = nil,
         numberOfWorkers: Swift.Int? = nil,
@@ -22462,6 +22473,7 @@ public struct StartJobRunInput {
         self.executionClass = executionClass
         self.jobName = jobName
         self.jobRunId = jobRunId
+        self.jobRunQueuingEnabled = jobRunQueuingEnabled
         self.maxCapacity = maxCapacity
         self.notificationProperty = notificationProperty
         self.numberOfWorkers = numberOfWorkers
@@ -24796,6 +24808,8 @@ extension GlueClientTypes {
         ///
         /// When the JobMode field is missing or null, SCRIPT is assigned as the default value.
         public var jobMode: GlueClientTypes.JobMode?
+        /// Specifies whether job run queuing is enabled for the job runs for this job. A value of true means job run queuing is enabled for the job runs. If false or not populated, the job runs will not be considered for queueing. If this field does not match the value set in the job run, then the value from the job run field will be used.
+        public var jobRunQueuingEnabled: Swift.Bool?
         /// The last point in time when this job definition was modified.
         public var lastModifiedOn: Foundation.Date?
         /// This field is reserved for future use.
@@ -24855,6 +24869,7 @@ extension GlueClientTypes {
             executionProperty: GlueClientTypes.ExecutionProperty? = nil,
             glueVersion: Swift.String? = nil,
             jobMode: GlueClientTypes.JobMode? = nil,
+            jobRunQueuingEnabled: Swift.Bool? = nil,
             lastModifiedOn: Foundation.Date? = nil,
             logUri: Swift.String? = nil,
             maintenanceWindow: Swift.String? = nil,
@@ -24883,6 +24898,7 @@ extension GlueClientTypes {
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.jobMode = jobMode
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.lastModifiedOn = lastModifiedOn
             self.logUri = logUri
             self.maintenanceWindow = maintenanceWindow
@@ -24905,7 +24921,7 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Job: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Job(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), createdOn: \(Swift.String(describing: createdOn)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), lastModifiedOn: \(Swift.String(describing: lastModifiedOn)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), profileName: \(Swift.String(describing: profileName)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
+        "Job(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), createdOn: \(Swift.String(describing: createdOn)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), jobRunQueuingEnabled: \(Swift.String(describing: jobRunQueuingEnabled)), lastModifiedOn: \(Swift.String(describing: lastModifiedOn)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), profileName: \(Swift.String(describing: profileName)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
 }
 
 extension GlueClientTypes {
@@ -24941,6 +24957,8 @@ extension GlueClientTypes {
         ///
         /// When the JobMode field is missing or null, SCRIPT is assigned as the default value.
         public var jobMode: GlueClientTypes.JobMode?
+        /// Specifies whether job run queuing is enabled for the job runs for this job. A value of true means job run queuing is enabled for the job runs. If false or not populated, the job runs will not be considered for queueing. If this field does not match the value set in the job run, then the value from the job run field will be used.
+        public var jobRunQueuingEnabled: Swift.Bool?
         /// This field is reserved for future use.
         public var logUri: Swift.String?
         /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
@@ -24993,6 +25011,7 @@ extension GlueClientTypes {
             executionProperty: GlueClientTypes.ExecutionProperty? = nil,
             glueVersion: Swift.String? = nil,
             jobMode: GlueClientTypes.JobMode? = nil,
+            jobRunQueuingEnabled: Swift.Bool? = nil,
             logUri: Swift.String? = nil,
             maintenanceWindow: Swift.String? = nil,
             maxCapacity: Swift.Double? = nil,
@@ -25017,6 +25036,7 @@ extension GlueClientTypes {
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.jobMode = jobMode
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.logUri = logUri
             self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
@@ -25036,7 +25056,7 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.JobUpdate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "JobUpdate(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
+        "JobUpdate(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), jobRunQueuingEnabled: \(Swift.String(describing: jobRunQueuingEnabled)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateJobInput {
@@ -25071,6 +25091,8 @@ public struct CreateJobInput {
     ///
     /// When the JobMode field is missing or null, SCRIPT is assigned as the default value.
     public var jobMode: GlueClientTypes.JobMode?
+    /// Specifies whether job run queuing is enabled for the job runs for this job. A value of true means job run queuing is enabled for the job runs. If false or not populated, the job runs will not be considered for queueing. If this field does not match the value set in the job run, then the value from the job run field will be used.
+    public var jobRunQueuingEnabled: Swift.Bool?
     /// This field is reserved for future use.
     public var logUri: Swift.String?
     /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
@@ -25129,6 +25151,7 @@ public struct CreateJobInput {
         executionProperty: GlueClientTypes.ExecutionProperty? = nil,
         glueVersion: Swift.String? = nil,
         jobMode: GlueClientTypes.JobMode? = nil,
+        jobRunQueuingEnabled: Swift.Bool? = nil,
         logUri: Swift.String? = nil,
         maintenanceWindow: Swift.String? = nil,
         maxCapacity: Swift.Double? = nil,
@@ -25155,6 +25178,7 @@ public struct CreateJobInput {
         self.executionProperty = executionProperty
         self.glueVersion = glueVersion
         self.jobMode = jobMode
+        self.jobRunQueuingEnabled = jobRunQueuingEnabled
         self.logUri = logUri
         self.maintenanceWindow = maintenanceWindow
         self.maxCapacity = maxCapacity
@@ -25174,7 +25198,7 @@ public struct CreateJobInput {
 
 extension CreateJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateJobInput(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), tags: \(Swift.String(describing: tags)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
+        "CreateJobInput(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), jobRunQueuingEnabled: \(Swift.String(describing: jobRunQueuingEnabled)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), tags: \(Swift.String(describing: tags)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetTableVersionsOutput {
@@ -27160,6 +27184,7 @@ extension CreateJobInput {
         try writer["ExecutionProperty"].write(value.executionProperty, with: GlueClientTypes.ExecutionProperty.write(value:to:))
         try writer["GlueVersion"].write(value.glueVersion)
         try writer["JobMode"].write(value.jobMode)
+        try writer["JobRunQueuingEnabled"].write(value.jobRunQueuingEnabled)
         try writer["LogUri"].write(value.logUri)
         try writer["MaintenanceWindow"].write(value.maintenanceWindow)
         try writer["MaxCapacity"].write(value.maxCapacity)
@@ -28789,6 +28814,7 @@ extension StartJobRunInput {
         try writer["ExecutionClass"].write(value.executionClass)
         try writer["JobName"].write(value.jobName)
         try writer["JobRunId"].write(value.jobRunId)
+        try writer["JobRunQueuingEnabled"].write(value.jobRunQueuingEnabled)
         try writer["MaxCapacity"].write(value.maxCapacity)
         try writer["NotificationProperty"].write(value.notificationProperty, with: GlueClientTypes.NotificationProperty.write(value:to:))
         try writer["NumberOfWorkers"].write(value.numberOfWorkers)
@@ -36847,6 +36873,7 @@ extension GlueClientTypes.Job {
         var value = GlueClientTypes.Job()
         value.name = try reader["Name"].readIfPresent()
         value.jobMode = try reader["JobMode"].readIfPresent()
+        value.jobRunQueuingEnabled = try reader["JobRunQueuingEnabled"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.logUri = try reader["LogUri"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
@@ -40013,6 +40040,7 @@ extension GlueClientTypes.JobRun {
         value.triggerName = try reader["TriggerName"].readIfPresent()
         value.jobName = try reader["JobName"].readIfPresent()
         value.jobMode = try reader["JobMode"].readIfPresent()
+        value.jobRunQueuingEnabled = try reader["JobRunQueuingEnabled"].readIfPresent()
         value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: .epochSeconds)
         value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: .epochSeconds)
         value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: .epochSeconds)
@@ -40034,6 +40062,7 @@ extension GlueClientTypes.JobRun {
         value.executionClass = try reader["ExecutionClass"].readIfPresent()
         value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
         value.profileName = try reader["ProfileName"].readIfPresent()
+        value.stateDetail = try reader["StateDetail"].readIfPresent()
         return value
     }
 }
@@ -42376,6 +42405,7 @@ extension GlueClientTypes.JobUpdate {
         try writer["ExecutionProperty"].write(value.executionProperty, with: GlueClientTypes.ExecutionProperty.write(value:to:))
         try writer["GlueVersion"].write(value.glueVersion)
         try writer["JobMode"].write(value.jobMode)
+        try writer["JobRunQueuingEnabled"].write(value.jobRunQueuingEnabled)
         try writer["LogUri"].write(value.logUri)
         try writer["MaintenanceWindow"].write(value.maintenanceWindow)
         try writer["MaxCapacity"].write(value.maxCapacity)

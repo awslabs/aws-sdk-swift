@@ -30,33 +30,45 @@ public struct EndpointParams {
     public let boolBaz: Swift.String?
     public let boolFoo: Swift.Bool
     public let endpoint: Swift.String?
+    public let flattenedArray: Swift.Array<Swift.String>?
+    public let keysFunctionArray: Swift.Array<Swift.String>?
     public let region: Swift.String
     public let stringArrayBar: Swift.Array<Swift.String>?
     public let stringBar: Swift.String?
     public let stringBaz: Swift.String?
     public let stringFoo: Swift.String?
+    public let subfield: Swift.String?
+    public let wildcardProjectionArray: Swift.Array<Swift.String>?
 
     public init(
         boolBar: Swift.Bool? = nil,
         boolBaz: Swift.String? = nil,
         boolFoo: Swift.Bool,
         endpoint: Swift.String? = nil,
+        flattenedArray: Swift.Array<Swift.String>? = nil,
+        keysFunctionArray: Swift.Array<Swift.String>? = nil,
         region: Swift.String,
         stringArrayBar: Swift.Array<Swift.String>? = nil,
         stringBar: Swift.String? = nil,
         stringBaz: Swift.String? = nil,
-        stringFoo: Swift.String? = nil
+        stringFoo: Swift.String? = nil,
+        subfield: Swift.String? = nil,
+        wildcardProjectionArray: Swift.Array<Swift.String>? = nil
     )
     {
         self.boolBar = boolBar
         self.boolBaz = boolBaz
         self.boolFoo = boolFoo
         self.endpoint = endpoint
+        self.flattenedArray = flattenedArray
+        self.keysFunctionArray = keysFunctionArray
         self.region = region
         self.stringArrayBar = stringArrayBar
         self.stringBar = stringBar
         self.stringBaz = stringBaz
         self.stringFoo = stringFoo
+        self.subfield = subfield
+        self.wildcardProjectionArray = wildcardProjectionArray
     }
 }
 """
@@ -79,11 +91,15 @@ extension EndpointParams: ClientRuntime.EndpointsRequestContextProviding {
             try context.add(name: "boolBaz", value: self.boolBaz)
             try context.add(name: "boolFoo", value: self.boolFoo)
             try context.add(name: "endpoint", value: self.endpoint)
+            try context.add(name: "flattenedArray", value: self.flattenedArray)
+            try context.add(name: "keysFunctionArray", value: self.keysFunctionArray)
             try context.add(name: "region", value: self.region)
             try context.add(name: "stringArrayBar", value: self.stringArrayBar)
             try context.add(name: "stringBar", value: self.stringBar)
             try context.add(name: "stringBaz", value: self.stringBaz)
             try context.add(name: "stringFoo", value: self.stringFoo)
+            try context.add(name: "subfield", value: self.subfield)
+            try context.add(name: "wildcardProjectionArray", value: self.wildcardProjectionArray)
             return context
         }
     }

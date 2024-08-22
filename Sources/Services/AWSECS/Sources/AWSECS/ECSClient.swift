@@ -261,7 +261,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -270,7 +272,7 @@ extension ECSClient {
 
     /// Performs the `CreateCluster` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name with the CreateCluster action. When you call the [CreateCluster] API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name. When you call the [CreateCluster](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCluster.html) API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
@@ -335,7 +337,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -344,14 +348,14 @@ extension ECSClient {
 
     /// Performs the `CreateService` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Runs and maintains your desired number of tasks from a specified task definition. If the number of tasks running in a service drops below the desiredCount, Amazon ECS runs another copy of the task in the specified cluster. To update an existing service, see the [UpdateService] action. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. In addition to maintaining the desired count of tasks in your service, you can optionally run your service behind one or more load balancers. The load balancers distribute traffic across the tasks that are associated with the service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. volumeConfigurations is only supported for REPLICA service and not DAEMON service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer. There are two service scheduler strategies available:
+    /// Runs and maintains your desired number of tasks from a specified task definition. If the number of tasks running in a service drops below the desiredCount, Amazon ECS runs another copy of the task in the specified cluster. To update an existing service, use [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html). On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. In addition to maintaining the desired count of tasks in your service, you can optionally run your service behind one or more load balancers. The load balancers distribute traffic across the tasks that are associated with the service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. volumeConfigurations is only supported for REPLICA service and not DAEMON service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer. There are two service scheduler strategies available:
     ///
     /// * REPLICA - The replica scheduling strategy places and maintains your desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. For more information, see [Service scheduler concepts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// * DAEMON - The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks. It also stops tasks that don't meet the placement constraints. When using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies. For more information, see [Service scheduler concepts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     ///
-    /// You can optionally specify a deployment configuration for your service. The deployment is initiated by changing properties. For example, the deployment might be initiated by the task definition or by your desired count of a service. This is done with an [UpdateService] operation. The default value for a replica service for minimumHealthyPercent is 100%. The default value for a daemon service for minimumHealthyPercent is 0%. If a service uses the ECS deployment controller, the minimum healthy percent represents a lower limit on the number of tasks in a service that must remain in the RUNNING state during a deployment. Specifically, it represents it as a percentage of your desired number of tasks (rounded up to the nearest integer). This happens when any of your container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Using this parameter, you can deploy without using additional cluster capacity. For example, if you set your service to have desired number of four tasks and a minimum healthy percent of 50%, the scheduler might stop two existing tasks to free up cluster capacity before starting two new tasks. If they're in the RUNNING state, tasks for services that don't use a load balancer are considered healthy . If they're in the RUNNING state and reported as healthy by the load balancer, tasks for services that do use a load balancer are considered healthy . The default value for minimum healthy percent is 100%. If a service uses the ECS deployment controller, the maximum percent parameter represents an upper limit on the number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment. Specifically, it represents it as a percentage of the desired number of tasks (rounded down to the nearest integer). This happens when any of your container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Using this parameter, you can define the deployment batch size. For example, if your service has a desired number of four tasks and a maximum percent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximum percent is 200%. If a service uses either the CODE_DEPLOY or EXTERNAL deployment controller types and tasks that use the EC2 launch type, the minimum healthy percent and maximum percent values are used only to define the lower and upper limit on the number of the tasks in the service that remain in the RUNNING state. This is while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the minimum healthy percent and maximum percent values aren't used. This is the case even if they're currently visible when describing your service. When creating a service that uses the EXTERNAL deployment controller, you can specify only parameters that aren't controlled at the task set level. The only required parameter is the service name. You control your services using the [CreateTaskSet] operation. For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see [Amazon ECS task placement](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement.html) in the Amazon Elastic Container Service Developer Guide Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    /// You can optionally specify a deployment configuration for your service. The deployment is initiated by changing properties. For example, the deployment might be initiated by the task definition or by your desired count of a service. You can use [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html). The default value for a replica service for minimumHealthyPercent is 100%. The default value for a daemon service for minimumHealthyPercent is 0%. If a service uses the ECS deployment controller, the minimum healthy percent represents a lower limit on the number of tasks in a service that must remain in the RUNNING state during a deployment. Specifically, it represents it as a percentage of your desired number of tasks (rounded up to the nearest integer). This happens when any of your container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Using this parameter, you can deploy without using additional cluster capacity. For example, if you set your service to have desired number of four tasks and a minimum healthy percent of 50%, the scheduler might stop two existing tasks to free up cluster capacity before starting two new tasks. If they're in the RUNNING state, tasks for services that don't use a load balancer are considered healthy . If they're in the RUNNING state and reported as healthy by the load balancer, tasks for services that do use a load balancer are considered healthy . The default value for minimum healthy percent is 100%. If a service uses the ECS deployment controller, the maximum percent parameter represents an upper limit on the number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment. Specifically, it represents it as a percentage of the desired number of tasks (rounded down to the nearest integer). This happens when any of your container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Using this parameter, you can define the deployment batch size. For example, if your service has a desired number of four tasks and a maximum percent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximum percent is 200%. If a service uses either the CODE_DEPLOY or EXTERNAL deployment controller types and tasks that use the EC2 launch type, the minimum healthy percent and maximum percent values are used only to define the lower and upper limit on the number of the tasks in the service that remain in the RUNNING state. This is while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the minimum healthy percent and maximum percent values aren't used. This is the case even if they're currently visible when describing your service. When creating a service that uses the EXTERNAL deployment controller, you can specify only parameters that aren't controlled at the task set level. The only required parameter is the service name. You control your services using the [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see [Amazon ECS task placement](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement.html) in the Amazon Elastic Container Service Developer Guide Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
     ///
     /// - Parameter CreateServiceInput : [no documentation found]
     ///
@@ -364,7 +368,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `PlatformTaskDefinitionIncompatibilityException` : The specified platform version doesn't satisfy the required capabilities of the task definition.
@@ -421,7 +425,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -443,14 +449,14 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `PlatformTaskDefinitionIncompatibilityException` : The specified platform version doesn't satisfy the required capabilities of the task definition.
     /// - `PlatformUnknownException` : The specified platform version doesn't exist.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func createTaskSet(input: CreateTaskSetInput) async throws -> CreateTaskSetOutput {
         let context = Smithy.ContextBuilder()
@@ -502,7 +508,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -575,7 +583,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -593,7 +603,7 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `TargetNotFoundException` : The specified target wasn't found. You can view your available container instances with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html). Amazon ECS container instances are cluster-specific and Region-specific.
     public func deleteAttributes(input: DeleteAttributesInput) async throws -> DeleteAttributesOutput {
@@ -646,7 +656,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -655,7 +667,7 @@ extension ECSClient {
 
     /// Performs the `DeleteCapacityProvider` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Deletes the specified capacity provider. The FARGATE and FARGATE_SPOT capacity providers are reserved and can't be deleted. You can disassociate them from a cluster using either the [PutClusterCapacityProviders] API or by deleting the cluster. Prior to a capacity provider being deleted, the capacity provider must be removed from the capacity provider strategy from all services. The [UpdateService] API can be used to remove a capacity provider from a service's capacity provider strategy. When updating a service, the forceNewDeployment option can be used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity provider are transitioned to use the capacity from the remaining capacity providers. Only capacity providers that aren't associated with a cluster can be deleted. To remove a capacity provider from a cluster, you can either use [PutClusterCapacityProviders] or delete the cluster.
+    /// Deletes the specified capacity provider. The FARGATE and FARGATE_SPOT capacity providers are reserved and can't be deleted. You can disassociate them from a cluster using either [PutCapacityProviderProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutCapacityProviderProviders.html) or by deleting the cluster. Prior to a capacity provider being deleted, the capacity provider must be removed from the capacity provider strategy from all services. The [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) API can be used to remove a capacity provider from a service's capacity provider strategy. When updating a service, the forceNewDeployment option can be used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity provider are transitioned to use the capacity from the remaining capacity providers. Only capacity providers that aren't associated with a cluster can be deleted. To remove a capacity provider from a cluster, you can either use [PutCapacityProviderProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutCapacityProviderProviders.html) or delete the cluster.
     ///
     /// - Parameter DeleteCapacityProviderInput : [no documentation found]
     ///
@@ -719,7 +731,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -728,7 +742,7 @@ extension ECSClient {
 
     /// Performs the `DeleteCluster` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Deletes the specified cluster. The cluster transitions to the INACTIVE state. Clusters with an INACTIVE status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with [ListContainerInstances] and deregister them with [DeregisterContainerInstance].
+    /// Deletes the specified cluster. The cluster transitions to the INACTIVE state. Clusters with an INACTIVE status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html) and deregister them with [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
@@ -740,10 +754,10 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterContainsContainerInstancesException` : You can't delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see [DeregisterContainerInstance].
-    /// - `ClusterContainsServicesException` : You can't delete a cluster that contains services. First, update the service to reduce its desired task count to 0, and then delete the service. For more information, see [UpdateService] and [DeleteService].
+    /// - `ClusterContainsContainerInstancesException` : You can't delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
+    /// - `ClusterContainsServicesException` : You can't delete a cluster that contains services. First, update the service to reduce its desired task count to 0, and then delete the service. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) and [DeleteService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteService.html).
     /// - `ClusterContainsTasksException` : You can't delete a cluster that has active tasks.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UpdateInProgressException` : There's already a current Amazon ECS container agent update in progress on the container instance that's specified. If the container agent becomes disconnected while it's in a transitional stage, such as PENDING or STAGING, the update process can get stuck in that state. However, when the agent reconnects, it resumes where it stopped previously.
@@ -797,7 +811,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -806,7 +822,7 @@ extension ECSClient {
 
     /// Performs the `DeleteService` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see [UpdateService]. When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING, and the service is no longer visible in the console or in the [ListServices] API operation. After all tasks have transitioned to either STOPPING or STOPPED status, the service status moves from DRAINING to INACTIVE. Services in the DRAINING or INACTIVE status can still be viewed with the [DescribeServices] API operation. However, in the future, INACTIVE services may be cleaned up and purged from Amazon ECS record keeping, and [DescribeServices] calls on those services return a ServiceNotFoundException error. If you attempt to create a new service with the same name as an existing service in either ACTIVE or DRAINING status, you receive an error.
+    /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html). When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING, and the service is no longer visible in the console or in the [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html) API operation. After all tasks have transitioned to either STOPPING or STOPPED status, the service status moves from DRAINING to INACTIVE. Services in the DRAINING or INACTIVE status can still be viewed with the [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) API operation. However, in the future, INACTIVE services may be cleaned up and purged from Amazon ECS record keeping, and [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) calls on those services return a ServiceNotFoundException error. If you attempt to create a new service with the same name as an existing service in either ACTIVE or DRAINING status, you receive an error.
     ///
     /// - Parameter DeleteServiceInput : [no documentation found]
     ///
@@ -818,10 +834,10 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -872,7 +888,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -946,7 +964,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -968,12 +988,12 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
-    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets]. Task sets are specific to each cluster, service and Region.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
+    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTaskSets.html). Task sets are specific to each cluster, service and Region.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func deleteTaskSet(input: DeleteTaskSetInput) async throws -> DeleteTaskSetOutput {
         let context = Smithy.ContextBuilder()
@@ -1025,7 +1045,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1046,7 +1068,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deregisterContainerInstance(input: DeregisterContainerInstanceInput) async throws -> DeregisterContainerInstanceOutput {
@@ -1099,7 +1121,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1172,7 +1196,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1245,7 +1271,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1318,7 +1346,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1339,7 +1369,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeContainerInstances(input: DescribeContainerInstancesInput) async throws -> DescribeContainerInstancesOutput {
@@ -1392,7 +1422,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1413,7 +1445,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput {
@@ -1466,7 +1498,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1539,7 +1573,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1561,11 +1597,11 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func describeTaskSets(input: DescribeTaskSetsInput) async throws -> DescribeTaskSetsOutput {
         let context = Smithy.ContextBuilder()
@@ -1617,7 +1653,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1638,7 +1676,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeTasks(input: DescribeTasksInput) async throws -> DescribeTasksOutput {
@@ -1691,7 +1729,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1763,7 +1803,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1785,7 +1827,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `TargetNotConnectedException` : The execute command cannot run. This error can be caused by any of the following configuration issues:
@@ -1848,7 +1890,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1870,7 +1914,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -1925,7 +1969,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1998,7 +2044,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2016,7 +2064,7 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     public func listAttributes(input: ListAttributesInput) async throws -> ListAttributesOutput {
         let context = Smithy.ContextBuilder()
@@ -2068,7 +2116,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2141,7 +2191,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2162,7 +2214,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listContainerInstances(input: ListContainerInstancesInput) async throws -> ListContainerInstancesOutput {
@@ -2215,7 +2267,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2236,7 +2290,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
@@ -2289,7 +2343,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2363,7 +2419,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2384,7 +2442,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
@@ -2437,7 +2495,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2510,7 +2570,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2583,7 +2645,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2604,10 +2668,10 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     public func listTasks(input: ListTasksInput) async throws -> ListTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2658,7 +2722,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2731,7 +2797,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2804,7 +2872,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2813,7 +2883,7 @@ extension ECSClient {
 
     /// Performs the `PutAttributes` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use [DeleteAttributes]. For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
+    /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html). For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter PutAttributesInput : [no documentation found]
     ///
@@ -2822,8 +2892,8 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AttributeLimitExceededException` : You can apply up to 10 custom attributes for each resource. You can view the attributes of a resource with [ListAttributes]. You can remove existing attributes on a resource with [DeleteAttributes].
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `AttributeLimitExceededException` : You can apply up to 10 custom attributes for each resource. You can view the attributes of a resource with [ListAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListAttributes.html). You can remove existing attributes on a resource with [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `TargetNotFoundException` : The specified target wasn't found. You can view your available container instances with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html). Amazon ECS container instances are cluster-specific and Region-specific.
     public func putAttributes(input: PutAttributesInput) async throws -> PutAttributesOutput {
@@ -2876,7 +2946,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2885,7 +2957,7 @@ extension ECSClient {
 
     /// Performs the `PutClusterCapacityProviders` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Modifies the available capacity providers and the default capacity provider strategy for a cluster. You must specify both the available capacity providers and a default capacity provider strategy for the cluster. If the specified cluster has existing capacity providers associated with it, you must specify all existing capacity providers in addition to any new ones you want to add. Any existing capacity providers that are associated with a cluster that are omitted from a [PutClusterCapacityProviders] API call will be disassociated with the cluster. You can only disassociate an existing capacity provider from a cluster if it's not being used by any existing tasks. When creating a service or running a task on a cluster, if no capacity provider or launch type is specified, then the cluster's default capacity provider strategy is used. We recommend that you define a default capacity provider strategy for your cluster. However, you must specify an empty array ([]) to bypass defining a default strategy.
+    /// Modifies the available capacity providers and the default capacity provider strategy for a cluster. You must specify both the available capacity providers and a default capacity provider strategy for the cluster. If the specified cluster has existing capacity providers associated with it, you must specify all existing capacity providers in addition to any new ones you want to add. Any existing capacity providers that are associated with a cluster that are omitted from a [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API call will be disassociated with the cluster. You can only disassociate an existing capacity provider from a cluster if it's not being used by any existing tasks. When creating a service or running a task on a cluster, if no capacity provider or launch type is specified, then the cluster's default capacity provider strategy is used. We recommend that you define a default capacity provider strategy for your cluster. However, you must specify an empty array ([]) to bypass defining a default strategy.
     ///
     /// - Parameter PutClusterCapacityProvidersInput : [no documentation found]
     ///
@@ -2897,7 +2969,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceInUseException` : The specified resource is in-use and can't be removed.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2952,7 +3024,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3025,7 +3099,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3034,7 +3110,7 @@ extension ECSClient {
 
     /// Performs the `RegisterTaskDefinition` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Registers a new task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter. When you specify a role for a task, its containers can then use the latest versions of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the policy that's associated with the role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. If you specify the awsvpc network mode, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration] when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Registers a new task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter. When you specify a role for a task, its containers can then use the latest versions of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the policy that's associated with the role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. If you specify the awsvpc network mode, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter RegisterTaskDefinitionInput : [no documentation found]
     ///
@@ -3098,7 +3174,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3107,7 +3185,7 @@ extension ECSClient {
 
     /// Performs the `RunTask` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Starts a new task using the specified task definition. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places tasks using placement constraints and placement strategies. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use [StartTask] to use your own scheduler or place tasks manually on specific container instances. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your Amazon ECS resources might not be immediately visible to all subsequent commands you run. Keep this in mind when you carry out an API command that immediately follows a previous API command. To manage eventual consistency, you can do the following:
+    /// Starts a new task using the specified task definition. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places tasks using placement constraints and placement strategies. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use StartTask to use your own scheduler or place tasks manually on specific container instances. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your Amazon ECS resources might not be immediately visible to all subsequent commands you run. Keep this in mind when you carry out an API command that immediately follows a previous API command. To manage eventual consistency, you can do the following:
     ///
     /// * Confirm the state of the resource before you run a command to modify it. Run the DescribeTasks command using an exponential backoff algorithm to ensure that you allow enough time for the previous command to propagate through the system. To do this, run the DescribeTasks command repeatedly, starting with a couple of seconds of wait time and increasing gradually up to five minutes of wait time.
     ///
@@ -3125,7 +3203,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `ConflictException` : The RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
     ///
     /// * Run RunTask with a unique clientToken.
@@ -3187,7 +3265,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3196,7 +3276,7 @@ extension ECSClient {
 
     /// Performs the `StartTask` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Starts a new task from the specified task definition on the specified container instance or instances. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. Alternatively, you can use [RunTask] to place tasks for you. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide.
+    /// Starts a new task from the specified task definition on the specified container instance or instances. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. Alternatively, you can useRunTask to place tasks for you. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter StartTaskInput : [no documentation found]
     ///
@@ -3208,7 +3288,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
@@ -3262,7 +3342,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3271,7 +3353,7 @@ extension ECSClient {
 
     /// Performs the `StopTask` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Stops a running task. Any tags associated with the task will be deleted. When [StopTask] is called on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by sending a CTRL_SHUTDOWN_EVENT. For more information, see [Unable to react to graceful shutdown of (Windows) container #25982](https://github.com/moby/moby/issues/25982) on GitHub. The default 30-second timeout can be configured on the Amazon ECS container agent with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see [Amazon ECS Container Agent Configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by sending a CTRL_SHUTDOWN_EVENT. For more information, see [Unable to react to graceful shutdown of (Windows) container #25982](https://github.com/moby/moby/issues/25982) on GitHub. The default 30-second timeout can be configured on the Amazon ECS container agent with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see [Amazon ECS Container Agent Configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter StopTaskInput : [no documentation found]
     ///
@@ -3283,7 +3365,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func stopTask(input: StopTaskInput) async throws -> StopTaskOutput {
@@ -3336,7 +3418,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3410,7 +3494,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3483,7 +3569,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3557,7 +3645,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3578,7 +3668,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -3632,7 +3722,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3653,7 +3745,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -3707,7 +3799,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3780,7 +3874,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3801,7 +3897,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -3855,7 +3951,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3876,7 +3974,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func updateClusterSettings(input: UpdateClusterSettingsInput) async throws -> UpdateClusterSettingsOutput {
@@ -3929,7 +4027,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3950,7 +4050,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `MissingVersionException` : Amazon ECS can't determine the current version of the Amazon ECS container agent on the container instance and doesn't have enough information to proceed with an update. This could be because the agent running on the container instance is a previous or custom version that doesn't use our version information.
     /// - `NoUpdateAvailableException` : There's no update available for this Amazon ECS container agent. This might be because the agent is already running the latest version or because it's so old that there's no update path to the current version.
@@ -4006,7 +4106,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4015,7 +4117,7 @@ extension ECSClient {
 
     /// Performs the `UpdateContainerInstancesState` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Modifies the status of an Amazon ECS container instance. Once a container instance has reached an ACTIVE state, you can change the status of a container instance to DRAINING to manually remove an instance from a cluster, for example to perform system updates, update the Docker daemon, or scale down the cluster size. A container instance can't be changed to DRAINING until it has reached an ACTIVE status. If the instance is in any other status, an error will be received. When you set a container instance to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance and replacement service tasks are started on other container instances in the cluster if the resources are available. Service tasks on the container instance that are in the PENDING state are stopped immediately. Service tasks on the container instance that are in the RUNNING state are stopped and replaced according to the service's deployment configuration parameters, minimumHealthyPercent and maximumPercent. You can change the deployment configuration of your service using [UpdateService].
+    /// Modifies the status of an Amazon ECS container instance. Once a container instance has reached an ACTIVE state, you can change the status of a container instance to DRAINING to manually remove an instance from a cluster, for example to perform system updates, update the Docker daemon, or scale down the cluster size. A container instance can't be changed to DRAINING until it has reached an ACTIVE status. If the instance is in any other status, an error will be received. When you set a container instance to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance and replacement service tasks are started on other container instances in the cluster if the resources are available. Service tasks on the container instance that are in the PENDING state are stopped immediately. Service tasks on the container instance that are in the RUNNING state are stopped and replaced according to the service's deployment configuration parameters, minimumHealthyPercent and maximumPercent. You can change the deployment configuration of your service using [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html).
     ///
     /// * If minimumHealthyPercent is below 100%, the scheduler can ignore desiredCount temporarily during task replacement. For example, desiredCount is four tasks, a minimum of 50% allows the scheduler to stop two existing tasks before starting two new tasks. If the minimum is 100%, the service scheduler can't remove existing tasks until the replacement tasks are considered healthy. Tasks for services that do not use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer.
     ///
@@ -4034,7 +4136,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func updateContainerInstancesState(input: UpdateContainerInstancesStateInput) async throws -> UpdateContainerInstancesStateOutput {
@@ -4087,7 +4189,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4096,14 +4200,14 @@ extension ECSClient {
 
     /// Performs the `UpdateService` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Modifies the parameters of a service. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. For services using the rolling update (ECS) you can update the desired count, deployment configuration, network configuration, load balancers, service registries, enable ECS managed tags option, propagate tags option, task placement constraints and strategies, and task definition. When you update any of these parameters, Amazon ECS starts new tasks with the new configuration. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. You can update your volume configurations and trigger a new deployment. volumeConfigurations is only supported for REPLICA service and not DAEMON service. If you leave volumeConfigurationsnull, it doesn't trigger a new deployment. For more infomation on volumes, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. For services using the blue/green (CODE_DEPLOY) deployment controller, only the desired count, deployment configuration, health check grace period, task placement constraints and strategies, enable ECS managed tags option, and propagate tags can be updated using this API. If the network configuration, platform version, task definition, or load balancer need to be updated, create a new CodeDeploy deployment. For more information, see [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) in the CodeDeploy API Reference. For services using an external deployment controller, you can update only the desired count, task placement constraints and strategies, health check grace period, enable ECS managed tags option, and propagate tags option, using this API. If the launch type, load balancer, network configuration, platform version, or task definition need to be updated, create a new task set For more information, see [CreateTaskSet]. You can add to or subtract from the number of instantiations of a task definition in a service by specifying the cluster that the service is running in and a new desiredCount parameter. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. If you have updated the container image of your application, you can create a new task definition with that image and deploy it to your service. The service scheduler uses the minimum healthy percent and maximum percent parameters (in the service's deployment configuration) to determine the deployment strategy. If your updated Docker image uses the same tag as what is in the existing task definition for your service (for example, my_image:latest), you don't need to create a new revision of your task definition. You can update the service using the forceNewDeployment option. The new tasks launched by the deployment pull the current image/tag combination from your repository when they start. You can also update the deployment configuration of a service. When a deployment is triggered by updating the task definition of a service, the service scheduler uses the deployment configuration parameters, minimumHealthyPercent and maximumPercent, to determine the deployment strategy.
+    /// Modifies the parameters of a service. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. For services using the rolling update (ECS) you can update the desired count, deployment configuration, network configuration, load balancers, service registries, enable ECS managed tags option, propagate tags option, task placement constraints and strategies, and task definition. When you update any of these parameters, Amazon ECS starts new tasks with the new configuration. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. You can update your volume configurations and trigger a new deployment. volumeConfigurations is only supported for REPLICA service and not DAEMON service. If you leave volumeConfigurationsnull, it doesn't trigger a new deployment. For more infomation on volumes, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. For services using the blue/green (CODE_DEPLOY) deployment controller, only the desired count, deployment configuration, health check grace period, task placement constraints and strategies, enable ECS managed tags option, and propagate tags can be updated using this API. If the network configuration, platform version, task definition, or load balancer need to be updated, create a new CodeDeploy deployment. For more information, see [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) in the CodeDeploy API Reference. For services using an external deployment controller, you can update only the desired count, task placement constraints and strategies, health check grace period, enable ECS managed tags option, and propagate tags option, using this API. If the launch type, load balancer, network configuration, platform version, or task definition need to be updated, create a new task set For more information, see [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). You can add to or subtract from the number of instantiations of a task definition in a service by specifying the cluster that the service is running in and a new desiredCount parameter. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. If you have updated the container image of your application, you can create a new task definition with that image and deploy it to your service. The service scheduler uses the minimum healthy percent and maximum percent parameters (in the service's deployment configuration) to determine the deployment strategy. If your updated Docker image uses the same tag as what is in the existing task definition for your service (for example, my_image:latest), you don't need to create a new revision of your task definition. You can update the service using the forceNewDeployment option. The new tasks launched by the deployment pull the current image/tag combination from your repository when they start. You can also update the deployment configuration of a service. When a deployment is triggered by updating the task definition of a service, the service scheduler uses the deployment configuration parameters, minimumHealthyPercent and maximumPercent, to determine the deployment strategy.
     ///
     /// * If minimumHealthyPercent is below 100%, the scheduler can ignore desiredCount temporarily during a deployment. For example, if desiredCount is four tasks, a minimum of 50% allows the scheduler to stop two existing tasks before starting two new tasks. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer.
     ///
     /// * The maximumPercent parameter represents an upper limit on the number of running tasks during a deployment. You can use it to define the deployment batch size. For example, if desiredCount is four tasks, a maximum of 200% starts four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available).
     ///
     ///
-    /// When [UpdateService] stops a task during a deployment, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM and a 30-second timeout. After this, SIGKILL is sent and the containers are forcibly stopped. If the container handles the SIGTERM gracefully and exits within 30 seconds from receiving it, no SIGKILL is sent. When the service scheduler launches new tasks, it determines task placement in your cluster with the following logic.
+    /// When [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) stops a task during a deployment, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM and a 30-second timeout. After this, SIGKILL is sent and the containers are forcibly stopped. If the container handles the SIGTERM gracefully and exits within 30 seconds from receiving it, no SIGKILL is sent. When the service scheduler launches new tasks, it determines task placement in your cluster with the following logic.
     ///
     /// * Determine which of the container instances in your cluster can support your service's task definition. For example, they have the required CPU, memory, ports, and container instance attributes.
     ///
@@ -4144,14 +4248,14 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `PlatformTaskDefinitionIncompatibilityException` : The specified platform version doesn't satisfy the required capabilities of the task definition.
     /// - `PlatformUnknownException` : The specified platform version doesn't exist.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput {
         let context = Smithy.ContextBuilder()
@@ -4203,7 +4307,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4225,12 +4331,12 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
-    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets]. Task sets are specific to each cluster, service and Region.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
+    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTaskSets.html). Task sets are specific to each cluster, service and Region.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func updateServicePrimaryTaskSet(input: UpdateServicePrimaryTaskSetInput) async throws -> UpdateServicePrimaryTaskSetOutput {
         let context = Smithy.ContextBuilder()
@@ -4282,7 +4388,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4304,7 +4412,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -4359,7 +4467,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4381,12 +4491,12 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
-    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets]. Task sets are specific to each cluster, service and Region.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
+    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTaskSets.html). Task sets are specific to each cluster, service and Region.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func updateTaskSet(input: UpdateTaskSetInput) async throws -> UpdateTaskSetOutput {
         let context = Smithy.ContextBuilder()
@@ -4438,7 +4548,9 @@ extension ECSClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()

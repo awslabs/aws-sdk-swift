@@ -248,7 +248,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -311,7 +313,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -374,7 +378,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -437,7 +443,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -500,7 +508,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -563,7 +573,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -626,7 +638,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -689,7 +703,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -749,7 +765,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -809,7 +827,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -869,7 +889,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -929,7 +951,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -989,7 +1013,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1049,7 +1075,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1109,7 +1137,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1169,7 +1199,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1229,7 +1261,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1289,7 +1323,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1349,7 +1385,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1409,7 +1447,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1469,7 +1509,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1529,7 +1571,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1590,7 +1634,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1650,7 +1696,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1710,7 +1758,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1771,7 +1821,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1832,7 +1884,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1893,7 +1947,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1954,7 +2010,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2017,7 +2075,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2078,7 +2138,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2143,7 +2205,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2204,7 +2268,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2267,7 +2333,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2330,7 +2398,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2390,7 +2460,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2450,7 +2522,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2518,7 +2592,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2584,7 +2660,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2647,7 +2725,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2710,7 +2790,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2773,7 +2855,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2836,7 +2920,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2899,7 +2985,9 @@ extension MediaTailorClient {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
