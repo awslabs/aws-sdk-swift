@@ -27,7 +27,7 @@ import struct Smithy.URIQueryItem
 import struct SmithyReadWrite.ReadingClosureBox
 import struct SmithyReadWrite.WritingClosureBox
 
-/// You do not have sufficient access to perform this action.
+/// You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -336,15 +336,23 @@ extension Inspector2ClientTypes {
     public struct AccountAggregationResponse {
         /// The Amazon Web Services account ID.
         public var accountId: Swift.String?
+        /// The number of findings that have an exploit available.
+        public var exploitAvailableCount: Swift.Int?
+        /// Details about the number of fixes.
+        public var fixAvailableCount: Swift.Int?
         /// The number of findings by severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
         public init(
             accountId: Swift.String? = nil,
+            exploitAvailableCount: Swift.Int? = nil,
+            fixAvailableCount: Swift.Int? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
         )
         {
             self.accountId = accountId
+            self.exploitAvailableCount = exploitAvailableCount
+            self.fixAvailableCount = fixAvailableCount
             self.severityCounts = severityCounts
         }
     }
@@ -413,6 +421,8 @@ extension Inspector2ClientTypes {
         case alreadyEnabled
         case disableInProgress
         case disassociateAllMembers
+        case ec2SsmAssociationVersionLimitExceeded
+        case ec2SsmResourceDataSyncLimitExceeded
         case enableInProgress
         case eventbridgeThrottled
         case eventbridgeUnavailable
@@ -431,6 +441,8 @@ extension Inspector2ClientTypes {
                 .alreadyEnabled,
                 .disableInProgress,
                 .disassociateAllMembers,
+                .ec2SsmAssociationVersionLimitExceeded,
+                .ec2SsmResourceDataSyncLimitExceeded,
                 .enableInProgress,
                 .eventbridgeThrottled,
                 .eventbridgeUnavailable,
@@ -455,6 +467,8 @@ extension Inspector2ClientTypes {
             case .alreadyEnabled: return "ALREADY_ENABLED"
             case .disableInProgress: return "DISABLE_IN_PROGRESS"
             case .disassociateAllMembers: return "DISASSOCIATE_ALL_MEMBERS"
+            case .ec2SsmAssociationVersionLimitExceeded: return "EC2_SSM_ASSOCIATION_VERSION_LIMIT_EXCEEDED"
+            case .ec2SsmResourceDataSyncLimitExceeded: return "EC2_SSM_RESOURCE_DATA_SYNC_LIMIT_EXCEEDED"
             case .enableInProgress: return "ENABLE_IN_PROGRESS"
             case .eventbridgeThrottled: return "EVENTBRIDGE_THROTTLED"
             case .eventbridgeUnavailable: return "EVENTBRIDGE_UNAVAILABLE"
@@ -1447,15 +1461,23 @@ extension Inspector2ClientTypes {
     public struct FindingTypeAggregationResponse {
         /// The ID of the Amazon Web Services account associated with the findings.
         public var accountId: Swift.String?
+        /// The number of findings that have an exploit available.
+        public var exploitAvailableCount: Swift.Int?
+        /// Details about the number of fixes.
+        public var fixAvailableCount: Swift.Int?
         /// The value to sort results by.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
         public init(
             accountId: Swift.String? = nil,
+            exploitAvailableCount: Swift.Int? = nil,
+            fixAvailableCount: Swift.Int? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
         )
         {
             self.accountId = accountId
+            self.exploitAvailableCount = exploitAvailableCount
+            self.fixAvailableCount = fixAvailableCount
             self.severityCounts = severityCounts
         }
     }
@@ -5240,6 +5262,8 @@ extension Inspector2ClientTypes {
 
     public enum ScanStatusReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
+        case agentlessInstanceCollectionTimeLimitExceeded
+        case agentlessInstanceStorageLimitExceeded
         case deepInspectionCollectionTimeLimitExceeded
         case deepInspectionDailySsmInventoryLimitExceeded
         case deepInspectionNoInventory
@@ -5268,6 +5292,8 @@ extension Inspector2ClientTypes {
         public static var allCases: [ScanStatusReason] {
             return [
                 .accessDenied,
+                .agentlessInstanceCollectionTimeLimitExceeded,
+                .agentlessInstanceStorageLimitExceeded,
                 .deepInspectionCollectionTimeLimitExceeded,
                 .deepInspectionDailySsmInventoryLimitExceeded,
                 .deepInspectionNoInventory,
@@ -5302,6 +5328,8 @@ extension Inspector2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessDenied: return "ACCESS_DENIED"
+            case .agentlessInstanceCollectionTimeLimitExceeded: return "AGENTLESS_INSTANCE_COLLECTION_TIME_LIMIT_EXCEEDED"
+            case .agentlessInstanceStorageLimitExceeded: return "AGENTLESS_INSTANCE_STORAGE_LIMIT_EXCEEDED"
             case .deepInspectionCollectionTimeLimitExceeded: return "DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED"
             case .deepInspectionDailySsmInventoryLimitExceeded: return "DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED"
             case .deepInspectionNoInventory: return "DEEP_INSPECTION_NO_INVENTORY"
@@ -13922,6 +13950,8 @@ extension Inspector2ClientTypes.FindingTypeAggregationResponse {
         var value = Inspector2ClientTypes.FindingTypeAggregationResponse()
         value.accountId = try reader["accountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
+        value.exploitAvailableCount = try reader["exploitAvailableCount"].readIfPresent()
+        value.fixAvailableCount = try reader["fixAvailableCount"].readIfPresent()
         return value
     }
 }
@@ -13978,6 +14008,8 @@ extension Inspector2ClientTypes.AccountAggregationResponse {
         var value = Inspector2ClientTypes.AccountAggregationResponse()
         value.accountId = try reader["accountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
+        value.exploitAvailableCount = try reader["exploitAvailableCount"].readIfPresent()
+        value.fixAvailableCount = try reader["fixAvailableCount"].readIfPresent()
         return value
     }
 }
