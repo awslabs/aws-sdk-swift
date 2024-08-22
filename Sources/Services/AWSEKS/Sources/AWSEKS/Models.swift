@@ -589,6 +589,8 @@ extension EKSClientTypes {
 
     public enum AMITypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case al2023Arm64Standard
+        case al2023X8664Neuron
+        case al2023X8664Nvidia
         case al2023X8664Standard
         case al2Arm64
         case al2X8664
@@ -607,6 +609,8 @@ extension EKSClientTypes {
         public static var allCases: [AMITypes] {
             return [
                 .al2023Arm64Standard,
+                .al2023X8664Neuron,
+                .al2023X8664Nvidia,
                 .al2023X8664Standard,
                 .al2Arm64,
                 .al2X8664,
@@ -631,6 +635,8 @@ extension EKSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .al2023Arm64Standard: return "AL2023_ARM_64_STANDARD"
+            case .al2023X8664Neuron: return "AL2023_x86_64_NEURON"
+            case .al2023X8664Nvidia: return "AL2023_x86_64_NVIDIA"
             case .al2023X8664Standard: return "AL2023_x86_64_STANDARD"
             case .al2Arm64: return "AL2_ARM_64"
             case .al2X8664: return "AL2_x86_64"
@@ -1176,6 +1182,7 @@ extension EKSClientTypes {
         case subnets
         case taintsToAdd
         case taintsToRemove
+        case upgradePolicy
         case version
         case sdkUnknown(Swift.String)
 
@@ -1208,6 +1215,7 @@ extension EKSClientTypes {
                 .subnets,
                 .taintsToAdd,
                 .taintsToRemove,
+                .upgradePolicy,
                 .version
             ]
         }
@@ -1246,6 +1254,7 @@ extension EKSClientTypes {
             case .subnets: return "Subnets"
             case .taintsToAdd: return "TaintsToAdd"
             case .taintsToRemove: return "TaintsToRemove"
+            case .upgradePolicy: return "UpgradePolicy"
             case .version: return "Version"
             case let .sdkUnknown(s): return s
             }
@@ -1319,6 +1328,7 @@ extension EKSClientTypes {
         case disassociateIdentityProviderConfig
         case endpointAccessUpdate
         case loggingUpdate
+        case upgradePolicyUpdate
         case versionUpdate
         case vpcConfigUpdate
         case sdkUnknown(Swift.String)
@@ -1333,6 +1343,7 @@ extension EKSClientTypes {
                 .disassociateIdentityProviderConfig,
                 .endpointAccessUpdate,
                 .loggingUpdate,
+                .upgradePolicyUpdate,
                 .versionUpdate,
                 .vpcConfigUpdate
             ]
@@ -1353,6 +1364,7 @@ extension EKSClientTypes {
             case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
             case .endpointAccessUpdate: return "EndpointAccessUpdate"
             case .loggingUpdate: return "LoggingUpdate"
+            case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
             case .versionUpdate: return "VersionUpdate"
             case .vpcConfigUpdate: return "VpcConfigUpdate"
             case let .sdkUnknown(s): return s
@@ -1988,6 +2000,51 @@ extension EKSClientTypes {
 
 }
 
+extension EKSClientTypes {
+
+    public enum SupportType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case extended
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportType] {
+            return [
+                .extended,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .extended: return "EXTENDED"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+    /// The support policy to use for the cluster. Extended support allows you to remain on specific Kubernetes versions for longer. Clusters in extended support have higher costs. The default value is EXTENDED. Use STANDARD to disable extended support. [Learn more about EKS Extended Support in the EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html)
+    public struct UpgradePolicyRequest {
+        /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support. [Learn more about EKS Extended Support in the EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html)
+        public var supportType: EKSClientTypes.SupportType?
+
+        public init(
+            supportType: EKSClientTypes.SupportType? = nil
+        )
+        {
+            self.supportType = supportType
+        }
+    }
+
+}
+
 public struct CreateClusterInput {
     /// The access configuration for the cluster.
     public var accessConfig: EKSClientTypes.CreateAccessConfigRequest?
@@ -2014,6 +2071,8 @@ public struct CreateClusterInput {
     public var roleArn: Swift.String?
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
     public var tags: [Swift.String: Swift.String]?
+    /// New clusters, by default, have extended support enabled. You can disable extended support when creating a cluster by setting this value to STANDARD.
+    public var upgradePolicy: EKSClientTypes.UpgradePolicyRequest?
     /// The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used. The default version might not be the latest version available.
     public var version: Swift.String?
 
@@ -2029,6 +2088,7 @@ public struct CreateClusterInput {
         resourcesVpcConfig: EKSClientTypes.VpcConfigRequest? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil,
         version: Swift.String? = nil
     )
     {
@@ -2043,6 +2103,7 @@ public struct CreateClusterInput {
         self.resourcesVpcConfig = resourcesVpcConfig
         self.roleArn = roleArn
         self.tags = tags
+        self.upgradePolicy = upgradePolicy
         self.version = version
     }
 }
@@ -2395,6 +2456,22 @@ extension EKSClientTypes {
 }
 
 extension EKSClientTypes {
+    /// This value indicates if extended support is enabled or disabled for the cluster. [Learn more about EKS Extended Support in the EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html)
+    public struct UpgradePolicyResponse {
+        /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support. [Learn more about EKS Extended Support in the EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html)
+        public var supportType: EKSClientTypes.SupportType?
+
+        public init(
+            supportType: EKSClientTypes.SupportType? = nil
+        )
+        {
+            self.supportType = supportType
+        }
+    }
+
+}
+
+extension EKSClientTypes {
     /// An object representing an Amazon EKS cluster.
     public struct Cluster {
         /// The access configuration for the cluster.
@@ -2437,6 +2514,8 @@ extension EKSClientTypes {
         public var status: EKSClientTypes.ClusterStatus?
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public var tags: [Swift.String: Swift.String]?
+        /// This value indicates if extended support is enabled or disabled for the cluster. [Learn more about EKS Extended Support in the EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html)
+        public var upgradePolicy: EKSClientTypes.UpgradePolicyResponse?
         /// The Kubernetes server version for the cluster.
         public var version: Swift.String?
 
@@ -2461,6 +2540,7 @@ extension EKSClientTypes {
             roleArn: Swift.String? = nil,
             status: EKSClientTypes.ClusterStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
+            upgradePolicy: EKSClientTypes.UpgradePolicyResponse? = nil,
             version: Swift.String? = nil
         )
         {
@@ -2484,6 +2564,7 @@ extension EKSClientTypes {
             self.roleArn = roleArn
             self.status = status
             self.tags = tags
+            self.upgradePolicy = upgradePolicy
             self.version = version
         }
     }
@@ -5751,13 +5832,16 @@ public struct UpdateClusterConfigInput {
     public var name: Swift.String?
     /// An object representing the VPC configuration to use for an Amazon EKS cluster.
     public var resourcesVpcConfig: EKSClientTypes.VpcConfigRequest?
+    /// You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
+    public var upgradePolicy: EKSClientTypes.UpgradePolicyRequest?
 
     public init(
         accessConfig: EKSClientTypes.UpdateAccessConfigRequest? = nil,
         clientRequestToken: Swift.String? = nil,
         logging: EKSClientTypes.Logging? = nil,
         name: Swift.String? = nil,
-        resourcesVpcConfig: EKSClientTypes.VpcConfigRequest? = nil
+        resourcesVpcConfig: EKSClientTypes.VpcConfigRequest? = nil,
+        upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil
     )
     {
         self.accessConfig = accessConfig
@@ -5765,6 +5849,7 @@ public struct UpdateClusterConfigInput {
         self.logging = logging
         self.name = name
         self.resourcesVpcConfig = resourcesVpcConfig
+        self.upgradePolicy = upgradePolicy
     }
 }
 
@@ -7010,6 +7095,7 @@ extension CreateClusterInput {
         try writer["resourcesVpcConfig"].write(value.resourcesVpcConfig, with: EKSClientTypes.VpcConfigRequest.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["upgradePolicy"].write(value.upgradePolicy, with: EKSClientTypes.UpgradePolicyRequest.write(value:to:))
         try writer["version"].write(value.version)
     }
 }
@@ -7154,6 +7240,7 @@ extension UpdateClusterConfigInput {
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
         try writer["resourcesVpcConfig"].write(value.resourcesVpcConfig, with: EKSClientTypes.VpcConfigRequest.write(value:to:))
+        try writer["upgradePolicy"].write(value.upgradePolicy, with: EKSClientTypes.UpgradePolicyRequest.write(value:to:))
     }
 }
 
@@ -9235,6 +9322,17 @@ extension EKSClientTypes.Cluster {
         value.health = try reader["health"].readIfPresent(with: EKSClientTypes.ClusterHealth.read(from:))
         value.outpostConfig = try reader["outpostConfig"].readIfPresent(with: EKSClientTypes.OutpostConfigResponse.read(from:))
         value.accessConfig = try reader["accessConfig"].readIfPresent(with: EKSClientTypes.AccessConfigResponse.read(from:))
+        value.upgradePolicy = try reader["upgradePolicy"].readIfPresent(with: EKSClientTypes.UpgradePolicyResponse.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.UpgradePolicyResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.UpgradePolicyResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.UpgradePolicyResponse()
+        value.supportType = try reader["supportType"].readIfPresent()
         return value
     }
 }
@@ -10003,6 +10101,14 @@ extension EKSClientTypes.CreateAccessConfigRequest {
         guard let value else { return }
         try writer["authenticationMode"].write(value.authenticationMode)
         try writer["bootstrapClusterCreatorAdminPermissions"].write(value.bootstrapClusterCreatorAdminPermissions)
+    }
+}
+
+extension EKSClientTypes.UpgradePolicyRequest {
+
+    static func write(value: EKSClientTypes.UpgradePolicyRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["supportType"].write(value.supportType)
     }
 }
 

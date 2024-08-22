@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PackageDescription
 
 struct ReleaseManifest: Codable {
     let name: String

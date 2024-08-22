@@ -1096,9 +1096,9 @@ extension ConnectClientTypes {
 }
 
 extension ConnectClientTypes {
-    /// Can be used to define a list of preferred agents to target the contact within the queue. Note that agents must have the queue in their routing profile in order to be offered the contact.
+    /// Can be used to define a list of preferred agents to target the contact to within the queue.  Note that agents must have the queue in their routing profile in order to be offered the  contact.
     public struct AgentsCriteria {
-        /// An object to specify a list of agents, by Agent ID.
+        /// An object to specify a list of agents, by user ID.
         public var agentIds: [Swift.String]?
 
         public init(
@@ -7861,7 +7861,7 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
     /// An object to define AgentsCriteria.
     public struct MatchCriteria {
-        /// An object to define AgentIds.
+        /// An object to define agentIds.
         public var agentsCriteria: ConnectClientTypes.AgentsCriteria?
 
         public init(
@@ -20649,30 +20649,20 @@ public struct UpdateContactFlowNameOutput {
     public init() { }
 }
 
-public struct UpdateContactRoutingDataInput {
-    /// The identifier of the contact in this instance of Amazon Connect.
-    /// This member is required.
-    public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// Priority of the contact in the queue. The default priority for new contacts is 5. You can raise the priority of a contact compared to other contacts in the queue by assigning them a higher priority, such as 1 or 2.
-    public var queuePriority: Swift.Int?
-    /// The number of seconds to add or subtract from the contact's routing age. Contacts are routed to agents on a first-come, first-serve basis. This means that changing their amount of time in queue compared to others also changes their position in queue.
-    public var queueTimeAdjustmentSeconds: Swift.Int?
+extension ConnectClientTypes {
+    /// Specify whether this routing criteria step should apply for only a limited amount of time,  or if it should never expire.
+    public struct RoutingCriteriaInputStepExpiry {
+        /// The number of seconds that the contact will be routed only to agents matching this routing  step, if expiry was configured for this routing step.
+        public var durationInSeconds: Swift.Int?
 
-    public init(
-        contactId: Swift.String? = nil,
-        instanceId: Swift.String? = nil,
-        queuePriority: Swift.Int? = nil,
-        queueTimeAdjustmentSeconds: Swift.Int? = nil
-    )
-    {
-        self.contactId = contactId
-        self.instanceId = instanceId
-        self.queuePriority = queuePriority
-        self.queueTimeAdjustmentSeconds = queueTimeAdjustmentSeconds
+        public init(
+            durationInSeconds: Swift.Int? = nil
+        )
+        {
+            self.durationInSeconds = durationInSeconds
+        }
     }
+
 }
 
 public struct UpdateContactRoutingDataOutput {
@@ -22550,6 +22540,26 @@ public struct DescribeEvaluationFormOutput {
 }
 
 extension ConnectClientTypes {
+    /// Step defines the list of agents to be routed or route based on the agent requirements such as ProficiencyLevel, Name, or Value.
+    public struct RoutingCriteriaInputStep {
+        /// An object to specify the expiration of a routing step.
+        public var expiry: ConnectClientTypes.RoutingCriteriaInputStepExpiry?
+        /// A tagged union to specify expression for a routing step.
+        public var expression: ConnectClientTypes.Expression?
+
+        public init(
+            expiry: ConnectClientTypes.RoutingCriteriaInputStepExpiry? = nil,
+            expression: ConnectClientTypes.Expression? = nil
+        )
+        {
+            self.expiry = expiry
+            self.expression = expression
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
     /// Step signifies the criteria to be used for routing to an agent
     public struct Step {
         /// An object to specify the expiration of a routing step.
@@ -22942,6 +22952,22 @@ extension ConnectClientTypes {
 }
 
 extension ConnectClientTypes {
+    /// An object to define the RoutingCriteria.
+    public struct RoutingCriteriaInput {
+        /// When Amazon Connect does not find an available agent meeting the requirements in a step for  a given step duration, the routing criteria will move on to the next step sequentially until a  join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
+        public var steps: [ConnectClientTypes.RoutingCriteriaInputStep]?
+
+        public init(
+            steps: [ConnectClientTypes.RoutingCriteriaInputStep]? = nil
+        )
+        {
+            self.steps = steps
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
     /// Contains information about a contact.
     public struct Contact {
         /// Information about the agent who accepted the contact.
@@ -23084,6 +23110,36 @@ extension ConnectClientTypes {
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "Contact(agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), customer: \(Swift.String(describing: customer)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateContactRoutingDataInput {
+    /// The identifier of the contact in this instance of Amazon Connect.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Priority of the contact in the queue. The default priority for new contacts is 5. You can raise the priority of a contact compared to other contacts in the queue by assigning them a higher priority, such as 1 or 2.
+    public var queuePriority: Swift.Int?
+    /// The number of seconds to add or subtract from the contact's routing age. Contacts are routed to agents on a first-come, first-serve basis. This means that changing their amount of time in queue compared to others also changes their position in queue.
+    public var queueTimeAdjustmentSeconds: Swift.Int?
+    /// Updates the routing criteria on the contact. These properties can be used to change how a  contact is routed within the queue.
+    public var routingCriteria: ConnectClientTypes.RoutingCriteriaInput?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        queuePriority: Swift.Int? = nil,
+        queueTimeAdjustmentSeconds: Swift.Int? = nil,
+        routingCriteria: ConnectClientTypes.RoutingCriteriaInput? = nil
+    )
+    {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.queuePriority = queuePriority
+        self.queueTimeAdjustmentSeconds = queueTimeAdjustmentSeconds
+        self.routingCriteria = routingCriteria
+    }
 }
 
 public struct DescribeContactOutput {
@@ -28122,6 +28178,7 @@ extension UpdateContactRoutingDataInput {
         guard let value else { return }
         try writer["QueuePriority"].write(value.queuePriority)
         try writer["QueueTimeAdjustmentSeconds"].write(value.queueTimeAdjustmentSeconds)
+        try writer["RoutingCriteria"].write(value.routingCriteria, with: ConnectClientTypes.RoutingCriteriaInput.write(value:to:))
     }
 }
 
@@ -36612,6 +36669,13 @@ extension ConnectClientTypes.Step {
 
 extension ConnectClientTypes.Expression {
 
+    static func write(value: ConnectClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndExpression"].writeList(value.andExpression, memberWritingClosure: ConnectClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AttributeCondition"].write(value.attributeCondition, with: ConnectClientTypes.AttributeCondition.write(value:to:))
+        try writer["OrExpression"].writeList(value.orExpression, memberWritingClosure: ConnectClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Expression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.Expression()
@@ -36623,6 +36687,15 @@ extension ConnectClientTypes.Expression {
 }
 
 extension ConnectClientTypes.AttributeCondition {
+
+    static func write(value: ConnectClientTypes.AttributeCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["MatchCriteria"].write(value.matchCriteria, with: ConnectClientTypes.MatchCriteria.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["ProficiencyLevel"].write(value.proficiencyLevel)
+        try writer["Value"].write(value.value)
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AttributeCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -36638,6 +36711,11 @@ extension ConnectClientTypes.AttributeCondition {
 
 extension ConnectClientTypes.MatchCriteria {
 
+    static func write(value: ConnectClientTypes.MatchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AgentsCriteria"].write(value.agentsCriteria, with: ConnectClientTypes.AgentsCriteria.write(value:to:))
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MatchCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.MatchCriteria()
@@ -36647,6 +36725,11 @@ extension ConnectClientTypes.MatchCriteria {
 }
 
 extension ConnectClientTypes.AgentsCriteria {
+
+    static func write(value: ConnectClientTypes.AgentsCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AgentIds"].writeList(value.agentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AgentsCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -40413,6 +40496,31 @@ extension ConnectClientTypes.EvaluationAnswerInput {
     static func write(value: ConnectClientTypes.EvaluationAnswerInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Value"].write(value.value, with: ConnectClientTypes.EvaluationAnswerData.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.RoutingCriteriaInput {
+
+    static func write(value: ConnectClientTypes.RoutingCriteriaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Steps"].writeList(value.steps, memberWritingClosure: ConnectClientTypes.RoutingCriteriaInputStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectClientTypes.RoutingCriteriaInputStep {
+
+    static func write(value: ConnectClientTypes.RoutingCriteriaInputStep?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Expiry"].write(value.expiry, with: ConnectClientTypes.RoutingCriteriaInputStepExpiry.write(value:to:))
+        try writer["Expression"].write(value.expression, with: ConnectClientTypes.Expression.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.RoutingCriteriaInputStepExpiry {
+
+    static func write(value: ConnectClientTypes.RoutingCriteriaInputStepExpiry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
     }
 }
 

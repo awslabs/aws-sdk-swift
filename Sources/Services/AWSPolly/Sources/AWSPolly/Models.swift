@@ -29,6 +29,7 @@ import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.HttpInterceptor
+import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.ModeledError
 import protocol Smithy.RequestMessageSerializer
 import struct AWSClientRuntime.AWSUserAgentMetadata
@@ -2574,7 +2575,7 @@ extension SynthesizeSpeechInput {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SynthesizeSpeechInput, SynthesizeSpeechOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2595,7 +2596,9 @@ extension SynthesizeSpeechInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2687,7 +2690,7 @@ extension SynthesizeSpeechInput {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { provider in
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
             let i: any ClientRuntime.HttpInterceptor<SynthesizeSpeechInput, SynthesizeSpeechOutput> = provider.create()
             builder.interceptors.add(i)
         }
@@ -2713,7 +2716,9 @@ extension SynthesizeSpeechInput {
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()

@@ -255,8 +255,8 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.55.0",
-    crtVersion: "0.32.0"
+    clientRuntimeVersion: "0.60.0",
+    crtVersion: "0.33.0"
 )
 
 // Uncomment this line to exclude runtime unit tests
@@ -340,10 +340,7 @@ let serviceTargets: [String] = [
     "AWSCodeGuruReviewer",
     "AWSCodeGuruSecurity",
     "AWSCodePipeline",
-    "AWSCodeStar",
-    "AWSCodeStarconnections",
     "AWSCodeartifact",
-    "AWSCodestarnotifications",
     "AWSCognitoIdentity",
     "AWSCognitoIdentityProvider",
     "AWSCognitoSync",

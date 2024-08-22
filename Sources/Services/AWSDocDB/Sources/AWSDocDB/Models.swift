@@ -4245,6 +4245,62 @@ public struct FailoverDBClusterOutput {
     }
 }
 
+public struct FailoverGlobalClusterInput {
+    /// Specifies whether to allow data loss for this global cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global cluster operation defaults to a switchover. Constraints:
+    ///
+    /// * Can't be specified together with the Switchover parameter.
+    public var allowDataLoss: Swift.Bool?
+    /// The identifier of the Amazon DocumentDB global cluster to apply this operation. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. Constraints:
+    ///
+    /// * Must match the identifier of an existing global cluster.
+    ///
+    /// * Minimum length of 1. Maximum length of 255.
+    ///
+    ///
+    /// Pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// This member is required.
+    public var globalClusterIdentifier: Swift.String?
+    /// Specifies whether to switch over this global database cluster. Constraints:
+    ///
+    /// * Can't be specified together with the AllowDataLoss parameter.
+    public var switchover: Swift.Bool?
+    /// The identifier of the secondary Amazon DocumentDB cluster that you want to promote to the primary for the global cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints:
+    ///
+    /// * Must match the identifier of an existing secondary cluster.
+    ///
+    /// * Minimum length of 1. Maximum length of 255.
+    ///
+    ///
+    /// Pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// This member is required.
+    public var targetDbClusterIdentifier: Swift.String?
+
+    public init(
+        allowDataLoss: Swift.Bool? = nil,
+        globalClusterIdentifier: Swift.String? = nil,
+        switchover: Swift.Bool? = nil,
+        targetDbClusterIdentifier: Swift.String? = nil
+    )
+    {
+        self.allowDataLoss = allowDataLoss
+        self.globalClusterIdentifier = globalClusterIdentifier
+        self.switchover = switchover
+        self.targetDbClusterIdentifier = targetDbClusterIdentifier
+    }
+}
+
+public struct FailoverGlobalClusterOutput {
+    /// A data type representing an Amazon DocumentDB global cluster.
+    public var globalCluster: DocDBClientTypes.GlobalCluster?
+
+    public init(
+        globalCluster: DocDBClientTypes.GlobalCluster? = nil
+    )
+    {
+        self.globalCluster = globalCluster
+    }
+}
+
 /// Represents the input to [ListTagsForResource].
 public struct ListTagsForResourceInput {
     /// This parameter is not currently supported.
@@ -5552,6 +5608,13 @@ extension FailoverDBClusterInput {
     }
 }
 
+extension FailoverGlobalClusterInput {
+
+    static func urlPathProvider(_ value: FailoverGlobalClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -6163,6 +6226,19 @@ extension FailoverDBClusterInput {
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["TargetDBInstanceIdentifier"].write(value.targetDBInstanceIdentifier)
         try writer["Action"].write("FailoverDBCluster")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
+extension FailoverGlobalClusterInput {
+
+    static func write(value: FailoverGlobalClusterInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowDataLoss"].write(value.allowDataLoss)
+        try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
+        try writer["Switchover"].write(value.switchover)
+        try writer["TargetDbClusterIdentifier"].write(value.targetDbClusterIdentifier)
+        try writer["Action"].write("FailoverGlobalCluster")
         try writer["Version"].write("2014-10-31")
     }
 }
@@ -6843,6 +6919,18 @@ extension FailoverDBClusterOutput {
         let reader = responseReader["FailoverDBClusterResult"]
         var value = FailoverDBClusterOutput()
         value.dbCluster = try reader["DBCluster"].readIfPresent(with: DocDBClientTypes.DBCluster.read(from:))
+        return value
+    }
+}
+
+extension FailoverGlobalClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> FailoverGlobalClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["FailoverGlobalClusterResult"]
+        var value = FailoverGlobalClusterOutput()
+        value.globalCluster = try reader["GlobalCluster"].readIfPresent(with: DocDBClientTypes.GlobalCluster.read(from:))
         return value
     }
 }
@@ -7628,6 +7716,23 @@ enum FailoverDBClusterOutputError {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum FailoverGlobalClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
+            case "GlobalClusterNotFoundFault": return try GlobalClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
+            case "InvalidGlobalClusterStateFault": return try InvalidGlobalClusterStateFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

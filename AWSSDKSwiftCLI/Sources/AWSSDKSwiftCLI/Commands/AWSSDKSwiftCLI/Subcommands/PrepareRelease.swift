@@ -7,7 +7,6 @@
 
 import ArgumentParser
 import Foundation
-import PackageDescription
 import AWSCLIUtils
 
 // MARK: - Command
@@ -147,7 +146,7 @@ struct PrepareRelease {
     func createNewVersion(_ previousVersion: Version) throws -> Version {
         let newVersion = previousVersion.incrementingMinor()
         do {
-          try "\(newVersion)".write(toFile: "Package.version" , atomically: true, encoding: .utf8)
+            try "\(newVersion)".write(toFile: "Package.version" , atomically: true, encoding: .utf8)
         } catch {
           throw Error("Failed to write version \(newVersion) to Package.version")
         }

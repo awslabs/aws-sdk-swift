@@ -64,6 +64,7 @@ jobs:
       - name: Generate smithy-swift docs
         run: |
           cd ../smithy-swift
+          DOCS_BUCKET=${{ secrets.CD_API_REFS_BUCKET_NAME }} \
           ./../aws-sdk-swift/scripts/generatedocc.sh "$VERSION" ${{ matrix.job }} ${{ strategy.job-total }} ${{ env.IGNORE }} ${{ 0 }}
           cd ../aws-sdk-swift
   update-latest:

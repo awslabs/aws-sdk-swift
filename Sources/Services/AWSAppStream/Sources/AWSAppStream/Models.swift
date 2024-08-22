@@ -708,6 +708,7 @@ extension AppStreamClientTypes {
 
     public enum PlatformType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonLinux2
+        case rhel8
         case windows
         case windowsServer2016
         case windowsServer2019
@@ -717,6 +718,7 @@ extension AppStreamClientTypes {
         public static var allCases: [PlatformType] {
             return [
                 .amazonLinux2,
+                .rhel8,
                 .windows,
                 .windowsServer2016,
                 .windowsServer2019,
@@ -732,6 +734,7 @@ extension AppStreamClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .amazonLinux2: return "AMAZON_LINUX2"
+            case .rhel8: return "RHEL8"
             case .windows: return "WINDOWS"
             case .windowsServer2016: return "WINDOWS_SERVER_2016"
             case .windowsServer2019: return "WINDOWS_SERVER_2019"
@@ -2250,7 +2253,7 @@ public struct CreateFleetInput {
     public var computeCapacity: AppStreamClientTypes.ComputeCapacity?
     /// The description to display.
     public var description: Swift.String?
-    /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 360000.
+    /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
     public var disconnectTimeoutInSeconds: Swift.Int?
     /// The fleet name to display.
     public var displayName: Swift.String?
@@ -2262,7 +2265,7 @@ public struct CreateFleetInput {
     public var fleetType: AppStreamClientTypes.FleetType?
     /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
     public var iamRoleArn: Swift.String?
-    /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 0. If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
+    /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0. If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
     public var idleDisconnectTimeoutInSeconds: Swift.Int?
     /// The ARN of the public, private, or shared image to use.
     public var imageArn: Swift.String?
@@ -2333,6 +2336,20 @@ public struct CreateFleetInput {
     /// * stream.graphics.g4dn.12xlarge
     ///
     /// * stream.graphics.g4dn.16xlarge
+    ///
+    /// * stream.graphics.g5.xlarge
+    ///
+    /// * stream.graphics.g5.2xlarge
+    ///
+    /// * stream.graphics.g5.4xlarge
+    ///
+    /// * stream.graphics.g5.8xlarge
+    ///
+    /// * stream.graphics.g5.12xlarge
+    ///
+    /// * stream.graphics.g5.16xlarge
+    ///
+    /// * stream.graphics.g5.24xlarge
     ///
     /// * stream.graphics-pro.4xlarge
     ///
@@ -2494,7 +2511,7 @@ extension AppStreamClientTypes {
         public var createdTime: Foundation.Date?
         /// The description to display.
         public var description: Swift.String?
-        /// The amount of time that a streaming session remains active after users disconnect. If they try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 360000.
+        /// The amount of time that a streaming session remains active after users disconnect. If they try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
         public var disconnectTimeoutInSeconds: Swift.Int?
         /// The fleet name to display.
         public var displayName: Swift.String?
@@ -2508,7 +2525,7 @@ extension AppStreamClientTypes {
         public var fleetType: AppStreamClientTypes.FleetType?
         /// The ARN of the IAM role that is applied to the fleet. To assume a role, the fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
         public var iamRoleArn: Swift.String?
-        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 0. If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0. If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
         public var idleDisconnectTimeoutInSeconds: Swift.Int?
         /// The ARN for the public, private, or shared image.
         public var imageArn: Swift.String?
@@ -2805,6 +2822,35 @@ public struct CreateImageBuilderInput {
 }
 
 extension AppStreamClientTypes {
+
+    public enum LatestAppstreamAgentVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `false`
+        case `true`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LatestAppstreamAgentVersion] {
+            return [
+                .false,
+                .true
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .false: return "FALSE"
+            case .true: return "TRUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
     /// Describes the network details of the fleet or image builder instance.
     public struct NetworkAccessConfiguration {
         /// The resource identifier of the elastic network interface that is attached to instances in your VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
@@ -3022,6 +3068,8 @@ extension AppStreamClientTypes {
         ///
         /// * stream.graphics-pro.16xlarge
         public var instanceType: Swift.String?
+        /// Indicates whether the image builder is using the latest AppStream 2.0 agent version or not.
+        public var latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion?
         /// The name of the image builder.
         /// This member is required.
         public var name: Swift.String?
@@ -3049,6 +3097,7 @@ extension AppStreamClientTypes {
             imageArn: Swift.String? = nil,
             imageBuilderErrors: [AppStreamClientTypes.ResourceError]? = nil,
             instanceType: Swift.String? = nil,
+            latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion? = nil,
             name: Swift.String? = nil,
             networkAccessConfiguration: AppStreamClientTypes.NetworkAccessConfiguration? = nil,
             platform: AppStreamClientTypes.PlatformType? = nil,
@@ -3069,6 +3118,7 @@ extension AppStreamClientTypes {
             self.imageArn = imageArn
             self.imageBuilderErrors = imageBuilderErrors
             self.instanceType = instanceType
+            self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
             self.name = name
             self.networkAccessConfiguration = networkAccessConfiguration
             self.platform = platform
@@ -3263,7 +3313,7 @@ extension AppStreamClientTypes {
         /// The action that is enabled or disabled.
         /// This member is required.
         public var action: AppStreamClientTypes.Action?
-        /// Specifies the number of characters that can be copied by end users from the local device to the remote session, and to the local device from the remote session. This can be specified only for the CLIPBOARD_COPY_FROM_LOCAL_DEVICE and CLIPBOARD_COPY_TO_LOCAL_DEVICE actions. This defaults to 20,971,520 (20 MB) when unspecified and the permission is ENABLED. This can't be specified when the permission is DISABLED. This can only be specified for AlwaysOn and OnDemand fleets. The attribute is not supported on Elastic fleets. The value can be between 1 and 20,971,520 (20 MB).
+        /// Specifies the number of characters that can be copied by end users from the local device to the remote session, and to the local device from the remote session. This can be specified only for the CLIPBOARD_COPY_FROM_LOCAL_DEVICE and CLIPBOARD_COPY_TO_LOCAL_DEVICE actions. This defaults to 20,971,520 (20 MB) when unspecified and the permission is ENABLED. This can't be specified when the permission is DISABLED. The value can be between 1 and 20,971,520 (20 MB).
         public var maximumLength: Swift.Int?
         /// Indicates whether the action is enabled or disabled.
         /// This member is required.
@@ -3521,6 +3571,183 @@ public struct CreateStreamingURLOutput {
     }
 }
 
+extension AppStreamClientTypes {
+    /// The website links that display in the catalog page footer.
+    public struct ThemeFooterLink {
+        /// The name of the websites that display in the catalog page footer.
+        public var displayName: Swift.String?
+        /// The URL of the websites that display in the catalog page footer.
+        public var footerLinkURL: Swift.String?
+
+        public init(
+            displayName: Swift.String? = nil,
+            footerLinkURL: Swift.String? = nil
+        )
+        {
+            self.displayName = displayName
+            self.footerLinkURL = footerLinkURL
+        }
+    }
+
+}
+
+extension AppStreamClientTypes {
+
+    public enum ThemeStyling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blue
+        case lightBlue
+        case pink
+        case red
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThemeStyling] {
+            return [
+                .blue,
+                .lightBlue,
+                .pink,
+                .red
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blue: return "BLUE"
+            case .lightBlue: return "LIGHT_BLUE"
+            case .pink: return "PINK"
+            case .red: return "RED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateThemeForStackInput {
+    /// The S3 location of the favicon. The favicon enables users to recognize their application streaming site in a browser full of tabs or bookmarks. It is displayed at the top of the browser tab for the application streaming site during users' streaming sessions.
+    /// This member is required.
+    public var faviconS3Location: AppStreamClientTypes.S3Location?
+    /// The links that are displayed in the footer of the streaming application catalog page. These links are helpful resources for users, such as the organization's IT support and product marketing sites.
+    public var footerLinks: [AppStreamClientTypes.ThemeFooterLink]?
+    /// The organization logo that appears on the streaming application catalog page.
+    /// This member is required.
+    public var organizationLogoS3Location: AppStreamClientTypes.S3Location?
+    /// The name of the stack for the theme.
+    /// This member is required.
+    public var stackName: Swift.String?
+    /// The color theme that is applied to website links, text, and buttons. These colors are also applied as accents in the background for the streaming application catalog page.
+    /// This member is required.
+    public var themeStyling: AppStreamClientTypes.ThemeStyling?
+    /// The title that is displayed at the top of the browser tab during users' application streaming sessions.
+    /// This member is required.
+    public var titleText: Swift.String?
+
+    public init(
+        faviconS3Location: AppStreamClientTypes.S3Location? = nil,
+        footerLinks: [AppStreamClientTypes.ThemeFooterLink]? = nil,
+        organizationLogoS3Location: AppStreamClientTypes.S3Location? = nil,
+        stackName: Swift.String? = nil,
+        themeStyling: AppStreamClientTypes.ThemeStyling? = nil,
+        titleText: Swift.String? = nil
+    )
+    {
+        self.faviconS3Location = faviconS3Location
+        self.footerLinks = footerLinks
+        self.organizationLogoS3Location = organizationLogoS3Location
+        self.stackName = stackName
+        self.themeStyling = themeStyling
+        self.titleText = titleText
+    }
+}
+
+extension AppStreamClientTypes {
+
+    public enum ThemeState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThemeState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+    /// The custom branding theme, which might include a custom logo, website links, and other branding to display to users.
+    public struct Theme {
+        /// The time the theme was created.
+        public var createdTime: Foundation.Date?
+        /// The stack that has the custom branding theme.
+        public var stackName: Swift.String?
+        /// The state of the theme.
+        public var state: AppStreamClientTypes.ThemeState?
+        /// The URL of the icon that displays at the top of a user's browser tab during streaming sessions.
+        public var themeFaviconURL: Swift.String?
+        /// The website links that display in the catalog page footer.
+        public var themeFooterLinks: [AppStreamClientTypes.ThemeFooterLink]?
+        /// The URL of the logo that displays in the catalog page header.
+        public var themeOrganizationLogoURL: Swift.String?
+        /// The color that is used for the website links, text, buttons, and catalog page background.
+        public var themeStyling: AppStreamClientTypes.ThemeStyling?
+        /// The browser tab page title.
+        public var themeTitleText: Swift.String?
+
+        public init(
+            createdTime: Foundation.Date? = nil,
+            stackName: Swift.String? = nil,
+            state: AppStreamClientTypes.ThemeState? = nil,
+            themeFaviconURL: Swift.String? = nil,
+            themeFooterLinks: [AppStreamClientTypes.ThemeFooterLink]? = nil,
+            themeOrganizationLogoURL: Swift.String? = nil,
+            themeStyling: AppStreamClientTypes.ThemeStyling? = nil,
+            themeTitleText: Swift.String? = nil
+        )
+        {
+            self.createdTime = createdTime
+            self.stackName = stackName
+            self.state = state
+            self.themeFaviconURL = themeFaviconURL
+            self.themeFooterLinks = themeFooterLinks
+            self.themeOrganizationLogoURL = themeOrganizationLogoURL
+            self.themeStyling = themeStyling
+            self.themeTitleText = themeTitleText
+        }
+    }
+
+}
+
+public struct CreateThemeForStackOutput {
+    /// The theme object that contains the metadata of the custom branding.
+    public var theme: AppStreamClientTypes.Theme?
+
+    public init(
+        theme: AppStreamClientTypes.Theme? = nil
+    )
+    {
+        self.theme = theme
+    }
+}
+
 public struct CreateUpdatedImageInput {
     /// Indicates whether to display the status of image update availability before AppStream 2.0 initiates the process of creating a new updated image. If this value is set to true, AppStream 2.0 displays whether image updates are available. If this value is set to false, AppStream 2.0 initiates the process of creating a new updated image without displaying whether image updates are available.
     public var dryRun: Swift.Bool?
@@ -3556,6 +3783,35 @@ public struct CreateUpdatedImageInput {
 }
 
 extension AppStreamClientTypes {
+
+    public enum DynamicAppProvidersEnabled: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DynamicAppProvidersEnabled] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
     /// Describes the permissions for an image.
     public struct ImagePermissions {
         /// Indicates whether the image can be used for a fleet.
@@ -3573,6 +3829,35 @@ extension AppStreamClientTypes {
         }
     }
 
+}
+
+extension AppStreamClientTypes {
+
+    public enum ImageSharedWithOthers: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `false`
+        case `true`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageSharedWithOthers] {
+            return [
+                .false,
+                .true
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .false: return "FALSE"
+            case .true: return "TRUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension AppStreamClientTypes {
@@ -3720,6 +4005,8 @@ extension AppStreamClientTypes {
         public var description: Swift.String?
         /// The image name to display.
         public var displayName: Swift.String?
+        /// Indicates whether dynamic app providers are enabled within an AppStream 2.0 image or not.
+        public var dynamicAppProvidersEnabled: AppStreamClientTypes.DynamicAppProvidersEnabled?
         /// The name of the image builder that was used to create the private image. If the image is shared, this value is null.
         public var imageBuilderName: Swift.String?
         /// Indicates whether an image builder can be launched from this image.
@@ -3728,6 +4015,10 @@ extension AppStreamClientTypes {
         public var imageErrors: [AppStreamClientTypes.ResourceError]?
         /// The permissions to provide to the destination AWS account for the specified image.
         public var imagePermissions: AppStreamClientTypes.ImagePermissions?
+        /// Indicates whether the image is shared with another account ID.
+        public var imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers?
+        /// Indicates whether the image is using the latest AppStream 2.0 agent version or not.
+        public var latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion?
         /// The name of the image.
         /// This member is required.
         public var name: Swift.String?
@@ -3739,6 +4030,24 @@ extension AppStreamClientTypes {
         public var state: AppStreamClientTypes.ImageState?
         /// The reason why the last state change occurred.
         public var stateChangeReason: AppStreamClientTypes.ImageStateChangeReason?
+        /// The supported instances families that determine which image a customer can use when the customer launches a fleet or image builder. The following instances families are supported:
+        ///
+        /// * General Purpose
+        ///
+        /// * Compute Optimized
+        ///
+        /// * Memory Optimized
+        ///
+        /// * Graphics
+        ///
+        /// * Graphics Design
+        ///
+        /// * Graphics Pro
+        ///
+        /// * Graphics G4
+        ///
+        /// * Graphics G5
+        public var supportedInstanceFamilies: [Swift.String]?
         /// Indicates whether the image is public or private.
         public var visibility: AppStreamClientTypes.VisibilityType?
 
@@ -3750,15 +4059,19 @@ extension AppStreamClientTypes {
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
+            dynamicAppProvidersEnabled: AppStreamClientTypes.DynamicAppProvidersEnabled? = nil,
             imageBuilderName: Swift.String? = nil,
             imageBuilderSupported: Swift.Bool? = nil,
             imageErrors: [AppStreamClientTypes.ResourceError]? = nil,
             imagePermissions: AppStreamClientTypes.ImagePermissions? = nil,
+            imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers? = nil,
+            latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion? = nil,
             name: Swift.String? = nil,
             platform: AppStreamClientTypes.PlatformType? = nil,
             publicBaseImageReleasedDate: Foundation.Date? = nil,
             state: AppStreamClientTypes.ImageState? = nil,
             stateChangeReason: AppStreamClientTypes.ImageStateChangeReason? = nil,
+            supportedInstanceFamilies: [Swift.String]? = nil,
             visibility: AppStreamClientTypes.VisibilityType? = nil
         )
         {
@@ -3769,15 +4082,19 @@ extension AppStreamClientTypes {
             self.createdTime = createdTime
             self.description = description
             self.displayName = displayName
+            self.dynamicAppProvidersEnabled = dynamicAppProvidersEnabled
             self.imageBuilderName = imageBuilderName
             self.imageBuilderSupported = imageBuilderSupported
             self.imageErrors = imageErrors
             self.imagePermissions = imagePermissions
+            self.imageSharedWithOthers = imageSharedWithOthers
+            self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
             self.name = name
             self.platform = platform
             self.publicBaseImageReleasedDate = publicBaseImageReleasedDate
             self.state = state
             self.stateChangeReason = stateChangeReason
+            self.supportedInstanceFamilies = supportedInstanceFamilies
             self.visibility = visibility
         }
     }
@@ -4141,6 +4458,24 @@ public struct DeleteStackInput {
 }
 
 public struct DeleteStackOutput {
+
+    public init() { }
+}
+
+public struct DeleteThemeForStackInput {
+    /// The name of the stack for the theme.
+    /// This member is required.
+    public var stackName: Swift.String?
+
+    public init(
+        stackName: Swift.String? = nil
+    )
+    {
+        self.stackName = stackName
+    }
+}
+
+public struct DeleteThemeForStackOutput {
 
     public init() { }
 }
@@ -4833,6 +5168,31 @@ public struct DescribeStacksOutput {
     {
         self.nextToken = nextToken
         self.stacks = stacks
+    }
+}
+
+public struct DescribeThemeForStackInput {
+    /// The name of the stack for the theme.
+    /// This member is required.
+    public var stackName: Swift.String?
+
+    public init(
+        stackName: Swift.String? = nil
+    )
+    {
+        self.stackName = stackName
+    }
+}
+
+public struct DescribeThemeForStackOutput {
+    /// The theme object that contains the metadata of the custom branding.
+    public var theme: AppStreamClientTypes.Theme?
+
+    public init(
+        theme: AppStreamClientTypes.Theme? = nil
+    )
+    {
+        self.theme = theme
     }
 }
 
@@ -5863,7 +6223,7 @@ public struct UpdateFleetInput {
     public var deleteVpcConfig: Swift.Bool?
     /// The description to display.
     public var description: Swift.String?
-    /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 360000.
+    /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
     public var disconnectTimeoutInSeconds: Swift.Int?
     /// The fleet name to display.
     public var displayName: Swift.String?
@@ -5873,7 +6233,7 @@ public struct UpdateFleetInput {
     public var enableDefaultInternetAccess: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
     public var iamRoleArn: Swift.String?
-    /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 0. If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
+    /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0. If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
     public var idleDisconnectTimeoutInSeconds: Swift.Int?
     /// The ARN of the public, private, or shared image to use.
     public var imageArn: Swift.String?
@@ -6206,6 +6566,85 @@ public struct UpdateStackOutput {
     }
 }
 
+extension AppStreamClientTypes {
+
+    public enum ThemeAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case footerLinks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThemeAttribute] {
+            return [
+                .footerLinks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .footerLinks: return "FOOTER_LINKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateThemeForStackInput {
+    /// The attributes to delete.
+    public var attributesToDelete: [AppStreamClientTypes.ThemeAttribute]?
+    /// The S3 location of the favicon. The favicon enables users to recognize their application streaming site in a browser full of tabs or bookmarks. It is displayed at the top of the browser tab for the application streaming site during users' streaming sessions.
+    public var faviconS3Location: AppStreamClientTypes.S3Location?
+    /// The links that are displayed in the footer of the streaming application catalog page. These links are helpful resources for users, such as the organization's IT support and product marketing sites.
+    public var footerLinks: [AppStreamClientTypes.ThemeFooterLink]?
+    /// The organization logo that appears on the streaming application catalog page.
+    public var organizationLogoS3Location: AppStreamClientTypes.S3Location?
+    /// The name of the stack for the theme.
+    /// This member is required.
+    public var stackName: Swift.String?
+    /// Specifies whether custom branding should be applied to catalog page or not.
+    public var state: AppStreamClientTypes.ThemeState?
+    /// The color theme that is applied to website links, text, and buttons. These colors are also applied as accents in the background for the streaming application catalog page.
+    public var themeStyling: AppStreamClientTypes.ThemeStyling?
+    /// The title that is displayed at the top of the browser tab during users' application streaming sessions.
+    public var titleText: Swift.String?
+
+    public init(
+        attributesToDelete: [AppStreamClientTypes.ThemeAttribute]? = nil,
+        faviconS3Location: AppStreamClientTypes.S3Location? = nil,
+        footerLinks: [AppStreamClientTypes.ThemeFooterLink]? = nil,
+        organizationLogoS3Location: AppStreamClientTypes.S3Location? = nil,
+        stackName: Swift.String? = nil,
+        state: AppStreamClientTypes.ThemeState? = nil,
+        themeStyling: AppStreamClientTypes.ThemeStyling? = nil,
+        titleText: Swift.String? = nil
+    )
+    {
+        self.attributesToDelete = attributesToDelete
+        self.faviconS3Location = faviconS3Location
+        self.footerLinks = footerLinks
+        self.organizationLogoS3Location = organizationLogoS3Location
+        self.stackName = stackName
+        self.state = state
+        self.themeStyling = themeStyling
+        self.titleText = titleText
+    }
+}
+
+public struct UpdateThemeForStackOutput {
+    /// The theme object that contains the metadata of the custom branding.
+    public var theme: AppStreamClientTypes.Theme?
+
+    public init(
+        theme: AppStreamClientTypes.Theme? = nil
+    )
+    {
+        self.theme = theme
+    }
+}
+
 extension AssociateAppBlockBuilderAppBlockInput {
 
     static func urlPathProvider(_ value: AssociateAppBlockBuilderAppBlockInput) -> Swift.String? {
@@ -6332,6 +6771,13 @@ extension CreateStreamingURLInput {
     }
 }
 
+extension CreateThemeForStackInput {
+
+    static func urlPathProvider(_ value: CreateThemeForStackInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateUpdatedImageInput {
 
     static func urlPathProvider(_ value: CreateUpdatedImageInput) -> Swift.String? {
@@ -6419,6 +6865,13 @@ extension DeleteImagePermissionsInput {
 extension DeleteStackInput {
 
     static func urlPathProvider(_ value: DeleteStackInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteThemeForStackInput {
+
+    static func urlPathProvider(_ value: DeleteThemeForStackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6524,6 +6977,13 @@ extension DescribeSessionsInput {
 extension DescribeStacksInput {
 
     static func urlPathProvider(_ value: DescribeStacksInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeThemeForStackInput {
+
+    static func urlPathProvider(_ value: DescribeThemeForStackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6727,6 +7187,13 @@ extension UpdateImagePermissionsInput {
 extension UpdateStackInput {
 
     static func urlPathProvider(_ value: UpdateStackInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateThemeForStackInput {
+
+    static func urlPathProvider(_ value: UpdateThemeForStackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6967,6 +7434,19 @@ extension CreateStreamingURLInput {
     }
 }
 
+extension CreateThemeForStackInput {
+
+    static func write(value: CreateThemeForStackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FaviconS3Location"].write(value.faviconS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
+        try writer["FooterLinks"].writeList(value.footerLinks, memberWritingClosure: AppStreamClientTypes.ThemeFooterLink.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrganizationLogoS3Location"].write(value.organizationLogoS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
+        try writer["StackName"].write(value.stackName)
+        try writer["ThemeStyling"].write(value.themeStyling)
+        try writer["TitleText"].write(value.titleText)
+    }
+}
+
 extension CreateUpdatedImageInput {
 
     static func write(value: CreateUpdatedImageInput?, to writer: SmithyJSON.Writer) throws {
@@ -7079,6 +7559,14 @@ extension DeleteStackInput {
     static func write(value: DeleteStackInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
+    }
+}
+
+extension DeleteThemeForStackInput {
+
+    static func write(value: DeleteThemeForStackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StackName"].write(value.stackName)
     }
 }
 
@@ -7234,6 +7722,14 @@ extension DescribeStacksInput {
         guard let value else { return }
         try writer["Names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension DescribeThemeForStackInput {
+
+    static func write(value: DescribeThemeForStackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StackName"].write(value.stackName)
     }
 }
 
@@ -7550,6 +8046,21 @@ extension UpdateStackInput {
     }
 }
 
+extension UpdateThemeForStackInput {
+
+    static func write(value: UpdateThemeForStackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributesToDelete"].writeList(value.attributesToDelete, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AppStreamClientTypes.ThemeAttribute>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FaviconS3Location"].write(value.faviconS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
+        try writer["FooterLinks"].writeList(value.footerLinks, memberWritingClosure: AppStreamClientTypes.ThemeFooterLink.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrganizationLogoS3Location"].write(value.organizationLogoS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
+        try writer["StackName"].write(value.stackName)
+        try writer["State"].write(value.state)
+        try writer["ThemeStyling"].write(value.themeStyling)
+        try writer["TitleText"].write(value.titleText)
+    }
+}
+
 extension AssociateAppBlockBuilderAppBlockOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateAppBlockBuilderAppBlockOutput {
@@ -7759,6 +8270,18 @@ extension CreateStreamingURLOutput {
     }
 }
 
+extension CreateThemeForStackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateThemeForStackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateThemeForStackOutput()
+        value.theme = try reader["Theme"].readIfPresent(with: AppStreamClientTypes.Theme.read(from:))
+        return value
+    }
+}
+
 extension CreateUpdatedImageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateUpdatedImageOutput {
@@ -7869,6 +8392,13 @@ extension DeleteStackOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteStackOutput {
         return DeleteStackOutput()
+    }
+}
+
+extension DeleteThemeForStackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteThemeForStackOutput {
+        return DeleteThemeForStackOutput()
     }
 }
 
@@ -8052,6 +8582,18 @@ extension DescribeStacksOutput {
         var value = DescribeStacksOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.stacks = try reader["Stacks"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.Stack.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeThemeForStackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeThemeForStackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeThemeForStackOutput()
+        value.theme = try reader["Theme"].readIfPresent(with: AppStreamClientTypes.Theme.read(from:))
         return value
     }
 }
@@ -8346,6 +8888,18 @@ extension UpdateStackOutput {
         let reader = responseReader
         var value = UpdateStackOutput()
         value.stack = try reader["Stack"].readIfPresent(with: AppStreamClientTypes.Stack.read(from:))
+        return value
+    }
+}
+
+extension UpdateThemeForStackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThemeForStackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateThemeForStackOutput()
+        value.theme = try reader["Theme"].readIfPresent(with: AppStreamClientTypes.Theme.read(from:))
         return value
     }
 }
@@ -8681,6 +9235,25 @@ enum CreateStreamingURLOutputError {
     }
 }
 
+enum CreateThemeForStackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidAccountStatusException": return try InvalidAccountStatusException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateUpdatedImageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8892,6 +9465,22 @@ enum DeleteStackOutputError {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteThemeForStackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -9111,6 +9700,21 @@ enum DescribeStacksOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeThemeForStackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -9593,6 +10197,25 @@ enum UpdateStackOutputError {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateThemeForStackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidAccountStatusException": return try InvalidAccountStatusException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10192,6 +10815,7 @@ extension AppStreamClientTypes.ImageBuilder {
         value.imageBuilderErrors = try reader["ImageBuilderErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.appstreamAgentVersion = try reader["AppstreamAgentVersion"].readIfPresent()
         value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.latestAppstreamAgentVersion = try reader["LatestAppstreamAgentVersion"].readIfPresent()
         return value
     }
 }
@@ -10317,6 +10941,40 @@ extension AppStreamClientTypes.StorageConnector {
     }
 }
 
+extension AppStreamClientTypes.Theme {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Theme {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.Theme()
+        value.stackName = try reader["StackName"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.themeTitleText = try reader["ThemeTitleText"].readIfPresent()
+        value.themeStyling = try reader["ThemeStyling"].readIfPresent()
+        value.themeFooterLinks = try reader["ThemeFooterLinks"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ThemeFooterLink.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.themeOrganizationLogoURL = try reader["ThemeOrganizationLogoURL"].readIfPresent()
+        value.themeFaviconURL = try reader["ThemeFaviconURL"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension AppStreamClientTypes.ThemeFooterLink {
+
+    static func write(value: AppStreamClientTypes.ThemeFooterLink?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DisplayName"].write(value.displayName)
+        try writer["FooterLinkURL"].write(value.footerLinkURL)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ThemeFooterLink {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ThemeFooterLink()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.footerLinkURL = try reader["FooterLinkURL"].readIfPresent()
+        return value
+    }
+}
+
 extension AppStreamClientTypes.Image {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Image {
@@ -10339,6 +10997,10 @@ extension AppStreamClientTypes.Image {
         value.appstreamAgentVersion = try reader["AppstreamAgentVersion"].readIfPresent()
         value.imagePermissions = try reader["ImagePermissions"].readIfPresent(with: AppStreamClientTypes.ImagePermissions.read(from:))
         value.imageErrors = try reader["ImageErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.latestAppstreamAgentVersion = try reader["LatestAppstreamAgentVersion"].readIfPresent()
+        value.supportedInstanceFamilies = try reader["SupportedInstanceFamilies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dynamicAppProvidersEnabled = try reader["DynamicAppProvidersEnabled"].readIfPresent()
+        value.imageSharedWithOthers = try reader["ImageSharedWithOthers"].readIfPresent()
         return value
     }
 }

@@ -203,7 +203,11 @@ public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-/// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+/// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+///
+/// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+///
+/// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
 public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -496,7 +500,7 @@ public struct AddPermissionInput {
     public var functionName: Swift.String?
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
-    /// The Amazon Web Service or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
+    /// The Amazon Web Servicesservice or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
     public var principal: Swift.String?
     /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
@@ -505,9 +509,9 @@ public struct AddPermissionInput {
     public var qualifier: Swift.String?
     /// Update the policy only if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
     public var revisionId: Swift.String?
-    /// For Amazon Web Service, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
+    /// For Amazon Web Servicesservice, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
     public var sourceAccount: Swift.String?
-    /// For Amazon Web Services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
+    /// For Amazon Web Servicesservices, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
     public var sourceArn: Swift.String?
     /// A statement identifier that differentiates the statement from others in the same policy.
     /// This member is required.
@@ -1314,7 +1318,9 @@ public struct CreateEventSourceMappingInput {
     public var functionName: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics). By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
+    public var kmsKeyArn: Swift.String?
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
@@ -1352,6 +1358,7 @@ public struct CreateEventSourceMappingInput {
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         functionName: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -1377,6 +1384,7 @@ public struct CreateEventSourceMappingInput {
         self.filterCriteria = filterCriteria
         self.functionName = functionName
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -1393,6 +1401,26 @@ public struct CreateEventSourceMappingInput {
     }
 }
 
+extension LambdaClientTypes {
+    /// An object that contains details about an error related to filter criteria encryption.
+    public struct FilterCriteriaError {
+        /// The KMS exception that resulted from filter criteria encryption or decryption.
+        public var errorCode: Swift.String?
+        /// The error message.
+        public var message: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.message = message
+        }
+    }
+
+}
+
 /// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
 public struct CreateEventSourceMappingOutput {
     /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
@@ -1407,12 +1435,16 @@ public struct CreateEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
     /// The result of the last Lambda invocation of your function.
@@ -1458,8 +1490,10 @@ public struct CreateEventSourceMappingOutput {
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -1487,8 +1521,10 @@ public struct CreateEventSourceMappingOutput {
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -2174,7 +2210,7 @@ public struct CreateFunctionInput {
     /// The Amazon Resource Name (ARN) of the function's execution role.
     /// This member is required.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
@@ -2800,7 +2836,7 @@ public struct CreateFunctionOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -3150,12 +3186,16 @@ public struct DeleteEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
     /// The result of the last Lambda invocation of your function.
@@ -3201,8 +3241,10 @@ public struct DeleteEventSourceMappingOutput {
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -3230,8 +3272,10 @@ public struct DeleteEventSourceMappingOutput {
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3554,12 +3598,16 @@ public struct GetEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
     /// The result of the last Lambda invocation of your function.
@@ -3605,8 +3653,10 @@ public struct GetEventSourceMappingOutput {
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -3634,8 +3684,10 @@ public struct GetEventSourceMappingOutput {
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3777,7 +3829,7 @@ extension LambdaClientTypes {
         public var revisionId: Swift.String?
         /// The function's execution role.
         public var role: Swift.String?
-        /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+        /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
         public var runtime: LambdaClientTypes.Runtime?
         /// The ARN of the runtime and any errors that occured.
         public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -4065,7 +4117,7 @@ public struct GetFunctionConfigurationOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -4230,6 +4282,60 @@ public struct GetFunctionEventInvokeConfigOutput {
     }
 }
 
+public struct GetFunctionRecursionConfigInput {
+    ///
+    /// This member is required.
+    public var functionName: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil
+    )
+    {
+        self.functionName = functionName
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum RecursiveLoop: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case terminate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecursiveLoop] {
+            return [
+                .allow,
+                .terminate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "Allow"
+            case .terminate: return "Terminate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetFunctionRecursionConfigOutput {
+    /// If your function's recursive loop detection configuration is Allow, Lambda doesn't take any action when it detects your function being invoked as part of a recursive loop. If your function's recursive loop detection configuration is Terminate, Lambda stops your function being invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate. You can update this configuration using the [PutFunctionRecursionConfig] action.
+    public var recursiveLoop: LambdaClientTypes.RecursiveLoop?
+
+    public init(
+        recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
+    )
+    {
+        self.recursiveLoop = recursiveLoop
+    }
+}
+
 public struct GetFunctionUrlConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -4354,7 +4460,7 @@ extension LambdaClientTypes {
 public struct GetLayerVersionOutput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// Details about the layer version.
     public var content: LambdaClientTypes.LayerVersionContentOutput?
@@ -4411,7 +4517,7 @@ public struct GetLayerVersionByArnInput {
 public struct GetLayerVersionByArnOutput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// Details about the layer version.
     public var content: LambdaClientTypes.LayerVersionContentOutput?
@@ -5902,12 +6008,16 @@ extension LambdaClientTypes {
         public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public var eventSourceArn: Swift.String?
-        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
         public var filterCriteria: LambdaClientTypes.FilterCriteria?
+        /// An object that contains details about an error related to filter criteria encryption.
+        public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
         /// The ARN of the Lambda function.
         public var functionArn: Swift.String?
         /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+        /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+        public var kmsKeyArn: Swift.String?
         /// The date that the event source mapping was last updated or that its state changed.
         public var lastModified: Foundation.Date?
         /// The result of the last Lambda invocation of your function.
@@ -5953,8 +6063,10 @@ extension LambdaClientTypes {
             documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
             eventSourceArn: Swift.String? = nil,
             filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+            filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
             functionArn: Swift.String? = nil,
             functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+            kmsKeyArn: Swift.String? = nil,
             lastModified: Foundation.Date? = nil,
             lastProcessingResult: Swift.String? = nil,
             maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -5982,8 +6094,10 @@ extension LambdaClientTypes {
             self.documentDBEventSourceConfig = documentDBEventSourceConfig
             self.eventSourceArn = eventSourceArn
             self.filterCriteria = filterCriteria
+            self.filterCriteriaError = filterCriteriaError
             self.functionArn = functionArn
             self.functionResponseTypes = functionResponseTypes
+            self.kmsKeyArn = kmsKeyArn
             self.lastModified = lastModified
             self.lastProcessingResult = lastProcessingResult
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -6311,7 +6425,7 @@ public struct ListFunctionUrlConfigsOutput {
 public struct ListLayersInput {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// A runtime identifier. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntime: LambdaClientTypes.Runtime?
     /// A pagination token returned by a previous call.
     public var marker: Swift.String?
@@ -6337,7 +6451,7 @@ extension LambdaClientTypes {
     public struct LayerVersionsListItem {
         /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
         public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
         public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
         /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000.
         public var createdDate: Swift.String?
@@ -6415,7 +6529,7 @@ public struct ListLayersOutput {
 public struct ListLayerVersionsInput {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// A runtime identifier. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntime: LambdaClientTypes.Runtime?
     /// The name or Amazon Resource Name (ARN) of the layer.
     /// This member is required.
@@ -6690,7 +6804,7 @@ public struct PublishLayerVersionInput {
 public struct PublishLayerVersionOutput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
     /// Details about the layer version.
     public var content: LambdaClientTypes.LayerVersionContentOutput?
@@ -6815,7 +6929,7 @@ public struct PublishVersionOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -7090,6 +7204,45 @@ public struct PutFunctionEventInvokeConfigOutput {
         self.lastModified = lastModified
         self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+    }
+}
+
+public struct PutFunctionRecursionConfigInput {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name – my-function.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// If you set your function's recursive loop detection configuration to Allow, Lambda doesn't take any action when it detects your function being invoked as part of a recursive loop. We recommend that you only use this setting if your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes it. If you set your function's recursive loop detection configuration to Terminate, Lambda stops your function being invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate. If your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes the function, then use caution and implement suitable guard rails to prevent unexpected charges being billed to your Amazon Web Services account. To learn more about best practices for using recursive invocation patterns, see [Recursive patterns that cause run-away Lambda functions](https://serverlessland.com/content/service/lambda/guides/aws-lambda-operator-guide/recursive-runaway) in Serverless Land.
+    /// This member is required.
+    public var recursiveLoop: LambdaClientTypes.RecursiveLoop?
+
+    public init(
+        functionName: Swift.String? = nil,
+        recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
+    )
+    {
+        self.functionName = functionName
+        self.recursiveLoop = recursiveLoop
+    }
+}
+
+public struct PutFunctionRecursionConfigOutput {
+    /// The status of your function's recursive loop detection configuration. When this value is set to Allowand Lambda detects your function being invoked as part of a recursive loop, it doesn't take any action. When this value is set to Terminate and Lambda detects your function being invoked as part of a recursive loop, it stops your function being invoked and notifies you.
+    public var recursiveLoop: LambdaClientTypes.RecursiveLoop?
+
+    public init(
+        recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
+    )
+    {
+        self.recursiveLoop = recursiveLoop
     }
 }
 
@@ -7474,7 +7627,9 @@ public struct UpdateEventSourceMappingInput {
     public var functionName: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics). By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
+    public var kmsKeyArn: Swift.String?
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
@@ -7501,6 +7656,7 @@ public struct UpdateEventSourceMappingInput {
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         functionName: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -7519,6 +7675,7 @@ public struct UpdateEventSourceMappingInput {
         self.filterCriteria = filterCriteria
         self.functionName = functionName
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -7544,12 +7701,16 @@ public struct UpdateEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
     /// The result of the last Lambda invocation of your function.
@@ -7595,8 +7756,10 @@ public struct UpdateEventSourceMappingOutput {
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -7624,8 +7787,10 @@ public struct UpdateEventSourceMappingOutput {
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -7760,7 +7925,7 @@ public struct UpdateFunctionCodeOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -7902,7 +8067,7 @@ public struct UpdateFunctionConfigurationInput {
     public var revisionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
@@ -8007,7 +8172,7 @@ public struct UpdateFunctionConfigurationOutput {
     public var revisionId: Swift.String?
     /// The function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
@@ -8661,6 +8826,16 @@ extension GetFunctionEventInvokeConfigInput {
     }
 }
 
+extension GetFunctionRecursionConfigInput {
+
+    static func urlPathProvider(_ value: GetFunctionRecursionConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
+            return nil
+        }
+        return "/2024-08-31/functions/\(functionName.urlPercentEncoding())/recursion-config"
+    }
+}
+
 extension GetFunctionUrlConfigInput {
 
     static func urlPathProvider(_ value: GetFunctionUrlConfigInput) -> Swift.String? {
@@ -9270,6 +9445,16 @@ extension PutFunctionEventInvokeConfigInput {
     }
 }
 
+extension PutFunctionRecursionConfigInput {
+
+    static func urlPathProvider(_ value: PutFunctionRecursionConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
+            return nil
+        }
+        return "/2024-08-31/functions/\(functionName.urlPercentEncoding())/recursion-config"
+    }
+}
+
 extension PutProvisionedConcurrencyConfigInput {
 
     static func urlPathProvider(_ value: PutProvisionedConcurrencyConfigInput) -> Swift.String? {
@@ -9568,6 +9753,7 @@ extension CreateEventSourceMappingInput {
         try writer["FilterCriteria"].write(value.filterCriteria, with: LambdaClientTypes.FilterCriteria.write(value:to:))
         try writer["FunctionName"].write(value.functionName)
         try writer["FunctionResponseTypes"].writeList(value.functionResponseTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.FunctionResponseType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KMSKeyArn"].write(value.kmsKeyArn)
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
@@ -9697,6 +9883,14 @@ extension PutFunctionEventInvokeConfigInput {
     }
 }
 
+extension PutFunctionRecursionConfigInput {
+
+    static func write(value: PutFunctionRecursionConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecursiveLoop"].write(value.recursiveLoop)
+    }
+}
+
 extension PutProvisionedConcurrencyConfigInput {
 
     static func write(value: PutProvisionedConcurrencyConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -9755,6 +9949,7 @@ extension UpdateEventSourceMappingInput {
         try writer["FilterCriteria"].write(value.filterCriteria, with: LambdaClientTypes.FilterCriteria.write(value:to:))
         try writer["FunctionName"].write(value.functionName)
         try writer["FunctionResponseTypes"].writeList(value.functionResponseTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.FunctionResponseType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KMSKeyArn"].write(value.kmsKeyArn)
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
@@ -9894,8 +10089,10 @@ extension CreateEventSourceMappingOutput {
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
         value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -10010,8 +10207,10 @@ extension DeleteEventSourceMappingOutput {
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
         value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -10139,8 +10338,10 @@ extension GetEventSourceMappingOutput {
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
         value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -10262,6 +10463,18 @@ extension GetFunctionEventInvokeConfigOutput {
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        return value
+    }
+}
+
+extension GetFunctionRecursionConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFunctionRecursionConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFunctionRecursionConfigOutput()
+        value.recursiveLoop = try reader["RecursiveLoop"].readIfPresent()
         return value
     }
 }
@@ -10699,6 +10912,18 @@ extension PutFunctionEventInvokeConfigOutput {
     }
 }
 
+extension PutFunctionRecursionConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutFunctionRecursionConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutFunctionRecursionConfigOutput()
+        value.recursiveLoop = try reader["RecursiveLoop"].readIfPresent()
+        return value
+    }
+}
+
 extension PutProvisionedConcurrencyConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutProvisionedConcurrencyConfigOutput {
@@ -10801,8 +11026,10 @@ extension UpdateEventSourceMappingOutput {
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
         value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -11410,6 +11637,23 @@ enum GetFunctionEventInvokeConfigOutputError {
     }
 }
 
+enum GetFunctionRecursionConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFunctionUrlConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11909,6 +12153,24 @@ enum PutFunctionConcurrencyOutputError {
 }
 
 enum PutFunctionEventInvokeConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutFunctionRecursionConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12976,6 +13238,17 @@ extension LambdaClientTypes.DocumentDBEventSourceConfig {
     }
 }
 
+extension LambdaClientTypes.FilterCriteriaError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FilterCriteriaError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FilterCriteriaError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.VpcConfigResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.VpcConfigResponse {
@@ -13377,6 +13650,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration {
         value.selfManagedKafkaEventSourceConfig = try reader["SelfManagedKafkaEventSourceConfig"].readIfPresent(with: LambdaClientTypes.SelfManagedKafkaEventSourceConfig.read(from:))
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         return value
     }
 }
