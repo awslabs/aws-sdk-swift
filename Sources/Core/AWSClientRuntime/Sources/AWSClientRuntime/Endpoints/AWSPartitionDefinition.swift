@@ -12,4 +12,4 @@ let partitionsFile = Bundle.module.url(forResource: "sdk-partitions", withExtens
 
 // First-time load will take longer but subsequent calls will use cached data
 // swiftlint:disable:next force_try
-let awsPartitionJSON = try! String(contentsOf: partitionsFile, encoding: .utf8)
+public let awsPartitionJSON = try! String(contentsOf: partitionsFile, encoding: .utf8)
