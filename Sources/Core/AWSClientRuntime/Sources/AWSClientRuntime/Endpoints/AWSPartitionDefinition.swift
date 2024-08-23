@@ -11,4 +11,5 @@ import Foundation
 let partitionsFile = Bundle.module.url(forResource: "sdk-partitions", withExtension: "json")!
 
 // First-time load will take longer but subsequent calls will use cached data
+// swiftlint:disable:next force_try
 let AWSPartitionDataJSON = try! String(contentsOf: partitionsFile, encoding: .utf8)
