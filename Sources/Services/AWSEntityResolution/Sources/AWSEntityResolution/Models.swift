@@ -27,8 +27,10 @@ import struct AWSClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
+import struct SmithyReadWrite.ReadingClosureBox
+import struct SmithyReadWrite.WritingClosureBox
 
-/// You do not have sufficient access to perform this action. HTTP Status Code: 403
+/// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -52,7 +54,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc. HTTP Status Code: 400
+/// The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -76,7 +78,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
+/// This exception occurs when there is an internal failure in the Entity Resolution service.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -100,7 +102,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The resource could not be found. HTTP Status Code: 404
+/// The resource could not be found.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -124,7 +126,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The request was denied due to request throttling. HTTP Status Code: 429
+/// The request was denied due to request throttling.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -148,7 +150,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
+/// The input fails to satisfy the constraints specified by Entity Resolution.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -210,7 +212,7 @@ public struct AddPolicyStatementInput {
     public var arn: Swift.String?
     /// A set of condition keys that you can use in key policies.
     public var condition: Swift.String?
-    /// Determines whether the permissions specified in the policy are to be allowed (Allow) or denied (Deny).
+    /// Determines whether the permissions specified in the policy are to be allowed (Allow) or denied (Deny). If you set the value of the effect parameter to Deny for the AddPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy operation.
     /// This member is required.
     public var effect: EntityResolutionClientTypes.StatementEffect?
     /// The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN.
@@ -436,7 +438,7 @@ public struct BatchDeleteUniqueIdOutput {
     }
 }
 
-/// The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
+/// The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded.
 public struct ExceedsLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -472,11 +474,13 @@ extension EntityResolutionClientTypes {
 
     public enum IdMappingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case provider
+        case ruleBased
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IdMappingType] {
             return [
-                .provider
+                .provider,
+                .ruleBased
             ]
         }
 
@@ -488,6 +492,7 @@ extension EntityResolutionClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .provider: return "PROVIDER"
+            case .ruleBased: return "RULE_BASED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -537,21 +542,136 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes {
-    /// An object which defines the ID mapping techniques and provider configurations.
+
+    public enum RecordMatchingModel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case manySourceToOneTarget
+        case oneSourceToOneTarget
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordMatchingModel] {
+            return [
+                .manySourceToOneTarget,
+                .oneSourceToOneTarget
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .manySourceToOneTarget: return "MANY_SOURCE_TO_ONE_TARGET"
+            case .oneSourceToOneTarget: return "ONE_SOURCE_TO_ONE_TARGET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
+    public enum IdMappingWorkflowRuleDefinitionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case source
+        case target
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdMappingWorkflowRuleDefinitionType] {
+            return [
+                .source,
+                .target
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .source: return "SOURCE"
+            case .target: return "TARGET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// An object containing RuleName, and MatchingKeys.
+    public struct Rule {
+        /// A list of MatchingKeys. The MatchingKeys must have been defined in the SchemaMapping. Two records are considered to match according to this rule if all of the MatchingKeys match.
+        /// This member is required.
+        public var matchingKeys: [Swift.String]?
+        /// A name for the matching rule.
+        /// This member is required.
+        public var ruleName: Swift.String?
+
+        public init(
+            matchingKeys: [Swift.String]? = nil,
+            ruleName: Swift.String? = nil
+        )
+        {
+            self.matchingKeys = matchingKeys
+            self.ruleName = ruleName
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes {
+    /// An object that defines the list of matching rules to run in an ID mapping workflow.
+    public struct IdMappingRuleBasedProperties {
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel. If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of the BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type. If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B.
+        /// This member is required.
+        public var attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel?
+        /// The type of matching record that is allowed to be used in an ID mapping workflow. If the value is set to ONE_SOURCE_TO_ONE_TARGET, only one record in the source can be matched to the same record in the target. If the value is set to MANY_SOURCE_TO_ONE_TARGET, multiple records in the source can be matched to one record in the target.
+        /// This member is required.
+        public var recordMatchingModel: EntityResolutionClientTypes.RecordMatchingModel?
+        /// The set of rules you can use in an ID mapping workflow. The limitations specified for the source or target to define the match rules must be compatible.
+        /// This member is required.
+        public var ruleDefinitionType: EntityResolutionClientTypes.IdMappingWorkflowRuleDefinitionType?
+        /// The rules that can be used for ID mapping.
+        public var rules: [EntityResolutionClientTypes.Rule]?
+
+        public init(
+            attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel? = nil,
+            recordMatchingModel: EntityResolutionClientTypes.RecordMatchingModel? = nil,
+            ruleDefinitionType: EntityResolutionClientTypes.IdMappingWorkflowRuleDefinitionType? = nil,
+            rules: [EntityResolutionClientTypes.Rule]? = nil
+        )
+        {
+            self.attributeMatchingModel = attributeMatchingModel
+            self.recordMatchingModel = recordMatchingModel
+            self.ruleDefinitionType = ruleDefinitionType
+            self.rules = rules
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes {
+    /// An object which defines the ID mapping technique and any additional configurations.
     public struct IdMappingTechniques {
         /// The type of ID mapping.
         /// This member is required.
         public var idMappingType: EntityResolutionClientTypes.IdMappingType?
         /// An object which defines any additional configurations required by the provider service.
         public var providerProperties: EntityResolutionClientTypes.ProviderProperties?
+        /// An object which defines any additional configurations required by rule-based matching.
+        public var ruleBasedProperties: EntityResolutionClientTypes.IdMappingRuleBasedProperties?
 
         public init(
             idMappingType: EntityResolutionClientTypes.IdMappingType? = nil,
-            providerProperties: EntityResolutionClientTypes.ProviderProperties? = nil
+            providerProperties: EntityResolutionClientTypes.ProviderProperties? = nil,
+            ruleBasedProperties: EntityResolutionClientTypes.IdMappingRuleBasedProperties? = nil
         )
         {
             self.idMappingType = idMappingType
             self.providerProperties = providerProperties
+            self.ruleBasedProperties = ruleBasedProperties
         }
     }
 
@@ -589,12 +709,12 @@ extension EntityResolutionClientTypes {
 extension EntityResolutionClientTypes {
     /// An object containing InputSourceARN, SchemaName, and Type.
     public struct IdMappingWorkflowInputSource {
-        /// An Glue table ARN for the input source table.
+        /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the input source table.
         /// This member is required.
         public var inputSourceARN: Swift.String?
         /// The name of the schema to be retrieved.
         public var schemaName: Swift.String?
-        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow. The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow. The TARGET contains a configuration of targetId which all sourceIds will resolve to.
         public var type: EntityResolutionClientTypes.IdNamespaceType?
 
         public init(
@@ -635,7 +755,7 @@ extension EntityResolutionClientTypes {
 public struct CreateIdMappingWorkflowInput {
     /// A description of the workflow.
     public var description: Swift.String?
-    /// An object which defines the idMappingType and the providerProperties.
+    /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
@@ -644,7 +764,6 @@ public struct CreateIdMappingWorkflowInput {
     /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
     public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
     /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
-    /// This member is required.
     public var roleArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
@@ -675,7 +794,7 @@ public struct CreateIdMappingWorkflowInput {
 public struct CreateIdMappingWorkflowOutput {
     /// A description of the workflow.
     public var description: Swift.String?
-    /// An object which defines the idMappingType and the providerProperties.
+    /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
@@ -684,7 +803,6 @@ public struct CreateIdMappingWorkflowOutput {
     /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
     public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
     /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
-    /// This member is required.
     public var roleArn: Swift.String?
     /// The ARN (Amazon Resource Name) that Entity Resolution generated for the IDMappingWorkflow.
     /// This member is required.
@@ -735,21 +853,53 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes {
-    /// An object containing IdMappingType and ProviderProperties.
+    /// The rule-based properties of an ID namespace. These properties define how the ID namespace can be used in an ID mapping workflow.
+    public struct NamespaceRuleBasedProperties {
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel. If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type. If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B.
+        public var attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel?
+        /// The type of matching record that is allowed to be used in an ID mapping workflow. If the value is set to ONE_SOURCE_TO_ONE_TARGET, only one record in the source is matched to one record in the target. If the value is set to MANY_SOURCE_TO_ONE_TARGET, all matching records in the source are matched to one record in the target.
+        public var recordMatchingModels: [EntityResolutionClientTypes.RecordMatchingModel]?
+        /// The sets of rules you can use in an ID mapping workflow. The limitations specified for the source and target must be compatible.
+        public var ruleDefinitionTypes: [EntityResolutionClientTypes.IdMappingWorkflowRuleDefinitionType]?
+        /// The rules for the ID namespace.
+        public var rules: [EntityResolutionClientTypes.Rule]?
+
+        public init(
+            attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel? = nil,
+            recordMatchingModels: [EntityResolutionClientTypes.RecordMatchingModel]? = nil,
+            ruleDefinitionTypes: [EntityResolutionClientTypes.IdMappingWorkflowRuleDefinitionType]? = nil,
+            rules: [EntityResolutionClientTypes.Rule]? = nil
+        )
+        {
+            self.attributeMatchingModel = attributeMatchingModel
+            self.recordMatchingModels = recordMatchingModels
+            self.ruleDefinitionTypes = ruleDefinitionTypes
+            self.rules = rules
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes {
+    /// An object containing IdMappingType, ProviderProperties, and RuleBasedProperties.
     public struct IdNamespaceIdMappingWorkflowProperties {
         /// The type of ID mapping.
         /// This member is required.
         public var idMappingType: EntityResolutionClientTypes.IdMappingType?
         /// An object which defines any additional configurations required by the provider service.
         public var providerProperties: EntityResolutionClientTypes.NamespaceProviderProperties?
+        /// An object which defines any additional configurations required by rule-based matching.
+        public var ruleBasedProperties: EntityResolutionClientTypes.NamespaceRuleBasedProperties?
 
         public init(
             idMappingType: EntityResolutionClientTypes.IdMappingType? = nil,
-            providerProperties: EntityResolutionClientTypes.NamespaceProviderProperties? = nil
+            providerProperties: EntityResolutionClientTypes.NamespaceProviderProperties? = nil,
+            ruleBasedProperties: EntityResolutionClientTypes.NamespaceRuleBasedProperties? = nil
         )
         {
             self.idMappingType = idMappingType
             self.providerProperties = providerProperties
+            self.ruleBasedProperties = ruleBasedProperties
         }
     }
 
@@ -758,7 +908,7 @@ extension EntityResolutionClientTypes {
 extension EntityResolutionClientTypes {
     /// An object containing InputSourceARN and SchemaName.
     public struct IdNamespaceInputSource {
-        /// An Glue table ARN for the input source table.
+        /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the input source table.
         /// This member is required.
         public var inputSourceARN: Swift.String?
         /// The name of the schema.
@@ -914,7 +1064,7 @@ extension EntityResolutionClientTypes {
     public struct InputSource {
         /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
         public var applyNormalization: Swift.Bool?
-        /// An Glue table ARN for the input source table.
+        /// An Glue table Amazon Resource Name (ARN) for the input source table.
         /// This member is required.
         public var inputSourceARN: Swift.String?
         /// The name of the schema to be retrieved.
@@ -1019,43 +1169,54 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes {
-    /// An object containing RuleName, and MatchingKeys.
-    public struct Rule {
-        /// A list of MatchingKeys. The MatchingKeys must have been defined in the SchemaMapping. Two records are considered to match according to this rule if all of the MatchingKeys match.
-        /// This member is required.
-        public var matchingKeys: [Swift.String]?
-        /// A name for the matching rule.
-        /// This member is required.
-        public var ruleName: Swift.String?
 
-        public init(
-            matchingKeys: [Swift.String]? = nil,
-            ruleName: Swift.String? = nil
-        )
-        {
-            self.matchingKeys = matchingKeys
-            self.ruleName = ruleName
+    public enum MatchPurpose: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case identifierGeneration
+        case indexing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MatchPurpose] {
+            return [
+                .identifierGeneration,
+                .indexing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .identifierGeneration: return "IDENTIFIER_GENERATION"
+            case .indexing: return "INDEXING"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
-
 }
 
 extension EntityResolutionClientTypes {
-    /// An object which defines the list of matching rules to run and has a field Rules, which is a list of rule objects.
+    /// An object which defines the list of matching rules to run in a matching workflow. RuleBasedProperties contain a Rules field, which is a list of rule objects.
     public struct RuleBasedProperties {
-        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the AttributeMatchingModel. When choosing MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email type. When choosing ONE_TO_ONE ,the system can only match if the sub-types are exact matches. For example, only when the value of the Email field of Profile A and the value of the Email field of Profile B matches, the two profiles are matched on the Email type.
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel. If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email attribute type. If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B.
         /// This member is required.
         public var attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel?
+        /// An indicator of whether to generate IDs and index the data or not. If you choose IDENTIFIER_GENERATION, the process generates IDs and indexes the data. If you choose INDEXING, the process indexes the data without generating IDs.
+        public var matchPurpose: EntityResolutionClientTypes.MatchPurpose?
         /// A list of Rule objects, each of which have fields RuleName and MatchingKeys.
         /// This member is required.
         public var rules: [EntityResolutionClientTypes.Rule]?
 
         public init(
             attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel? = nil,
+            matchPurpose: EntityResolutionClientTypes.MatchPurpose? = nil,
             rules: [EntityResolutionClientTypes.Rule]? = nil
         )
         {
             self.attributeMatchingModel = attributeMatchingModel
+            self.matchPurpose = matchPurpose
             self.rules = rules
         }
     }
@@ -1262,13 +1423,15 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes {
-    /// An object containing FieldName, Type, GroupName, MatchKey, and SubType.
+    /// An object containing FieldName, Type, GroupName, MatchKey, Hashing, and SubType.
     public struct SchemaInputAttribute {
         /// A string containing the field name.
         /// This member is required.
         public var fieldName: Swift.String?
         /// A string that instructs Entity Resolution to combine several columns into a unified column with the identical attribute type. For example, when working with columns such as first_name, middle_name, and last_name, assigning them a common groupName will prompt Entity Resolution to concatenate them into a single value.
         public var groupName: Swift.String?
+        /// Indicates if the column values are hashed in the schema input. If the value is set to TRUE, the column values are hashed. If the value is set to FALSE, the column values are cleartext.
+        public var hashed: Swift.Bool?
         /// A key that allows grouping of multiple input attributes into a unified matching group. For example, consider a scenario where the source table contains various addresses, such as business_address and shipping_address. By assigning a matchKey called address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no matchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
         public var matchKey: Swift.String?
         /// The subtype of the attribute, selected from a list of values.
@@ -1280,6 +1443,7 @@ extension EntityResolutionClientTypes {
         public init(
             fieldName: Swift.String? = nil,
             groupName: Swift.String? = nil,
+            hashed: Swift.Bool? = nil,
             matchKey: Swift.String? = nil,
             subType: Swift.String? = nil,
             type: EntityResolutionClientTypes.SchemaAttributeType? = nil
@@ -1287,6 +1451,7 @@ extension EntityResolutionClientTypes {
         {
             self.fieldName = fieldName
             self.groupName = groupName
+            self.hashed = hashed
             self.matchKey = matchKey
             self.subType = subType
             self.type = type
@@ -1528,23 +1693,35 @@ extension EntityResolutionClientTypes {
 }
 
 extension EntityResolutionClientTypes {
-    /// An object containing InputRecords, TotalRecordsProcessed, MatchIDs, and RecordsNotProcessed.
+    /// An object containing InputRecords, RecordsNotProcessed, TotalRecordsProcessed, TotalMappedRecords, TotalMappedSourceRecords, and TotalMappedTargetRecords.
     public struct IdMappingJobMetrics {
-        /// The total number of input records.
+        /// The total number of records that were input for processing.
         public var inputRecords: Swift.Int?
         /// The total number of records that did not get processed.
         public var recordsNotProcessed: Swift.Int?
-        /// The total number of records processed.
+        /// The total number of records that were mapped.
+        public var totalMappedRecords: Swift.Int?
+        /// The total number of mapped source records.
+        public var totalMappedSourceRecords: Swift.Int?
+        /// The total number of distinct mapped target records.
+        public var totalMappedTargetRecords: Swift.Int?
+        /// The total number of records that were processed.
         public var totalRecordsProcessed: Swift.Int?
 
         public init(
             inputRecords: Swift.Int? = nil,
             recordsNotProcessed: Swift.Int? = nil,
+            totalMappedRecords: Swift.Int? = nil,
+            totalMappedSourceRecords: Swift.Int? = nil,
+            totalMappedTargetRecords: Swift.Int? = nil,
             totalRecordsProcessed: Swift.Int? = nil
         )
         {
             self.inputRecords = inputRecords
             self.recordsNotProcessed = recordsNotProcessed
+            self.totalMappedRecords = totalMappedRecords
+            self.totalMappedSourceRecords = totalMappedSourceRecords
+            self.totalMappedTargetRecords = totalMappedTargetRecords
             self.totalRecordsProcessed = totalRecordsProcessed
         }
     }
@@ -1670,7 +1847,7 @@ public struct GetIdMappingWorkflowOutput {
     public var createdAt: Foundation.Date?
     /// A description of the workflow.
     public var description: Swift.String?
-    /// An object which defines the idMappingType and the providerProperties.
+    /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
@@ -1679,7 +1856,6 @@ public struct GetIdMappingWorkflowOutput {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
     public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
     /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
-    /// This member is required.
     public var roleArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
@@ -2506,6 +2682,23 @@ public struct ListIdNamespacesInput {
 }
 
 extension EntityResolutionClientTypes {
+    /// The settings for the ID namespace for the ID mapping workflow job.
+    public struct IdNamespaceIdMappingWorkflowMetadata {
+        /// The type of ID mapping.
+        /// This member is required.
+        public var idMappingType: EntityResolutionClientTypes.IdMappingType?
+
+        public init(
+            idMappingType: EntityResolutionClientTypes.IdMappingType? = nil
+        )
+        {
+            self.idMappingType = idMappingType
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes {
     /// A summary of ID namespaces.
     public struct IdNamespaceSummary {
         /// The timestamp of when the ID namespace was created.
@@ -2513,13 +2706,15 @@ extension EntityResolutionClientTypes {
         public var createdAt: Foundation.Date?
         /// The description of the ID namespace.
         public var description: Swift.String?
+        /// An object which defines any additional configurations required by the ID mapping workflow.
+        public var idMappingWorkflowProperties: [EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata]?
         /// The Amazon Resource Name (ARN) of the ID namespace.
         /// This member is required.
         public var idNamespaceArn: Swift.String?
         /// The name of the ID namespace.
         /// This member is required.
         public var idNamespaceName: Swift.String?
-        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow. The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow. The TARGET contains a configuration of targetId which all sourceIds will resolve to.
         /// This member is required.
         public var type: EntityResolutionClientTypes.IdNamespaceType?
         /// The timestamp of when the ID namespace was last updated.
@@ -2529,6 +2724,7 @@ extension EntityResolutionClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            idMappingWorkflowProperties: [EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata]? = nil,
             idNamespaceArn: Swift.String? = nil,
             idNamespaceName: Swift.String? = nil,
             type: EntityResolutionClientTypes.IdNamespaceType? = nil,
@@ -2537,6 +2733,7 @@ extension EntityResolutionClientTypes {
         {
             self.createdAt = createdAt
             self.description = description
+            self.idMappingWorkflowProperties = idMappingWorkflowProperties
             self.idNamespaceArn = idNamespaceArn
             self.idNamespaceName = idNamespaceName
             self.type = type
@@ -2840,7 +3037,7 @@ public struct PutPolicyInput {
     /// The Amazon Resource Name (ARN) of the resource for which the policy needs to be updated.
     /// This member is required.
     public var arn: Swift.String?
-    /// The resource-based policy.
+    /// The resource-based policy. If you set the value of the effect parameter in the policy to Deny for the PutPolicy operation, you must also set the value of the effect parameter to Deny for the AddPolicyStatement operation.
     /// This member is required.
     public var policy: Swift.String?
     /// A unique identifier for the current revision of the policy.
@@ -2989,7 +3186,7 @@ public struct UntagResourceOutput {
 public struct UpdateIdMappingWorkflowInput {
     /// A description of the workflow.
     public var description: Swift.String?
-    /// An object which defines the idMappingType and the providerProperties.
+    /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
@@ -2998,7 +3195,6 @@ public struct UpdateIdMappingWorkflowInput {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
     public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
     /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
-    /// This member is required.
     public var roleArn: Swift.String?
     /// The name of the workflow.
     /// This member is required.
@@ -3025,7 +3221,7 @@ public struct UpdateIdMappingWorkflowInput {
 public struct UpdateIdMappingWorkflowOutput {
     /// A description of the workflow.
     public var description: Swift.String?
-    /// An object which defines the idMappingType and the providerProperties.
+    /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
@@ -3034,7 +3230,6 @@ public struct UpdateIdMappingWorkflowOutput {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
     public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
     /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
-    /// This member is required.
     public var roleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the workflow role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
     /// This member is required.
@@ -3962,7 +4157,7 @@ extension CreateIdMappingWorkflowOutput {
         value.idMappingTechniques = try reader["idMappingTechniques"].readIfPresent(with: EntityResolutionClientTypes.IdMappingTechniques.read(from:))
         value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.workflowArn = try reader["workflowArn"].readIfPresent()
         value.workflowName = try reader["workflowName"].readIfPresent()
         return value
@@ -4116,7 +4311,7 @@ extension GetIdMappingWorkflowOutput {
         value.idMappingTechniques = try reader["idMappingTechniques"].readIfPresent(with: EntityResolutionClientTypes.IdMappingTechniques.read(from:))
         value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.workflowArn = try reader["workflowArn"].readIfPresent()
@@ -4423,7 +4618,7 @@ extension UpdateIdMappingWorkflowOutput {
         value.idMappingTechniques = try reader["idMappingTechniques"].readIfPresent(with: EntityResolutionClientTypes.IdMappingTechniques.read(from:))
         value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.workflowArn = try reader["workflowArn"].readIfPresent()
         value.workflowName = try reader["workflowName"].readIfPresent()
         return value
@@ -5302,12 +5497,14 @@ extension EntityResolutionClientTypes.IdMappingTechniques {
         guard let value else { return }
         try writer["idMappingType"].write(value.idMappingType)
         try writer["providerProperties"].write(value.providerProperties, with: EntityResolutionClientTypes.ProviderProperties.write(value:to:))
+        try writer["ruleBasedProperties"].write(value.ruleBasedProperties, with: EntityResolutionClientTypes.IdMappingRuleBasedProperties.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingTechniques {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingTechniques()
         value.idMappingType = try reader["idMappingType"].readIfPresent()
+        value.ruleBasedProperties = try reader["ruleBasedProperties"].readIfPresent(with: EntityResolutionClientTypes.IdMappingRuleBasedProperties.read(from:))
         value.providerProperties = try reader["providerProperties"].readIfPresent(with: EntityResolutionClientTypes.ProviderProperties.read(from:))
         return value
     }
@@ -5347,6 +5544,44 @@ extension EntityResolutionClientTypes.IntermediateSourceConfiguration {
     }
 }
 
+extension EntityResolutionClientTypes.IdMappingRuleBasedProperties {
+
+    static func write(value: EntityResolutionClientTypes.IdMappingRuleBasedProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributeMatchingModel"].write(value.attributeMatchingModel)
+        try writer["recordMatchingModel"].write(value.recordMatchingModel)
+        try writer["ruleDefinitionType"].write(value.ruleDefinitionType)
+        try writer["rules"].writeList(value.rules, memberWritingClosure: EntityResolutionClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingRuleBasedProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.IdMappingRuleBasedProperties()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleDefinitionType = try reader["ruleDefinitionType"].readIfPresent()
+        value.attributeMatchingModel = try reader["attributeMatchingModel"].readIfPresent()
+        value.recordMatchingModel = try reader["recordMatchingModel"].readIfPresent()
+        return value
+    }
+}
+
+extension EntityResolutionClientTypes.Rule {
+
+    static func write(value: EntityResolutionClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["matchingKeys"].writeList(value.matchingKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ruleName"].write(value.ruleName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.Rule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.Rule()
+        value.ruleName = try reader["ruleName"].readIfPresent()
+        value.matchingKeys = try reader["matchingKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension EntityResolutionClientTypes.IdNamespaceInputSource {
 
     static func write(value: EntityResolutionClientTypes.IdNamespaceInputSource?, to writer: SmithyJSON.Writer) throws {
@@ -5370,12 +5605,14 @@ extension EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties {
         guard let value else { return }
         try writer["idMappingType"].write(value.idMappingType)
         try writer["providerProperties"].write(value.providerProperties, with: EntityResolutionClientTypes.NamespaceProviderProperties.write(value:to:))
+        try writer["ruleBasedProperties"].write(value.ruleBasedProperties, with: EntityResolutionClientTypes.NamespaceRuleBasedProperties.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties()
         value.idMappingType = try reader["idMappingType"].readIfPresent()
+        value.ruleBasedProperties = try reader["ruleBasedProperties"].readIfPresent(with: EntityResolutionClientTypes.NamespaceRuleBasedProperties.read(from:))
         value.providerProperties = try reader["providerProperties"].readIfPresent(with: EntityResolutionClientTypes.NamespaceProviderProperties.read(from:))
         return value
     }
@@ -5394,6 +5631,27 @@ extension EntityResolutionClientTypes.NamespaceProviderProperties {
         var value = EntityResolutionClientTypes.NamespaceProviderProperties()
         value.providerServiceArn = try reader["providerServiceArn"].readIfPresent()
         value.providerConfiguration = try reader["providerConfiguration"].readIfPresent()
+        return value
+    }
+}
+
+extension EntityResolutionClientTypes.NamespaceRuleBasedProperties {
+
+    static func write(value: EntityResolutionClientTypes.NamespaceRuleBasedProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributeMatchingModel"].write(value.attributeMatchingModel)
+        try writer["recordMatchingModels"].writeList(value.recordMatchingModels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EntityResolutionClientTypes.RecordMatchingModel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ruleDefinitionTypes"].writeList(value.ruleDefinitionTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EntityResolutionClientTypes.IdMappingWorkflowRuleDefinitionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["rules"].writeList(value.rules, memberWritingClosure: EntityResolutionClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.NamespaceRuleBasedProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.NamespaceRuleBasedProperties()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleDefinitionTypes = try reader["ruleDefinitionTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EntityResolutionClientTypes.IdMappingWorkflowRuleDefinitionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributeMatchingModel = try reader["attributeMatchingModel"].readIfPresent()
+        value.recordMatchingModels = try reader["recordMatchingModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EntityResolutionClientTypes.RecordMatchingModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5479,6 +5737,7 @@ extension EntityResolutionClientTypes.RuleBasedProperties {
     static func write(value: EntityResolutionClientTypes.RuleBasedProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["attributeMatchingModel"].write(value.attributeMatchingModel)
+        try writer["matchPurpose"].write(value.matchPurpose)
         try writer["rules"].writeList(value.rules, memberWritingClosure: EntityResolutionClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -5487,23 +5746,7 @@ extension EntityResolutionClientTypes.RuleBasedProperties {
         var value = EntityResolutionClientTypes.RuleBasedProperties()
         value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.attributeMatchingModel = try reader["attributeMatchingModel"].readIfPresent()
-        return value
-    }
-}
-
-extension EntityResolutionClientTypes.Rule {
-
-    static func write(value: EntityResolutionClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["matchingKeys"].writeList(value.matchingKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ruleName"].write(value.ruleName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.Rule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EntityResolutionClientTypes.Rule()
-        value.ruleName = try reader["ruleName"].readIfPresent()
-        value.matchingKeys = try reader["matchingKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchPurpose = try reader["matchPurpose"].readIfPresent()
         return value
     }
 }
@@ -5529,6 +5772,7 @@ extension EntityResolutionClientTypes.SchemaInputAttribute {
         guard let value else { return }
         try writer["fieldName"].write(value.fieldName)
         try writer["groupName"].write(value.groupName)
+        try writer["hashed"].write(value.hashed)
         try writer["matchKey"].write(value.matchKey)
         try writer["subType"].write(value.subType)
         try writer["type"].write(value.type)
@@ -5542,6 +5786,7 @@ extension EntityResolutionClientTypes.SchemaInputAttribute {
         value.groupName = try reader["groupName"].readIfPresent()
         value.matchKey = try reader["matchKey"].readIfPresent()
         value.subType = try reader["subType"].readIfPresent()
+        value.hashed = try reader["hashed"].readIfPresent()
         return value
     }
 }
@@ -5554,6 +5799,9 @@ extension EntityResolutionClientTypes.IdMappingJobMetrics {
         value.inputRecords = try reader["inputRecords"].readIfPresent()
         value.totalRecordsProcessed = try reader["totalRecordsProcessed"].readIfPresent()
         value.recordsNotProcessed = try reader["recordsNotProcessed"].readIfPresent()
+        value.totalMappedRecords = try reader["totalMappedRecords"].readIfPresent()
+        value.totalMappedSourceRecords = try reader["totalMappedSourceRecords"].readIfPresent()
+        value.totalMappedTargetRecords = try reader["totalMappedTargetRecords"].readIfPresent()
         return value
     }
 }
@@ -5720,9 +5968,20 @@ extension EntityResolutionClientTypes.IdNamespaceSummary {
         value.idNamespaceName = try reader["idNamespaceName"].readIfPresent()
         value.idNamespaceArn = try reader["idNamespaceArn"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
+        value.idMappingWorkflowProperties = try reader["idMappingWorkflowProperties"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata()
+        value.idMappingType = try reader["idMappingType"].readIfPresent()
         return value
     }
 }

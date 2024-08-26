@@ -4462,7 +4462,7 @@ extension AutoScalingClient {
 
     /// Performs the `SetInstanceHealth` operation on the `AutoScaling_2011_01_01` service.
     ///
-    /// Sets the health status of the specified instance. For more information, see [Health checks for instances in an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Sets the health status of the specified instance. For more information, see [Set up a custom health check for your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/set-up-a-custom-health-check.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter SetInstanceHealthInput : [no documentation found]
     ///

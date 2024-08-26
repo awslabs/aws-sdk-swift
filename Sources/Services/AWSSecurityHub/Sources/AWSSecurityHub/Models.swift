@@ -1679,7 +1679,7 @@ extension SecurityHubClientTypes {
         public var resourceApplicationName: [SecurityHubClientTypes.StringFilter]?
         /// Custom fields and values about the resource that a finding pertains to. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var resourceDetailsOther: [SecurityHubClientTypes.MapFilter]?
-        /// The identifier for the given resource type. For Amazon Web Services resources that are identified by Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs, this is the identifier as defined by the Amazon Web Service that created the resource. For non-Amazon Web Services resources, this is a unique identifier that is associated with the resource. Array Members: Minimum number of 1 item. Maximum number of 100 items.
+        /// The identifier for the given resource type. For Amazon Web Services resources that are identified by Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs, this is the identifier as defined by the Amazon Web Servicesservice that created the resource. For non-Amazon Web Services resources, this is a unique identifier that is associated with the resource. Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public var resourceId: [SecurityHubClientTypes.StringFilter]?
         /// The partition in which the resource that the finding pertains to is located. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var resourcePartition: [SecurityHubClientTypes.StringFilter]?
@@ -7712,7 +7712,7 @@ extension SecurityHubClientTypes {
         public var destinationCidrBlock: Swift.String?
         /// The IPv6 CIDR block used for the destination match.
         public var destinationIpv6CidrBlock: Swift.String?
-        /// The prefix of the destination Amazon Web Service.
+        /// The prefix of the destination Amazon Web Servicesservice.
         public var destinationPrefixListId: Swift.String?
         /// The ID of the egress-only internet gateway.
         public var egressOnlyInternetGatewayId: Swift.String?
@@ -17744,7 +17744,7 @@ extension SecurityHubClientTypes {
         public var associatedStandards: [SecurityHubClientTypes.AssociatedStandard]?
         /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements. Array Members: Maximum number of 32 items.
         public var relatedRequirements: [Swift.String]?
-        /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Service and a number, such as APIGateway.5.
+        /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Servicesservice and a number, such as APIGateway.5.
         public var securityControlId: Swift.String?
         /// An object that includes security control parameter names and values.
         public var securityControlParameters: [SecurityHubClientTypes.SecurityControlParameter]?
@@ -21594,7 +21594,7 @@ extension SecurityHubClientTypes {
         public var companyName: [SecurityHubClientTypes.StringFilter]?
         /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the Amazon Resource Name (ARN) returned for a standard in the [DescribeStandards](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html) API response.
         public var complianceAssociatedStandardsId: [SecurityHubClientTypes.StringFilter]?
-        /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Service and a number, such as APIGateway.5.
+        /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Servicesservice and a number, such as APIGateway.5.
         public var complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]?
         /// The name of a security control parameter.
         public var complianceSecurityControlParametersName: [SecurityHubClientTypes.StringFilter]?
@@ -22770,7 +22770,7 @@ extension SecurityHubClientTypes {
         /// The Amazon Resource Name (ARN) for a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
         /// This member is required.
         public var securityControlArn: Swift.String?
-        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a number, such as APIGateway.3.
+        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Servicesservice name and a number, such as APIGateway.3.
         /// This member is required.
         public var securityControlId: Swift.String?
         /// The enablement status of a security control in a specific standard.
@@ -22782,7 +22782,7 @@ extension SecurityHubClientTypes {
         /// The title of a security control.
         /// This member is required.
         public var title: Swift.String?
-        /// Identifies whether customizable properties of a security control are reflected in Security Hub findings. A status of READY indicates findings include the current parameter values. A status of UPDATING indicates that all findings may not include the current parameter values.
+        /// Identifies whether customizable properties of a security control are reflected in Security Hub findings. A status of READY indicates that Security Hub uses the current control parameter values when running security checks of the control. A status of UPDATING indicates that all security checks might not use the current parameter values.
         public var updateStatus: SecurityHubClientTypes.UpdateStatus?
 
         public init(
@@ -22937,7 +22937,7 @@ extension SecurityHubClientTypes {
         /// The ARN of a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
         /// This member is required.
         public var securityControlArn: Swift.String?
-        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a number, such as APIGateway.3.
+        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Servicesservice name and a number, such as APIGateway.3.
         /// This member is required.
         public var securityControlId: Swift.String?
         /// The Amazon Resource Name (ARN) of a security standard.
@@ -23847,7 +23847,7 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes {
     /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
     public enum Policy {
-        /// The Amazon Web Service that the configuration policy applies to.
+        /// The Amazon Web Servicesservice that the configuration policy applies to.
         case securityhub(SecurityHubClientTypes.SecurityHubPolicy)
         case sdkUnknown(Swift.String)
     }
@@ -23919,14 +23919,16 @@ public struct CreateConfigurationPolicyOutput {
 public struct CreateFindingAggregatorInput {
     /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:
     ///
-    /// * ALL_REGIONS - Indicates to aggregate findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    /// * ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
     ///
-    /// * ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    /// * ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
     ///
-    /// * SPECIFIED_REGIONS - Indicates to aggregate findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
+    /// * SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
+    ///
+    /// * NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
     /// This member is required.
     public var regionLinkingMode: Swift.String?
-    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region.
+    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS.
     public var regions: [Swift.String]?
 
     public init(
@@ -24943,7 +24945,7 @@ extension SecurityHubClientTypes {
     public struct FindingHistoryUpdateSource {
         /// The identity of the source that initiated the finding change event. For example, the Amazon Resource Name (ARN) of a partner that calls BatchImportFindings or of a customer that calls BatchUpdateFindings.
         public var identity: Swift.String?
-        /// Describes the type of finding change event, such as a call to [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) (by an integrated Amazon Web Service or third party partner integration) or [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) (by a Security Hub customer).
+        /// Describes the type of finding change event, such as a call to [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) (by an integrated Amazon Web Servicesservice or third party partner integration) or [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) (by a Security Hub customer).
         public var type: SecurityHubClientTypes.FindingHistoryUpdateSourceType?
 
         public init(
@@ -24967,7 +24969,7 @@ extension SecurityHubClientTypes {
         public var findingIdentifier: SecurityHubClientTypes.AwsSecurityFindingIdentifier?
         /// A token for pagination purposes. Provide this token in the subsequent request to [GetFindingsHistory](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_GetFindingsHistory.html) to get up to an additional 100 results of history for the same finding that you specified in your initial request.
         public var nextToken: Swift.String?
-        /// Identifies the source of the event that changed the finding. For example, an integrated Amazon Web Service or third-party partner integration may call [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html), or an Security Hub customer may call [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html).
+        /// Identifies the source of the event that changed the finding. For example, an integrated Amazon Web Servicesservice or third-party partner integration may call [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html), or an Security Hub customer may call [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html).
         public var updateSource: SecurityHubClientTypes.FindingHistoryUpdateSource?
         /// A timestamp that indicates when Security Hub processed the updated finding record. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
@@ -25717,7 +25719,7 @@ extension SecurityHubClientTypes {
         /// A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
         public var remediationUrl: Swift.String?
-        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a number (for example, APIGateway.3). This parameter differs from SecurityControlArn, which is a unique Amazon Resource Name (ARN) assigned to a control. The ARN references the security control ID (for example, arn:aws:securityhub:eu-central-1:123456789012:security-control/APIGateway.3).
+        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Servicesservice name and a number (for example, APIGateway.3). This parameter differs from SecurityControlArn, which is a unique Amazon Resource Name (ARN) assigned to a control. The ARN references the security control ID (for example, arn:aws:securityhub:eu-central-1:123456789012:security-control/APIGateway.3).
         /// This member is required.
         public var securityControlId: Swift.String?
         /// The severity of a security control. For more information about how Security Hub determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub User Guide.
@@ -26122,7 +26124,7 @@ extension SecurityHubClientTypes {
         /// The ARN of a control, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
         /// This member is required.
         public var securityControlArn: Swift.String?
-        /// A unique standard-agnostic identifier for a control. Values for this field typically consist of an Amazon Web Service and a number, such as APIGateway.5. This field doesn't reference a specific standard.
+        /// A unique standard-agnostic identifier for a control. Values for this field typically consist of an Amazon Web Servicesservice and a number, such as APIGateway.5. This field doesn't reference a specific standard.
         /// This member is required.
         public var securityControlId: Swift.String?
         /// The Amazon Resource Name (ARN) of a standard.
@@ -26451,14 +26453,16 @@ public struct UpdateFindingAggregatorInput {
     public var findingAggregatorArn: Swift.String?
     /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:
     ///
-    /// * ALL_REGIONS - Indicates to aggregate findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    /// * ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
     ///
-    /// * ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    /// * ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
     ///
-    /// * SPECIFIED_REGIONS - Indicates to aggregate findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
+    /// * SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
+    ///
+    /// * NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
     /// This member is required.
     public var regionLinkingMode: Swift.String?
-    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region.
+    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS.
     public var regions: [Swift.String]?
 
     public init(

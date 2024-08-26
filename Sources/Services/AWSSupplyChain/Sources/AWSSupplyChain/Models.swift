@@ -404,7 +404,7 @@ extension SupplyChainClientTypes {
 public struct SendDataIntegrationEventInput {
     /// The idempotent client token.
     public var clientToken: Swift.String?
-    /// The data payload of the event.
+    /// The data payload of the event. For more information on the data schema to use, see [Data entities supported in AWS Supply Chain ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
     /// This member is required.
     public var data: Swift.String?
     /// Event identifier (for example, orderId for InboundOrder) used for data sharing or partitioning.

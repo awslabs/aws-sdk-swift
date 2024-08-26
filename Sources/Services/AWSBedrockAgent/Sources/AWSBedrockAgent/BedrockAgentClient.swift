@@ -1722,7 +1722,7 @@ extension BedrockAgentClient {
 
     /// Performs the `DeletePrompt` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Deletes a prompt or a prompt version from the Prompt management tool. For more information, see [Delete prompts from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-delete.html) and [Delete a version of a prompt from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-delete.html) in the Amazon Bedrock User Guide.
+    /// Deletes a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see [Delete prompts from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-delete.html) and [Delete a version of a prompt from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-delete.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter DeletePromptInput : [no documentation found]
     ///
@@ -2648,7 +2648,7 @@ extension BedrockAgentClient {
 
     /// Performs the `GetPrompt` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Retrieves information about a prompt or a version of it. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html) and [View information about a version of your prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-view.html) in the Amazon Bedrock User Guide.
+    /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html) and [View information about a version of your prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-view.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter GetPromptInput : [no documentation found]
     ///
@@ -3525,7 +3525,7 @@ extension BedrockAgentClient {
 
     /// Performs the `ListPrompts` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Returns a list of prompts from the Prompt management tool and information about each prompt. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html) in the Amazon Bedrock User Guide.
+    /// Returns either information about the working draft (DRAFT version) of each prompt in an account, or information about of all versions of a prompt, depending on whether you include the promptIdentifier field or not. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter ListPromptsInput : [no documentation found]
     ///
