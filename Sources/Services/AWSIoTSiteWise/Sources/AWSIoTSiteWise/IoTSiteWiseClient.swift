@@ -51,6 +51,7 @@ import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
@@ -1045,6 +1046,7 @@ extension IoTSiteWiseClient {
     /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `LimitExceededException` : You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    /// - `PreconditionFailedException` : The precondition in one or more of the request-header fields evaluated to FALSE.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
@@ -1078,6 +1080,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAssetModelCompositeModelInput, CreateAssetModelCompositeModelOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAssetModelCompositeModelInput, CreateAssetModelCompositeModelOutput>(CreateAssetModelCompositeModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAssetModelCompositeModelInput, CreateAssetModelCompositeModelOutput>(hostPrefix: "api."))
+        builder.serialize(ClientRuntime.HeaderMiddleware<CreateAssetModelCompositeModelInput, CreateAssetModelCompositeModelOutput>(CreateAssetModelCompositeModelInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAssetModelCompositeModelInput, CreateAssetModelCompositeModelOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAssetModelCompositeModelInput, CreateAssetModelCompositeModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAssetModelCompositeModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssetModelCompositeModelInput, CreateAssetModelCompositeModelOutput>())
@@ -1641,6 +1644,7 @@ extension IoTSiteWiseClient {
     /// - `ConflictingOperationException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `PreconditionFailedException` : The precondition in one or more of the request-header fields evaluated to FALSE.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     public func deleteAssetModel(input: DeleteAssetModelInput) async throws -> DeleteAssetModelOutput {
@@ -1673,6 +1677,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteAssetModelInput, DeleteAssetModelOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAssetModelInput, DeleteAssetModelOutput>(DeleteAssetModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetModelInput, DeleteAssetModelOutput>(hostPrefix: "api."))
+        builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAssetModelInput, DeleteAssetModelOutput>(DeleteAssetModelInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAssetModelInput, DeleteAssetModelOutput>(DeleteAssetModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetModelOutput>(DeleteAssetModelOutput.httpOutput(from:), DeleteAssetModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetModelInput, DeleteAssetModelOutput>(clientLogMode: config.clientLogMode))
@@ -1714,6 +1719,7 @@ extension IoTSiteWiseClient {
     /// - `ConflictingOperationException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `PreconditionFailedException` : The precondition in one or more of the request-header fields evaluated to FALSE.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     public func deleteAssetModelCompositeModel(input: DeleteAssetModelCompositeModelInput) async throws -> DeleteAssetModelCompositeModelOutput {
@@ -1746,6 +1752,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteAssetModelCompositeModelInput, DeleteAssetModelCompositeModelOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAssetModelCompositeModelInput, DeleteAssetModelCompositeModelOutput>(DeleteAssetModelCompositeModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetModelCompositeModelInput, DeleteAssetModelCompositeModelOutput>(hostPrefix: "api."))
+        builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAssetModelCompositeModelInput, DeleteAssetModelCompositeModelOutput>(DeleteAssetModelCompositeModelInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAssetModelCompositeModelInput, DeleteAssetModelCompositeModelOutput>(DeleteAssetModelCompositeModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetModelCompositeModelOutput>(DeleteAssetModelCompositeModelOutput.httpOutput(from:), DeleteAssetModelCompositeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetModelCompositeModelInput, DeleteAssetModelCompositeModelOutput>(clientLogMode: config.clientLogMode))
@@ -1856,6 +1863,7 @@ extension IoTSiteWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictingOperationException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
@@ -2540,6 +2548,7 @@ extension IoTSiteWiseClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAssetModelCompositeModelInput, DescribeAssetModelCompositeModelOutput>(DescribeAssetModelCompositeModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAssetModelCompositeModelInput, DescribeAssetModelCompositeModelOutput>(hostPrefix: "api."))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeAssetModelCompositeModelInput, DescribeAssetModelCompositeModelOutput>(DescribeAssetModelCompositeModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetModelCompositeModelOutput>(DescribeAssetModelCompositeModelOutput.httpOutput(from:), DescribeAssetModelCompositeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetModelCompositeModelInput, DescribeAssetModelCompositeModelOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4529,9 +4538,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of associated assets. You can use this operation to do the following:
     ///
-    /// * List child assets associated to a parent asset by a hierarchy that you specify.
+    /// * CHILD - List all child assets associated to the asset.
     ///
-    /// * List an asset's parent asset.
+    /// * PARENT - List the asset's parent asset.
     ///
     /// - Parameter ListAssociatedAssetsInput : [no documentation found]
     ///
@@ -5765,7 +5774,11 @@ extension IoTSiteWiseClient {
 
     /// Performs the `UpdateAssetModel` operation on the `AWSIoTSiteWise` service.
     ///
-    /// Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide. This operation overwrites the existing model with the provided model. To avoid deleting your asset model's properties or hierarchies, you must include their IDs and definitions in the updated asset model payload. For more information, see [DescribeAssetModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html). If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. If you remove a hierarchy definition from an asset model, IoT SiteWise disassociates every asset associated with that hierarchy. You can't change the type or data type of an existing property.
+    /// Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide. If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. You can’t change the type or data type of an existing property. To replace an existing asset model property with a new one with the same name, do the following:
+    ///
+    /// * Submit an UpdateAssetModel request with the entire existing property removed.
+    ///
+    /// * Submit a second UpdateAssetModel request that includes the new property. The new asset property will have the same name as the previous one and IoT SiteWise will generate a new unique id.
     ///
     /// - Parameter UpdateAssetModelInput : [no documentation found]
     ///
@@ -5778,6 +5791,7 @@ extension IoTSiteWiseClient {
     /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `LimitExceededException` : You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    /// - `PreconditionFailedException` : The precondition in one or more of the request-header fields evaluated to FALSE.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
@@ -5811,6 +5825,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateAssetModelInput, UpdateAssetModelOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAssetModelInput, UpdateAssetModelOutput>(UpdateAssetModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAssetModelInput, UpdateAssetModelOutput>(hostPrefix: "api."))
+        builder.serialize(ClientRuntime.HeaderMiddleware<UpdateAssetModelInput, UpdateAssetModelOutput>(UpdateAssetModelInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAssetModelInput, UpdateAssetModelOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateAssetModelInput, UpdateAssetModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAssetModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssetModelInput, UpdateAssetModelOutput>())
@@ -5859,6 +5874,7 @@ extension IoTSiteWiseClient {
     /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `LimitExceededException` : You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    /// - `PreconditionFailedException` : The precondition in one or more of the request-header fields evaluated to FALSE.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
@@ -5892,6 +5908,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateAssetModelCompositeModelInput, UpdateAssetModelCompositeModelOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAssetModelCompositeModelInput, UpdateAssetModelCompositeModelOutput>(UpdateAssetModelCompositeModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAssetModelCompositeModelInput, UpdateAssetModelCompositeModelOutput>(hostPrefix: "api."))
+        builder.serialize(ClientRuntime.HeaderMiddleware<UpdateAssetModelCompositeModelInput, UpdateAssetModelCompositeModelOutput>(UpdateAssetModelCompositeModelInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAssetModelCompositeModelInput, UpdateAssetModelCompositeModelOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateAssetModelCompositeModelInput, UpdateAssetModelCompositeModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAssetModelCompositeModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssetModelCompositeModelInput, UpdateAssetModelCompositeModelOutput>())

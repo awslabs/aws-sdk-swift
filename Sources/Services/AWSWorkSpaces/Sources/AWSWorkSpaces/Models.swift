@@ -4789,9 +4789,62 @@ public struct DescribeWorkspaceBundlesOutput {
     }
 }
 
+extension WorkSpacesClientTypes {
+
+    public enum DescribeWorkspaceDirectoriesFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case userIdentityType
+        case workspaceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DescribeWorkspaceDirectoriesFilterName] {
+            return [
+                .userIdentityType,
+                .workspaceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .userIdentityType: return "USER_IDENTITY_TYPE"
+            case .workspaceType: return "WORKSPACE_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Describes the filter conditions for the WorkSpaces to return.
+    public struct DescribeWorkspaceDirectoriesFilter {
+        /// The name of the WorkSpaces to filter.
+        /// This member is required.
+        public var name: WorkSpacesClientTypes.DescribeWorkspaceDirectoriesFilterName?
+        /// The values for filtering WorkSpaces
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: WorkSpacesClientTypes.DescribeWorkspaceDirectoriesFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
 public struct DescribeWorkspaceDirectoriesInput {
     /// The identifiers of the directories. If the value is null, all directories are retrieved.
     public var directoryIds: [Swift.String]?
+    /// The filter condition for the WorkSpaces.
+    public var filters: [WorkSpacesClientTypes.DescribeWorkspaceDirectoriesFilter]?
     /// The maximum number of directories to return.
     public var limit: Swift.Int?
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
@@ -4801,12 +4854,14 @@ public struct DescribeWorkspaceDirectoriesInput {
 
     public init(
         directoryIds: [Swift.String]? = nil,
+        filters: [WorkSpacesClientTypes.DescribeWorkspaceDirectoriesFilter]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceDirectoryNames: [Swift.String]? = nil
     )
     {
         self.directoryIds = directoryIds
+        self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
         self.workspaceDirectoryNames = workspaceDirectoryNames
@@ -4817,6 +4872,7 @@ extension WorkSpacesClientTypes {
 
     public enum WorkspaceDirectoryType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case adConnector
+        case awsIamIdentityCenter
         case customerManaged
         case simpleAd
         case sdkUnknown(Swift.String)
@@ -4824,6 +4880,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [WorkspaceDirectoryType] {
             return [
                 .adConnector,
+                .awsIamIdentityCenter,
                 .customerManaged,
                 .simpleAd
             ]
@@ -4837,12 +4894,53 @@ extension WorkSpacesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .adConnector: return "AD_CONNECTOR"
+            case .awsIamIdentityCenter: return "AWS_IAM_IDENTITY_CENTER"
             case .customerManaged: return "CUSTOMER_MANAGED"
             case .simpleAd: return "SIMPLE_AD"
             case let .sdkUnknown(s): return s
             }
         }
     }
+}
+
+extension WorkSpacesClientTypes {
+    /// Specifies the configurations of the identity center.
+    public struct IDCConfig {
+        /// The Amazon Resource Name (ARN) of the application.
+        public var applicationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the identity center instance.
+        public var instanceArn: Swift.String?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            instanceArn: Swift.String? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+            self.instanceArn = instanceArn
+        }
+    }
+
+}
+
+extension WorkSpacesClientTypes {
+    /// Specifies the configurations of the Microsoft Entra.
+    public struct MicrosoftEntraConfig {
+        /// The Amazon Resource Name (ARN) of the application config.
+        public var applicationConfigSecretArn: Swift.String?
+        /// The identifier of the tenant.
+        public var tenantId: Swift.String?
+
+        public init(
+            applicationConfigSecretArn: Swift.String? = nil,
+            tenantId: Swift.String? = nil
+        )
+        {
+            self.applicationConfigSecretArn = applicationConfigSecretArn
+            self.tenantId = tenantId
+        }
+    }
+
 }
 
 extension WorkSpacesClientTypes {
@@ -5230,12 +5328,14 @@ extension WorkSpacesClientTypes {
 
     public enum UserIdentityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsDirectoryService
+        case awsIamIdentityCenter
         case customerManaged
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UserIdentityType] {
             return [
                 .awsDirectoryService,
+                .awsIamIdentityCenter,
                 .customerManaged
             ]
         }
@@ -5248,6 +5348,7 @@ extension WorkSpacesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awsDirectoryService: return "AWS_DIRECTORY_SERVICE"
+            case .awsIamIdentityCenter: return "AWS_IAM_IDENTITY_CENTER"
             case .customerManaged: return "CUSTOMER_MANAGED"
             case let .sdkUnknown(s): return s
             }
@@ -5351,8 +5452,12 @@ extension WorkSpacesClientTypes {
         public var errorMessage: Swift.String?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
         public var iamRoleId: Swift.String?
+        /// Specifies details about identity center configurations.
+        public var idcConfig: WorkSpacesClientTypes.IDCConfig?
         /// The identifiers of the IP access control groups associated with the directory.
         public var ipGroupIds: [Swift.String]?
+        /// Specifies details about Microsoft Entra configurations.
+        public var microsoftEntraConfig: WorkSpacesClientTypes.MicrosoftEntraConfig?
         /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
         public var registrationCode: Swift.String?
         /// Describes the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider.
@@ -5393,7 +5498,9 @@ extension WorkSpacesClientTypes {
             dnsIpAddresses: [Swift.String]? = nil,
             errorMessage: Swift.String? = nil,
             iamRoleId: Swift.String? = nil,
+            idcConfig: WorkSpacesClientTypes.IDCConfig? = nil,
             ipGroupIds: [Swift.String]? = nil,
+            microsoftEntraConfig: WorkSpacesClientTypes.MicrosoftEntraConfig? = nil,
             registrationCode: Swift.String? = nil,
             samlProperties: WorkSpacesClientTypes.SamlProperties? = nil,
             selfservicePermissions: WorkSpacesClientTypes.SelfservicePermissions? = nil,
@@ -5420,7 +5527,9 @@ extension WorkSpacesClientTypes {
             self.dnsIpAddresses = dnsIpAddresses
             self.errorMessage = errorMessage
             self.iamRoleId = iamRoleId
+            self.idcConfig = idcConfig
             self.ipGroupIds = ipGroupIds
+            self.microsoftEntraConfig = microsoftEntraConfig
             self.registrationCode = registrationCode
             self.samlProperties = samlProperties
             self.selfservicePermissions = selfservicePermissions
@@ -7157,6 +7266,10 @@ public struct RegisterWorkspaceDirectoryInput {
     public var enableSelfService: Swift.Bool?
     /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
     public var enableWorkDocs: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the identity center instance.
+    public var idcInstanceArn: Swift.String?
+    /// The details about Microsoft Entra config.
+    public var microsoftEntraConfig: WorkSpacesClientTypes.MicrosoftEntraConfig?
     /// The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these conditions are not met, you will receive an OperationNotSupportedException error.
     public var subnetIds: [Swift.String]?
     /// The tags associated with the directory.
@@ -7177,6 +7290,8 @@ public struct RegisterWorkspaceDirectoryInput {
         directoryId: Swift.String? = nil,
         enableSelfService: Swift.Bool? = nil,
         enableWorkDocs: Swift.Bool? = nil,
+        idcInstanceArn: Swift.String? = nil,
+        microsoftEntraConfig: WorkSpacesClientTypes.MicrosoftEntraConfig? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
         tenancy: WorkSpacesClientTypes.Tenancy? = nil,
@@ -7190,6 +7305,8 @@ public struct RegisterWorkspaceDirectoryInput {
         self.directoryId = directoryId
         self.enableSelfService = enableSelfService
         self.enableWorkDocs = enableWorkDocs
+        self.idcInstanceArn = idcInstanceArn
+        self.microsoftEntraConfig = microsoftEntraConfig
         self.subnetIds = subnetIds
         self.tags = tags
         self.tenancy = tenancy
@@ -8679,6 +8796,7 @@ extension DescribeWorkspaceDirectoriesInput {
     static func write(value: DescribeWorkspaceDirectoriesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DirectoryIds"].writeList(value.directoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: WorkSpacesClientTypes.DescribeWorkspaceDirectoriesFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Limit"].write(value.limit)
         try writer["NextToken"].write(value.nextToken)
         try writer["WorkspaceDirectoryNames"].writeList(value.workspaceDirectoryNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8967,6 +9085,8 @@ extension RegisterWorkspaceDirectoryInput {
         try writer["DirectoryId"].write(value.directoryId)
         try writer["EnableSelfService"].write(value.enableSelfService)
         try writer["EnableWorkDocs"].write(value.enableWorkDocs)
+        try writer["IdcInstanceArn"].write(value.idcInstanceArn)
+        try writer["MicrosoftEntraConfig"].write(value.microsoftEntraConfig, with: WorkSpacesClientTypes.MicrosoftEntraConfig.write(value:to:))
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkSpacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tenancy"].write(value.tenancy)
@@ -12492,10 +12612,12 @@ extension WorkSpacesClientTypes.WorkspaceDirectory {
         value.selfservicePermissions = try reader["SelfservicePermissions"].readIfPresent(with: WorkSpacesClientTypes.SelfservicePermissions.read(from:))
         value.samlProperties = try reader["SamlProperties"].readIfPresent(with: WorkSpacesClientTypes.SamlProperties.read(from:))
         value.certificateBasedAuthProperties = try reader["CertificateBasedAuthProperties"].readIfPresent(with: WorkSpacesClientTypes.CertificateBasedAuthProperties.read(from:))
+        value.microsoftEntraConfig = try reader["MicrosoftEntraConfig"].readIfPresent(with: WorkSpacesClientTypes.MicrosoftEntraConfig.read(from:))
         value.workspaceDirectoryName = try reader["WorkspaceDirectoryName"].readIfPresent()
         value.workspaceDirectoryDescription = try reader["WorkspaceDirectoryDescription"].readIfPresent()
         value.userIdentityType = try reader["UserIdentityType"].readIfPresent()
         value.workspaceType = try reader["WorkspaceType"].readIfPresent()
+        value.idcConfig = try reader["IDCConfig"].readIfPresent(with: WorkSpacesClientTypes.IDCConfig.read(from:))
         value.activeDirectoryConfig = try reader["ActiveDirectoryConfig"].readIfPresent(with: WorkSpacesClientTypes.ActiveDirectoryConfig.read(from:))
         value.streamingProperties = try reader["StreamingProperties"].readIfPresent(with: WorkSpacesClientTypes.StreamingProperties.read(from:))
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
@@ -12571,6 +12693,34 @@ extension WorkSpacesClientTypes.ActiveDirectoryConfig {
         var value = WorkSpacesClientTypes.ActiveDirectoryConfig()
         value.domainName = try reader["DomainName"].readIfPresent()
         value.serviceAccountSecretArn = try reader["ServiceAccountSecretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesClientTypes.IDCConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.IDCConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.IDCConfig()
+        value.instanceArn = try reader["InstanceArn"].readIfPresent()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesClientTypes.MicrosoftEntraConfig {
+
+    static func write(value: WorkSpacesClientTypes.MicrosoftEntraConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationConfigSecretArn"].write(value.applicationConfigSecretArn)
+        try writer["TenantId"].write(value.tenantId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.MicrosoftEntraConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.MicrosoftEntraConfig()
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.applicationConfigSecretArn = try reader["ApplicationConfigSecretArn"].readIfPresent()
         return value
     }
 }
@@ -12810,6 +12960,15 @@ extension WorkSpacesClientTypes.ApplicationSettingsRequest {
         guard let value else { return }
         try writer["SettingsGroup"].write(value.settingsGroup)
         try writer["Status"].write(value.status)
+    }
+}
+
+extension WorkSpacesClientTypes.DescribeWorkspaceDirectoriesFilter {
+
+    static func write(value: WorkSpacesClientTypes.DescribeWorkspaceDirectoriesFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
