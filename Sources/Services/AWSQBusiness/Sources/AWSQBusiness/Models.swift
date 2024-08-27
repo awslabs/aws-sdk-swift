@@ -596,6 +596,38 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    public enum IdentityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsIamIdc
+        case awsIamIdpOidc
+        case awsIamIdpSaml
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdentityType] {
+            return [
+                .awsIamIdc,
+                .awsIamIdpOidc,
+                .awsIamIdpSaml
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsIamIdc: return "AWS_IAM_IDC"
+            case .awsIamIdpOidc: return "AWS_IAM_IDP_OIDC"
+            case .awsIamIdpSaml: return "AWS_IAM_IDP_SAML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
     public enum ApplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
@@ -641,6 +673,8 @@ extension QBusinessClientTypes {
         public var createdAt: Foundation.Date?
         /// The name of the Amazon Q Business application.
         public var displayName: Swift.String?
+        /// The authentication type being used by a Amazon Q Business application.
+        public var identityType: QBusinessClientTypes.IdentityType?
         /// The status of the Amazon Q Business application. The application is ready to use when the status is ACTIVE.
         public var status: QBusinessClientTypes.ApplicationStatus?
         /// The Unix timestamp when the Amazon Q Business application was last updated.
@@ -650,6 +684,7 @@ extension QBusinessClientTypes {
             applicationId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
+            identityType: QBusinessClientTypes.IdentityType? = nil,
             status: QBusinessClientTypes.ApplicationStatus? = nil,
             updatedAt: Foundation.Date? = nil
         )
@@ -657,6 +692,7 @@ extension QBusinessClientTypes {
             self.applicationId = applicationId
             self.createdAt = createdAt
             self.displayName = displayName
+            self.identityType = identityType
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -1095,6 +1131,8 @@ extension QBusinessClientTypes {
 public struct CreateApplicationInput {
     /// An option to allow end users to upload files directly during chat.
     public var attachmentsConfiguration: QBusinessClientTypes.AttachmentsConfiguration?
+    /// The OIDC client ID for a Amazon Q Business application.
+    public var clientIdsForOIDC: [Swift.String]?
     /// A token that you provide to identify the request to create your Amazon Q Business application.
     public var clientToken: Swift.String?
     /// A description for the Amazon Q Business application.
@@ -1104,8 +1142,12 @@ public struct CreateApplicationInput {
     public var displayName: Swift.String?
     /// The identifier of the KMS key that is used to encrypt your data. Amazon Q Business doesn't support asymmetric keys.
     public var encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration?
+    /// The Amazon Resource Name (ARN) of an identity provider being used by an Amazon Q Business application.
+    public var iamIdentityProviderArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
     public var identityCenterInstanceArn: Swift.String?
+    /// The authentication type being used by a Amazon Q Business application.
+    public var identityType: QBusinessClientTypes.IdentityType?
     /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html)
     public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
     /// An option to allow end users to create and use Amazon Q Apps in the web experience.
@@ -1117,11 +1159,14 @@ public struct CreateApplicationInput {
 
     public init(
         attachmentsConfiguration: QBusinessClientTypes.AttachmentsConfiguration? = nil,
+        clientIdsForOIDC: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration? = nil,
+        iamIdentityProviderArn: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
+        identityType: QBusinessClientTypes.IdentityType? = nil,
         personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration? = nil,
         qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration? = nil,
         roleArn: Swift.String? = nil,
@@ -1129,11 +1174,14 @@ public struct CreateApplicationInput {
     )
     {
         self.attachmentsConfiguration = attachmentsConfiguration
+        self.clientIdsForOIDC = clientIdsForOIDC
         self.clientToken = clientToken
         self.description = description
         self.displayName = displayName
         self.encryptionConfiguration = encryptionConfiguration
+        self.iamIdentityProviderArn = iamIdentityProviderArn
         self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.identityType = identityType
         self.personalizationConfiguration = personalizationConfiguration
         self.qAppsConfiguration = qAppsConfiguration
         self.roleArn = roleArn
@@ -1206,6 +1254,85 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    public enum AutoSubscriptionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoSubscriptionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum SubscriptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case qBusiness
+        case qLite
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubscriptionType] {
+            return [
+                .qBusiness,
+                .qLite
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .qBusiness: return "Q_BUSINESS"
+            case .qLite: return "Q_LITE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Subscription configuration information for an Amazon Q Business application using IAM identity federation for user management.
+    public struct AutoSubscriptionConfiguration {
+        /// Describes whether automatic subscriptions are enabled for an Amazon Q Business application using IAM identity federation for user management.
+        /// This member is required.
+        public var autoSubscribe: QBusinessClientTypes.AutoSubscriptionStatus?
+        /// Describes the default subscription type assigned to an Amazon Q Business application using IAM identity federation for user management. If the value for autoSubscribe is set to ENABLED you must select a value for this field.
+        public var defaultSubscriptionType: QBusinessClientTypes.SubscriptionType?
+
+        public init(
+            autoSubscribe: QBusinessClientTypes.AutoSubscriptionStatus? = nil,
+            defaultSubscriptionType: QBusinessClientTypes.SubscriptionType? = nil
+        )
+        {
+            self.autoSubscribe = autoSubscribe
+            self.defaultSubscriptionType = defaultSubscriptionType
+        }
+    }
+
+}
+
+extension QBusinessClientTypes {
+
     public enum ErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case internalError
         case invalidRequest
@@ -1266,6 +1393,10 @@ public struct GetApplicationOutput {
     public var applicationId: Swift.String?
     /// Settings for whether end users can upload files directly during chat.
     public var attachmentsConfiguration: QBusinessClientTypes.AppliedAttachmentsConfiguration?
+    /// Settings for auto-subscription behavior for this application. This is only applicable to SAML and OIDC applications.
+    public var autoSubscriptionConfiguration: QBusinessClientTypes.AutoSubscriptionConfiguration?
+    /// The OIDC client ID for a Amazon Q Business application.
+    public var clientIdsForOIDC: [Swift.String]?
     /// The Unix timestamp when the Amazon Q Business application was last updated.
     public var createdAt: Foundation.Date?
     /// A description for the Amazon Q Business application.
@@ -1276,8 +1407,12 @@ public struct GetApplicationOutput {
     public var encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration?
     /// If the Status field is set to ERROR, the ErrorMessage field contains a description of the error that caused the synchronization to fail.
     public var error: QBusinessClientTypes.ErrorDetail?
+    /// The Amazon Resource Name (ARN) of an identity provider being used by an Amazon Q Business application.
+    public var iamIdentityProviderArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the AWS IAM Identity Center instance attached to your Amazon Q Business application.
     public var identityCenterApplicationArn: Swift.String?
+    /// The authentication type being used by a Amazon Q Business application.
+    public var identityType: QBusinessClientTypes.IdentityType?
     /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html).
     public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
     /// Settings for whether end users can create and use Amazon Q Apps in the web experience.
@@ -1293,12 +1428,16 @@ public struct GetApplicationOutput {
         applicationArn: Swift.String? = nil,
         applicationId: Swift.String? = nil,
         attachmentsConfiguration: QBusinessClientTypes.AppliedAttachmentsConfiguration? = nil,
+        autoSubscriptionConfiguration: QBusinessClientTypes.AutoSubscriptionConfiguration? = nil,
+        clientIdsForOIDC: [Swift.String]? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration? = nil,
         error: QBusinessClientTypes.ErrorDetail? = nil,
+        iamIdentityProviderArn: Swift.String? = nil,
         identityCenterApplicationArn: Swift.String? = nil,
+        identityType: QBusinessClientTypes.IdentityType? = nil,
         personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration? = nil,
         qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration? = nil,
         roleArn: Swift.String? = nil,
@@ -1309,12 +1448,16 @@ public struct GetApplicationOutput {
         self.applicationArn = applicationArn
         self.applicationId = applicationId
         self.attachmentsConfiguration = attachmentsConfiguration
+        self.autoSubscriptionConfiguration = autoSubscriptionConfiguration
+        self.clientIdsForOIDC = clientIdsForOIDC
         self.createdAt = createdAt
         self.description = description
         self.displayName = displayName
         self.encryptionConfiguration = encryptionConfiguration
         self.error = error
+        self.iamIdentityProviderArn = iamIdentityProviderArn
         self.identityCenterApplicationArn = identityCenterApplicationArn
+        self.identityType = identityType
         self.personalizationConfiguration = personalizationConfiguration
         self.qAppsConfiguration = qAppsConfiguration
         self.roleArn = roleArn
@@ -1701,7 +1844,18 @@ public struct CreateDataSourceInput {
     public var applicationId: Swift.String?
     /// A token you provide to identify a request to create a data source connector. Multiple calls to the CreateDataSource API with the same client token will create only one data source connector.
     public var clientToken: Swift.String?
-    /// Configuration information to connect to your data source repository. For configuration templates for your specific data source, see [Supported connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connectors-list.html).
+    /// Configuration information to connect your data source repository to Amazon Q Business. Use this parameter to provide a JSON schema with configuration information specific to your data source connector. Each data source has a JSON schema provided by Amazon Q Business that you must use. For example, the Amazon S3 and Web Crawler connectors require the following JSON schemas:
+    ///
+    /// * [Amazon S3 JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/s3-api.html)
+    ///
+    /// * [Web Crawler JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/web-crawler-api.html)
+    ///
+    ///
+    /// You can find configuration templates for your specific data source using the following steps:
+    ///
+    /// * Navigate to the [Supported connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connectors-list.html) page in the Amazon Q Business User Guide, and select the data source of your choice.
+    ///
+    /// * Then, from your specific data source connector page, select Using the API. You will find the JSON schema for your data source, including parameter descriptions, in this section.
     /// This member is required.
     public var configuration: SmithyReadWrite.Document?
     /// A description for the data source connector.
@@ -3484,6 +3638,8 @@ public struct UpdateApplicationInput {
     public var applicationId: Swift.String?
     /// An option to allow end users to upload files directly during chat.
     public var attachmentsConfiguration: QBusinessClientTypes.AttachmentsConfiguration?
+    /// An option to enable updating the default subscription type assigned to an Amazon Q Business application using IAM identity federation for user management.
+    public var autoSubscriptionConfiguration: QBusinessClientTypes.AutoSubscriptionConfiguration?
     /// A description for the Amazon Q Business application.
     public var description: Swift.String?
     /// A name for the Amazon Q Business application.
@@ -3500,6 +3656,7 @@ public struct UpdateApplicationInput {
     public init(
         applicationId: Swift.String? = nil,
         attachmentsConfiguration: QBusinessClientTypes.AttachmentsConfiguration? = nil,
+        autoSubscriptionConfiguration: QBusinessClientTypes.AutoSubscriptionConfiguration? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
@@ -3510,6 +3667,7 @@ public struct UpdateApplicationInput {
     {
         self.applicationId = applicationId
         self.attachmentsConfiguration = attachmentsConfiguration
+        self.autoSubscriptionConfiguration = autoSubscriptionConfiguration
         self.description = description
         self.displayName = displayName
         self.identityCenterInstanceArn = identityCenterInstanceArn
@@ -3522,6 +3680,57 @@ public struct UpdateApplicationInput {
 public struct UpdateApplicationOutput {
 
     public init() { }
+}
+
+extension QBusinessClientTypes {
+    /// Information about the OIDC-compliant identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+    public struct OpenIDConnectProviderConfiguration {
+        /// The Amazon Resource Name (ARN) of a Secrets Manager secret containing the OIDC client secret.
+        /// This member is required.
+        public var secretsArn: Swift.String?
+        /// An IAM role with permissions to access KMS to decrypt the Secrets Manager secret containing your OIDC client secret.
+        /// This member is required.
+        public var secretsRole: Swift.String?
+
+        public init(
+            secretsArn: Swift.String? = nil,
+            secretsRole: Swift.String? = nil
+        )
+        {
+            self.secretsArn = secretsArn
+            self.secretsRole = secretsRole
+        }
+    }
+
+}
+
+extension QBusinessClientTypes {
+    /// Information about the SAML 2.0-compliant identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+    public struct SamlProviderConfiguration {
+        /// The URL where Amazon Q Business end users will be redirected for authentication.
+        /// This member is required.
+        public var authenticationUrl: Swift.String?
+
+        public init(
+            authenticationUrl: Swift.String? = nil
+        )
+        {
+            self.authenticationUrl = authenticationUrl
+        }
+    }
+
+}
+
+extension QBusinessClientTypes {
+    /// Provides information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+    public enum IdentityProviderConfiguration {
+        /// Information about the SAML 2.0-compliant identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+        case samlconfiguration(QBusinessClientTypes.SamlProviderConfiguration)
+        /// Information about the OIDC-compliant identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+        case openidconnectconfiguration(QBusinessClientTypes.OpenIDConnectProviderConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension QBusinessClientTypes {
@@ -3559,7 +3768,9 @@ public struct CreateWebExperienceInput {
     public var applicationId: Swift.String?
     /// A token you provide to identify a request to create an Amazon Q Business web experience.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the service role attached to your web experience.
+    /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+    public var identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration?
+    /// The Amazon Resource Name (ARN) of the service role attached to your web experience. You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
     public var roleArn: Swift.String?
     /// Determines whether sample prompts are enabled in the web experience for an end user.
     public var samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode?
@@ -3575,6 +3786,7 @@ public struct CreateWebExperienceInput {
     public init(
         applicationId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration? = nil,
         roleArn: Swift.String? = nil,
         samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode? = nil,
         subtitle: Swift.String? = nil,
@@ -3585,6 +3797,7 @@ public struct CreateWebExperienceInput {
     {
         self.applicationId = applicationId
         self.clientToken = clientToken
+        self.identityProviderConfiguration = identityProviderConfiguration
         self.roleArn = roleArn
         self.samplePromptsControlMode = samplePromptsControlMode
         self.subtitle = subtitle
@@ -3742,6 +3955,8 @@ public struct GetWebExperienceOutput {
     public var defaultEndpoint: Swift.String?
     /// When the Status field value is FAILED, the ErrorMessage field contains a description of the error that caused the data source connector to fail.
     public var error: QBusinessClientTypes.ErrorDetail?
+    /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+    public var identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration?
     /// The Amazon Resource Name (ARN) of the service role attached to your web experience.
     public var roleArn: Swift.String?
     /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -3767,6 +3982,7 @@ public struct GetWebExperienceOutput {
         createdAt: Foundation.Date? = nil,
         defaultEndpoint: Swift.String? = nil,
         error: QBusinessClientTypes.ErrorDetail? = nil,
+        identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration? = nil,
         roleArn: Swift.String? = nil,
         samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode? = nil,
         status: QBusinessClientTypes.WebExperienceStatus? = nil,
@@ -3783,6 +3999,7 @@ public struct GetWebExperienceOutput {
         self.createdAt = createdAt
         self.defaultEndpoint = defaultEndpoint
         self.error = error
+        self.identityProviderConfiguration = identityProviderConfiguration
         self.roleArn = roleArn
         self.samplePromptsControlMode = samplePromptsControlMode
         self.status = status
@@ -3871,6 +4088,8 @@ public struct UpdateWebExperienceInput {
     /// The authentication configuration of the Amazon Q Business web experience.
     @available(*, deprecated, message: "Property associated with legacy SAML IdP flow. Deprecated in favor of using AWS IAM Identity Center for user management.")
     public var authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration?
+    /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+    public var identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration?
     /// The Amazon Resource Name (ARN) of the role with permission to access the Amazon Q Business web experience and required resources.
     public var roleArn: Swift.String?
     /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -3888,6 +4107,7 @@ public struct UpdateWebExperienceInput {
     public init(
         applicationId: Swift.String? = nil,
         authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration? = nil,
+        identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration? = nil,
         roleArn: Swift.String? = nil,
         samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode? = nil,
         subtitle: Swift.String? = nil,
@@ -3898,6 +4118,7 @@ public struct UpdateWebExperienceInput {
     {
         self.applicationId = applicationId
         self.authenticationConfiguration = authenticationConfiguration
+        self.identityProviderConfiguration = identityProviderConfiguration
         self.roleArn = roleArn
         self.samplePromptsControlMode = samplePromptsControlMode
         self.subtitle = subtitle
@@ -6120,7 +6341,7 @@ public struct PutGroupInput {
     /// A list of users or sub groups that belong to a group. This is for generating Amazon Q Business chat results only from document a user has access to.
     /// This member is required.
     public var groupMembers: QBusinessClientTypes.GroupMembers?
-    /// The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000.
+    /// The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing".
     /// This member is required.
     public var groupName: Swift.String?
     /// The identifier of the index in which you want to map users to their groups.
@@ -7624,11 +7845,14 @@ extension CreateApplicationInput {
     static func write(value: CreateApplicationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["attachmentsConfiguration"].write(value.attachmentsConfiguration, with: QBusinessClientTypes.AttachmentsConfiguration.write(value:to:))
+        try writer["clientIdsForOIDC"].writeList(value.clientIdsForOIDC, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: QBusinessClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["iamIdentityProviderArn"].write(value.iamIdentityProviderArn)
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["identityType"].write(value.identityType)
         try writer["personalizationConfiguration"].write(value.personalizationConfiguration, with: QBusinessClientTypes.PersonalizationConfiguration.write(value:to:))
         try writer["qAppsConfiguration"].write(value.qAppsConfiguration, with: QBusinessClientTypes.QAppsConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
@@ -7707,6 +7931,7 @@ extension CreateWebExperienceInput {
     static func write(value: CreateWebExperienceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["identityProviderConfiguration"].write(value.identityProviderConfiguration, with: QBusinessClientTypes.IdentityProviderConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
         try writer["samplePromptsControlMode"].write(value.samplePromptsControlMode)
         try writer["subtitle"].write(value.subtitle)
@@ -7749,6 +7974,7 @@ extension UpdateApplicationInput {
     static func write(value: UpdateApplicationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["attachmentsConfiguration"].write(value.attachmentsConfiguration, with: QBusinessClientTypes.AttachmentsConfiguration.write(value:to:))
+        try writer["autoSubscriptionConfiguration"].write(value.autoSubscriptionConfiguration, with: QBusinessClientTypes.AutoSubscriptionConfiguration.write(value:to:))
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
@@ -7832,6 +8058,7 @@ extension UpdateWebExperienceInput {
     static func write(value: UpdateWebExperienceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: QBusinessClientTypes.WebExperienceAuthConfiguration.write(value:to:))
+        try writer["identityProviderConfiguration"].write(value.identityProviderConfiguration, with: QBusinessClientTypes.IdentityProviderConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
         try writer["samplePromptsControlMode"].write(value.samplePromptsControlMode)
         try writer["subtitle"].write(value.subtitle)
@@ -8062,12 +8289,16 @@ extension GetApplicationOutput {
         value.applicationArn = try reader["applicationArn"].readIfPresent()
         value.applicationId = try reader["applicationId"].readIfPresent()
         value.attachmentsConfiguration = try reader["attachmentsConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedAttachmentsConfiguration.read(from:))
+        value.autoSubscriptionConfiguration = try reader["autoSubscriptionConfiguration"].readIfPresent(with: QBusinessClientTypes.AutoSubscriptionConfiguration.read(from:))
+        value.clientIdsForOIDC = try reader["clientIdsForOIDC"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: QBusinessClientTypes.EncryptionConfiguration.read(from:))
         value.error = try reader["error"].readIfPresent(with: QBusinessClientTypes.ErrorDetail.read(from:))
+        value.iamIdentityProviderArn = try reader["iamIdentityProviderArn"].readIfPresent()
         value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent()
+        value.identityType = try reader["identityType"].readIfPresent()
         value.personalizationConfiguration = try reader["personalizationConfiguration"].readIfPresent(with: QBusinessClientTypes.PersonalizationConfiguration.read(from:))
         value.qAppsConfiguration = try reader["qAppsConfiguration"].readIfPresent(with: QBusinessClientTypes.QAppsConfiguration.read(from:))
         value.roleArn = try reader["roleArn"].readIfPresent()
@@ -8225,6 +8456,7 @@ extension GetWebExperienceOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
         value.defaultEndpoint = try reader["defaultEndpoint"].readIfPresent()
         value.error = try reader["error"].readIfPresent(with: QBusinessClientTypes.ErrorDetail.read(from:))
+        value.identityProviderConfiguration = try reader["identityProviderConfiguration"].readIfPresent(with: QBusinessClientTypes.IdentityProviderConfiguration.read(from:))
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.samplePromptsControlMode = try reader["samplePromptsControlMode"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -10012,6 +10244,23 @@ extension QBusinessClientTypes.PersonalizationConfiguration {
     }
 }
 
+extension QBusinessClientTypes.AutoSubscriptionConfiguration {
+
+    static func write(value: QBusinessClientTypes.AutoSubscriptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoSubscribe"].write(value.autoSubscribe)
+        try writer["defaultSubscriptionType"].write(value.defaultSubscriptionType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AutoSubscriptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AutoSubscriptionConfiguration()
+        value.autoSubscribe = try reader["autoSubscribe"].readIfPresent()
+        value.defaultSubscriptionType = try reader["defaultSubscriptionType"].readIfPresent()
+        return value
+    }
+}
+
 extension QBusinessClientTypes.BlockedPhrasesConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.BlockedPhrasesConfiguration {
@@ -10708,6 +10957,66 @@ extension QBusinessClientTypes.UserAlias {
     }
 }
 
+extension QBusinessClientTypes.IdentityProviderConfiguration {
+
+    static func write(value: QBusinessClientTypes.IdentityProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .openidconnectconfiguration(openidconnectconfiguration):
+                try writer["openIDConnectConfiguration"].write(openidconnectconfiguration, with: QBusinessClientTypes.OpenIDConnectProviderConfiguration.write(value:to:))
+            case let .samlconfiguration(samlconfiguration):
+                try writer["samlConfiguration"].write(samlconfiguration, with: QBusinessClientTypes.SamlProviderConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.IdentityProviderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "samlConfiguration":
+                return .samlconfiguration(try reader["samlConfiguration"].read(with: QBusinessClientTypes.SamlProviderConfiguration.read(from:)))
+            case "openIDConnectConfiguration":
+                return .openidconnectconfiguration(try reader["openIDConnectConfiguration"].read(with: QBusinessClientTypes.OpenIDConnectProviderConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QBusinessClientTypes.OpenIDConnectProviderConfiguration {
+
+    static func write(value: QBusinessClientTypes.OpenIDConnectProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretsArn"].write(value.secretsArn)
+        try writer["secretsRole"].write(value.secretsRole)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.OpenIDConnectProviderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.OpenIDConnectProviderConfiguration()
+        value.secretsArn = try reader["secretsArn"].readIfPresent()
+        value.secretsRole = try reader["secretsRole"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.SamlProviderConfiguration {
+
+    static func write(value: QBusinessClientTypes.SamlProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authenticationUrl"].write(value.authenticationUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.SamlProviderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.SamlProviderConfiguration()
+        value.authenticationUrl = try reader["authenticationUrl"].readIfPresent()
+        return value
+    }
+}
+
 extension QBusinessClientTypes.WebExperienceAuthConfiguration {
 
     static func write(value: QBusinessClientTypes.WebExperienceAuthConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -10763,6 +11072,7 @@ extension QBusinessClientTypes.Application {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.status = try reader["status"].readIfPresent()
+        value.identityType = try reader["identityType"].readIfPresent()
         return value
     }
 }

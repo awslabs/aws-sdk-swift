@@ -32,7 +32,6 @@ import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.ModeledError
 import protocol Smithy.RequestMessageSerializer
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.RestJSONError
@@ -185,9 +184,11 @@ extension PollyClientTypes {
         case arb
         case caEs
         case cmnCn
+        case csCz
         case cyGb
         case daDk
         case deAt
+        case deCh
         case deDe
         case enAu
         case enGb
@@ -228,9 +229,11 @@ extension PollyClientTypes {
                 .arb,
                 .caEs,
                 .cmnCn,
+                .csCz,
                 .cyGb,
                 .daDk,
                 .deAt,
+                .deCh,
                 .deDe,
                 .enAu,
                 .enGb,
@@ -277,9 +280,11 @@ extension PollyClientTypes {
             case .arb: return "arb"
             case .caEs: return "ca-ES"
             case .cmnCn: return "cmn-CN"
+            case .csCz: return "cs-CZ"
             case .cyGb: return "cy-GB"
             case .daDk: return "da-DK"
             case .deAt: return "de-AT"
+            case .deCh: return "de-CH"
             case .deDe: return "de-DE"
             case .enAu: return "en-AU"
             case .enGb: return "en-GB"
@@ -416,6 +421,7 @@ extension PollyClientTypes {
         case ivy
         case jacek
         case jan
+        case jitka
         case joanna
         case joey
         case justin
@@ -455,6 +461,7 @@ extension PollyClientTypes {
         case ruben
         case russell
         case ruth
+        case sabrina
         case salli
         case seoyeon
         case sergio
@@ -516,6 +523,7 @@ extension PollyClientTypes {
                 .ivy,
                 .jacek,
                 .jan,
+                .jitka,
                 .joanna,
                 .joey,
                 .justin,
@@ -555,6 +563,7 @@ extension PollyClientTypes {
                 .ruben,
                 .russell,
                 .ruth,
+                .sabrina,
                 .salli,
                 .seoyeon,
                 .sergio,
@@ -622,6 +631,7 @@ extension PollyClientTypes {
             case .ivy: return "Ivy"
             case .jacek: return "Jacek"
             case .jan: return "Jan"
+            case .jitka: return "Jitka"
             case .joanna: return "Joanna"
             case .joey: return "Joey"
             case .justin: return "Justin"
@@ -661,6 +671,7 @@ extension PollyClientTypes {
             case .ruben: return "Ruben"
             case .russell: return "Russell"
             case .ruth: return "Ruth"
+            case .sabrina: return "Sabrina"
             case .salli: return "Salli"
             case .seoyeon: return "Seoyeon"
             case .sergio: return "Sergio"
@@ -2706,7 +2717,7 @@ extension SynthesizeSpeechInput {
         builder.applySigner(ClientRuntime.SignerMiddleware<SynthesizeSpeechOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SynthesizeSpeechOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SynthesizeSpeechOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

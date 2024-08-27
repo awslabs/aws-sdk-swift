@@ -41,7 +41,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -244,7 +243,7 @@ extension AutoScalingPlansClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScalingPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateScalingPlanOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.CreateScalingPlan"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateScalingPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(contentType: "application/x-amz-json-1.1"))
@@ -318,7 +317,7 @@ extension AutoScalingPlansClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScalingPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteScalingPlanOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.DeleteScalingPlan"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteScalingPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(contentType: "application/x-amz-json-1.1"))
@@ -392,7 +391,7 @@ extension AutoScalingPlansClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPlanResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeScalingPlanResourcesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.DescribeScalingPlanResources"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScalingPlanResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(contentType: "application/x-amz-json-1.1"))
@@ -466,7 +465,7 @@ extension AutoScalingPlansClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPlansOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeScalingPlansOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.DescribeScalingPlans"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScalingPlansInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(contentType: "application/x-amz-json-1.1"))
@@ -538,7 +537,7 @@ extension AutoScalingPlansClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScalingPlanResourceForecastDataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetScalingPlanResourceForecastDataOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.GetScalingPlanResourceForecastData"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetScalingPlanResourceForecastDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(contentType: "application/x-amz-json-1.1"))
@@ -612,7 +611,7 @@ extension AutoScalingPlansClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScalingPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateScalingPlanOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(xAmzTarget: "AnyScaleScalingPlannerFrontendService.UpdateScalingPlan"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateScalingPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(contentType: "application/x-amz-json-1.1"))

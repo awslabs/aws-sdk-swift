@@ -6,6 +6,7 @@
 //
 
 import ClientRuntime
+import class Smithy.Context
 
 public struct AWSUserAgentMetadata {
     let sdkMetadata: SDKMetadata
@@ -15,9 +16,8 @@ public struct AWSUserAgentMetadata {
     let osMetadata: OSMetadata
     let languageMetadata: LanguageMetadata
     let executionEnvMetadata: ExecutionEnvMetadata?
-    let configMetadata: [ConfigMetadata]
+    let businessMetrics: BusinessMetrics?
     let appIDMetadata: AppIDMetadata?
-    let featureMetadata: [FeatureMetadata]
     let frameworkMetadata: [FrameworkMetadata]
 
     ///  ABNF for the user agent:
@@ -29,9 +29,8 @@ public struct AWSUserAgentMetadata {
     ///                       language-metadata RWS
     ///                       [env-metadata RWS]
     ///                              ; ordering is not strictly required in the following section
-    ///                       *(config-metadata RWS)
+    ///                       [business-metrics]
     ///                       [appId]
-    ///                       *(feat-metadata RWS)
     ///                       *(framework-metadata RWS)
     var userAgent: String {
         return [
@@ -42,9 +41,8 @@ public struct AWSUserAgentMetadata {
             [osMetadata.description],
             [languageMetadata.description],
             [executionEnvMetadata?.description],
-            configMetadata.map(\.description) as [String?],
+            [businessMetrics?.description],
             [appIDMetadata?.description],
-            featureMetadata.map(\.description) as [String?],
             frameworkMetadata.map(\.description) as [String?]
         ].flatMap { $0 }.compactMap { $0 }.joined(separator: " ")
     }
@@ -56,9 +54,8 @@ public struct AWSUserAgentMetadata {
         osMetadata: OSMetadata,
         languageMetadata: LanguageMetadata,
         executionEnvMetadata: ExecutionEnvMetadata? = nil,
-        configMetadata: [ConfigMetadata] = [],
+        businessMetrics: BusinessMetrics? = nil,
         appIDMetadata: AppIDMetadata? = nil,
-        featureMetadata: [FeatureMetadata] = [],
         frameworkMetadata: [FrameworkMetadata] = []
     ) {
         self.sdkMetadata = sdkMetadata
@@ -67,16 +64,16 @@ public struct AWSUserAgentMetadata {
         self.osMetadata = osMetadata
         self.languageMetadata = languageMetadata
         self.executionEnvMetadata = executionEnvMetadata
-        self.configMetadata = configMetadata
+        self.businessMetrics = businessMetrics
         self.appIDMetadata = appIDMetadata
-        self.featureMetadata = featureMetadata
         self.frameworkMetadata = frameworkMetadata
     }
 
-    public static func fromConfig(
+    public static func fromConfigAndContext(
         serviceID: String,
         version: String,
-        config: DefaultClientConfiguration & AWSDefaultClientConfiguration
+        config: UserAgentValuesFromConfig,
+        context: Context
     ) -> AWSUserAgentMetadata {
         let apiMetadata = APIMetadata(serviceID: serviceID, version: version)
         let sdkMetadata = SDKMetadata(version: apiMetadata.version)
@@ -85,7 +82,7 @@ public struct AWSUserAgentMetadata {
         let osVersion = PlatformOperationSystemVersion.operatingSystemVersion()
         let osMetadata = OSMetadata(family: currentOS, version: osVersion)
         let languageMetadata = LanguageMetadata(version: swiftVersion)
-        let configMetadata = [ConfigMetadata(type: .retry(config.awsRetryMode))]
+        let businessMetrics = BusinessMetrics(config: config, context: context)
         let appIDMetadata = AppIDMetadata(name: config.appID)
         let frameworkMetadata = [FrameworkMetadata]()
         return AWSUserAgentMetadata(
@@ -95,10 +92,27 @@ public struct AWSUserAgentMetadata {
             osMetadata: osMetadata,
             languageMetadata: languageMetadata,
             executionEnvMetadata: ExecutionEnvMetadata.detectExecEnv(),
-            configMetadata: configMetadata,
+            businessMetrics: businessMetrics,
             appIDMetadata: appIDMetadata,
-            featureMetadata: [],  // Feature metadata will be supplied when features are implemented
             frameworkMetadata: frameworkMetadata
         )
+    }
+}
+
+public class UserAgentValuesFromConfig {
+    var appID: String?
+    var endpoint: String?
+    var awsRetryMode: AWSRetryMode
+
+    public init(appID: String?, endpoint: String?, awsRetryMode: AWSRetryMode) {
+        self.endpoint = endpoint
+        self.awsRetryMode = awsRetryMode
+        self.appID = appID
+    }
+
+    public init(config: DefaultClientConfiguration & AWSDefaultClientConfiguration) {
+        self.appID = config.appID
+        self.endpoint = config.endpoint
+        self.awsRetryMode = config.awsRetryMode
     }
 }

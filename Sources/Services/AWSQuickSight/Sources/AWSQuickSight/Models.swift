@@ -4676,6 +4676,51 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
+
+    public enum QueryExecutionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryExecutionMode] {
+            return [
+                .auto,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that describes the query execution options.
+    public struct QueryExecutionOptions {
+        /// A structure that describes the query execution mode.
+        public var queryExecutionMode: QuickSightClientTypes.QueryExecutionMode?
+
+        public init(
+            queryExecutionMode: QuickSightClientTypes.QueryExecutionMode? = nil
+        )
+        {
+            self.queryExecutionMode = queryExecutionMode
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
     /// The source controls that are used in a CascadingControlConfiguration.
     public struct CascadingControlSource {
         /// The column identifier that determines which column to look up for the source sheet control.
@@ -17502,6 +17547,8 @@ extension QuickSightClientTypes {
         public var options: QuickSightClientTypes.AssetOptions?
         /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide.
         public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
+        /// A structure that describes the query execution options.
+        public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
         /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
         public var sheets: [QuickSightClientTypes.SheetDefinition]?
 
@@ -17513,6 +17560,7 @@ extension QuickSightClientTypes {
             filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
             options: QuickSightClientTypes.AssetOptions? = nil,
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
+            queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil
         )
         {
@@ -17523,6 +17571,7 @@ extension QuickSightClientTypes {
             self.filterGroups = filterGroups
             self.options = options
             self.parameterDeclarations = parameterDeclarations
+            self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
         }
     }
@@ -17785,16 +17834,113 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
+
+    public enum AnonymousUserDashboardEmbeddingConfigurationDisabledFeature: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sharedView
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnonymousUserDashboardEmbeddingConfigurationDisabledFeature] {
+            return [
+                .sharedView
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sharedView: return "SHARED_VIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum AnonymousUserDashboardEmbeddingConfigurationEnabledFeature: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sharedView
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnonymousUserDashboardEmbeddingConfigurationEnabledFeature] {
+            return [
+                .sharedView
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sharedView: return "SHARED_VIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The shared view settings of an embedded dashboard.
+    public struct SharedViewConfigurations {
+        /// The shared view settings of an embedded dashboard.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The feature configuration for an embedded dashboard.
+    public struct AnonymousUserDashboardFeatureConfigurations {
+        /// The shared view settings of an embedded dashboard.
+        public var sharedView: QuickSightClientTypes.SharedViewConfigurations?
+
+        public init(
+            sharedView: QuickSightClientTypes.SharedViewConfigurations? = nil
+        )
+        {
+            self.sharedView = sharedView
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
     /// Information about the dashboard that you want to embed.
     public struct AnonymousUserDashboardEmbeddingConfiguration {
+        /// A list of all disabled features of a specified anonymous dashboard.
+        public var disabledFeatures: [QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfigurationDisabledFeature]?
+        /// A list of all enabled features of a specified anonymous dashboard.
+        public var enabledFeatures: [QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfigurationEnabledFeature]?
+        /// The feature configuration for an embedded dashboard.
+        public var featureConfigurations: QuickSightClientTypes.AnonymousUserDashboardFeatureConfigurations?
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         /// This member is required.
         public var initialDashboardId: Swift.String?
 
         public init(
+            disabledFeatures: [QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfigurationDisabledFeature]? = nil,
+            enabledFeatures: [QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfigurationEnabledFeature]? = nil,
+            featureConfigurations: QuickSightClientTypes.AnonymousUserDashboardFeatureConfigurations? = nil,
             initialDashboardId: Swift.String? = nil
         )
         {
+            self.disabledFeatures = disabledFeatures
+            self.enabledFeatures = enabledFeatures
+            self.featureConfigurations = featureConfigurations
             self.initialDashboardId = initialDashboardId
         }
     }
@@ -26398,6 +26544,8 @@ extension QuickSightClientTypes {
         public var options: QuickSightClientTypes.AssetOptions?
         /// An array of parameter declarations for a template. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide.
         public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
+        /// A structure that describes the query execution options.
+        public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
         /// An array of sheet definitions for a template.
         public var sheets: [QuickSightClientTypes.SheetDefinition]?
 
@@ -26409,6 +26557,7 @@ extension QuickSightClientTypes {
             filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
             options: QuickSightClientTypes.AssetOptions? = nil,
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
+            queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil
         )
         {
@@ -26419,6 +26568,7 @@ extension QuickSightClientTypes {
             self.filterGroups = filterGroups
             self.options = options
             self.parameterDeclarations = parameterDeclarations
+            self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
         }
     }
@@ -34520,15 +34670,19 @@ extension QuickSightClientTypes {
     public struct RegisteredUserDashboardFeatureConfigurations {
         /// The bookmarks configuration for an embedded dashboard in Amazon QuickSight.
         public var bookmarks: QuickSightClientTypes.BookmarksConfigurations?
+        /// The shared view settings of an embedded dashboard.
+        public var sharedView: QuickSightClientTypes.SharedViewConfigurations?
         /// The state persistence settings of an embedded dashboard.
         public var statePersistence: QuickSightClientTypes.StatePersistenceConfigurations?
 
         public init(
             bookmarks: QuickSightClientTypes.BookmarksConfigurations? = nil,
+            sharedView: QuickSightClientTypes.SharedViewConfigurations? = nil,
             statePersistence: QuickSightClientTypes.StatePersistenceConfigurations? = nil
         )
         {
             self.bookmarks = bookmarks
+            self.sharedView = sharedView
             self.statePersistence = statePersistence
         }
     }
@@ -34608,13 +34762,17 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     /// The feature configurations of an embedded Amazon QuickSight console.
     public struct RegisteredUserConsoleFeatureConfigurations {
+        /// The shared view settings of an embedded dashboard.
+        public var sharedView: QuickSightClientTypes.SharedViewConfigurations?
         /// The state persistence configurations of an embedded Amazon QuickSight console.
         public var statePersistence: QuickSightClientTypes.StatePersistenceConfigurations?
 
         public init(
+            sharedView: QuickSightClientTypes.SharedViewConfigurations? = nil,
             statePersistence: QuickSightClientTypes.StatePersistenceConfigurations? = nil
         )
         {
+            self.sharedView = sharedView
             self.statePersistence = statePersistence
         }
     }
@@ -50242,6 +50400,7 @@ extension QuickSightClientTypes.AnalysisDefinition {
         try writer["FilterGroups"].writeList(value.filterGroups, memberWritingClosure: QuickSightClientTypes.FilterGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Options"].write(value.options, with: QuickSightClientTypes.AssetOptions.write(value:to:))
         try writer["ParameterDeclarations"].writeList(value.parameterDeclarations, memberWritingClosure: QuickSightClientTypes.ParameterDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QueryExecutionOptions"].write(value.queryExecutionOptions, with: QuickSightClientTypes.QueryExecutionOptions.write(value:to:))
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -50256,6 +50415,22 @@ extension QuickSightClientTypes.AnalysisDefinition {
         value.columnConfigurations = try reader["ColumnConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.analysisDefaults = try reader["AnalysisDefaults"].readIfPresent(with: QuickSightClientTypes.AnalysisDefaults.read(from:))
         value.options = try reader["Options"].readIfPresent(with: QuickSightClientTypes.AssetOptions.read(from:))
+        value.queryExecutionOptions = try reader["QueryExecutionOptions"].readIfPresent(with: QuickSightClientTypes.QueryExecutionOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.QueryExecutionOptions {
+
+    static func write(value: QuickSightClientTypes.QueryExecutionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QueryExecutionMode"].write(value.queryExecutionMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.QueryExecutionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.QueryExecutionOptions()
+        value.queryExecutionMode = try reader["QueryExecutionMode"].readIfPresent()
         return value
     }
 }
@@ -63103,6 +63278,7 @@ extension QuickSightClientTypes.TemplateVersionDefinition {
         try writer["FilterGroups"].writeList(value.filterGroups, memberWritingClosure: QuickSightClientTypes.FilterGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Options"].write(value.options, with: QuickSightClientTypes.AssetOptions.write(value:to:))
         try writer["ParameterDeclarations"].writeList(value.parameterDeclarations, memberWritingClosure: QuickSightClientTypes.ParameterDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QueryExecutionOptions"].write(value.queryExecutionOptions, with: QuickSightClientTypes.QueryExecutionOptions.write(value:to:))
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -63117,6 +63293,7 @@ extension QuickSightClientTypes.TemplateVersionDefinition {
         value.columnConfigurations = try reader["ColumnConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.analysisDefaults = try reader["AnalysisDefaults"].readIfPresent(with: QuickSightClientTypes.AnalysisDefaults.read(from:))
         value.options = try reader["Options"].readIfPresent(with: QuickSightClientTypes.AssetOptions.read(from:))
+        value.queryExecutionOptions = try reader["QueryExecutionOptions"].readIfPresent(with: QuickSightClientTypes.QueryExecutionOptions.read(from:))
         return value
     }
 }
@@ -64974,7 +65151,26 @@ extension QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration {
 
     static func write(value: QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DisabledFeatures"].writeList(value.disabledFeatures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfigurationDisabledFeature>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnabledFeatures"].writeList(value.enabledFeatures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfigurationEnabledFeature>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FeatureConfigurations"].write(value.featureConfigurations, with: QuickSightClientTypes.AnonymousUserDashboardFeatureConfigurations.write(value:to:))
         try writer["InitialDashboardId"].write(value.initialDashboardId)
+    }
+}
+
+extension QuickSightClientTypes.AnonymousUserDashboardFeatureConfigurations {
+
+    static func write(value: QuickSightClientTypes.AnonymousUserDashboardFeatureConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SharedView"].write(value.sharedView, with: QuickSightClientTypes.SharedViewConfigurations.write(value:to:))
+    }
+}
+
+extension QuickSightClientTypes.SharedViewConfigurations {
+
+    static func write(value: QuickSightClientTypes.SharedViewConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
     }
 }
 
@@ -65027,6 +65223,7 @@ extension QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations {
 
     static func write(value: QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["SharedView"].write(value.sharedView, with: QuickSightClientTypes.SharedViewConfigurations.write(value:to:))
         try writer["StatePersistence"].write(value.statePersistence, with: QuickSightClientTypes.StatePersistenceConfigurations.write(value:to:))
     }
 }
@@ -65053,6 +65250,7 @@ extension QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations {
     static func write(value: QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Bookmarks"].write(value.bookmarks, with: QuickSightClientTypes.BookmarksConfigurations.write(value:to:))
+        try writer["SharedView"].write(value.sharedView, with: QuickSightClientTypes.SharedViewConfigurations.write(value:to:))
         try writer["StatePersistence"].write(value.statePersistence, with: QuickSightClientTypes.StatePersistenceConfigurations.write(value:to:))
     }
 }

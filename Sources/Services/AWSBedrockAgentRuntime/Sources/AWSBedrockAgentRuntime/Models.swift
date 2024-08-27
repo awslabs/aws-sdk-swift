@@ -193,6 +193,38 @@ extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationOutput: Swift.Cust
         "ActionGroupInvocationOutput(text: \"CONTENT_REDACTED\")"}
 }
 
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum ActionInvocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case result
+        case userConfirmation
+        case userConfirmationAndResult
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionInvocationType] {
+            return [
+                .result,
+                .userConfirmation,
+                .userConfirmationAndResult
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .result: return "RESULT"
+            case .userConfirmation: return "USER_CONFIRMATION"
+            case .userConfirmationAndResult: return "USER_CONFIRMATION_AND_RESULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// There was an issue with a dependency due to a server issue. Retry your request.
 public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -839,6 +871,35 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
+
+    public enum ConfirmationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case confirm
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfirmationState] {
+            return [
+                .confirm,
+                .deny
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .confirm: return "CONFIRM"
+            case .deny: return "DENY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
     /// Contains the body of the API response. This data type is used in the following API operations:
     ///
     /// * In the returnControlInvocationResults field of the [InvokeAgent request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax)
@@ -895,6 +956,8 @@ extension BedrockAgentRuntimeClientTypes {
         public var actionGroup: Swift.String?
         /// The path to the API operation.
         public var apiPath: Swift.String?
+        /// Controls the API operations or functions to invoke based on the user confirmation.
+        public var confirmationState: BedrockAgentRuntimeClientTypes.ConfirmationState?
         /// The HTTP method for the API operation.
         public var httpMethod: Swift.String?
         /// http status code from API execution response (for example: 200, 400, 500).
@@ -907,6 +970,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             actionGroup: Swift.String? = nil,
             apiPath: Swift.String? = nil,
+            confirmationState: BedrockAgentRuntimeClientTypes.ConfirmationState? = nil,
             httpMethod: Swift.String? = nil,
             httpStatusCode: Swift.Int? = nil,
             responseBody: [Swift.String: BedrockAgentRuntimeClientTypes.ContentBody]? = nil,
@@ -915,6 +979,7 @@ extension BedrockAgentRuntimeClientTypes {
         {
             self.actionGroup = actionGroup
             self.apiPath = apiPath
+            self.confirmationState = confirmationState
             self.httpMethod = httpMethod
             self.httpStatusCode = httpStatusCode
             self.responseBody = responseBody
@@ -926,7 +991,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes.ApiResult: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ApiResult(actionGroup: \(Swift.String(describing: actionGroup)), httpMethod: \(Swift.String(describing: httpMethod)), httpStatusCode: \(Swift.String(describing: httpStatusCode)), responseBody: \(Swift.String(describing: responseBody)), responseState: \(Swift.String(describing: responseState)), apiPath: \"CONTENT_REDACTED\")"}
+        "ApiResult(actionGroup: \(Swift.String(describing: actionGroup)), confirmationState: \(Swift.String(describing: confirmationState)), httpMethod: \(Swift.String(describing: httpMethod)), httpStatusCode: \(Swift.String(describing: httpStatusCode)), responseBody: \(Swift.String(describing: responseBody)), responseState: \(Swift.String(describing: responseState)), apiPath: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -937,6 +1002,8 @@ extension BedrockAgentRuntimeClientTypes {
         /// The action group that the function belongs to.
         /// This member is required.
         public var actionGroup: Swift.String?
+        /// Contains the user confirmation information about the function that was called.
+        public var confirmationState: BedrockAgentRuntimeClientTypes.ConfirmationState?
         /// The name of the function that was called.
         public var function: Swift.String?
         /// The response from the function call using the parameters. The key of the object is the content type (currently, only TEXT is supported). The response may be returned directly or from the Lambda function.
@@ -946,12 +1013,14 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             actionGroup: Swift.String? = nil,
+            confirmationState: BedrockAgentRuntimeClientTypes.ConfirmationState? = nil,
             function: Swift.String? = nil,
             responseBody: [Swift.String: BedrockAgentRuntimeClientTypes.ContentBody]? = nil,
             responseState: BedrockAgentRuntimeClientTypes.ResponseState? = nil
         )
         {
             self.actionGroup = actionGroup
+            self.confirmationState = confirmationState
             self.function = function
             self.responseBody = responseBody
             self.responseState = responseState
@@ -1473,6 +1542,8 @@ extension BedrockAgentRuntimeClientTypes {
         /// The action group that the API operation belongs to.
         /// This member is required.
         public var actionGroup: Swift.String?
+        /// Contains information about the API operation to invoke.
+        public var actionInvocationType: BedrockAgentRuntimeClientTypes.ActionInvocationType?
         /// The path to the API operation.
         public var apiPath: Swift.String?
         /// The HTTP method of the API operation.
@@ -1484,6 +1555,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             actionGroup: Swift.String? = nil,
+            actionInvocationType: BedrockAgentRuntimeClientTypes.ActionInvocationType? = nil,
             apiPath: Swift.String? = nil,
             httpMethod: Swift.String? = nil,
             parameters: [BedrockAgentRuntimeClientTypes.ApiParameter]? = nil,
@@ -1491,6 +1563,7 @@ extension BedrockAgentRuntimeClientTypes {
         )
         {
             self.actionGroup = actionGroup
+            self.actionInvocationType = actionInvocationType
             self.apiPath = apiPath
             self.httpMethod = httpMethod
             self.parameters = parameters
@@ -1502,7 +1575,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes.ApiInvocationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ApiInvocationInput(actionGroup: \(Swift.String(describing: actionGroup)), httpMethod: \(Swift.String(describing: httpMethod)), parameters: \(Swift.String(describing: parameters)), requestBody: \(Swift.String(describing: requestBody)), apiPath: \"CONTENT_REDACTED\")"}
+        "ApiInvocationInput(actionGroup: \(Swift.String(describing: actionGroup)), actionInvocationType: \(Swift.String(describing: actionInvocationType)), httpMethod: \(Swift.String(describing: httpMethod)), parameters: \(Swift.String(describing: parameters)), requestBody: \(Swift.String(describing: requestBody)), apiPath: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -1539,6 +1612,8 @@ extension BedrockAgentRuntimeClientTypes {
         /// The action group that the function belongs to.
         /// This member is required.
         public var actionGroup: Swift.String?
+        /// Contains information about the function to invoke,
+        public var actionInvocationType: BedrockAgentRuntimeClientTypes.ActionInvocationType?
         /// The name of the function.
         public var function: Swift.String?
         /// A list of parameters of the function.
@@ -1546,11 +1621,13 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             actionGroup: Swift.String? = nil,
+            actionInvocationType: BedrockAgentRuntimeClientTypes.ActionInvocationType? = nil,
             function: Swift.String? = nil,
             parameters: [BedrockAgentRuntimeClientTypes.FunctionParameter]? = nil
         )
         {
             self.actionGroup = actionGroup
+            self.actionInvocationType = actionInvocationType
             self.function = function
             self.parameters = parameters
         }
@@ -5068,6 +5145,7 @@ extension BedrockAgentRuntimeClientTypes.FunctionInvocationInput {
         value.actionGroup = try reader["actionGroup"].readIfPresent()
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.FunctionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.function = try reader["function"].readIfPresent()
+        value.actionInvocationType = try reader["actionInvocationType"].readIfPresent()
         return value
     }
 }
@@ -5094,6 +5172,7 @@ extension BedrockAgentRuntimeClientTypes.ApiInvocationInput {
         value.apiPath = try reader["apiPath"].readIfPresent()
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.ApiParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestBody = try reader["requestBody"].readIfPresent(with: BedrockAgentRuntimeClientTypes.ApiRequestBody.read(from:))
+        value.actionInvocationType = try reader["actionInvocationType"].readIfPresent()
         return value
     }
 }
@@ -5996,6 +6075,7 @@ extension BedrockAgentRuntimeClientTypes.FunctionResult {
     static func write(value: BedrockAgentRuntimeClientTypes.FunctionResult?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionGroup"].write(value.actionGroup)
+        try writer["confirmationState"].write(value.confirmationState)
         try writer["function"].write(value.function)
         try writer["responseBody"].writeMap(value.responseBody, valueWritingClosure: BedrockAgentRuntimeClientTypes.ContentBody.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["responseState"].write(value.responseState)
@@ -6016,6 +6096,7 @@ extension BedrockAgentRuntimeClientTypes.ApiResult {
         guard let value else { return }
         try writer["actionGroup"].write(value.actionGroup)
         try writer["apiPath"].write(value.apiPath)
+        try writer["confirmationState"].write(value.confirmationState)
         try writer["httpMethod"].write(value.httpMethod)
         try writer["httpStatusCode"].write(value.httpStatusCode)
         try writer["responseBody"].writeMap(value.responseBody, valueWritingClosure: BedrockAgentRuntimeClientTypes.ContentBody.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

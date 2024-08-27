@@ -22,6 +22,8 @@ import protocol ClientRuntime.ModeledError
 import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+import struct SmithyHTTPAPI.Header
+import struct SmithyHTTPAPI.Headers
 import struct SmithyReadWrite.ReadingClosureBox
 import struct SmithyReadWrite.WritingClosureBox
 import struct SmithyTimestamps.TimestampFormatter
@@ -1481,23 +1483,19 @@ extension IoTSiteWiseClientTypes {
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of the composite model.
     public struct AssetModelCompositeModelSummary {
-        /// The description of the the composite model that this summary describes..
+        /// The description of the composite model that this summary describes..
         public var description: Swift.String?
         /// The external ID of a composite model on this asset model. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
         public var externalId: Swift.String?
-        /// The ID of the the composite model that this summary describes..
+        /// The ID of the composite model that this summary describes..
         /// This member is required.
         public var id: Swift.String?
-        /// The name of the the composite model that this summary describes..
+        /// The name of the composite model that this summary describes..
         /// This member is required.
         public var name: Swift.String?
         /// The path that includes all the pieces that make up the composite model.
         public var path: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]?
-        /// The type of asset model.
-        ///
-        /// * ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.
-        ///
-        /// * COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
         /// This member is required.
         public var type: Swift.String?
 
@@ -1865,6 +1863,8 @@ extension IoTSiteWiseClientTypes {
         /// The current status of the asset model.
         /// This member is required.
         public var status: IoTSiteWiseClientTypes.AssetModelStatus?
+        /// The version number of the asset model.
+        public var version: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
@@ -1875,7 +1875,8 @@ extension IoTSiteWiseClientTypes {
             id: Swift.String? = nil,
             lastUpdateDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
-            status: IoTSiteWiseClientTypes.AssetModelStatus? = nil
+            status: IoTSiteWiseClientTypes.AssetModelStatus? = nil,
+            version: Swift.String? = nil
         )
         {
             self.arn = arn
@@ -1887,9 +1888,39 @@ extension IoTSiteWiseClientTypes {
             self.lastUpdateDate = lastUpdateDate
             self.name = name
             self.status = status
+            self.version = version
         }
     }
 
+}
+
+extension IoTSiteWiseClientTypes {
+
+    public enum AssetModelVersionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case latest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetModelVersionType] {
+            return [
+                .active,
+                .latest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .latest: return "LATEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension IoTSiteWiseClientTypes {
@@ -1961,7 +1992,7 @@ extension IoTSiteWiseClientTypes {
         public var booleanValue: Swift.Bool?
         /// Asset property data of type double (floating point number).
         public var doubleValue: Swift.Double?
-        /// Asset property data of type integer (number that's greater than or equal to zero).
+        /// Asset property data of type integer (whole number).
         public var integerValue: Swift.Int?
         /// Asset property data of type string (sequence of characters).
         public var stringValue: Swift.String?
@@ -3612,7 +3643,7 @@ public struct CreateAssetOutput {
 }
 
 public struct CreateAssetModelInput {
-    /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model. When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html). For more information, see .
+    /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model. When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html). For more information, see [Creating custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html) in the IoT SiteWise User Guide.
     public var assetModelCompositeModels: [IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition]?
     /// A description for the asset model.
     public var assetModelDescription: Swift.String?
@@ -3622,7 +3653,7 @@ public struct CreateAssetModelInput {
     public var assetModelHierarchies: [IoTSiteWiseClientTypes.AssetModelHierarchyDefinition]?
     /// The ID to assign to the asset model, if desired. IoT SiteWise automatically generates a unique ID for you, so this parameter is never required. However, if you prefer to supply your own ID instead, you can specify it here in UUID format. If you specify your own ID, it must be globally unique.
     public var assetModelId: Swift.String?
-    /// A unique, friendly name for the asset model.
+    /// A unique name for the asset model.
     /// This member is required.
     public var assetModelName: Swift.String?
     /// The property definitions of the asset model. For more information, see [Asset properties](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html) in the IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
@@ -3687,6 +3718,41 @@ public struct CreateAssetModelOutput {
     }
 }
 
+/// The precondition in one or more of the request-header fields evaluated to FALSE.
+public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The ARN of the resource on which precondition failed with this operation.
+        /// This member is required.
+        public internal(set) var resourceArn: Swift.String? = nil
+        /// The ID of the resource on which precondition failed with this operation.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PreconditionFailedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        resourceId: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceArn = resourceArn
+        self.properties.resourceId = resourceId
+    }
+}
+
 public struct CreateAssetModelCompositeModelInput {
     /// A description for the composite model.
     public var assetModelCompositeModelDescription: Swift.String?
@@ -3694,10 +3760,10 @@ public struct CreateAssetModelCompositeModelInput {
     public var assetModelCompositeModelExternalId: Swift.String?
     /// The ID of the composite model. IoT SiteWise automatically generates a unique ID for you, so this parameter is never required. However, if you prefer to supply your own ID instead, you can specify it here in UUID format. If you specify your own ID, it must be globally unique.
     public var assetModelCompositeModelId: Swift.String?
-    /// A unique, friendly name for the composite model.
+    /// A unique name for the composite model.
     /// This member is required.
     public var assetModelCompositeModelName: Swift.String?
-    /// The property definitions of the composite model. For more information, see . You can specify up to 200 properties per composite model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    /// The property definitions of the composite model. For more information, see [ Inline custom composite models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models) in the IoT SiteWise User Guide. You can specify up to 200 properties per composite model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     public var assetModelCompositeModelProperties: [IoTSiteWiseClientTypes.AssetModelPropertyDefinition]?
     /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
     /// This member is required.
@@ -3707,8 +3773,14 @@ public struct CreateAssetModelCompositeModelInput {
     public var assetModelId: Swift.String?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
-    /// The ID of a composite model on this asset.
+    /// The ID of a component model which is reused to create this composite model.
     public var composedAssetModelId: Swift.String?
+    /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType). The create request is rejected if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html) in the IoT SiteWise User Guide.
+    public var ifMatch: Swift.String?
+    /// Accepts * to reject the create request if an active version (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+    public var ifNoneMatch: Swift.String?
+    /// Specifies the asset model version type (LATEST or ACTIVE) used in conjunction with If-Match or If-None-Match headers to determine the target ETag for the create operation.
+    public var matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType?
     /// The ID of the parent composite model in this asset model relationship.
     public var parentAssetModelCompositeModelId: Swift.String?
 
@@ -3722,6 +3794,9 @@ public struct CreateAssetModelCompositeModelInput {
         assetModelId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         composedAssetModelId: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        ifNoneMatch: Swift.String? = nil,
+        matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil,
         parentAssetModelCompositeModelId: Swift.String? = nil
     )
     {
@@ -3734,6 +3809,9 @@ public struct CreateAssetModelCompositeModelInput {
         self.assetModelId = assetModelId
         self.clientToken = clientToken
         self.composedAssetModelId = composedAssetModelId
+        self.ifMatch = ifMatch
+        self.ifNoneMatch = ifNoneMatch
+        self.matchForVersionType = matchForVersionType
         self.parentAssetModelCompositeModelId = parentAssetModelCompositeModelId
     }
 }
@@ -4092,7 +4170,7 @@ public struct CreateDashboardOutput {
 extension IoTSiteWiseClientTypes {
     /// Contains details for a gateway that runs on IoT Greengrass. To create a gateway that runs on IoT Greengrass, you must add the IoT SiteWise connector to a Greengrass group and deploy it. Your Greengrass group must also have permissions to upload data to IoT SiteWise. For more information, see [Ingesting data using a gateway](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html) in the IoT SiteWise User Guide.
     public struct Greengrass {
-        /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Greengrass group. For more information about how to find a group's ARN, see [ListGroups](https://docs.aws.amazon.com/greengrass/latest/apireference/listgroups-get.html) and [GetGroup](https://docs.aws.amazon.com/greengrass/latest/apireference/getgroup-get.html) in the IoT Greengrass API Reference.
+        /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Greengrass group. For more information about how to find a group's ARN, see [ListGroups](https://docs.aws.amazon.com/greengrass/v1/apireference/listgroups-get.html) and [GetGroup](https://docs.aws.amazon.com/greengrass/v1/apireference/getgroup-get.html) in the IoT Greengrass V1 API Reference.
         /// This member is required.
         public var groupArn: Swift.String?
 
@@ -4124,27 +4202,48 @@ extension IoTSiteWiseClientTypes {
 }
 
 extension IoTSiteWiseClientTypes {
+    /// Contains details for a SiteWise Edge gateway that runs on a Siemens Industrial Edge Device.
+    public struct SiemensIE {
+        /// The name of the IoT Thing for your SiteWise Edge gateway.
+        /// This member is required.
+        public var iotCoreThingName: Swift.String?
+
+        public init(
+            iotCoreThingName: Swift.String? = nil
+        )
+        {
+            self.iotCoreThingName = iotCoreThingName
+        }
+    }
+
+}
+
+extension IoTSiteWiseClientTypes {
     /// Contains a gateway's platform information.
     public struct GatewayPlatform {
         /// A gateway that runs on IoT Greengrass.
         public var greengrass: IoTSiteWiseClientTypes.Greengrass?
         /// A gateway that runs on IoT Greengrass V2.
         public var greengrassV2: IoTSiteWiseClientTypes.GreengrassV2?
+        /// A SiteWise Edge gateway that runs on a Siemens Industrial Edge Device.
+        public var siemensIE: IoTSiteWiseClientTypes.SiemensIE?
 
         public init(
             greengrass: IoTSiteWiseClientTypes.Greengrass? = nil,
-            greengrassV2: IoTSiteWiseClientTypes.GreengrassV2? = nil
+            greengrassV2: IoTSiteWiseClientTypes.GreengrassV2? = nil,
+            siemensIE: IoTSiteWiseClientTypes.SiemensIE? = nil
         )
         {
             self.greengrass = greengrass
             self.greengrassV2 = greengrassV2
+            self.siemensIE = siemensIE
         }
     }
 
 }
 
 public struct CreateGatewayInput {
-    /// A unique, friendly name for the gateway.
+    /// A unique name for the gateway.
     /// This member is required.
     public var gatewayName: Swift.String?
     /// The gateway's platform. You can only specify one platform in a gateway.
@@ -4539,14 +4638,26 @@ public struct DeleteAssetModelInput {
     public var assetModelId: Swift.String?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
+    /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType). The delete request is rejected if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html) in the IoT SiteWise User Guide.
+    public var ifMatch: Swift.String?
+    /// Accepts * to reject the delete request if an active version (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+    public var ifNoneMatch: Swift.String?
+    /// Specifies the asset model version type (LATEST or ACTIVE) used in conjunction with If-Match or If-None-Match headers to determine the target ETag for the delete operation.
+    public var matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType?
 
     public init(
         assetModelId: Swift.String? = nil,
-        clientToken: Swift.String? = nil
+        clientToken: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        ifNoneMatch: Swift.String? = nil,
+        matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil
     )
     {
         self.assetModelId = assetModelId
         self.clientToken = clientToken
+        self.ifMatch = ifMatch
+        self.ifNoneMatch = ifNoneMatch
+        self.matchForVersionType = matchForVersionType
     }
 }
 
@@ -4572,16 +4683,28 @@ public struct DeleteAssetModelCompositeModelInput {
     public var assetModelId: Swift.String?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
+    /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType). The delete request is rejected if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html) in the IoT SiteWise User Guide.
+    public var ifMatch: Swift.String?
+    /// Accepts * to reject the delete request if an active version (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+    public var ifNoneMatch: Swift.String?
+    /// Specifies the asset model version type (LATEST or ACTIVE) used in conjunction with If-Match or If-None-Match headers to determine the target ETag for the delete operation.
+    public var matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType?
 
     public init(
         assetModelCompositeModelId: Swift.String? = nil,
         assetModelId: Swift.String? = nil,
-        clientToken: Swift.String? = nil
+        clientToken: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        ifNoneMatch: Swift.String? = nil,
+        matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil
     )
     {
         self.assetModelCompositeModelId = assetModelCompositeModelId
         self.assetModelId = assetModelId
         self.clientToken = clientToken
+        self.ifMatch = ifMatch
+        self.ifNoneMatch = ifNoneMatch
+        self.matchForVersionType = matchForVersionType
     }
 }
 
@@ -4975,15 +5098,19 @@ public struct DescribeAssetModelInput {
     /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
+    /// The version alias that specifies the latest or active version of the asset model. The details are returned in the response. The default value is LATEST. See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html) in the IoT SiteWise User Guide.
+    public var assetModelVersion: Swift.String?
     /// Whether or not to exclude asset model properties from the response.
     public var excludeProperties: Swift.Bool?
 
     public init(
         assetModelId: Swift.String? = nil,
+        assetModelVersion: Swift.String? = nil,
         excludeProperties: Swift.Bool? = nil
     )
     {
         self.assetModelId = assetModelId
+        self.assetModelVersion = assetModelVersion
         self.excludeProperties = excludeProperties
     }
 }
@@ -5028,6 +5155,10 @@ public struct DescribeAssetModelOutput {
     ///
     /// * COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
     public var assetModelType: IoTSiteWiseClientTypes.AssetModelType?
+    /// The version of the asset model. See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html) in the IoT SiteWise User Guide.
+    public var assetModelVersion: Swift.String?
+    /// The entity tag (ETag) is a hash of the retrieved version of the asset model. It's used to make concurrent updates safely to the resource. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html) in the IoT SiteWise User Guide. See [ Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html) in the IoT SiteWise User Guide.
+    public var eTag: Swift.String?
 
     public init(
         assetModelArn: Swift.String? = nil,
@@ -5042,7 +5173,9 @@ public struct DescribeAssetModelOutput {
         assetModelName: Swift.String? = nil,
         assetModelProperties: [IoTSiteWiseClientTypes.AssetModelProperty]? = nil,
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil,
-        assetModelType: IoTSiteWiseClientTypes.AssetModelType? = nil
+        assetModelType: IoTSiteWiseClientTypes.AssetModelType? = nil,
+        assetModelVersion: Swift.String? = nil,
+        eTag: Swift.String? = nil
     )
     {
         self.assetModelArn = assetModelArn
@@ -5058,6 +5191,8 @@ public struct DescribeAssetModelOutput {
         self.assetModelProperties = assetModelProperties
         self.assetModelStatus = assetModelStatus
         self.assetModelType = assetModelType
+        self.assetModelVersion = assetModelVersion
+        self.eTag = eTag
     }
 }
 
@@ -5068,14 +5203,18 @@ public struct DescribeAssetModelCompositeModelInput {
     /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
+    /// The version alias that specifies the latest or active version of the asset model. The details are returned in the response. The default value is LATEST. See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html) in the IoT SiteWise User Guide.
+    public var assetModelVersion: Swift.String?
 
     public init(
         assetModelCompositeModelId: Swift.String? = nil,
-        assetModelId: Swift.String? = nil
+        assetModelId: Swift.String? = nil,
+        assetModelVersion: Swift.String? = nil
     )
     {
         self.assetModelCompositeModelId = assetModelCompositeModelId
         self.assetModelId = assetModelId
+        self.assetModelVersion = assetModelVersion
     }
 }
 
@@ -5604,6 +5743,7 @@ extension IoTSiteWiseClientTypes {
 
     public enum CapabilitySyncStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case inSync
+        case notApplicable
         case outOfSync
         case syncFailed
         case unknown
@@ -5612,6 +5752,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [CapabilitySyncStatus] {
             return [
                 .inSync,
+                .notApplicable,
                 .outOfSync,
                 .syncFailed,
                 .unknown
@@ -5626,6 +5767,7 @@ extension IoTSiteWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .inSync: return "IN_SYNC"
+            case .notApplicable: return "NOT_APPLICABLE"
             case .outOfSync: return "OUT_OF_SYNC"
             case .syncFailed: return "SYNC_FAILED"
             case .unknown: return "UNKNOWN"
@@ -6998,6 +7140,8 @@ public struct ListAssetModelCompositeModelsInput {
     /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
+    /// The version alias that specifies the latest or active version of the asset model. The details are returned in the response. The default value is LATEST. See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html) in the IoT SiteWise User Guide.
+    public var assetModelVersion: Swift.String?
     /// The maximum number of results to return for each paginated request. Default: 50
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -7005,11 +7149,13 @@ public struct ListAssetModelCompositeModelsInput {
 
     public init(
         assetModelId: Swift.String? = nil,
+        assetModelVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.assetModelId = assetModelId
+        self.assetModelVersion = assetModelVersion
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7065,6 +7211,8 @@ public struct ListAssetModelPropertiesInput {
     /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
+    /// The version alias that specifies the latest or active version of the asset model. The details are returned in the response. The default value is LATEST. See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html) in the IoT SiteWise User Guide.
+    public var assetModelVersion: Swift.String?
     /// Filters the requested list of asset model properties. You can choose one of the following options:
     ///
     /// * ALL – The list includes all asset model properties for a given asset model ID.
@@ -7081,12 +7229,14 @@ public struct ListAssetModelPropertiesInput {
 
     public init(
         assetModelId: Swift.String? = nil,
+        assetModelVersion: Swift.String? = nil,
         filter: IoTSiteWiseClientTypes.ListAssetModelPropertiesFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.assetModelId = assetModelId
+        self.assetModelVersion = assetModelVersion
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7111,12 +7261,14 @@ public struct ListAssetModelPropertiesOutput {
 }
 
 public struct ListAssetModelsInput {
-    /// The type of asset model.
+    /// The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.
     ///
-    /// * ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.
+    /// * ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.
     ///
     /// * COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
     public var assetModelTypes: [IoTSiteWiseClientTypes.AssetModelType]?
+    /// The version alias that specifies the latest or active version of the asset model. The details are returned in the response. The default value is LATEST. See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html) in the IoT SiteWise User Guide.
+    public var assetModelVersion: Swift.String?
     /// The maximum number of results to return for each paginated request. Default: 50
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -7124,11 +7276,13 @@ public struct ListAssetModelsInput {
 
     public init(
         assetModelTypes: [IoTSiteWiseClientTypes.AssetModelType]? = nil,
+        assetModelVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.assetModelTypes = assetModelTypes
+        self.assetModelVersion = assetModelVersion
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7410,7 +7564,7 @@ public struct ListAssociatedAssetsInput {
     /// The ID of the asset to query. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
-    /// The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.) To find a hierarchy ID, use the [DescribeAsset](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAsset.html) or [DescribeAssetModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html) operations. This parameter is required if you choose CHILD for traversalDirection. For more information, see [Asset hierarchies](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html) in the IoT SiteWise User Guide.
+    /// (Optional) If you don't provide a hierarchyId, all the immediate assets in the traversalDirection will be returned. The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.) For more information, see [Asset hierarchies](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html) in the IoT SiteWise User Guide.
     public var hierarchyId: Swift.String?
     /// The maximum number of results to return for each paginated request. Default: 50
     public var maxResults: Swift.Int?
@@ -7418,7 +7572,7 @@ public struct ListAssociatedAssetsInput {
     public var nextToken: Swift.String?
     /// The direction to list associated assets. Choose one of the following options:
     ///
-    /// * CHILD – The list includes all child assets associated to the asset. The hierarchyId parameter is required if you choose CHILD.
+    /// * CHILD – The list includes all child assets associated to the asset.
     ///
     /// * PARENT – The list includes the asset's parent asset.
     ///
@@ -7743,7 +7897,7 @@ extension IoTSiteWiseClientTypes {
         /// The ID of the gateway device.
         /// This member is required.
         public var gatewayId: Swift.String?
-        /// The name of the asset.
+        /// The name of the gateway.
         /// This member is required.
         public var gatewayName: Swift.String?
         /// Contains a gateway's platform information.
@@ -8465,7 +8619,7 @@ public struct UpdateAssetOutput {
 }
 
 public struct UpdateAssetModelInput {
-    /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model. When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html). For more information, see .
+    /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model. When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html). For more information, see [Creating custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html) in the IoT SiteWise User Guide.
     public var assetModelCompositeModels: [IoTSiteWiseClientTypes.AssetModelCompositeModel]?
     /// A description for the asset model.
     public var assetModelDescription: Swift.String?
@@ -8476,13 +8630,19 @@ public struct UpdateAssetModelInput {
     /// The ID of the asset model to update. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
-    /// A unique, friendly name for the asset model.
+    /// A unique name for the asset model.
     /// This member is required.
     public var assetModelName: Swift.String?
     /// The updated property definitions of the asset model. For more information, see [Asset properties](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html) in the IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     public var assetModelProperties: [IoTSiteWiseClientTypes.AssetModelProperty]?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
+    /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType). The update request is rejected if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html) in the IoT SiteWise User Guide.
+    public var ifMatch: Swift.String?
+    /// Accepts * to reject the update request if an active version (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+    public var ifNoneMatch: Swift.String?
+    /// Specifies the asset model version type (LATEST or ACTIVE) used in conjunction with If-Match or If-None-Match headers to determine the target ETag for the update operation.
+    public var matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType?
 
     public init(
         assetModelCompositeModels: [IoTSiteWiseClientTypes.AssetModelCompositeModel]? = nil,
@@ -8492,7 +8652,10 @@ public struct UpdateAssetModelInput {
         assetModelId: Swift.String? = nil,
         assetModelName: Swift.String? = nil,
         assetModelProperties: [IoTSiteWiseClientTypes.AssetModelProperty]? = nil,
-        clientToken: Swift.String? = nil
+        clientToken: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        ifNoneMatch: Swift.String? = nil,
+        matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil
     )
     {
         self.assetModelCompositeModels = assetModelCompositeModels
@@ -8503,6 +8666,9 @@ public struct UpdateAssetModelInput {
         self.assetModelName = assetModelName
         self.assetModelProperties = assetModelProperties
         self.clientToken = clientToken
+        self.ifMatch = ifMatch
+        self.ifNoneMatch = ifNoneMatch
+        self.matchForVersionType = matchForVersionType
     }
 }
 
@@ -8527,16 +8693,22 @@ public struct UpdateAssetModelCompositeModelInput {
     /// The ID of a composite model on this asset model.
     /// This member is required.
     public var assetModelCompositeModelId: Swift.String?
-    /// A unique, friendly name for the composite model.
+    /// A unique name for the composite model.
     /// This member is required.
     public var assetModelCompositeModelName: Swift.String?
-    /// The property definitions of the composite model. For more information, see . You can specify up to 200 properties per composite model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    /// The property definitions of the composite model. For more information, see [ Inline custom composite models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models) in the IoT SiteWise User Guide. You can specify up to 200 properties per composite model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     public var assetModelCompositeModelProperties: [IoTSiteWiseClientTypes.AssetModelProperty]?
     /// The ID of the asset model, in UUID format.
     /// This member is required.
     public var assetModelId: Swift.String?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
+    /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType). The update request is rejected if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html) in the IoT SiteWise User Guide.
+    public var ifMatch: Swift.String?
+    /// Accepts * to reject the update request if an active version (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+    public var ifNoneMatch: Swift.String?
+    /// Specifies the asset model version type (LATEST or ACTIVE) used in conjunction with If-Match or If-None-Match headers to determine the target ETag for the update operation.
+    public var matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType?
 
     public init(
         assetModelCompositeModelDescription: Swift.String? = nil,
@@ -8545,7 +8717,10 @@ public struct UpdateAssetModelCompositeModelInput {
         assetModelCompositeModelName: Swift.String? = nil,
         assetModelCompositeModelProperties: [IoTSiteWiseClientTypes.AssetModelProperty]? = nil,
         assetModelId: Swift.String? = nil,
-        clientToken: Swift.String? = nil
+        clientToken: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        ifNoneMatch: Swift.String? = nil,
+        matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil
     )
     {
         self.assetModelCompositeModelDescription = assetModelCompositeModelDescription
@@ -8555,6 +8730,9 @@ public struct UpdateAssetModelCompositeModelInput {
         self.assetModelCompositeModelProperties = assetModelCompositeModelProperties
         self.assetModelId = assetModelId
         self.clientToken = clientToken
+        self.ifMatch = ifMatch
+        self.ifNoneMatch = ifNoneMatch
+        self.matchForVersionType = matchForVersionType
     }
 }
 
@@ -8650,7 +8828,7 @@ public struct UpdateGatewayInput {
     /// The ID of the gateway to update.
     /// This member is required.
     public var gatewayId: Swift.String?
-    /// A unique, friendly name for the gateway.
+    /// A unique name for the gateway.
     /// This member is required.
     public var gatewayName: Swift.String?
 
@@ -9021,6 +9199,23 @@ extension CreateAssetModelCompositeModelInput {
     }
 }
 
+extension CreateAssetModelCompositeModelInput {
+
+    static func headerProvider(_ value: CreateAssetModelCompositeModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        if let ifNoneMatch = value.ifNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
+        }
+        if let matchForVersionType = value.matchForVersionType {
+            items.add(SmithyHTTPAPI.Header(name: "Match-For-Version-Type", value: Swift.String(matchForVersionType.rawValue)))
+        }
+        return items
+    }
+}
+
 extension CreateBulkImportJobInput {
 
     static func urlPathProvider(_ value: CreateBulkImportJobInput) -> Swift.String? {
@@ -9112,6 +9307,23 @@ extension DeleteAssetModelInput {
 
 extension DeleteAssetModelInput {
 
+    static func headerProvider(_ value: DeleteAssetModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        if let ifNoneMatch = value.ifNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
+        }
+        if let matchForVersionType = value.matchForVersionType {
+            items.add(SmithyHTTPAPI.Header(name: "Match-For-Version-Type", value: Swift.String(matchForVersionType.rawValue)))
+        }
+        return items
+    }
+}
+
+extension DeleteAssetModelInput {
+
     static func queryItemProvider(_ value: DeleteAssetModelInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
@@ -9132,6 +9344,23 @@ extension DeleteAssetModelCompositeModelInput {
             return nil
         }
         return "/asset-models/\(assetModelId.urlPercentEncoding())/composite-models/\(assetModelCompositeModelId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAssetModelCompositeModelInput {
+
+    static func headerProvider(_ value: DeleteAssetModelCompositeModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        if let ifNoneMatch = value.ifNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
+        }
+        if let matchForVersionType = value.matchForVersionType {
+            items.add(SmithyHTTPAPI.Header(name: "Match-For-Version-Type", value: Swift.String(matchForVersionType.rawValue)))
+        }
+        return items
     }
 }
 
@@ -9319,6 +9548,10 @@ extension DescribeAssetModelInput {
 
     static func queryItemProvider(_ value: DescribeAssetModelInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let assetModelVersion = value.assetModelVersion {
+            let assetModelVersionQueryItem = Smithy.URIQueryItem(name: "assetModelVersion".urlPercentEncoding(), value: Swift.String(assetModelVersion).urlPercentEncoding())
+            items.append(assetModelVersionQueryItem)
+        }
         if let excludeProperties = value.excludeProperties {
             let excludePropertiesQueryItem = Smithy.URIQueryItem(name: "excludeProperties".urlPercentEncoding(), value: Swift.String(excludeProperties).urlPercentEncoding())
             items.append(excludePropertiesQueryItem)
@@ -9337,6 +9570,18 @@ extension DescribeAssetModelCompositeModelInput {
             return nil
         }
         return "/asset-models/\(assetModelId.urlPercentEncoding())/composite-models/\(assetModelCompositeModelId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeAssetModelCompositeModelInput {
+
+    static func queryItemProvider(_ value: DescribeAssetModelCompositeModelInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let assetModelVersion = value.assetModelVersion {
+            let assetModelVersionQueryItem = Smithy.URIQueryItem(name: "assetModelVersion".urlPercentEncoding(), value: Swift.String(assetModelVersion).urlPercentEncoding())
+            items.append(assetModelVersionQueryItem)
+        }
+        return items
     }
 }
 
@@ -9849,6 +10094,10 @@ extension ListAssetModelCompositeModelsInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let assetModelVersion = value.assetModelVersion {
+            let assetModelVersionQueryItem = Smithy.URIQueryItem(name: "assetModelVersion".urlPercentEncoding(), value: Swift.String(assetModelVersion).urlPercentEncoding())
+            items.append(assetModelVersionQueryItem)
+        }
         return items
     }
 }
@@ -9879,6 +10128,10 @@ extension ListAssetModelPropertiesInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let assetModelVersion = value.assetModelVersion {
+            let assetModelVersionQueryItem = Smithy.URIQueryItem(name: "assetModelVersion".urlPercentEncoding(), value: Swift.String(assetModelVersion).urlPercentEncoding())
+            items.append(assetModelVersionQueryItem)
+        }
         return items
     }
 }
@@ -9901,6 +10154,10 @@ extension ListAssetModelsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        if let assetModelVersion = value.assetModelVersion {
+            let assetModelVersionQueryItem = Smithy.URIQueryItem(name: "assetModelVersion".urlPercentEncoding(), value: Swift.String(assetModelVersion).urlPercentEncoding())
+            items.append(assetModelVersionQueryItem)
         }
         if let assetModelTypes = value.assetModelTypes {
             assetModelTypes.forEach { queryItemValue in
@@ -10379,6 +10636,23 @@ extension UpdateAssetModelInput {
     }
 }
 
+extension UpdateAssetModelInput {
+
+    static func headerProvider(_ value: UpdateAssetModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        if let ifNoneMatch = value.ifNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
+        }
+        if let matchForVersionType = value.matchForVersionType {
+            items.add(SmithyHTTPAPI.Header(name: "Match-For-Version-Type", value: Swift.String(matchForVersionType.rawValue)))
+        }
+        return items
+    }
+}
+
 extension UpdateAssetModelCompositeModelInput {
 
     static func urlPathProvider(_ value: UpdateAssetModelCompositeModelInput) -> Swift.String? {
@@ -10389,6 +10663,23 @@ extension UpdateAssetModelCompositeModelInput {
             return nil
         }
         return "/asset-models/\(assetModelId.urlPercentEncoding())/composite-models/\(assetModelCompositeModelId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAssetModelCompositeModelInput {
+
+    static func headerProvider(_ value: UpdateAssetModelCompositeModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        if let ifNoneMatch = value.ifNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
+        }
+        if let matchForVersionType = value.matchForVersionType {
+            items.add(SmithyHTTPAPI.Header(name: "Match-For-Version-Type", value: Swift.String(matchForVersionType.rawValue)))
+        }
+        return items
     }
 }
 
@@ -11238,6 +11529,9 @@ extension DescribeAssetModelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAssetModelOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
         value.assetModelArn = try reader["assetModelArn"].readIfPresent()
         value.assetModelCompositeModelSummaries = try reader["assetModelCompositeModelSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelCompositeModelSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.assetModelCompositeModels = try reader["assetModelCompositeModels"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelCompositeModel.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11251,6 +11545,7 @@ extension DescribeAssetModelOutput {
         value.assetModelProperties = try reader["assetModelProperties"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.assetModelStatus = try reader["assetModelStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
         value.assetModelType = try reader["assetModelType"].readIfPresent()
+        value.assetModelVersion = try reader["assetModelVersion"].readIfPresent()
         return value
     }
 }
@@ -12165,6 +12460,7 @@ enum CreateAssetModelCompositeModelOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -12311,6 +12607,7 @@ enum DeleteAssetModelOutputError {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12329,6 +12626,7 @@ enum DeleteAssetModelCompositeModelOutputError {
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12361,6 +12659,7 @@ enum DeleteGatewayOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -13307,6 +13606,7 @@ enum UpdateAssetModelOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -13327,6 +13627,7 @@ enum UpdateAssetModelCompositeModelOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -13543,6 +13844,21 @@ extension ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PreconditionFailedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PreconditionFailedException {
+        let reader = baseError.errorBodyReader
+        var value = PreconditionFailedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -14232,13 +14548,13 @@ extension IoTSiteWiseClientTypes.AssetModelProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetModelProperty()
         value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.dataType = try reader["dataType"].readIfPresent()
         value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
         value.unit = try reader["unit"].readIfPresent()
         value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
         value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.externalId = try reader["externalId"].readIfPresent()
         return value
     }
 }
@@ -14495,9 +14811,9 @@ extension IoTSiteWiseClientTypes.AssetModelHierarchy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetModelHierarchy()
         value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.childAssetModelId = try reader["childAssetModelId"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
         return value
     }
 }
@@ -14718,6 +15034,7 @@ extension IoTSiteWiseClientTypes.GatewayPlatform {
         guard let value else { return }
         try writer["greengrass"].write(value.greengrass, with: IoTSiteWiseClientTypes.Greengrass.write(value:to:))
         try writer["greengrassV2"].write(value.greengrassV2, with: IoTSiteWiseClientTypes.GreengrassV2.write(value:to:))
+        try writer["siemensIE"].write(value.siemensIE, with: IoTSiteWiseClientTypes.SiemensIE.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.GatewayPlatform {
@@ -14725,6 +15042,22 @@ extension IoTSiteWiseClientTypes.GatewayPlatform {
         var value = IoTSiteWiseClientTypes.GatewayPlatform()
         value.greengrass = try reader["greengrass"].readIfPresent(with: IoTSiteWiseClientTypes.Greengrass.read(from:))
         value.greengrassV2 = try reader["greengrassV2"].readIfPresent(with: IoTSiteWiseClientTypes.GreengrassV2.read(from:))
+        value.siemensIE = try reader["siemensIE"].readIfPresent(with: IoTSiteWiseClientTypes.SiemensIE.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.SiemensIE {
+
+    static func write(value: IoTSiteWiseClientTypes.SiemensIE?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iotCoreThingName"].write(value.iotCoreThingName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.SiemensIE {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.SiemensIE()
+        value.iotCoreThingName = try reader["iotCoreThingName"].readIfPresent()
         return value
     }
 }
@@ -14967,6 +15300,7 @@ extension IoTSiteWiseClientTypes.AssetModelPropertySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetModelPropertySummary()
         value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.dataType = try reader["dataType"].readIfPresent()
         value.dataTypeSpec = try reader["dataTypeSpec"].readIfPresent()
@@ -14974,7 +15308,6 @@ extension IoTSiteWiseClientTypes.AssetModelPropertySummary {
         value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
         value.assetModelCompositeModelId = try reader["assetModelCompositeModelId"].readIfPresent()
         value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.externalId = try reader["externalId"].readIfPresent()
         return value
     }
 }
@@ -14985,14 +15318,15 @@ extension IoTSiteWiseClientTypes.AssetModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.AssetModelSummary()
         value.id = try reader["id"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.assetModelType = try reader["assetModelType"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: .epochSeconds)
         value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: .epochSeconds)
         value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
-        value.assetModelType = try reader["assetModelType"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }

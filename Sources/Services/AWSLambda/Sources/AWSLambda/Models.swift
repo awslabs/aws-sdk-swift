@@ -500,7 +500,7 @@ public struct AddPermissionInput {
     public var functionName: Swift.String?
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
-    /// The Amazon Web Service or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
+    /// The Amazon Web Servicesservice or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
     public var principal: Swift.String?
     /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
@@ -509,9 +509,9 @@ public struct AddPermissionInput {
     public var qualifier: Swift.String?
     /// Update the policy only if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
     public var revisionId: Swift.String?
-    /// For Amazon Web Service, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
+    /// For Amazon Web Servicesservice, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
     public var sourceAccount: Swift.String?
-    /// For Amazon Web Services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
+    /// For Amazon Web Servicesservices, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
     public var sourceArn: Swift.String?
     /// A statement identifier that differentiates the statement from others in the same policy.
     /// This member is required.
@@ -1318,6 +1318,8 @@ public struct CreateEventSourceMappingInput {
     public var functionName: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics). By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
+    public var kmsKeyArn: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
@@ -1356,6 +1358,7 @@ public struct CreateEventSourceMappingInput {
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         functionName: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -1381,6 +1384,7 @@ public struct CreateEventSourceMappingInput {
         self.filterCriteria = filterCriteria
         self.functionName = functionName
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -1397,6 +1401,26 @@ public struct CreateEventSourceMappingInput {
     }
 }
 
+extension LambdaClientTypes {
+    /// An object that contains details about an error related to filter criteria encryption.
+    public struct FilterCriteriaError {
+        /// The KMS exception that resulted from filter criteria encryption or decryption.
+        public var errorCode: Swift.String?
+        /// The error message.
+        public var message: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.message = message
+        }
+    }
+
+}
+
 /// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
 public struct CreateEventSourceMappingOutput {
     /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
@@ -1411,12 +1435,16 @@ public struct CreateEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
     /// The result of the last Lambda invocation of your function.
@@ -1462,8 +1490,10 @@ public struct CreateEventSourceMappingOutput {
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -1491,8 +1521,10 @@ public struct CreateEventSourceMappingOutput {
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3154,12 +3186,16 @@ public struct DeleteEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
     /// The result of the last Lambda invocation of your function.
@@ -3205,8 +3241,10 @@ public struct DeleteEventSourceMappingOutput {
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -3234,8 +3272,10 @@ public struct DeleteEventSourceMappingOutput {
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3558,12 +3598,16 @@ public struct GetEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
     /// The result of the last Lambda invocation of your function.
@@ -3609,8 +3653,10 @@ public struct GetEventSourceMappingOutput {
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -3638,8 +3684,10 @@ public struct GetEventSourceMappingOutput {
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -5960,12 +6008,16 @@ extension LambdaClientTypes {
         public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public var eventSourceArn: Swift.String?
-        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
         public var filterCriteria: LambdaClientTypes.FilterCriteria?
+        /// An object that contains details about an error related to filter criteria encryption.
+        public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
         /// The ARN of the Lambda function.
         public var functionArn: Swift.String?
         /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+        /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+        public var kmsKeyArn: Swift.String?
         /// The date that the event source mapping was last updated or that its state changed.
         public var lastModified: Foundation.Date?
         /// The result of the last Lambda invocation of your function.
@@ -6011,8 +6063,10 @@ extension LambdaClientTypes {
             documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
             eventSourceArn: Swift.String? = nil,
             filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+            filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
             functionArn: Swift.String? = nil,
             functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+            kmsKeyArn: Swift.String? = nil,
             lastModified: Foundation.Date? = nil,
             lastProcessingResult: Swift.String? = nil,
             maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -6040,8 +6094,10 @@ extension LambdaClientTypes {
             self.documentDBEventSourceConfig = documentDBEventSourceConfig
             self.eventSourceArn = eventSourceArn
             self.filterCriteria = filterCriteria
+            self.filterCriteriaError = filterCriteriaError
             self.functionArn = functionArn
             self.functionResponseTypes = functionResponseTypes
+            self.kmsKeyArn = kmsKeyArn
             self.lastModified = lastModified
             self.lastProcessingResult = lastProcessingResult
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -7571,6 +7627,8 @@ public struct UpdateEventSourceMappingInput {
     public var functionName: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics). By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
+    public var kmsKeyArn: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
@@ -7598,6 +7656,7 @@ public struct UpdateEventSourceMappingInput {
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         functionName: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -7616,6 +7675,7 @@ public struct UpdateEventSourceMappingInput {
         self.filterCriteria = filterCriteria
         self.functionName = functionName
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -7641,12 +7701,16 @@ public struct UpdateEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
     /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
     /// The result of the last Lambda invocation of your function.
@@ -7692,8 +7756,10 @@ public struct UpdateEventSourceMappingOutput {
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
@@ -7721,8 +7787,10 @@ public struct UpdateEventSourceMappingOutput {
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
         self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -9685,6 +9753,7 @@ extension CreateEventSourceMappingInput {
         try writer["FilterCriteria"].write(value.filterCriteria, with: LambdaClientTypes.FilterCriteria.write(value:to:))
         try writer["FunctionName"].write(value.functionName)
         try writer["FunctionResponseTypes"].writeList(value.functionResponseTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.FunctionResponseType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KMSKeyArn"].write(value.kmsKeyArn)
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
@@ -9880,6 +9949,7 @@ extension UpdateEventSourceMappingInput {
         try writer["FilterCriteria"].write(value.filterCriteria, with: LambdaClientTypes.FilterCriteria.write(value:to:))
         try writer["FunctionName"].write(value.functionName)
         try writer["FunctionResponseTypes"].writeList(value.functionResponseTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.FunctionResponseType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KMSKeyArn"].write(value.kmsKeyArn)
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
@@ -10019,8 +10089,10 @@ extension CreateEventSourceMappingOutput {
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
         value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -10135,8 +10207,10 @@ extension DeleteEventSourceMappingOutput {
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
         value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -10264,8 +10338,10 @@ extension GetEventSourceMappingOutput {
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
         value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -10950,8 +11026,10 @@ extension UpdateEventSourceMappingOutput {
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
         value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: .epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -13160,6 +13238,17 @@ extension LambdaClientTypes.DocumentDBEventSourceConfig {
     }
 }
 
+extension LambdaClientTypes.FilterCriteriaError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FilterCriteriaError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FilterCriteriaError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.VpcConfigResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.VpcConfigResponse {
@@ -13561,6 +13650,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration {
         value.selfManagedKafkaEventSourceConfig = try reader["SelfManagedKafkaEventSourceConfig"].readIfPresent(with: LambdaClientTypes.SelfManagedKafkaEventSourceConfig.read(from:))
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         return value
     }
 }
