@@ -23,7 +23,6 @@ class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
         "SDKAppliedContentEncoding_awsJson1_0",
         "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_0",
     )
-    override val tagsToIgnore = setOf("defaults")
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
         HttpBindingResolver = AWSJSONHttpBindingResolver(ctx, defaultContentType)
 

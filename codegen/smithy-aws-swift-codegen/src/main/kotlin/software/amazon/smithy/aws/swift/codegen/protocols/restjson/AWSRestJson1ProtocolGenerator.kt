@@ -14,6 +14,7 @@ class AWSRestJson1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestJSONCu
     override val testsToIgnore = setOf(
         "SDKAppliedContentEncoding_restJson1",
         "SDKAppendedGzipAfterProvidedEncoding_restJson1",
+        // This test is disabled until Smithy v1.51.0 with the fix for the test gets released.
+        "RestJsonClientIgnoresDefaultValuesIfMemberValuesArePresentInResponse"
     )
-    override val tagsToIgnore = setOf("defaults")
 }
