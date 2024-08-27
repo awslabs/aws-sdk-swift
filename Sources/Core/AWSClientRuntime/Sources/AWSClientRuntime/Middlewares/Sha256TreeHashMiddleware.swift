@@ -25,13 +25,7 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
     ) async throws {
         switch request.body {
         case .data(let data):
-            guard let data = data else {
-                return
-            }
-            if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
-                let sha256 = try data.computeSHA256().encodeToHexString()
-                builder.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: sha256)
-            }
+            break
         case .stream(let stream):
             let streamBytes: Data?
             let currentPosition = stream.position
