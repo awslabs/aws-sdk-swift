@@ -40,7 +40,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -247,7 +246,7 @@ extension IoTFleetHubClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationInput, CreateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationInput, CreateApplicationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationInput, CreateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -319,7 +318,7 @@ extension IoTFleetHubClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -389,7 +388,7 @@ extension IoTFleetHubClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationInput, DescribeApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -459,7 +458,7 @@ extension IoTFleetHubClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListApplicationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationsInput, ListApplicationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationsInput, ListApplicationsOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationsInput, ListApplicationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -528,7 +527,7 @@ extension IoTFleetHubClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -600,7 +599,7 @@ extension IoTFleetHubClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -670,7 +669,7 @@ extension IoTFleetHubClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -745,7 +744,7 @@ extension IoTFleetHubClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

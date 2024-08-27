@@ -40,7 +40,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -192,7 +191,7 @@ extension ChatbotClient {
 extension ChatbotClient {
     /// Performs the `CreateChimeWebhookConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Creates Chime Webhook Configuration
+    /// Creates an AWS Chatbot configuration for Amazon Chime.
     ///
     /// - Parameter CreateChimeWebhookConfigurationInput : [no documentation found]
     ///
@@ -203,8 +202,8 @@ extension ChatbotClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was an issue processing your request.
     /// - `CreateChimeWebhookConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     /// - `LimitExceededException` : You have exceeded a service limit for AWS Chatbot.
     public func createChimeWebhookConfiguration(input: CreateChimeWebhookConfigurationInput) async throws -> CreateChimeWebhookConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -245,7 +244,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChimeWebhookConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateChimeWebhookConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateChimeWebhookConfigurationInput, CreateChimeWebhookConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateChimeWebhookConfigurationInput, CreateChimeWebhookConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateChimeWebhookConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateChimeWebhookConfigurationInput, CreateChimeWebhookConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateChimeWebhookConfigurationInput, CreateChimeWebhookConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -266,7 +265,7 @@ extension ChatbotClient {
 
     /// Performs the `CreateMicrosoftTeamsChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Creates MS Teams Channel Configuration
+    /// Creates an AWS Chatbot configuration for Microsoft Teams.
     ///
     /// - Parameter CreateMicrosoftTeamsChannelConfigurationInput : [no documentation found]
     ///
@@ -277,8 +276,8 @@ extension ChatbotClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was an issue processing your request.
     /// - `CreateTeamsChannelConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     /// - `LimitExceededException` : You have exceeded a service limit for AWS Chatbot.
     public func createMicrosoftTeamsChannelConfiguration(input: CreateMicrosoftTeamsChannelConfigurationInput) async throws -> CreateMicrosoftTeamsChannelConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -319,7 +318,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMicrosoftTeamsChannelConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateMicrosoftTeamsChannelConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMicrosoftTeamsChannelConfigurationInput, CreateMicrosoftTeamsChannelConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMicrosoftTeamsChannelConfigurationInput, CreateMicrosoftTeamsChannelConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMicrosoftTeamsChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMicrosoftTeamsChannelConfigurationInput, CreateMicrosoftTeamsChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMicrosoftTeamsChannelConfigurationInput, CreateMicrosoftTeamsChannelConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -340,7 +339,7 @@ extension ChatbotClient {
 
     /// Performs the `CreateSlackChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Creates Slack Channel Configuration
+    /// Creates an AWS Chatbot confugration for Slack.
     ///
     /// - Parameter CreateSlackChannelConfigurationInput : [no documentation found]
     ///
@@ -351,8 +350,8 @@ extension ChatbotClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was an issue processing your request.
     /// - `CreateSlackChannelConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     /// - `LimitExceededException` : You have exceeded a service limit for AWS Chatbot.
     public func createSlackChannelConfiguration(input: CreateSlackChannelConfigurationInput) async throws -> CreateSlackChannelConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -393,7 +392,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSlackChannelConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateSlackChannelConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSlackChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -414,7 +413,7 @@ extension ChatbotClient {
 
     /// Performs the `DeleteChimeWebhookConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Deletes a Chime Webhook Configuration
+    /// Deletes a Amazon Chime webhook configuration for AWS Chatbot.
     ///
     /// - Parameter DeleteChimeWebhookConfigurationInput : [no documentation found]
     ///
@@ -424,9 +423,9 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DeleteChimeWebhookConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     public func deleteChimeWebhookConfiguration(input: DeleteChimeWebhookConfigurationInput) async throws -> DeleteChimeWebhookConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -466,7 +465,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChimeWebhookConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteChimeWebhookConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteChimeWebhookConfigurationInput, DeleteChimeWebhookConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteChimeWebhookConfigurationInput, DeleteChimeWebhookConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteChimeWebhookConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteChimeWebhookConfigurationInput, DeleteChimeWebhookConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteChimeWebhookConfigurationInput, DeleteChimeWebhookConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -487,7 +486,7 @@ extension ChatbotClient {
 
     /// Performs the `DeleteMicrosoftTeamsChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Deletes MS Teams Channel Configuration
+    /// Deletes a Microsoft Teams channel configuration for AWS Chatbot
     ///
     /// - Parameter DeleteMicrosoftTeamsChannelConfigurationInput : [no documentation found]
     ///
@@ -497,9 +496,9 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DeleteTeamsChannelConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     public func deleteMicrosoftTeamsChannelConfiguration(input: DeleteMicrosoftTeamsChannelConfigurationInput) async throws -> DeleteMicrosoftTeamsChannelConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -539,7 +538,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMicrosoftTeamsChannelConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteMicrosoftTeamsChannelConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMicrosoftTeamsChannelConfigurationInput, DeleteMicrosoftTeamsChannelConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMicrosoftTeamsChannelConfigurationInput, DeleteMicrosoftTeamsChannelConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMicrosoftTeamsChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMicrosoftTeamsChannelConfigurationInput, DeleteMicrosoftTeamsChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMicrosoftTeamsChannelConfigurationInput, DeleteMicrosoftTeamsChannelConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -570,7 +569,7 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DeleteTeamsConfiguredTeamException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     public func deleteMicrosoftTeamsConfiguredTeam(input: DeleteMicrosoftTeamsConfiguredTeamInput) async throws -> DeleteMicrosoftTeamsConfiguredTeamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -610,7 +609,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMicrosoftTeamsConfiguredTeamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteMicrosoftTeamsConfiguredTeamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMicrosoftTeamsConfiguredTeamInput, DeleteMicrosoftTeamsConfiguredTeamOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMicrosoftTeamsConfiguredTeamInput, DeleteMicrosoftTeamsConfiguredTeamOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMicrosoftTeamsConfiguredTeamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMicrosoftTeamsConfiguredTeamInput, DeleteMicrosoftTeamsConfiguredTeamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMicrosoftTeamsConfiguredTeamInput, DeleteMicrosoftTeamsConfiguredTeamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -631,7 +630,7 @@ extension ChatbotClient {
 
     /// Performs the `DeleteMicrosoftTeamsUserIdentity` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Deletes a Teams user identity
+    /// Identifes a user level permission for a channel configuration.
     ///
     /// - Parameter DeleteMicrosoftTeamsUserIdentityInput : [no documentation found]
     ///
@@ -641,8 +640,8 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DeleteMicrosoftTeamsUserIdentityException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     public func deleteMicrosoftTeamsUserIdentity(input: DeleteMicrosoftTeamsUserIdentityInput) async throws -> DeleteMicrosoftTeamsUserIdentityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -682,7 +681,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMicrosoftTeamsUserIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteMicrosoftTeamsUserIdentityOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMicrosoftTeamsUserIdentityInput, DeleteMicrosoftTeamsUserIdentityOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMicrosoftTeamsUserIdentityInput, DeleteMicrosoftTeamsUserIdentityOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMicrosoftTeamsUserIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMicrosoftTeamsUserIdentityInput, DeleteMicrosoftTeamsUserIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMicrosoftTeamsUserIdentityInput, DeleteMicrosoftTeamsUserIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -703,7 +702,7 @@ extension ChatbotClient {
 
     /// Performs the `DeleteSlackChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Deletes Slack Channel Configuration
+    /// Deletes a Slack channel configuration for AWS Chatbot
     ///
     /// - Parameter DeleteSlackChannelConfigurationInput : [no documentation found]
     ///
@@ -713,9 +712,9 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DeleteSlackChannelConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     public func deleteSlackChannelConfiguration(input: DeleteSlackChannelConfigurationInput) async throws -> DeleteSlackChannelConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -755,7 +754,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackChannelConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteSlackChannelConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSlackChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -776,7 +775,7 @@ extension ChatbotClient {
 
     /// Performs the `DeleteSlackUserIdentity` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Deletes a Slack user identity
+    /// Deletes a user level permission for a Slack channel configuration.
     ///
     /// - Parameter DeleteSlackUserIdentityInput : [no documentation found]
     ///
@@ -786,8 +785,8 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DeleteSlackUserIdentityException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     public func deleteSlackUserIdentity(input: DeleteSlackUserIdentityInput) async throws -> DeleteSlackUserIdentityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -827,7 +826,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackUserIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteSlackUserIdentityOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSlackUserIdentityInput, DeleteSlackUserIdentityOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSlackUserIdentityInput, DeleteSlackUserIdentityOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSlackUserIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSlackUserIdentityInput, DeleteSlackUserIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSlackUserIdentityInput, DeleteSlackUserIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -858,7 +857,7 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DeleteSlackWorkspaceAuthorizationFault` : There was an issue deleting your Slack workspace.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     public func deleteSlackWorkspaceAuthorization(input: DeleteSlackWorkspaceAuthorizationInput) async throws -> DeleteSlackWorkspaceAuthorizationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -898,7 +897,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackWorkspaceAuthorizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteSlackWorkspaceAuthorizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSlackWorkspaceAuthorizationInput, DeleteSlackWorkspaceAuthorizationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSlackWorkspaceAuthorizationInput, DeleteSlackWorkspaceAuthorizationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSlackWorkspaceAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSlackWorkspaceAuthorizationInput, DeleteSlackWorkspaceAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSlackWorkspaceAuthorizationInput, DeleteSlackWorkspaceAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -919,7 +918,7 @@ extension ChatbotClient {
 
     /// Performs the `DescribeChimeWebhookConfigurations` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Lists Chime Webhook Configurations optionally filtered by ChatConfigurationArn
+    /// Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
     ///
     /// - Parameter DescribeChimeWebhookConfigurationsInput : [no documentation found]
     ///
@@ -929,8 +928,8 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DescribeChimeWebhookConfigurationsException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     public func describeChimeWebhookConfigurations(input: DescribeChimeWebhookConfigurationsInput) async throws -> DescribeChimeWebhookConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -970,7 +969,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChimeWebhookConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeChimeWebhookConfigurationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeChimeWebhookConfigurationsInput, DescribeChimeWebhookConfigurationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeChimeWebhookConfigurationsInput, DescribeChimeWebhookConfigurationsOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeChimeWebhookConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeChimeWebhookConfigurationsInput, DescribeChimeWebhookConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeChimeWebhookConfigurationsInput, DescribeChimeWebhookConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -991,7 +990,7 @@ extension ChatbotClient {
 
     /// Performs the `DescribeSlackChannelConfigurations` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Lists Slack Channel Configurations optionally filtered by ChatConfigurationArn
+    /// Lists Slack channel configurations optionally filtered by ChatConfigurationArn
     ///
     /// - Parameter DescribeSlackChannelConfigurationsInput : [no documentation found]
     ///
@@ -1001,8 +1000,8 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DescribeSlackChannelConfigurationsException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     public func describeSlackChannelConfigurations(input: DescribeSlackChannelConfigurationsInput) async throws -> DescribeSlackChannelConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1042,7 +1041,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSlackChannelConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeSlackChannelConfigurationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSlackChannelConfigurationsInput, DescribeSlackChannelConfigurationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSlackChannelConfigurationsInput, DescribeSlackChannelConfigurationsOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSlackChannelConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSlackChannelConfigurationsInput, DescribeSlackChannelConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSlackChannelConfigurationsInput, DescribeSlackChannelConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1073,8 +1072,8 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DescribeSlackUserIdentitiesException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     public func describeSlackUserIdentities(input: DescribeSlackUserIdentitiesInput) async throws -> DescribeSlackUserIdentitiesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1114,7 +1113,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSlackUserIdentitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeSlackUserIdentitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSlackUserIdentitiesInput, DescribeSlackUserIdentitiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSlackUserIdentitiesInput, DescribeSlackUserIdentitiesOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSlackUserIdentitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSlackUserIdentitiesInput, DescribeSlackUserIdentitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSlackUserIdentitiesInput, DescribeSlackUserIdentitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1135,7 +1134,7 @@ extension ChatbotClient {
 
     /// Performs the `DescribeSlackWorkspaces` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Lists all authorized Slack Workspaces for AWS Account
+    /// List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
     ///
     /// - Parameter DescribeSlackWorkspacesInput : [no documentation found]
     ///
@@ -1145,8 +1144,8 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `DescribeSlackWorkspacesException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     public func describeSlackWorkspaces(input: DescribeSlackWorkspacesInput) async throws -> DescribeSlackWorkspacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1186,7 +1185,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSlackWorkspacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeSlackWorkspacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSlackWorkspacesInput, DescribeSlackWorkspacesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSlackWorkspacesInput, DescribeSlackWorkspacesOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSlackWorkspacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSlackWorkspacesInput, DescribeSlackWorkspacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSlackWorkspacesInput, DescribeSlackWorkspacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1207,7 +1206,7 @@ extension ChatbotClient {
 
     /// Performs the `GetAccountPreferences` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Get Chatbot account level preferences
+    /// Returns AWS Chatbot account preferences.
     ///
     /// - Parameter GetAccountPreferencesInput : [no documentation found]
     ///
@@ -1217,7 +1216,7 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `GetAccountPreferencesException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     public func getAccountPreferences(input: GetAccountPreferencesInput) async throws -> GetAccountPreferencesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1254,7 +1253,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountPreferencesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetAccountPreferencesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAccountPreferencesInput, GetAccountPreferencesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAccountPreferencesInput, GetAccountPreferencesOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccountPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAccountPreferencesInput, GetAccountPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAccountPreferencesInput, GetAccountPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1275,7 +1274,7 @@ extension ChatbotClient {
 
     /// Performs the `GetMicrosoftTeamsChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Get a single MS Teams Channel Configurations
+    /// Returns a Microsoft Teams channel configuration in an AWS account.
     ///
     /// - Parameter GetMicrosoftTeamsChannelConfigurationInput : [no documentation found]
     ///
@@ -1285,8 +1284,8 @@ extension ChatbotClient {
     ///
     /// __Possible Exceptions:__
     /// - `GetTeamsChannelConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     public func getMicrosoftTeamsChannelConfiguration(input: GetMicrosoftTeamsChannelConfigurationInput) async throws -> GetMicrosoftTeamsChannelConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1326,7 +1325,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMicrosoftTeamsChannelConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetMicrosoftTeamsChannelConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMicrosoftTeamsChannelConfigurationInput, GetMicrosoftTeamsChannelConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMicrosoftTeamsChannelConfigurationInput, GetMicrosoftTeamsChannelConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMicrosoftTeamsChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMicrosoftTeamsChannelConfigurationInput, GetMicrosoftTeamsChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMicrosoftTeamsChannelConfigurationInput, GetMicrosoftTeamsChannelConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1347,7 +1346,7 @@ extension ChatbotClient {
 
     /// Performs the `ListMicrosoftTeamsChannelConfigurations` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Lists MS Teams Channel Configurations optionally filtered by TeamId
+    /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
     ///
     /// - Parameter ListMicrosoftTeamsChannelConfigurationsInput : [no documentation found]
     ///
@@ -1356,8 +1355,8 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     /// - `ListTeamsChannelConfigurationsException` : We can’t process your request right now because of a server issue. Try again later.
     public func listMicrosoftTeamsChannelConfigurations(input: ListMicrosoftTeamsChannelConfigurationsInput) async throws -> ListMicrosoftTeamsChannelConfigurationsOutput {
         let context = Smithy.ContextBuilder()
@@ -1398,7 +1397,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMicrosoftTeamsChannelConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListMicrosoftTeamsChannelConfigurationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMicrosoftTeamsChannelConfigurationsInput, ListMicrosoftTeamsChannelConfigurationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMicrosoftTeamsChannelConfigurationsInput, ListMicrosoftTeamsChannelConfigurationsOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMicrosoftTeamsChannelConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMicrosoftTeamsChannelConfigurationsInput, ListMicrosoftTeamsChannelConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMicrosoftTeamsChannelConfigurationsInput, ListMicrosoftTeamsChannelConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1419,7 +1418,7 @@ extension ChatbotClient {
 
     /// Performs the `ListMicrosoftTeamsConfiguredTeams` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Lists all authorized MS teams for AWS Account
+    /// Lists all authorized Microsoft Teams for an AWS Account
     ///
     /// - Parameter ListMicrosoftTeamsConfiguredTeamsInput : [no documentation found]
     ///
@@ -1428,8 +1427,8 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     /// - `ListMicrosoftTeamsConfiguredTeamsException` : We can’t process your request right now because of a server issue. Try again later.
     public func listMicrosoftTeamsConfiguredTeams(input: ListMicrosoftTeamsConfiguredTeamsInput) async throws -> ListMicrosoftTeamsConfiguredTeamsOutput {
         let context = Smithy.ContextBuilder()
@@ -1470,7 +1469,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMicrosoftTeamsConfiguredTeamsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListMicrosoftTeamsConfiguredTeamsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMicrosoftTeamsConfiguredTeamsInput, ListMicrosoftTeamsConfiguredTeamsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMicrosoftTeamsConfiguredTeamsInput, ListMicrosoftTeamsConfiguredTeamsOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMicrosoftTeamsConfiguredTeamsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMicrosoftTeamsConfiguredTeamsInput, ListMicrosoftTeamsConfiguredTeamsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMicrosoftTeamsConfiguredTeamsInput, ListMicrosoftTeamsConfiguredTeamsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1491,7 +1490,7 @@ extension ChatbotClient {
 
     /// Performs the `ListMicrosoftTeamsUserIdentities` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Lists all Microsoft Teams user identities with a mapped role.
+    /// A list all Microsoft Teams user identities with a mapped role.
     ///
     /// - Parameter ListMicrosoftTeamsUserIdentitiesInput : [no documentation found]
     ///
@@ -1500,8 +1499,8 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     /// - `ListMicrosoftTeamsUserIdentitiesException` : We can’t process your request right now because of a server issue. Try again later.
     public func listMicrosoftTeamsUserIdentities(input: ListMicrosoftTeamsUserIdentitiesInput) async throws -> ListMicrosoftTeamsUserIdentitiesOutput {
         let context = Smithy.ContextBuilder()
@@ -1542,7 +1541,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMicrosoftTeamsUserIdentitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListMicrosoftTeamsUserIdentitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMicrosoftTeamsUserIdentitiesInput, ListMicrosoftTeamsUserIdentitiesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMicrosoftTeamsUserIdentitiesInput, ListMicrosoftTeamsUserIdentitiesOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMicrosoftTeamsUserIdentitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMicrosoftTeamsUserIdentitiesInput, ListMicrosoftTeamsUserIdentitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMicrosoftTeamsUserIdentitiesInput, ListMicrosoftTeamsUserIdentitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1563,7 +1562,7 @@ extension ChatbotClient {
 
     /// Performs the `ListTagsForResource` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Retrieves the list of tags applied to a configuration.
+    /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -1572,8 +1571,8 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : Customer/consumer-facing internal service exception. https://w.amazon.com/index.php/AWS/API_Standards/Exceptions#InternalServiceError
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InternalServiceError` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     /// - `ServiceUnavailableException` : We can’t process your request right now because of a server issue. Try again later.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -1614,7 +1613,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1635,7 +1634,7 @@ extension ChatbotClient {
 
     /// Performs the `TagResource` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Applies the supplied tags to a configuration.
+    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -1644,8 +1643,8 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : Customer/consumer-facing internal service exception. https://w.amazon.com/index.php/AWS/API_Standards/Exceptions#InternalServiceError
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InternalServiceError` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     /// - `ServiceUnavailableException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `TooManyTagsException` : The supplied list of tags contains too many tags.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
@@ -1687,7 +1686,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1708,7 +1707,7 @@ extension ChatbotClient {
 
     /// Performs the `UntagResource` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Removes the supplied tags from a configuration
+    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -1717,8 +1716,8 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : Customer/consumer-facing internal service exception. https://w.amazon.com/index.php/AWS/API_Standards/Exceptions#InternalServiceError
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InternalServiceError` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     /// - `ServiceUnavailableException` : We can’t process your request right now because of a server issue. Try again later.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -1759,7 +1758,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1780,7 +1779,7 @@ extension ChatbotClient {
 
     /// Performs the `UpdateAccountPreferences` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Update Chatbot account level preferences
+    /// Updates AWS Chatbot account preferences.
     ///
     /// - Parameter UpdateAccountPreferencesInput : [no documentation found]
     ///
@@ -1789,8 +1788,8 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
     /// - `UpdateAccountPreferencesException` : We can’t process your request right now because of a server issue. Try again later.
     public func updateAccountPreferences(input: UpdateAccountPreferencesInput) async throws -> UpdateAccountPreferencesOutput {
         let context = Smithy.ContextBuilder()
@@ -1831,7 +1830,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountPreferencesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateAccountPreferencesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAccountPreferencesInput, UpdateAccountPreferencesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAccountPreferencesInput, UpdateAccountPreferencesOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAccountPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAccountPreferencesInput, UpdateAccountPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAccountPreferencesInput, UpdateAccountPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1852,7 +1851,7 @@ extension ChatbotClient {
 
     /// Performs the `UpdateChimeWebhookConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Updates a Chime Webhook Configuration
+    /// Updates a Amazon Chime webhook configuration.
     ///
     /// - Parameter UpdateChimeWebhookConfigurationInput : [no documentation found]
     ///
@@ -1861,9 +1860,9 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     /// - `UpdateChimeWebhookConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
     public func updateChimeWebhookConfiguration(input: UpdateChimeWebhookConfigurationInput) async throws -> UpdateChimeWebhookConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -1904,7 +1903,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChimeWebhookConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateChimeWebhookConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateChimeWebhookConfigurationInput, UpdateChimeWebhookConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateChimeWebhookConfigurationInput, UpdateChimeWebhookConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateChimeWebhookConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateChimeWebhookConfigurationInput, UpdateChimeWebhookConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateChimeWebhookConfigurationInput, UpdateChimeWebhookConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1925,7 +1924,7 @@ extension ChatbotClient {
 
     /// Performs the `UpdateMicrosoftTeamsChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Updates MS Teams Channel Configuration
+    /// Updates an Microsoft Teams channel configuration.
     ///
     /// - Parameter UpdateMicrosoftTeamsChannelConfigurationInput : [no documentation found]
     ///
@@ -1934,9 +1933,9 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     /// - `UpdateTeamsChannelConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
     public func updateMicrosoftTeamsChannelConfiguration(input: UpdateMicrosoftTeamsChannelConfigurationInput) async throws -> UpdateMicrosoftTeamsChannelConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -1977,7 +1976,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMicrosoftTeamsChannelConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateMicrosoftTeamsChannelConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMicrosoftTeamsChannelConfigurationInput, UpdateMicrosoftTeamsChannelConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMicrosoftTeamsChannelConfigurationInput, UpdateMicrosoftTeamsChannelConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMicrosoftTeamsChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMicrosoftTeamsChannelConfigurationInput, UpdateMicrosoftTeamsChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMicrosoftTeamsChannelConfigurationInput, UpdateMicrosoftTeamsChannelConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1998,7 +1997,7 @@ extension ChatbotClient {
 
     /// Performs the `UpdateSlackChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
     ///
-    /// Updates Slack Channel Configuration
+    /// Updates a Slack channel configuration.
     ///
     /// - Parameter UpdateSlackChannelConfigurationInput : [no documentation found]
     ///
@@ -2007,9 +2006,9 @@ extension ChatbotClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `InvalidRequestException` : Your request input doesn't meet the constraints that AWS Chatbot requires.
-    /// - `ResourceNotFoundException` : We were not able to find the resource for your request.
+    /// - `InvalidParameterException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `InvalidRequestException` : Your request input doesn't meet the constraints required by AWS Chatbot.
+    /// - `ResourceNotFoundException` : We were unable to find the resource for your request
     /// - `UpdateSlackChannelConfigurationException` : We can’t process your request right now because of a server issue. Try again later.
     public func updateSlackChannelConfiguration(input: UpdateSlackChannelConfigurationInput) async throws -> UpdateSlackChannelConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -2050,7 +2049,7 @@ extension ChatbotClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSlackChannelConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateSlackChannelConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSlackChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

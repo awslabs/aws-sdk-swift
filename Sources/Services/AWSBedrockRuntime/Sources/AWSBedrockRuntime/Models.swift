@@ -105,7 +105,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The number of requests exceeds the service quota. Resubmit your request later.
+/// Your request exceeds the service quota for your account. You can view your quotas at [Viewing service quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/gs-request-quota.html). You can resubmit your request later.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -129,7 +129,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-/// The number of requests exceeds the limit. Resubmit your request later.
+/// Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) to increase the rate or number of tokens you can process.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1204,6 +1204,30 @@ public struct ModelTimeoutException: ClientRuntime.ModeledError, AWSClientRuntim
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ModelTimeoutException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The service isn't currently available. Try again later.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -2922,6 +2946,7 @@ enum ConverseOutputError {
             case "ModelNotReadyException": return try ModelNotReadyException.makeError(baseError: baseError)
             case "ModelTimeoutException": return try ModelTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2943,6 +2968,7 @@ enum ConverseStreamOutputError {
             case "ModelNotReadyException": return try ModelNotReadyException.makeError(baseError: baseError)
             case "ModelTimeoutException": return try ModelTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2965,6 +2991,7 @@ enum InvokeModelOutputError {
             case "ModelTimeoutException": return try ModelTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2988,6 +3015,7 @@ enum InvokeModelWithResponseStreamOutputError {
             case "ModelTimeoutException": return try ModelTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3086,6 +3114,19 @@ extension ModelTimeoutException {
     }
 }
 
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ModelNotReadyException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelNotReadyException {
@@ -3171,6 +3212,9 @@ extension BedrockRuntimeClientTypes.ConverseStreamOutput {
                     case "throttlingException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ThrottlingException.read(from:))
                         return value
+                    case "serviceUnavailableException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceUnavailableException.read(from:))
+                        return value
                     default:
                         let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
@@ -3217,6 +3261,9 @@ extension BedrockRuntimeClientTypes.ResponseStream {
                         return value
                     case "modelTimeoutException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ModelTimeoutException.read(from:))
+                        return value
+                    case "serviceUnavailableException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceUnavailableException.read(from:))
                         return value
                     default:
                         let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
@@ -3725,6 +3772,16 @@ extension BedrockRuntimeClientTypes.GuardrailTraceAssessment {
         value.modelOutput = try reader["modelOutput"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputAssessment = try reader["inputAssessment"].readMapIfPresent(valueReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.outputAssessments = try reader["outputAssessments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceUnavailableException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent()
         return value
     }
 }

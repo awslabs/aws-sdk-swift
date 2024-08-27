@@ -40,7 +40,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -242,7 +241,7 @@ extension FreeTierClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFreeTierUsageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetFreeTierUsageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>(xAmzTarget: "AWSFreeTierService.GetFreeTierUsage"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFreeTierUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>(contentType: "application/x-amz-json-1.0"))

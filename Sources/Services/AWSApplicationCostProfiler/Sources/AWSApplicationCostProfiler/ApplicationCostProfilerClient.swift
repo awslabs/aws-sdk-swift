@@ -41,7 +41,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -243,7 +242,7 @@ extension ApplicationCostProfilerClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReportDefinitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteReportDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteReportDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -313,7 +312,7 @@ extension ApplicationCostProfilerClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReportDefinitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetReportDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetReportDefinitionInput, GetReportDefinitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetReportDefinitionInput, GetReportDefinitionOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetReportDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetReportDefinitionInput, GetReportDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetReportDefinitionInput, GetReportDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -386,7 +385,7 @@ extension ApplicationCostProfilerClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportApplicationUsageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ImportApplicationUsageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportApplicationUsageInput, ImportApplicationUsageOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportApplicationUsageInput, ImportApplicationUsageOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportApplicationUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportApplicationUsageInput, ImportApplicationUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportApplicationUsageInput, ImportApplicationUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -457,7 +456,7 @@ extension ApplicationCostProfilerClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportDefinitionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListReportDefinitionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListReportDefinitionsInput, ListReportDefinitionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListReportDefinitionsInput, ListReportDefinitionsOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReportDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReportDefinitionsInput, ListReportDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListReportDefinitionsInput, ListReportDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -531,7 +530,7 @@ extension ApplicationCostProfilerClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutReportDefinitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutReportDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutReportDefinitionInput, PutReportDefinitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutReportDefinitionInput, PutReportDefinitionOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutReportDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutReportDefinitionInput, PutReportDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutReportDefinitionInput, PutReportDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -604,7 +603,7 @@ extension ApplicationCostProfilerClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReportDefinitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateReportDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateReportDefinitionInput, UpdateReportDefinitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateReportDefinitionInput, UpdateReportDefinitionOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateReportDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateReportDefinitionInput, UpdateReportDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateReportDefinitionInput, UpdateReportDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

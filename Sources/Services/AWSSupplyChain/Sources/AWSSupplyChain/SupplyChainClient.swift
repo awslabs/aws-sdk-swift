@@ -41,7 +41,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -250,7 +249,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBillOfMaterialsImportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateBillOfMaterialsImportJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBillOfMaterialsImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -323,7 +322,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillOfMaterialsImportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetBillOfMaterialsImportJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillOfMaterialsImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -400,7 +399,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SendDataIntegrationEventOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendDataIntegrationEventOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendDataIntegrationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

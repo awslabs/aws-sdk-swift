@@ -40,7 +40,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -257,7 +256,7 @@ extension TranscribeStreamingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCallAnalyticsStreamTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartCallAnalyticsStreamTranscriptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCallAnalyticsStreamTranscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -342,7 +341,7 @@ extension TranscribeStreamingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalStreamTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartMedicalStreamTranscriptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMedicalStreamTranscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -427,7 +426,7 @@ extension TranscribeStreamingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartStreamTranscriptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartStreamTranscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

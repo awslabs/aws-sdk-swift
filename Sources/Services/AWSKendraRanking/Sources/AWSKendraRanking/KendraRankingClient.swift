@@ -41,7 +41,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -249,7 +248,7 @@ extension KendraRankingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRescoreExecutionPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateRescoreExecutionPlanOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRescoreExecutionPlanInput, CreateRescoreExecutionPlanOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRescoreExecutionPlanInput, CreateRescoreExecutionPlanOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRescoreExecutionPlanInput, CreateRescoreExecutionPlanOutput>(xAmzTarget: "AWSKendraRerankingFrontendService.CreateRescoreExecutionPlan"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRescoreExecutionPlanInput, CreateRescoreExecutionPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRescoreExecutionPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRescoreExecutionPlanInput, CreateRescoreExecutionPlanOutput>(contentType: "application/x-amz-json-1.0"))
@@ -325,7 +324,7 @@ extension KendraRankingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRescoreExecutionPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteRescoreExecutionPlanOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRescoreExecutionPlanInput, DeleteRescoreExecutionPlanOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRescoreExecutionPlanInput, DeleteRescoreExecutionPlanOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRescoreExecutionPlanInput, DeleteRescoreExecutionPlanOutput>(xAmzTarget: "AWSKendraRerankingFrontendService.DeleteRescoreExecutionPlan"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRescoreExecutionPlanInput, DeleteRescoreExecutionPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRescoreExecutionPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRescoreExecutionPlanInput, DeleteRescoreExecutionPlanOutput>(contentType: "application/x-amz-json-1.0"))
@@ -400,7 +399,7 @@ extension KendraRankingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRescoreExecutionPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRescoreExecutionPlanOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRescoreExecutionPlanInput, DescribeRescoreExecutionPlanOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRescoreExecutionPlanInput, DescribeRescoreExecutionPlanOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRescoreExecutionPlanInput, DescribeRescoreExecutionPlanOutput>(xAmzTarget: "AWSKendraRerankingFrontendService.DescribeRescoreExecutionPlan"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRescoreExecutionPlanInput, DescribeRescoreExecutionPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRescoreExecutionPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRescoreExecutionPlanInput, DescribeRescoreExecutionPlanOutput>(contentType: "application/x-amz-json-1.0"))
@@ -475,7 +474,7 @@ extension KendraRankingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRescoreExecutionPlansOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListRescoreExecutionPlansOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput>(xAmzTarget: "AWSKendraRerankingFrontendService.ListRescoreExecutionPlans"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRescoreExecutionPlansInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput>(contentType: "application/x-amz-json-1.0"))
@@ -550,7 +549,7 @@ extension KendraRankingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSKendraRerankingFrontendService.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
@@ -626,7 +625,7 @@ extension KendraRankingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RescoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RescoreOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RescoreInput, RescoreOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RescoreInput, RescoreOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RescoreInput, RescoreOutput>(xAmzTarget: "AWSKendraRerankingFrontendService.Rescore"))
         builder.serialize(ClientRuntime.BodyMiddleware<RescoreInput, RescoreOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RescoreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RescoreInput, RescoreOutput>(contentType: "application/x-amz-json-1.0"))
@@ -701,7 +700,7 @@ extension KendraRankingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSKendraRerankingFrontendService.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
@@ -776,7 +775,7 @@ extension KendraRankingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSKendraRerankingFrontendService.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
@@ -853,7 +852,7 @@ extension KendraRankingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRescoreExecutionPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateRescoreExecutionPlanOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRescoreExecutionPlanInput, UpdateRescoreExecutionPlanOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRescoreExecutionPlanInput, UpdateRescoreExecutionPlanOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRescoreExecutionPlanInput, UpdateRescoreExecutionPlanOutput>(xAmzTarget: "AWSKendraRerankingFrontendService.UpdateRescoreExecutionPlan"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRescoreExecutionPlanInput, UpdateRescoreExecutionPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRescoreExecutionPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRescoreExecutionPlanInput, UpdateRescoreExecutionPlanOutput>(contentType: "application/x-amz-json-1.0"))

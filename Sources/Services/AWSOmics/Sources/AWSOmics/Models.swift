@@ -2624,13 +2624,13 @@ public struct CreateReferenceStoreOutput {
 }
 
 public struct CreateRunGroupInput {
-    /// The maximum number of CPUs to use in the group.
+    /// The maximum number of CPUs that can run concurrently across all active runs in the run group.
     public var maxCpus: Swift.Int?
-    /// A maximum run time for the group in minutes.
+    /// The maximum time for each run (in minutes). If a run exceeds the maximum run time, the run fails automatically.
     public var maxDuration: Swift.Int?
-    /// The maximum GPUs that can be used by a run group.
+    /// The maximum number of GPUs that can run concurrently across all active runs in the run group.
     public var maxGpus: Swift.Int?
-    /// The maximum number of concurrent runs for the group.
+    /// The maximum number of runs that can be running at the same time.
     public var maxRuns: Swift.Int?
     /// A name for the group.
     public var name: Swift.String?
@@ -2967,7 +2967,7 @@ public struct CreateWorkflowInput {
     /// To ensure that requests don't run multiple times, specify a unique ID for each request.
     /// This member is required.
     public var requestId: Swift.String?
-    /// The storage capacity for the workflow in gibibytes.
+    /// The default storage capacity for the workflow runs, in gibibytes.
     public var storageCapacity: Swift.Int?
     /// Tags for the workflow.
     public var tags: [Swift.String: Swift.String]?
@@ -3911,6 +3911,8 @@ extension OmicsClientTypes {
         public var generatedFrom: Swift.String?
         /// The source's name.
         public var name: Swift.String?
+        /// The source's read set ID.
+        public var readSetId: Swift.String?
         /// The source's genome reference ARN.
         public var referenceArn: Swift.String?
         /// The source's sample ID.
@@ -3937,6 +3939,7 @@ extension OmicsClientTypes {
             description: Swift.String? = nil,
             generatedFrom: Swift.String? = nil,
             name: Swift.String? = nil,
+            readSetId: Swift.String? = nil,
             referenceArn: Swift.String? = nil,
             sampleId: Swift.String? = nil,
             sourceFileType: OmicsClientTypes.FileType? = nil,
@@ -3950,6 +3953,7 @@ extension OmicsClientTypes {
             self.description = description
             self.generatedFrom = generatedFrom
             self.name = name
+            self.readSetId = readSetId
             self.referenceArn = referenceArn
             self.sampleId = sampleId
             self.sourceFileType = sourceFileType
@@ -4171,6 +4175,8 @@ public struct GetReadSetMetadataOutput {
     /// The read set's ARN.
     /// This member is required.
     public var arn: Swift.String?
+    /// The read set's creation job ID.
+    public var creationJobId: Swift.String?
     /// When the read set was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
@@ -4209,6 +4215,7 @@ public struct GetReadSetMetadataOutput {
 
     public init(
         arn: Swift.String? = nil,
+        creationJobId: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
         creationType: OmicsClientTypes.CreationType? = nil,
         description: Swift.String? = nil,
@@ -4227,6 +4234,7 @@ public struct GetReadSetMetadataOutput {
     )
     {
         self.arn = arn
+        self.creationJobId = creationJobId
         self.creationTime = creationTime
         self.creationType = creationType
         self.description = description
@@ -4377,6 +4385,8 @@ extension OmicsClientTypes {
         public var description: Swift.String?
         /// The source's name.
         public var name: Swift.String?
+        /// The source's reference ID.
+        public var referenceId: Swift.String?
         /// The source file's location in Amazon S3.
         public var sourceFile: Swift.String?
         /// The source's status.
@@ -4390,6 +4400,7 @@ extension OmicsClientTypes {
         public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            referenceId: Swift.String? = nil,
             sourceFile: Swift.String? = nil,
             status: OmicsClientTypes.ReferenceImportJobItemStatus? = nil,
             statusMessage: Swift.String? = nil,
@@ -4398,6 +4409,7 @@ extension OmicsClientTypes {
         {
             self.description = description
             self.name = name
+            self.referenceId = referenceId
             self.sourceFile = sourceFile
             self.status = status
             self.statusMessage = statusMessage
@@ -4516,6 +4528,32 @@ public struct GetReferenceMetadataInput {
 }
 
 extension OmicsClientTypes {
+
+    public enum ReferenceCreationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `import`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReferenceCreationType] {
+            return [
+                .import
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .import: return "IMPORT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OmicsClientTypes {
     /// A set of genome reference files.
     public struct ReferenceFiles {
         /// The files' index.
@@ -4571,9 +4609,13 @@ public struct GetReferenceMetadataOutput {
     /// The reference's ARN.
     /// This member is required.
     public var arn: Swift.String?
+    /// The reference's creation job ID.
+    public var creationJobId: Swift.String?
     /// When the reference was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
+    /// The reference's creation type.
+    public var creationType: OmicsClientTypes.ReferenceCreationType?
     /// The reference's description.
     public var description: Swift.String?
     /// The reference's files.
@@ -4597,7 +4639,9 @@ public struct GetReferenceMetadataOutput {
 
     public init(
         arn: Swift.String? = nil,
+        creationJobId: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
+        creationType: OmicsClientTypes.ReferenceCreationType? = nil,
         description: Swift.String? = nil,
         files: OmicsClientTypes.ReferenceFiles? = nil,
         id: Swift.String? = nil,
@@ -4609,7 +4653,9 @@ public struct GetReferenceMetadataOutput {
     )
     {
         self.arn = arn
+        self.creationJobId = creationJobId
         self.creationTime = creationTime
+        self.creationType = creationType
         self.description = description
         self.files = files
         self.id = id
@@ -5630,7 +5676,7 @@ public struct GetWorkflowOutput {
     public var status: OmicsClientTypes.WorkflowStatus?
     /// The workflow's status message.
     public var statusMessage: Swift.String?
-    /// The workflow's storage capacity in gibibytes.
+    /// The workflow's default run storage capacity in gibibytes.
     public var storageCapacity: Swift.Int?
     /// The workflow's tags.
     public var tags: [Swift.String: Swift.String]?
@@ -10278,6 +10324,7 @@ extension GetReadSetMetadataOutput {
         let reader = responseReader
         var value = GetReadSetMetadataOutput()
         value.arn = try reader["arn"].readIfPresent()
+        value.creationJobId = try reader["creationJobId"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: .dateTime)
         value.creationType = try reader["creationType"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
@@ -10340,7 +10387,9 @@ extension GetReferenceMetadataOutput {
         let reader = responseReader
         var value = GetReferenceMetadataOutput()
         value.arn = try reader["arn"].readIfPresent()
+        value.creationJobId = try reader["creationJobId"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: .dateTime)
+        value.creationType = try reader["creationType"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.files = try reader["files"].readIfPresent(with: OmicsClientTypes.ReferenceFiles.read(from:))
         value.id = try reader["id"].readIfPresent()
@@ -13067,6 +13116,7 @@ extension OmicsClientTypes.ImportReadSetSourceItem {
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.readSetId = try reader["readSetId"].readIfPresent()
         return value
     }
 }
@@ -13159,6 +13209,7 @@ extension OmicsClientTypes.ImportReferenceSourceItem {
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.referenceId = try reader["referenceId"].readIfPresent()
         return value
     }
 }

@@ -32,6 +32,15 @@ extension DescribeChimeWebhookConfigurationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == DescribeChimeWebhookConfigurationsInput, OperationStackOutput == DescribeChimeWebhookConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeChimeWebhookConfigurationsPaginated`
+    /// to access the nested member `[ChatbotClientTypes.ChimeWebhookConfiguration]`
+    /// - Returns: `[ChatbotClientTypes.ChimeWebhookConfiguration]`
+    public func webhookConfigurations() async throws -> [ChatbotClientTypes.ChimeWebhookConfiguration] {
+        return try await self.asyncCompactMap { item in item.webhookConfigurations }
+    }
+}
 extension ChatbotClient {
     /// Paginate over `[DescribeSlackChannelConfigurationsOutput]` results.
     ///
@@ -53,6 +62,15 @@ extension DescribeSlackChannelConfigurationsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSlackChannelConfigurationsInput, OperationStackOutput == DescribeSlackChannelConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSlackChannelConfigurationsPaginated`
+    /// to access the nested member `[ChatbotClientTypes.SlackChannelConfiguration]`
+    /// - Returns: `[ChatbotClientTypes.SlackChannelConfiguration]`
+    public func slackChannelConfigurations() async throws -> [ChatbotClientTypes.SlackChannelConfiguration] {
+        return try await self.asyncCompactMap { item in item.slackChannelConfigurations }
+    }
 }
 extension ChatbotClient {
     /// Paginate over `[DescribeSlackUserIdentitiesOutput]` results.
@@ -76,6 +94,15 @@ extension DescribeSlackUserIdentitiesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == DescribeSlackUserIdentitiesInput, OperationStackOutput == DescribeSlackUserIdentitiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSlackUserIdentitiesPaginated`
+    /// to access the nested member `[ChatbotClientTypes.SlackUserIdentity]`
+    /// - Returns: `[ChatbotClientTypes.SlackUserIdentity]`
+    public func slackUserIdentities() async throws -> [ChatbotClientTypes.SlackUserIdentity] {
+        return try await self.asyncCompactMap { item in item.slackUserIdentities }
+    }
+}
 extension ChatbotClient {
     /// Paginate over `[DescribeSlackWorkspacesOutput]` results.
     ///
@@ -96,6 +123,15 @@ extension DescribeSlackWorkspacesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSlackWorkspacesInput, OperationStackOutput == DescribeSlackWorkspacesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSlackWorkspacesPaginated`
+    /// to access the nested member `[ChatbotClientTypes.SlackWorkspace]`
+    /// - Returns: `[ChatbotClientTypes.SlackWorkspace]`
+    public func slackWorkspaces() async throws -> [ChatbotClientTypes.SlackWorkspace] {
+        return try await self.asyncCompactMap { item in item.slackWorkspaces }
+    }
 }
 extension ChatbotClient {
     /// Paginate over `[ListMicrosoftTeamsChannelConfigurationsOutput]` results.
@@ -119,6 +155,15 @@ extension ListMicrosoftTeamsChannelConfigurationsInput: ClientRuntime.PaginateTo
             teamId: self.teamId
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListMicrosoftTeamsChannelConfigurationsInput, OperationStackOutput == ListMicrosoftTeamsChannelConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMicrosoftTeamsChannelConfigurationsPaginated`
+    /// to access the nested member `[ChatbotClientTypes.TeamsChannelConfiguration]`
+    /// - Returns: `[ChatbotClientTypes.TeamsChannelConfiguration]`
+    public func teamChannelConfigurations() async throws -> [ChatbotClientTypes.TeamsChannelConfiguration] {
+        return try await self.asyncCompactMap { item in item.teamChannelConfigurations }
+    }
+}
 extension ChatbotClient {
     /// Paginate over `[ListMicrosoftTeamsConfiguredTeamsOutput]` results.
     ///
@@ -139,6 +184,15 @@ extension ListMicrosoftTeamsConfiguredTeamsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMicrosoftTeamsConfiguredTeamsInput, OperationStackOutput == ListMicrosoftTeamsConfiguredTeamsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMicrosoftTeamsConfiguredTeamsPaginated`
+    /// to access the nested member `[ChatbotClientTypes.ConfiguredTeam]`
+    /// - Returns: `[ChatbotClientTypes.ConfiguredTeam]`
+    public func configuredTeams() async throws -> [ChatbotClientTypes.ConfiguredTeam] {
+        return try await self.asyncCompactMap { item in item.configuredTeams }
+    }
 }
 extension ChatbotClient {
     /// Paginate over `[ListMicrosoftTeamsUserIdentitiesOutput]` results.
@@ -161,4 +215,13 @@ extension ListMicrosoftTeamsUserIdentitiesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMicrosoftTeamsUserIdentitiesInput, OperationStackOutput == ListMicrosoftTeamsUserIdentitiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMicrosoftTeamsUserIdentitiesPaginated`
+    /// to access the nested member `[ChatbotClientTypes.TeamsUserIdentity]`
+    /// - Returns: `[ChatbotClientTypes.TeamsUserIdentity]`
+    public func teamsUserIdentities() async throws -> [ChatbotClientTypes.TeamsUserIdentity] {
+        return try await self.asyncCompactMap { item in item.teamsUserIdentities }
+    }
 }
