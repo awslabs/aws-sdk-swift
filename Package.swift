@@ -524,6 +524,7 @@ let serviceTargets: [String] = [
     "AWSOpsWorksCM",
     "AWSOrganizations",
     "AWSOutposts",
+    "AWSPCS",
     "AWSPI",
     "AWSPanorama",
     "AWSPaymentCryptography",
