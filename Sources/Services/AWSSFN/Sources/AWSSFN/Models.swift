@@ -20,6 +20,30 @@ import protocol ClientRuntime.ModeledError
 import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
+/// Activity already exists. EncryptionConfiguration may not be updated.
+public struct ActivityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ActivityAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// The specified activity does not exist.
 public struct ActivityDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -302,6 +326,30 @@ public struct ActivityWorkerLimitExceeded: ClientRuntime.ModeledError, AWSClient
     }
 }
 
+/// Received when encryptionConfiguration is specified but various conditions exist which make the configuration invalid. For example, if type is set to CUSTOMER_MANAGED_KMS_KEY, but kmsKeyId is null, or kmsDataKeyReusePeriodSeconds is not between 60 and 900, or the KMS key is not symmetric or inactive.
+public struct InvalidEncryptionConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEncryptionConfiguration" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// The provided name is not valid.
 public struct InvalidName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -311,6 +359,54 @@ public struct InvalidName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidName" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// Either your KMS key policy or API caller does not have the required permissions.
+public struct KmsAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsAccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
+public struct KmsThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsThrottlingException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -354,6 +450,60 @@ public struct TooManyTags: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 }
 
 extension SFNClientTypes {
+
+    public enum EncryptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOwnedKey
+        case customerManagedKmsKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionType] {
+            return [
+                .awsOwnedKey,
+                .customerManagedKmsKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOwnedKey: return "AWS_OWNED_KEY"
+            case .customerManagedKmsKey: return "CUSTOMER_MANAGED_KMS_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SFNClientTypes {
+    /// Settings to configure server-side encryption. For additional control over security, you can encrypt your data using a customer-managed key for Step Functions state machines and activities. You can configure a symmetric KMS key and data key reuse period when creating or updating a State Machine, and when creating an Activity. The execution history and state machine definition will be encrypted with the key applied to the State Machine. Activity inputs will be encrypted with the key applied to the Activity. Step Functions automatically enables encryption at rest using Amazon Web Services owned keys at no charge. However, KMS charges apply when using a customer managed key. For more information about pricing, see [Key Management Service pricing](https://aws.amazon.com/kms/pricing/). For more information on KMS, see [What is Key Management Service?](https://docs.aws.amazon.com/kms/latest/developerguide/overview.html)
+    public struct EncryptionConfiguration {
+        /// Maximum duration that Step Functions will reuse data keys. When the period expires, Step Functions will call GenerateDataKey. Only applies to customer managed keys.
+        public var kmsDataKeyReusePeriodSeconds: Swift.Int?
+        /// An alias, alias ARN, key ID, or key ARN of a symmetric encryption KMS key to encrypt data. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN.
+        public var kmsKeyId: Swift.String?
+        /// Encryption type
+        /// This member is required.
+        public var type: SFNClientTypes.EncryptionType?
+
+        public init(
+            kmsDataKeyReusePeriodSeconds: Swift.Int? = nil,
+            kmsKeyId: Swift.String? = nil,
+            type: SFNClientTypes.EncryptionType? = nil
+        )
+        {
+            self.kmsDataKeyReusePeriodSeconds = kmsDataKeyReusePeriodSeconds
+            self.kmsKeyId = kmsKeyId
+            self.type = type
+        }
+    }
+
+}
+
+extension SFNClientTypes {
     /// Tags are key-value pairs that can be associated with Step Functions state machines and activities. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     public struct Tag {
         /// The key of a tag.
@@ -374,6 +524,8 @@ extension SFNClientTypes {
 }
 
 public struct CreateActivityInput {
+    /// Settings to configure server-side encryption.
+    public var encryptionConfiguration: SFNClientTypes.EncryptionConfiguration?
     /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. A name must not contain:
     ///
     /// * white space
@@ -394,10 +546,12 @@ public struct CreateActivityInput {
     public var tags: [SFNClientTypes.Tag]?
 
     public init(
+        encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil,
         tags: [SFNClientTypes.Tag]? = nil
     )
     {
+        self.encryptionConfiguration = encryptionConfiguration
         self.name = name
         self.tags = tags
     }
@@ -493,7 +647,7 @@ public struct InvalidDefinition: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-///
+/// Configuration is not valid.
 public struct InvalidLoggingConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -613,7 +767,7 @@ public struct StateMachineLimitExceeded: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-///
+/// State machine type is not supported.
 public struct StateMachineTypeNotSupported: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -840,6 +994,8 @@ public struct CreateStateMachineInput {
     /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
     /// This member is required.
     public var definition: Swift.String?
+    /// Settings to configure server-side encryption.
+    public var encryptionConfiguration: SFNClientTypes.EncryptionConfiguration?
     /// Defines what execution history events are logged and where they are logged. By default, the level is set to OFF. For more information see [Log Levels](https://docs.aws.amazon.com/step-functions/latest/dg/cloudwatch-log-level.html) in the Step Functions User Guide.
     public var loggingConfiguration: SFNClientTypes.LoggingConfiguration?
     /// The name of the state machine. A name must not contain:
@@ -874,6 +1030,7 @@ public struct CreateStateMachineInput {
 
     public init(
         definition: Swift.String? = nil,
+        encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
         name: Swift.String? = nil,
         publish: Swift.Bool? = nil,
@@ -885,6 +1042,7 @@ public struct CreateStateMachineInput {
     )
     {
         self.definition = definition
+        self.encryptionConfiguration = encryptionConfiguration
         self.loggingConfiguration = loggingConfiguration
         self.name = name
         self.publish = publish
@@ -898,7 +1056,7 @@ public struct CreateStateMachineInput {
 
 extension CreateStateMachineInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateStateMachineInput(loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), publish: \(Swift.String(describing: publish)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", versionDescription: \"CONTENT_REDACTED\")"}
+        "CreateStateMachineInput(encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), publish: \(Swift.String(describing: publish)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", versionDescription: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateStateMachineOutput {
@@ -1133,6 +1291,8 @@ public struct DescribeActivityOutput {
     /// The date the activity is created.
     /// This member is required.
     public var creationDate: Foundation.Date?
+    /// Settings for configured server-side encryption.
+    public var encryptionConfiguration: SFNClientTypes.EncryptionConfiguration?
     /// The name of the activity. A name must not contain:
     ///
     /// * white space
@@ -1153,11 +1313,13 @@ public struct DescribeActivityOutput {
     public init(
         activityArn: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
+        encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil
     )
     {
         self.activityArn = activityArn
         self.creationDate = creationDate
+        self.encryptionConfiguration = encryptionConfiguration
         self.name = name
     }
 }
@@ -1186,16 +1348,115 @@ public struct ExecutionDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension SFNClientTypes {
+
+    public enum KmsKeyState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case disabled
+        case pendingDeletion
+        case pendingImport
+        case unavailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KmsKeyState] {
+            return [
+                .creating,
+                .disabled,
+                .pendingDeletion,
+                .pendingImport,
+                .unavailable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .disabled: return "DISABLED"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case .pendingImport: return "PENDING_IMPORT"
+            case .unavailable: return "UNAVAILABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The KMS key is not in valid state, for example: Disabled or Deleted.
+public struct KmsInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Current status of the KMS; key. For example: DISABLED, PENDING_DELETION, PENDING_IMPORT, UNAVAILABLE, CREATING.
+        public internal(set) var kmsKeyState: SFNClientTypes.KmsKeyState? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsInvalidStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        kmsKeyState: SFNClientTypes.KmsKeyState? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.kmsKeyState = kmsKeyState
+        self.properties.message = message
+    }
+}
+
+extension SFNClientTypes {
+
+    public enum IncludedData: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allData
+        case metadataOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludedData] {
+            return [
+                .allData,
+                .metadataOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allData: return "ALL_DATA"
+            case .metadataOnly: return "METADATA_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DescribeExecutionInput {
     /// The Amazon Resource Name (ARN) of the execution to describe.
     /// This member is required.
     public var executionArn: Swift.String?
+    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call DescribeStateMachine API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
+    public var includedData: SFNClientTypes.IncludedData?
 
     public init(
-        executionArn: Swift.String? = nil
+        executionArn: Swift.String? = nil,
+        includedData: SFNClientTypes.IncludedData? = nil
     )
     {
         self.executionArn = executionArn
+        self.includedData = includedData
     }
 }
 
@@ -1683,14 +1944,18 @@ public struct StateMachineDoesNotExist: ClientRuntime.ModeledError, AWSClientRun
 }
 
 public struct DescribeStateMachineInput {
+    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition. When calling a labelled ARN for an encrypted state machine, the includedData = METADATA_ONLY parameter will not apply because Step Functions needs to decrypt the entire state machine definition to get the Distributed Map state’s definition. In this case, the API caller needs to have kms:Decrypt permission.
+    public var includedData: SFNClientTypes.IncludedData?
     /// The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
     /// This member is required.
     public var stateMachineArn: Swift.String?
 
     public init(
+        includedData: SFNClientTypes.IncludedData? = nil,
         stateMachineArn: Swift.String? = nil
     )
     {
+        self.includedData = includedData
         self.stateMachineArn = stateMachineArn
     }
 }
@@ -1728,11 +1993,13 @@ public struct DescribeStateMachineOutput {
     /// The date the state machine is created. For a state machine version, creationDate is the date the version was created.
     /// This member is required.
     public var creationDate: Foundation.Date?
-    /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
+    /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html). If called with includedData = METADATA_ONLY, the returned definition will be {}.
     /// This member is required.
     public var definition: Swift.String?
     /// The description of the state machine version.
     public var description: Swift.String?
+    /// Settings to configure server-side encryption.
+    public var encryptionConfiguration: SFNClientTypes.EncryptionConfiguration?
     /// A user-defined or an auto-generated string that identifies a Map state. This parameter is present only if the stateMachineArn specified in input is a qualified state machine ARN.
     public var label: Swift.String?
     /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
@@ -1773,6 +2040,7 @@ public struct DescribeStateMachineOutput {
         creationDate: Foundation.Date? = nil,
         definition: Swift.String? = nil,
         description: Swift.String? = nil,
+        encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         label: Swift.String? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
         name: Swift.String? = nil,
@@ -1787,6 +2055,7 @@ public struct DescribeStateMachineOutput {
         self.creationDate = creationDate
         self.definition = definition
         self.description = description
+        self.encryptionConfiguration = encryptionConfiguration
         self.label = label
         self.loggingConfiguration = loggingConfiguration
         self.name = name
@@ -1801,7 +2070,7 @@ public struct DescribeStateMachineOutput {
 
 extension DescribeStateMachineOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeStateMachineOutput(creationDate: \(Swift.String(describing: creationDate)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "DescribeStateMachineOutput(creationDate: \(Swift.String(describing: creationDate)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeStateMachineAliasInput {
@@ -1858,12 +2127,16 @@ public struct DescribeStateMachineForExecutionInput {
     /// The Amazon Resource Name (ARN) of the execution you want state machine information for.
     /// This member is required.
     public var executionArn: Swift.String?
+    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
+    public var includedData: SFNClientTypes.IncludedData?
 
     public init(
-        executionArn: Swift.String? = nil
+        executionArn: Swift.String? = nil,
+        includedData: SFNClientTypes.IncludedData? = nil
     )
     {
         self.executionArn = executionArn
+        self.includedData = includedData
     }
 }
 
@@ -1871,6 +2144,8 @@ public struct DescribeStateMachineForExecutionOutput {
     /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
     /// This member is required.
     public var definition: Swift.String?
+    /// Settings to configure server-side encryption.
+    public var encryptionConfiguration: SFNClientTypes.EncryptionConfiguration?
     /// A user-defined or an auto-generated string that identifies a Map state. This ﬁeld is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
     public var label: Swift.String?
     /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
@@ -1896,6 +2171,7 @@ public struct DescribeStateMachineForExecutionOutput {
 
     public init(
         definition: Swift.String? = nil,
+        encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         label: Swift.String? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
         mapRunArn: Swift.String? = nil,
@@ -1908,6 +2184,7 @@ public struct DescribeStateMachineForExecutionOutput {
     )
     {
         self.definition = definition
+        self.encryptionConfiguration = encryptionConfiguration
         self.label = label
         self.loggingConfiguration = loggingConfiguration
         self.mapRunArn = mapRunArn
@@ -1922,7 +2199,7 @@ public struct DescribeStateMachineForExecutionOutput {
 
 extension DescribeStateMachineForExecutionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeStateMachineForExecutionOutput(label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), updateDate: \(Swift.String(describing: updateDate)), definition: \"CONTENT_REDACTED\")"}
+        "DescribeStateMachineForExecutionOutput(encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), updateDate: \(Swift.String(describing: updateDate)), definition: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetActivityTaskInput {
@@ -4069,6 +4346,8 @@ public struct StartExecutionOutput {
 }
 
 public struct StartSyncExecutionInput {
+    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
+    public var includedData: SFNClientTypes.IncludedData?
     /// The string that contains the JSON input data for the execution, for example: "input": "{\"first_name\" : \"test\"}" If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var input: Swift.String?
     /// The name of the execution.
@@ -4080,12 +4359,14 @@ public struct StartSyncExecutionInput {
     public var traceHeader: Swift.String?
 
     public init(
+        includedData: SFNClientTypes.IncludedData? = nil,
         input: Swift.String? = nil,
         name: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
         traceHeader: Swift.String? = nil
     )
     {
+        self.includedData = includedData
         self.input = input
         self.name = name
         self.stateMachineArn = stateMachineArn
@@ -4095,7 +4376,7 @@ public struct StartSyncExecutionInput {
 
 extension StartSyncExecutionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartSyncExecutionInput(name: \(Swift.String(describing: name)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), traceHeader: \(Swift.String(describing: traceHeader)), input: \"CONTENT_REDACTED\")"}
+        "StartSyncExecutionInput(includedData: \(Swift.String(describing: includedData)), name: \(Swift.String(describing: name)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), traceHeader: \(Swift.String(describing: traceHeader)), input: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
@@ -4627,6 +4908,8 @@ public struct MissingRequiredParameter: ClientRuntime.ModeledError, AWSClientRun
 public struct UpdateStateMachineInput {
     /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
     public var definition: Swift.String?
+    /// Settings to configure server-side encryption.
+    public var encryptionConfiguration: SFNClientTypes.EncryptionConfiguration?
     /// Use the LoggingConfiguration data type to set CloudWatch Logs options.
     public var loggingConfiguration: SFNClientTypes.LoggingConfiguration?
     /// Specifies whether the state machine version is published. The default is false. To publish a version after updating the state machine, set publish to true.
@@ -4643,6 +4926,7 @@ public struct UpdateStateMachineInput {
 
     public init(
         definition: Swift.String? = nil,
+        encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
         publish: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
@@ -4652,6 +4936,7 @@ public struct UpdateStateMachineInput {
     )
     {
         self.definition = definition
+        self.encryptionConfiguration = encryptionConfiguration
         self.loggingConfiguration = loggingConfiguration
         self.publish = publish
         self.roleArn = roleArn
@@ -4663,7 +4948,7 @@ public struct UpdateStateMachineInput {
 
 extension UpdateStateMachineInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateStateMachineInput(loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), publish: \(Swift.String(describing: publish)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), definition: \"CONTENT_REDACTED\", versionDescription: \"CONTENT_REDACTED\")"}
+        "UpdateStateMachineInput(encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), publish: \(Swift.String(describing: publish)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), definition: \"CONTENT_REDACTED\", versionDescription: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateStateMachineOutput {
@@ -4726,37 +5011,17 @@ public struct UpdateStateMachineAliasOutput {
     }
 }
 
-public struct ValidateStateMachineDefinitionInput {
-    /// The Amazon States Language definition of the state machine. For more information, see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) (ASL).
-    /// This member is required.
-    public var definition: Swift.String?
-    /// The target type of state machine for this definition. The default is STANDARD.
-    public var type: SFNClientTypes.StateMachineType?
-
-    public init(
-        definition: Swift.String? = nil,
-        type: SFNClientTypes.StateMachineType? = nil
-    )
-    {
-        self.definition = definition
-        self.type = type
-    }
-}
-
-extension ValidateStateMachineDefinitionInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ValidateStateMachineDefinitionInput(type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\")"}
-}
-
 extension SFNClientTypes {
 
     public enum ValidateStateMachineDefinitionSeverity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case error
+        case warning
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ValidateStateMachineDefinitionSeverity] {
             return [
-                .error
+                .error,
+                .warning
             ]
         }
 
@@ -4768,10 +5033,41 @@ extension SFNClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .error: return "ERROR"
+            case .warning: return "WARNING"
             case let .sdkUnknown(s): return s
             }
         }
     }
+}
+
+public struct ValidateStateMachineDefinitionInput {
+    /// The Amazon States Language definition of the state machine. For more information, see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) (ASL).
+    /// This member is required.
+    public var definition: Swift.String?
+    /// The maximum number of diagnostics that are returned per call. The default and maximum value is 100. Setting the value to 0 will also use the default of 100. If the number of diagnostics returned in the response exceeds maxResults, the value of the truncated field in the response will be set to true.
+    public var maxResults: Swift.Int?
+    /// Minimum level of diagnostics to return. ERROR returns only ERROR diagnostics, whereas WARNING returns both WARNING and ERROR diagnostics. The default is ERROR.
+    public var severity: SFNClientTypes.ValidateStateMachineDefinitionSeverity?
+    /// The target type of state machine for this definition. The default is STANDARD.
+    public var type: SFNClientTypes.StateMachineType?
+
+    public init(
+        definition: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        severity: SFNClientTypes.ValidateStateMachineDefinitionSeverity? = nil,
+        type: SFNClientTypes.StateMachineType? = nil
+    )
+    {
+        self.definition = definition
+        self.maxResults = maxResults
+        self.severity = severity
+        self.type = type
+    }
+}
+
+extension ValidateStateMachineDefinitionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ValidateStateMachineDefinitionInput(maxResults: \(Swift.String(describing: maxResults)), severity: \(Swift.String(describing: severity)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
@@ -4841,14 +5137,18 @@ public struct ValidateStateMachineDefinitionOutput {
     /// The result value will be OK when no syntax errors are found, or FAIL if the workflow definition does not pass verification.
     /// This member is required.
     public var result: SFNClientTypes.ValidateStateMachineDefinitionResultCode?
+    /// The result value will be true if the number of diagnostics found in the workflow definition exceeds maxResults. When all diagnostics results are returned, the value will be false.
+    public var truncated: Swift.Bool?
 
     public init(
         diagnostics: [SFNClientTypes.ValidateStateMachineDefinitionDiagnostic]? = nil,
-        result: SFNClientTypes.ValidateStateMachineDefinitionResultCode? = nil
+        result: SFNClientTypes.ValidateStateMachineDefinitionResultCode? = nil,
+        truncated: Swift.Bool? = nil
     )
     {
         self.diagnostics = diagnostics
         self.result = result
+        self.truncated = truncated
     }
 }
 
@@ -5115,6 +5415,7 @@ extension CreateActivityInput {
 
     static func write(value: CreateActivityInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: SFNClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["tags"].writeList(value.tags, memberWritingClosure: SFNClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -5125,6 +5426,7 @@ extension CreateStateMachineInput {
     static func write(value: CreateStateMachineInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["definition"].write(value.definition)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: SFNClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["loggingConfiguration"].write(value.loggingConfiguration, with: SFNClientTypes.LoggingConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["publish"].write(value.publish)
@@ -5191,6 +5493,7 @@ extension DescribeExecutionInput {
     static func write(value: DescribeExecutionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["executionArn"].write(value.executionArn)
+        try writer["includedData"].write(value.includedData)
     }
 }
 
@@ -5206,6 +5509,7 @@ extension DescribeStateMachineInput {
 
     static func write(value: DescribeStateMachineInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["includedData"].write(value.includedData)
         try writer["stateMachineArn"].write(value.stateMachineArn)
     }
 }
@@ -5223,6 +5527,7 @@ extension DescribeStateMachineForExecutionInput {
     static func write(value: DescribeStateMachineForExecutionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["executionArn"].write(value.executionArn)
+        try writer["includedData"].write(value.includedData)
     }
 }
 
@@ -5377,6 +5682,7 @@ extension StartSyncExecutionInput {
 
     static func write(value: StartSyncExecutionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["includedData"].write(value.includedData)
         try writer["input"].write(value.input)
         try writer["name"].write(value.name)
         try writer["stateMachineArn"].write(value.stateMachineArn)
@@ -5440,6 +5746,7 @@ extension UpdateStateMachineInput {
     static func write(value: UpdateStateMachineInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["definition"].write(value.definition)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: SFNClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["loggingConfiguration"].write(value.loggingConfiguration, with: SFNClientTypes.LoggingConfiguration.write(value:to:))
         try writer["publish"].write(value.publish)
         try writer["roleArn"].write(value.roleArn)
@@ -5464,6 +5771,8 @@ extension ValidateStateMachineDefinitionInput {
     static func write(value: ValidateStateMachineDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["definition"].write(value.definition)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["severity"].write(value.severity)
         try writer["type"].write(value.type)
     }
 }
@@ -5545,6 +5854,7 @@ extension DescribeActivityOutput {
         var value = DescribeActivityOutput()
         value.activityArn = try reader["activityArn"].readIfPresent()
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: .epochSeconds)
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: SFNClientTypes.EncryptionConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent()
         return value
     }
@@ -5614,6 +5924,7 @@ extension DescribeStateMachineOutput {
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: .epochSeconds)
         value.definition = try reader["definition"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: SFNClientTypes.EncryptionConfiguration.read(from:))
         value.label = try reader["label"].readIfPresent()
         value.loggingConfiguration = try reader["loggingConfiguration"].readIfPresent(with: SFNClientTypes.LoggingConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent()
@@ -5652,6 +5963,7 @@ extension DescribeStateMachineForExecutionOutput {
         let reader = responseReader
         var value = DescribeStateMachineForExecutionOutput()
         value.definition = try reader["definition"].readIfPresent()
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: SFNClientTypes.EncryptionConfiguration.read(from:))
         value.label = try reader["label"].readIfPresent()
         value.loggingConfiguration = try reader["loggingConfiguration"].readIfPresent(with: SFNClientTypes.LoggingConfiguration.read(from:))
         value.mapRunArn = try reader["mapRunArn"].readIfPresent()
@@ -5950,6 +6262,7 @@ extension ValidateStateMachineDefinitionOutput {
         var value = ValidateStateMachineDefinitionOutput()
         value.diagnostics = try reader["diagnostics"].readListIfPresent(memberReadingClosure: SFNClientTypes.ValidateStateMachineDefinitionDiagnostic.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.result = try reader["result"].readIfPresent()
+        value.truncated = try reader["truncated"].readIfPresent()
         return value
     }
 }
@@ -5962,8 +6275,12 @@ enum CreateActivityOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ActivityAlreadyExists": return try ActivityAlreadyExists.makeError(baseError: baseError)
             case "ActivityLimitExceeded": return try ActivityLimitExceeded.makeError(baseError: baseError)
+            case "InvalidEncryptionConfiguration": return try InvalidEncryptionConfiguration.makeError(baseError: baseError)
             case "InvalidName": return try InvalidName.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             case "TooManyTags": return try TooManyTags.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5981,9 +6298,12 @@ enum CreateStateMachineOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
             case "InvalidDefinition": return try InvalidDefinition.makeError(baseError: baseError)
+            case "InvalidEncryptionConfiguration": return try InvalidEncryptionConfiguration.makeError(baseError: baseError)
             case "InvalidLoggingConfiguration": return try InvalidLoggingConfiguration.makeError(baseError: baseError)
             case "InvalidName": return try InvalidName.makeError(baseError: baseError)
             case "InvalidTracingConfiguration": return try InvalidTracingConfiguration.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             case "StateMachineAlreadyExists": return try StateMachineAlreadyExists.makeError(baseError: baseError)
             case "StateMachineDeleting": return try StateMachineDeleting.makeError(baseError: baseError)
             case "StateMachineLimitExceeded": return try StateMachineLimitExceeded.makeError(baseError: baseError)
@@ -6102,6 +6422,9 @@ enum DescribeExecutionOutputError {
         switch baseError.code {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6131,6 +6454,9 @@ enum DescribeStateMachineOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             case "StateMachineDoesNotExist": return try StateMachineDoesNotExist.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6163,6 +6489,9 @@ enum DescribeStateMachineForExecutionOutputError {
         switch baseError.code {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6179,6 +6508,9 @@ enum GetActivityTaskOutputError {
             case "ActivityDoesNotExist": return try ActivityDoesNotExist.makeError(baseError: baseError)
             case "ActivityWorkerLimitExceeded": return try ActivityWorkerLimitExceeded.makeError(baseError: baseError)
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6195,6 +6527,9 @@ enum GetExecutionHistoryOutputError {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
             case "InvalidToken": return try InvalidToken.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6358,6 +6693,9 @@ enum SendTaskFailureOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidToken": return try InvalidToken.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             case "TaskDoesNotExist": return try TaskDoesNotExist.makeError(baseError: baseError)
             case "TaskTimedOut": return try TaskTimedOut.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6391,6 +6729,9 @@ enum SendTaskSuccessOutputError {
         switch baseError.code {
             case "InvalidOutput": return try InvalidOutput.makeError(baseError: baseError)
             case "InvalidToken": return try InvalidToken.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             case "TaskDoesNotExist": return try TaskDoesNotExist.makeError(baseError: baseError)
             case "TaskTimedOut": return try TaskTimedOut.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6411,6 +6752,9 @@ enum StartExecutionOutputError {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
             case "InvalidExecutionInput": return try InvalidExecutionInput.makeError(baseError: baseError)
             case "InvalidName": return try InvalidName.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             case "StateMachineDeleting": return try StateMachineDeleting.makeError(baseError: baseError)
             case "StateMachineDoesNotExist": return try StateMachineDoesNotExist.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6430,6 +6774,9 @@ enum StartSyncExecutionOutputError {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
             case "InvalidExecutionInput": return try InvalidExecutionInput.makeError(baseError: baseError)
             case "InvalidName": return try InvalidName.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             case "StateMachineDeleting": return try StateMachineDeleting.makeError(baseError: baseError)
             case "StateMachineDoesNotExist": return try StateMachineDoesNotExist.makeError(baseError: baseError)
             case "StateMachineTypeNotSupported": return try StateMachineTypeNotSupported.makeError(baseError: baseError)
@@ -6448,6 +6795,9 @@ enum StopExecutionOutputError {
         switch baseError.code {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6529,8 +6879,11 @@ enum UpdateStateMachineOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
             case "InvalidDefinition": return try InvalidDefinition.makeError(baseError: baseError)
+            case "InvalidEncryptionConfiguration": return try InvalidEncryptionConfiguration.makeError(baseError: baseError)
             case "InvalidLoggingConfiguration": return try InvalidLoggingConfiguration.makeError(baseError: baseError)
             case "InvalidTracingConfiguration": return try InvalidTracingConfiguration.makeError(baseError: baseError)
+            case "KmsAccessDeniedException": return try KmsAccessDeniedException.makeError(baseError: baseError)
+            case "KmsThrottlingException": return try KmsThrottlingException.makeError(baseError: baseError)
             case "MissingRequiredParameter": return try MissingRequiredParameter.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "StateMachineDeleting": return try StateMachineDeleting.makeError(baseError: baseError)
@@ -6587,11 +6940,63 @@ extension TooManyTags {
     }
 }
 
+extension KmsThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = KmsThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KmsAccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsAccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = KmsAccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ActivityAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActivityAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = ActivityAlreadyExists()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ActivityLimitExceeded {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActivityLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ActivityLimitExceeded()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidEncryptionConfiguration {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEncryptionConfiguration {
+        let reader = baseError.errorBodyReader
+        var value = InvalidEncryptionConfiguration()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6784,6 +7189,20 @@ extension ActivityDoesNotExist {
     }
 }
 
+extension KmsInvalidStateException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = KmsInvalidStateException()
+        value.properties.kmsKeyState = try reader["kmsKeyState"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ExecutionDoesNotExist {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionDoesNotExist {
@@ -6936,6 +7355,25 @@ extension MissingRequiredParameter {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension SFNClientTypes.EncryptionConfiguration {
+
+    static func write(value: SFNClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsDataKeyReusePeriodSeconds"].write(value.kmsDataKeyReusePeriodSeconds)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.EncryptionConfiguration()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.kmsDataKeyReusePeriodSeconds = try reader["kmsDataKeyReusePeriodSeconds"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

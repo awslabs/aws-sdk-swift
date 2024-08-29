@@ -22522,6 +22522,11 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.ColumnDescription: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ColumnDescription(text: \"CONTENT_REDACTED\")"}
+}
+
 extension QuickSightClientTypes {
 
     public enum GeoSpatialCountryCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -28964,6 +28969,11 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes.OutputColumn: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OutputColumn(name: \(Swift.String(describing: name)), subType: \(Swift.String(describing: subType)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
