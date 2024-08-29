@@ -8,7 +8,7 @@
 import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
 import class SmithyHTTPAPI.HTTPResponse
-import class SmithyJSON.Reader
+@_spi(SmithyReadWrite) import class SmithyJSON.Reader
 
 public struct RestJSONError: BaseError {
     public let code: String
@@ -17,7 +17,7 @@ public struct RestJSONError: BaseError {
 
     public let httpResponse: HTTPResponse
     private let responseReader: Reader
-    public var errorBodyReader: Reader { responseReader }
+    @_spi(SmithyReadWrite) public var errorBodyReader: Reader { responseReader }
 
     // header identifying the error code
     let X_AMZN_ERROR_TYPE_HEADER_NAME = "X-Amzn-Errortype"
@@ -31,6 +31,7 @@ public struct RestJSONError: BaseError {
     // error message header returned by event stream errors
     let X_AMZN_EVENT_ERROR_MESSAGE_HEADER_NAME = ":error-message"
 
+    @_spi(SmithyReadWrite)
     public init(httpResponse: HTTPResponse, responseReader: SmithyJSON.Reader, noErrorWrapping: Bool) throws {
         let type = try httpResponse.headers.value(for: X_AMZN_ERROR_TYPE_HEADER_NAME)
                    ?? responseReader["code"].readIfPresent()
