@@ -203,8 +203,12 @@ extension SFNClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ActivityAlreadyExists` : Activity already exists. EncryptionConfiguration may not be updated.
     /// - `ActivityLimitExceeded` : The maximum number of activities has been reached. Existing activities must be deleted before a new activity can be created.
+    /// - `InvalidEncryptionConfiguration` : Received when encryptionConfiguration is specified but various conditions exist which make the configuration invalid. For example, if type is set to CUSTOMER_MANAGED_KMS_KEY, but kmsKeyId is null, or kmsDataKeyReusePeriodSeconds is not between 60 and 900, or the KMS key is not symmetric or inactive.
     /// - `InvalidName` : The provided name is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
     public func createActivity(input: CreateActivityInput) async throws -> CreateActivityOutput {
         let context = Smithy.ContextBuilder()
@@ -267,7 +271,7 @@ extension SFNClient {
 
     /// Performs the `CreateStateMachine` operation on the `AWSStepFunctions` service.
     ///
-    /// Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) in the Step Functions User Guide. If you set the publish parameter of this API action to true, it publishes version 1 as the first revision of the state machine. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. CreateStateMachine is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateStateMachine's idempotency check is based on the state machine name, definition, type, LoggingConfiguration, and TracingConfiguration. The check is also based on the publish and versionDescription parameters. If a following request has a different roleArn or tags, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, roleArn and tags will not be updated, even if they are different.
+    /// Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) in the Step Functions User Guide. If you set the publish parameter of this API action to true, it publishes version 1 as the first revision of the state machine. For additional control over security, you can encrypt your data using a customer-managed key for Step Functions state machines. You can configure a symmetric KMS key and data key reuse period when creating or updating a State Machine. The execution history and state machine definition will be encrypted with the key applied to the State Machine. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. CreateStateMachine is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateStateMachine's idempotency check is based on the state machine name, definition, type, LoggingConfiguration, TracingConfiguration, and EncryptionConfiguration The check is also based on the publish and versionDescription parameters. If a following request has a different roleArn or tags, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, roleArn and tags will not be updated, even if they are different.
     ///
     /// - Parameter CreateStateMachineInput : [no documentation found]
     ///
@@ -279,13 +283,16 @@ extension SFNClient {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidDefinition` : The provided Amazon States Language definition is not valid.
-    /// - `InvalidLoggingConfiguration` :
+    /// - `InvalidEncryptionConfiguration` : Received when encryptionConfiguration is specified but various conditions exist which make the configuration invalid. For example, if type is set to CUSTOMER_MANAGED_KMS_KEY, but kmsKeyId is null, or kmsDataKeyReusePeriodSeconds is not between 60 and 900, or the KMS key is not symmetric or inactive.
+    /// - `InvalidLoggingConfiguration` : Configuration is not valid.
     /// - `InvalidName` : The provided name is not valid.
     /// - `InvalidTracingConfiguration` : Your tracingConfiguration key does not match, or enabled has not been set to true or false.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     /// - `StateMachineAlreadyExists` : A state machine with the same name but a different definition or role ARN already exists.
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineLimitExceeded` : The maximum number of state machines has been reached. Existing state machines must be deleted before a new state machine can be created.
-    /// - `StateMachineTypeNotSupported` :
+    /// - `StateMachineTypeNotSupported` : State machine type is not supported.
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func createStateMachine(input: CreateStateMachineInput) async throws -> CreateStateMachineOutput {
@@ -826,6 +833,9 @@ extension SFNClient {
     /// __Possible Exceptions:__
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -978,6 +988,9 @@ extension SFNClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     public func describeStateMachine(input: DescribeStateMachineInput) async throws -> DescribeStateMachineOutput {
         let context = Smithy.ContextBuilder()
@@ -1132,6 +1145,9 @@ extension SFNClient {
     /// __Possible Exceptions:__
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     public func describeStateMachineForExecution(input: DescribeStateMachineForExecutionInput) async throws -> DescribeStateMachineForExecutionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1205,6 +1221,9 @@ extension SFNClient {
     /// - `ActivityDoesNotExist` : The specified activity does not exist.
     /// - `ActivityWorkerLimitExceeded` : The maximum number of workers concurrently polling for activity tasks has been reached.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     public func getActivityTask(input: GetActivityTaskInput) async throws -> GetActivityTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1278,6 +1297,9 @@ extension SFNClient {
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidToken` : The provided token is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     public func getExecutionHistory(input: GetExecutionHistoryInput) async throws -> GetExecutionHistoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1423,7 +1445,7 @@ extension SFNClient {
     /// - `InvalidToken` : The provided token is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
-    /// - `StateMachineTypeNotSupported` :
+    /// - `StateMachineTypeNotSupported` : State machine type is not supported.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput {
         let context = Smithy.ContextBuilder()
@@ -2026,7 +2048,7 @@ extension SFNClient {
 
     /// Performs the `SendTaskFailure` operation on the `AWSStepFunctions` service.
     ///
-    /// Used by activity workers, Task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern, and optionally Task states using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync) pattern to report that the task identified by the taskToken failed.
+    /// Used by activity workers, Task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern, and optionally Task states using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync) pattern to report that the task identified by the taskToken failed. For an execution with encryption enabled, Step Functions will encrypt the error and cause fields using the KMS key for the execution role. A caller can mark a task as fail without using any KMS permissions in the execution role if the caller provides a null value for both error and cause fields because no data needs to be encrypted.
     ///
     /// - Parameter SendTaskFailureInput : [no documentation found]
     ///
@@ -2036,6 +2058,9 @@ extension SFNClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidToken` : The provided token is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     /// - `TaskDoesNotExist` : The activity does not exist.
     /// - `TaskTimedOut` : The task token has either expired or the task associated with the token has already been closed.
     public func sendTaskFailure(input: SendTaskFailureInput) async throws -> SendTaskFailureOutput {
@@ -2183,6 +2208,9 @@ extension SFNClient {
     /// __Possible Exceptions:__
     /// - `InvalidOutput` : The provided JSON output data is not valid.
     /// - `InvalidToken` : The provided token is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     /// - `TaskDoesNotExist` : The activity does not exist.
     /// - `TaskTimedOut` : The task token has either expired or the task associated with the token has already been closed.
     public func sendTaskSuccess(input: SendTaskSuccessInput) async throws -> SendTaskSuccessOutput {
@@ -2269,6 +2297,9 @@ extension SFNClient {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidExecutionInput` : The provided JSON input data is not valid.
     /// - `InvalidName` : The provided name is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
@@ -2345,9 +2376,12 @@ extension SFNClient {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidExecutionInput` : The provided JSON input data is not valid.
     /// - `InvalidName` : The provided name is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
-    /// - `StateMachineTypeNotSupported` :
+    /// - `StateMachineTypeNotSupported` : State machine type is not supported.
     public func startSyncExecution(input: StartSyncExecutionInput) async throws -> StartSyncExecutionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2409,7 +2443,7 @@ extension SFNClient {
 
     /// Performs the `StopExecution` operation on the `AWSStepFunctions` service.
     ///
-    /// Stops an execution. This API action is not supported by EXPRESS state machines.
+    /// Stops an execution. This API action is not supported by EXPRESS state machines. For an execution with encryption enabled, Step Functions will encrypt the error and cause fields using the KMS key for the execution role. A caller can stop an execution without using any KMS permissions in the execution role if the caller provides a null value for both error and cause fields because no data needs to be encrypted.
     ///
     /// - Parameter StopExecutionInput : [no documentation found]
     ///
@@ -2420,6 +2454,9 @@ extension SFNClient {
     /// __Possible Exceptions:__
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsInvalidStateException` : The KMS key is not in valid state, for example: Disabled or Deleted.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func stopExecution(input: StopExecutionInput) async throws -> StopExecutionOutput {
         let context = Smithy.ContextBuilder()
@@ -2798,7 +2835,7 @@ extension SFNClient {
 
     /// Performs the `UpdateStateMachine` operation on the `AWSStepFunctions` service.
     ///
-    /// Updates an existing state machine by modifying its definition, roleArn, or loggingConfiguration. Running executions will continue to use the previous definition and roleArn. You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error. A qualified state machine ARN refers to a Distributed Map state defined within a state machine. For example, the qualified state machine ARN arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel refers to a Distributed Map state with a label mapStateLabel in the state machine named stateMachineName. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state machine ARNs:
+    /// Updates an existing state machine by modifying its definition, roleArn, loggingConfiguration, or EncryptionConfiguration. Running executions will continue to use the previous definition and roleArn. You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error. A qualified state machine ARN refers to a Distributed Map state defined within a state machine. For example, the qualified state machine ARN arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel refers to a Distributed Map state with a label mapStateLabel in the state machine named stateMachineName. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state machine ARNs:
     ///
     /// * The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMachine. arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel If you provide a qualified state machine ARN that refers to a Distributed Map state, the request fails with ValidationException.
     ///
@@ -2819,8 +2856,11 @@ extension SFNClient {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidDefinition` : The provided Amazon States Language definition is not valid.
-    /// - `InvalidLoggingConfiguration` :
+    /// - `InvalidEncryptionConfiguration` : Received when encryptionConfiguration is specified but various conditions exist which make the configuration invalid. For example, if type is set to CUSTOMER_MANAGED_KMS_KEY, but kmsKeyId is null, or kmsDataKeyReusePeriodSeconds is not between 60 and 900, or the KMS key is not symmetric or inactive.
+    /// - `InvalidLoggingConfiguration` : Configuration is not valid.
     /// - `InvalidTracingConfiguration` : Your tracingConfiguration key does not match, or enabled has not been set to true or false.
+    /// - `KmsAccessDeniedException` : Either your KMS key policy or API caller does not have the required permissions.
+    /// - `KmsThrottlingException` : Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
     /// - `MissingRequiredParameter` : Request is missing a required parameter. This error occurs if both definition and roleArn are not specified.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. HTTP Status Code: 402
     /// - `StateMachineDeleting` : The specified state machine is being deleted.

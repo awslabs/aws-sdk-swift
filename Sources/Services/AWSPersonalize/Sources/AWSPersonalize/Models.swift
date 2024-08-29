@@ -1743,13 +1743,13 @@ public struct CreateSolutionInput {
     public var name: Swift.String?
     /// We don't recommend enabling automated machine learning. Instead, match your use case to the available Amazon Personalize recipes. For more information, see [Choosing a recipe](https://docs.aws.amazon.com/personalize/latest/dg/working-with-predefined-recipes.html). Whether to perform automated machine learning (AutoML). The default is false. For this case, you must specify recipeArn. When set to true, Amazon Personalize analyzes your training data and selects the optimal USER_PERSONALIZATION recipe and hyperparameters. In this case, you must omit recipeArn. Amazon Personalize determines the optimal recipe by running tests with different values for the hyperparameters. AutoML lengthens the training process as compared to selecting a specific recipe.
     public var performAutoML: Swift.Bool?
-    /// Whether the solution uses automatic training to create new solution versions (trained models). The default is True and the solution automatically creates new solution versions every 7 days. You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. For more information about automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html). Automatic solution version creation starts one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training. After training starts, you can get the solution version's Amazon Resource Name (ARN) with the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html) API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
+    /// Whether the solution uses automatic training to create new solution versions (trained models). The default is True and the solution automatically creates new solution versions every 7 days. You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. For more information about automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html). Automatic solution version creation starts within one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training. After training starts, you can get the solution version's Amazon Resource Name (ARN) with the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html) API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
     public var performAutoTraining: Swift.Bool?
     /// Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
     public var performHPO: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the recipe to use for model training. This is required when performAutoML is false. For information about different Amazon Personalize recipes and their ARNs, see [Choosing a recipe](https://docs.aws.amazon.com/personalize/latest/dg/working-with-predefined-recipes.html).
     public var recipeArn: Swift.String?
-    /// The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration. Amazon Personalize doesn't support configuring the hpoObjective at this time.
+    /// The configuration properties for the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration. Amazon Personalize doesn't support configuring the hpoObjective at this time.
     public var solutionConfig: PersonalizeClientTypes.SolutionConfig?
     /// A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the solution.
     public var tags: [PersonalizeClientTypes.Tag]?
@@ -3175,13 +3175,7 @@ extension PersonalizeClientTypes {
         public var lastUpdatedDateTime: Foundation.Date?
         /// The configuration details of the recommender update.
         public var recommenderConfig: PersonalizeClientTypes.RecommenderConfig?
-        /// The status of the recommender update. A recommender can be in one of the following states:
-        ///
-        /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
-        ///
-        /// * STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE
-        ///
-        /// * DELETE PENDING > DELETE IN_PROGRESS
+        /// The status of the recommender update. A recommender update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public var status: Swift.String?
 
         public init(
@@ -3367,6 +3361,58 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes {
+    /// The configuration details of the solution update.
+    public struct SolutionUpdateConfig {
+        /// The automatic training configuration to use when performAutoTraining is true.
+        public var autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig?
+
+        public init(
+            autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig? = nil
+        )
+        {
+            self.autoTrainingConfig = autoTrainingConfig
+        }
+    }
+
+}
+
+extension PersonalizeClientTypes {
+    /// Provides a summary of the properties of a solution update. For a complete listing, call the [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html) API.
+    public struct SolutionUpdateSummary {
+        /// The date and time (in Unix format) that the solution update was created.
+        public var creationDateTime: Foundation.Date?
+        /// If a solution update fails, the reason behind the failure.
+        public var failureReason: Swift.String?
+        /// The date and time (in Unix time) that the solution update was last updated.
+        public var lastUpdatedDateTime: Foundation.Date?
+        /// Whether the solution automatically creates solution versions.
+        public var performAutoTraining: Swift.Bool?
+        /// The configuration details of the solution.
+        public var solutionUpdateConfig: PersonalizeClientTypes.SolutionUpdateConfig?
+        /// The status of the solution update. A solution update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+        public var status: Swift.String?
+
+        public init(
+            creationDateTime: Foundation.Date? = nil,
+            failureReason: Swift.String? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
+            performAutoTraining: Swift.Bool? = nil,
+            solutionUpdateConfig: PersonalizeClientTypes.SolutionUpdateConfig? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.failureReason = failureReason
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.performAutoTraining = performAutoTraining
+            self.solutionUpdateConfig = solutionUpdateConfig
+            self.status = status
+        }
+    }
+
+}
+
+extension PersonalizeClientTypes {
 
     public enum TrainingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automatic
@@ -3438,7 +3484,7 @@ extension PersonalizeClientTypes {
 }
 
 extension PersonalizeClientTypes {
-    /// After you create a solution, you can’t change its configuration. By default, all new solutions use automatic training. With automatic training, you incur training costs while your solution is active. You can't stop automatic training for a solution. To avoid unnecessary costs, make sure to delete the solution when you are finished. For information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/). An object that provides information about a solution. A solution includes the custom recipe, customized parameters, and trained models (Solution Versions) that Amazon Personalize uses to generate recommendations. After you create a solution, you can’t change its configuration. If you need to make changes, you can [clone the solution](https://docs.aws.amazon.com/personalize/latest/dg/cloning-solution.html) with the Amazon Personalize console or create a new one.
+    /// By default, all new solutions use automatic training. With automatic training, you incur training costs while your solution is active. To avoid unnecessary costs, when you are finished you can [update the solution](https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html) to turn off automatic training. For information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/). An object that provides information about a solution. A solution includes the custom recipe, customized parameters, and trained models (Solution Versions) that Amazon Personalize uses to generate recommendations. After you create a solution, you can’t change its configuration. If you need to make changes, you can [clone the solution](https://docs.aws.amazon.com/personalize/latest/dg/cloning-solution.html) with the Amazon Personalize console or create a new one.
     public struct Solution {
         /// When performAutoML is true, specifies the best recipe found.
         public var autoMLResult: PersonalizeClientTypes.AutoMLResult?
@@ -3450,6 +3496,8 @@ extension PersonalizeClientTypes {
         public var eventType: Swift.String?
         /// The date and time (in Unix time) that the solution was last updated.
         public var lastUpdatedDateTime: Foundation.Date?
+        /// Provides a summary of the latest updates to the solution.
+        public var latestSolutionUpdate: PersonalizeClientTypes.SolutionUpdateSummary?
         /// Describes the latest version of the solution, including the status and the ARN.
         public var latestSolutionVersion: PersonalizeClientTypes.SolutionVersionSummary?
         /// The name of the solution.
@@ -3479,6 +3527,7 @@ extension PersonalizeClientTypes {
             datasetGroupArn: Swift.String? = nil,
             eventType: Swift.String? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil,
+            latestSolutionUpdate: PersonalizeClientTypes.SolutionUpdateSummary? = nil,
             latestSolutionVersion: PersonalizeClientTypes.SolutionVersionSummary? = nil,
             name: Swift.String? = nil,
             performAutoML: Swift.Bool = false,
@@ -3495,6 +3544,7 @@ extension PersonalizeClientTypes {
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.latestSolutionUpdate = latestSolutionUpdate
             self.latestSolutionVersion = latestSolutionVersion
             self.name = name
             self.performAutoML = performAutoML
@@ -5256,6 +5306,39 @@ public struct UpdateRecommenderOutput {
     }
 }
 
+public struct UpdateSolutionInput {
+    /// Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information about automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html). After training starts, you can get the solution version's Amazon Resource Name (ARN) with the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html) API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
+    public var performAutoTraining: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the solution to update.
+    /// This member is required.
+    public var solutionArn: Swift.String?
+    /// The new configuration details of the solution.
+    public var solutionUpdateConfig: PersonalizeClientTypes.SolutionUpdateConfig?
+
+    public init(
+        performAutoTraining: Swift.Bool? = nil,
+        solutionArn: Swift.String? = nil,
+        solutionUpdateConfig: PersonalizeClientTypes.SolutionUpdateConfig? = nil
+    )
+    {
+        self.performAutoTraining = performAutoTraining
+        self.solutionArn = solutionArn
+        self.solutionUpdateConfig = solutionUpdateConfig
+    }
+}
+
+public struct UpdateSolutionOutput {
+    /// The same solution Amazon Resource Name (ARN) as given in the request.
+    public var solutionArn: Swift.String?
+
+    public init(
+        solutionArn: Swift.String? = nil
+    )
+    {
+        self.solutionArn = solutionArn
+    }
+}
+
 extension CreateBatchInferenceJobInput {
 
     static func urlPathProvider(_ value: CreateBatchInferenceJobInput) -> Swift.String? {
@@ -5742,6 +5825,13 @@ extension UpdateMetricAttributionInput {
 extension UpdateRecommenderInput {
 
     static func urlPathProvider(_ value: UpdateRecommenderInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateSolutionInput {
+
+    static func urlPathProvider(_ value: UpdateSolutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6415,6 +6505,16 @@ extension UpdateRecommenderInput {
         guard let value else { return }
         try writer["recommenderArn"].write(value.recommenderArn)
         try writer["recommenderConfig"].write(value.recommenderConfig, with: PersonalizeClientTypes.RecommenderConfig.write(value:to:))
+    }
+}
+
+extension UpdateSolutionInput {
+
+    static func write(value: UpdateSolutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["performAutoTraining"].write(value.performAutoTraining)
+        try writer["solutionArn"].write(value.solutionArn)
+        try writer["solutionUpdateConfig"].write(value.solutionUpdateConfig, with: PersonalizeClientTypes.SolutionUpdateConfig.write(value:to:))
     }
 }
 
@@ -7214,6 +7314,18 @@ extension UpdateRecommenderOutput {
         let reader = responseReader
         var value = UpdateRecommenderOutput()
         value.recommenderArn = try reader["recommenderArn"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateSolutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSolutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSolutionOutput()
+        value.solutionArn = try reader["solutionArn"].readIfPresent()
         return value
     }
 }
@@ -8344,6 +8456,23 @@ enum UpdateRecommenderOutputError {
     }
 }
 
+enum UpdateSolutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
@@ -9093,6 +9222,52 @@ extension PersonalizeClientTypes.Solution {
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: .epochSeconds)
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: .epochSeconds)
         value.latestSolutionVersion = try reader["latestSolutionVersion"].readIfPresent(with: PersonalizeClientTypes.SolutionVersionSummary.read(from:))
+        value.latestSolutionUpdate = try reader["latestSolutionUpdate"].readIfPresent(with: PersonalizeClientTypes.SolutionUpdateSummary.read(from:))
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.SolutionUpdateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionUpdateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.SolutionUpdateSummary()
+        value.solutionUpdateConfig = try reader["solutionUpdateConfig"].readIfPresent(with: PersonalizeClientTypes.SolutionUpdateConfig.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.performAutoTraining = try reader["performAutoTraining"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.SolutionUpdateConfig {
+
+    static func write(value: PersonalizeClientTypes.SolutionUpdateConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoTrainingConfig"].write(value.autoTrainingConfig, with: PersonalizeClientTypes.AutoTrainingConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionUpdateConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.SolutionUpdateConfig()
+        value.autoTrainingConfig = try reader["autoTrainingConfig"].readIfPresent(with: PersonalizeClientTypes.AutoTrainingConfig.read(from:))
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.AutoTrainingConfig {
+
+    static func write(value: PersonalizeClientTypes.AutoTrainingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["schedulingExpression"].write(value.schedulingExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AutoTrainingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.AutoTrainingConfig()
+        value.schedulingExpression = try reader["schedulingExpression"].readIfPresent()
         return value
     }
 }
@@ -9148,21 +9323,6 @@ extension PersonalizeClientTypes.SolutionConfig {
         value.optimizationObjective = try reader["optimizationObjective"].readIfPresent(with: PersonalizeClientTypes.OptimizationObjective.read(from:))
         value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: PersonalizeClientTypes.TrainingDataConfig.read(from:))
         value.autoTrainingConfig = try reader["autoTrainingConfig"].readIfPresent(with: PersonalizeClientTypes.AutoTrainingConfig.read(from:))
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.AutoTrainingConfig {
-
-    static func write(value: PersonalizeClientTypes.AutoTrainingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["schedulingExpression"].write(value.schedulingExpression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AutoTrainingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.AutoTrainingConfig()
-        value.schedulingExpression = try reader["schedulingExpression"].readIfPresent()
         return value
     }
 }
