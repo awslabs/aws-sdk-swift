@@ -63,6 +63,11 @@ public struct DeleteHostedConfigurationVersionOutput {
     public init() { }
 }
 
+public struct GetAccountSettingsInput {
+
+    public init() { }
+}
+
 public struct TagResourceOutput {
 
     public init() { }
@@ -76,6 +81,32 @@ public struct UntagResourceOutput {
 public struct ValidateConfigurationOutput {
 
     public init() { }
+}
+
+extension AppConfigClientTypes {
+    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. This setting uses the following default values:
+    ///
+    /// * Deletion protection is disabled by default.
+    ///
+    /// * The default interval specified by ProtectionPeriodInMinutes is 60.
+    ///
+    /// * DeletionProtectionCheck skips configuration profiles and environments that were created in the past hour.
+    public struct DeletionProtectionSettings {
+        /// A parameter that indicates if deletion protection is enabled or not.
+        public var enabled: Swift.Bool?
+        /// The time interval during which AppConfig monitors for calls to [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for a configuration profile or from an environment. AppConfig returns an error if a user calls or for the designated configuration profile or environment. To bypass the error and delete a configuration profile or an environment, specify BYPASS for the DeletionProtectionCheck parameter for either or .
+        public var protectionPeriodInMinutes: Swift.Int?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            protectionPeriodInMinutes: Swift.Int? = nil
+        )
+        {
+            self.enabled = enabled
+            self.protectionPeriodInMinutes = protectionPeriodInMinutes
+        }
+    }
+
 }
 
 extension AppConfigClientTypes {
@@ -449,7 +480,7 @@ extension AppConfigClientTypes {
 }
 
 extension AppConfigClientTypes {
-    /// A validator provides a syntactic or semantic check to ensure the configuration that you want to deploy functions as intended. To validate your application configuration data, you provide a schema or an Amazon Web Services Lambda function that runs against the configuration. The configuration deployment or update can only proceed when the configuration data is valid.
+    /// A validator provides a syntactic or semantic check to ensure the configuration that you want to deploy functions as intended. To validate your application configuration data, you provide a schema or an Amazon Web Services Lambda function that runs against the configuration. The configuration deployment or update can only proceed when the configuration data is valid. For more information, see [About validators](https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-profile.html#appconfig-creating-configuration-and-profile-validators) in the AppConfig User Guide.
     public struct Validator {
         /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an Lambda function.
         /// This member is required.
@@ -1092,7 +1123,7 @@ public struct CreateHostedConfigurationVersionInput {
     /// The configuration profile ID.
     /// This member is required.
     public var configurationProfileId: Swift.String?
-    /// The content of the configuration or the configuration data.
+    /// The configuration data, as bytes. AppConfig accepts any type of data, including text formats like JSON or TOML, or binary formats like protocol buffers or compressed data.
     /// This member is required.
     public var content: Foundation.Data?
     /// A standard MIME type describing the format of the configuration content. For more information, see [Content-Type](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17).
@@ -1188,6 +1219,38 @@ public struct DeleteApplicationInput {
     }
 }
 
+extension AppConfigClientTypes {
+
+    public enum DeletionProtectionCheck: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountDefault
+        case apply
+        case bypass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionProtectionCheck] {
+            return [
+                .accountDefault,
+                .apply,
+                .bypass
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountDefault: return "ACCOUNT_DEFAULT"
+            case .apply: return "APPLY"
+            case .bypass: return "BYPASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DeleteConfigurationProfileInput {
     /// The application ID that includes the configuration profile you want to delete.
     /// This member is required.
@@ -1195,14 +1258,24 @@ public struct DeleteConfigurationProfileInput {
     /// The ID of the configuration profile you want to delete.
     /// This member is required.
     public var configurationProfileId: Swift.String?
+    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile if your application has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile during the specified interval. This parameter supports the following values:
+    ///
+    /// * BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.
+    ///
+    /// * APPLY: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.
+    ///
+    /// * ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API.
+    public var deletionProtectionCheck: AppConfigClientTypes.DeletionProtectionCheck?
 
     public init(
         applicationId: Swift.String? = nil,
-        configurationProfileId: Swift.String? = nil
+        configurationProfileId: Swift.String? = nil,
+        deletionProtectionCheck: AppConfigClientTypes.DeletionProtectionCheck? = nil
     )
     {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
+        self.deletionProtectionCheck = deletionProtectionCheck
     }
 }
 
@@ -1223,16 +1296,26 @@ public struct DeleteEnvironmentInput {
     /// The application ID that includes the environment that you want to delete.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting an environment if your application called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or in the environment during the specified interval. This parameter supports the following values:
+    ///
+    /// * BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.
+    ///
+    /// * APPLY: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.
+    ///
+    /// * ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API.
+    public var deletionProtectionCheck: AppConfigClientTypes.DeletionProtectionCheck?
     /// The ID of the environment that you want to delete.
     /// This member is required.
     public var environmentId: Swift.String?
 
     public init(
         applicationId: Swift.String? = nil,
+        deletionProtectionCheck: AppConfigClientTypes.DeletionProtectionCheck? = nil,
         environmentId: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
+        self.deletionProtectionCheck = deletionProtectionCheck
         self.environmentId = environmentId
     }
 }
@@ -1290,6 +1373,18 @@ public struct DeleteHostedConfigurationVersionInput {
     }
 }
 
+public struct GetAccountSettingsOutput {
+    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+    public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
+
+    public init(
+        deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil
+    )
+    {
+        self.deletionProtection = deletionProtection
+    }
+}
+
 public struct GetApplicationInput {
     /// The ID of the application you want to get.
     /// This member is required.
@@ -1327,7 +1422,7 @@ public struct GetConfigurationInput {
     /// The application to get. Specify either the application name or the application ID.
     /// This member is required.
     public var application: Swift.String?
-    /// The configuration version returned in the most recent GetConfiguration response. AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend you use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html) and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html) APIs, which track the client configuration version on your behalf. If you choose to continue using GetConfiguration, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. The value to use for ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by GetConfiguration when there is new or updated data, and should be saved for subsequent calls to GetConfiguration. For more information about working with configurations, see [Retrieving the Configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html) in the AppConfig User Guide.
+    /// The configuration version returned in the most recent [GetConfiguration] response. AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to [GetConfiguration], your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend you use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html) and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html) APIs, which track the client configuration version on your behalf. If you choose to continue using [GetConfiguration], we recommend that you include the ClientConfigurationVersion value with every call to [GetConfiguration]. The value to use for ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by [GetConfiguration] when there is new or updated data, and should be saved for subsequent calls to [GetConfiguration]. For more information about working with configurations, see [Retrieving the Configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html) in the AppConfig User Guide.
     public var clientConfigurationVersion: Swift.String?
     /// The clientId parameter in the following command is a unique, user-specified ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
     /// This member is required.
@@ -2947,6 +3042,30 @@ public struct UntagResourceInput {
     }
 }
 
+public struct UpdateAccountSettingsInput {
+    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+    public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
+
+    public init(
+        deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil
+    )
+    {
+        self.deletionProtection = deletionProtection
+    }
+}
+
+public struct UpdateAccountSettingsOutput {
+    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+    public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
+
+    public init(
+        deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil
+    )
+    {
+        self.deletionProtection = deletionProtection
+    }
+}
+
 public struct UpdateApplicationInput {
     /// The application ID.
     /// This member is required.
@@ -3465,6 +3584,17 @@ extension DeleteConfigurationProfileInput {
     }
 }
 
+extension DeleteConfigurationProfileInput {
+
+    static func headerProvider(_ value: DeleteConfigurationProfileInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let deletionProtectionCheck = value.deletionProtectionCheck {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-deletion-protection-check", value: Swift.String(deletionProtectionCheck.rawValue)))
+        }
+        return items
+    }
+}
+
 extension DeleteDeploymentStrategyInput {
 
     static func urlPathProvider(_ value: DeleteDeploymentStrategyInput) -> Swift.String? {
@@ -3485,6 +3615,17 @@ extension DeleteEnvironmentInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/environments/\(environmentId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteEnvironmentInput {
+
+    static func headerProvider(_ value: DeleteEnvironmentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let deletionProtectionCheck = value.deletionProtectionCheck {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-deletion-protection-check", value: Swift.String(deletionProtectionCheck.rawValue)))
+        }
+        return items
     }
 }
 
@@ -3533,6 +3674,13 @@ extension DeleteHostedConfigurationVersionInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/configurationprofiles/\(configurationProfileId.urlPercentEncoding())/hostedconfigurationversions/\(versionNumber)"
+    }
+}
+
+extension GetAccountSettingsInput {
+
+    static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
+        return "/settings"
     }
 }
 
@@ -3981,6 +4129,13 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAccountSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateAccountSettingsInput) -> Swift.String? {
+        return "/settings"
+    }
+}
+
 extension UpdateApplicationInput {
 
     static func urlPathProvider(_ value: UpdateApplicationInput) -> Swift.String? {
@@ -4176,6 +4331,14 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateAccountSettingsInput {
+
+    static func write(value: UpdateAccountSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeletionProtection"].write(value.deletionProtection, with: AppConfigClientTypes.DeletionProtectionSettings.write(value:to:))
     }
 }
 
@@ -4430,6 +4593,18 @@ extension DeleteHostedConfigurationVersionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteHostedConfigurationVersionOutput {
         return DeleteHostedConfigurationVersionOutput()
+    }
+}
+
+extension GetAccountSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccountSettingsOutput()
+        value.deletionProtection = try reader["DeletionProtection"].readIfPresent(with: AppConfigClientTypes.DeletionProtectionSettings.read(from:))
+        return value
     }
 }
 
@@ -4827,6 +5002,18 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateAccountSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAccountSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAccountSettingsOutput()
+        value.deletionProtection = try reader["DeletionProtection"].readIfPresent(with: AppConfigClientTypes.DeletionProtectionSettings.read(from:))
+        return value
+    }
+}
+
 extension UpdateApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApplicationOutput {
@@ -5168,6 +5355,21 @@ enum DeleteHostedConfigurationVersionOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAccountSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5522,6 +5724,21 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateAccountSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5789,6 +6006,23 @@ extension AppConfigClientTypes.Parameter {
         value.description = try reader["Description"].readIfPresent()
         value.`required` = try reader["Required"].readIfPresent() ?? false
         value.`dynamic` = try reader["Dynamic"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension AppConfigClientTypes.DeletionProtectionSettings {
+
+    static func write(value: AppConfigClientTypes.DeletionProtectionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["ProtectionPeriodInMinutes"].write(value.protectionPeriodInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.DeletionProtectionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.DeletionProtectionSettings()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.protectionPeriodInMinutes = try reader["ProtectionPeriodInMinutes"].readIfPresent()
         return value
     }
 }

@@ -5769,7 +5769,7 @@ extension WorkSpacesClient {
 
     /// Performs the `StartWorkspaces` operation on the `WorkspacesService` service.
     ///
-    /// Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode of AutoStop and a state of STOPPED.
+    /// Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode of AutoStop or Manual and a state of STOPPED.
     ///
     /// - Parameter StartWorkspacesInput : [no documentation found]
     ///
@@ -5912,7 +5912,7 @@ extension WorkSpacesClient {
 
     /// Performs the `StopWorkspaces` operation on the `WorkspacesService` service.
     ///
-    /// Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    /// Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop or Manual and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     ///
     /// - Parameter StopWorkspacesInput : [no documentation found]
     ///

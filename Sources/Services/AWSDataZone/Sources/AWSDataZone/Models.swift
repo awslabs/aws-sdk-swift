@@ -712,6 +712,660 @@ extension DataZoneClientTypes {
 
 }
 
+/// The request has exceeded the specified service quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum DataZoneEntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domainUnit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataZoneEntityType] {
+            return [
+                .domainUnit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domainUnit: return "DOMAIN_UNIT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The properties of the domain unit owners group.
+    public struct OwnerGroupProperties {
+        /// The ID of the domain unit owners group.
+        /// This member is required.
+        public var groupIdentifier: Swift.String?
+
+        public init(
+            groupIdentifier: Swift.String? = nil
+        )
+        {
+            self.groupIdentifier = groupIdentifier
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The properties of the owner user.
+    public struct OwnerUserProperties {
+        /// The ID of the owner user.
+        /// This member is required.
+        public var userIdentifier: Swift.String?
+
+        public init(
+            userIdentifier: Swift.String? = nil
+        )
+        {
+            self.userIdentifier = userIdentifier
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The properties of a domain unit's owner.
+    public enum OwnerProperties {
+        /// Specifies that the domain unit owner is a user.
+        case user(DataZoneClientTypes.OwnerUserProperties)
+        /// Specifies that the domain unit owner is a group.
+        case group(DataZoneClientTypes.OwnerGroupProperties)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+public struct AddEntityOwnerInput {
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the domain in which you want to add the entity owner.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the entity to which you want to add an owner.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of an entity.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.DataZoneEntityType?
+    /// The owner that you want to add to the entity.
+    /// This member is required.
+    public var owner: DataZoneClientTypes.OwnerProperties?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.DataZoneEntityType? = nil,
+        owner: DataZoneClientTypes.OwnerProperties? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.owner = owner
+    }
+}
+
+public struct AddEntityOwnerOutput {
+
+    public init() { }
+}
+
+extension DataZoneClientTypes {
+    /// The details of the policy grant.
+    public struct AddToProjectMemberPoolPolicyGrantDetail {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The details of the policy grant.
+    public struct CreateAssetTypePolicyGrantDetail {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The details of the policy grant.
+    public struct CreateDomainUnitPolicyGrantDetail {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The details of the policy of creating an environment.
+    public struct Unit {
+
+        public init() { }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The details of the policy grant.
+    public struct CreateEnvironmentProfilePolicyGrantDetail {
+        /// The ID of the domain unit.
+        public var domainUnitId: Swift.String?
+
+        public init(
+            domainUnitId: Swift.String? = nil
+        )
+        {
+            self.domainUnitId = domainUnitId
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The details of the policy grant.
+    public struct CreateFormTypePolicyGrantDetail {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The details of the policy grant.
+    public struct CreateGlossaryPolicyGrantDetail {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The details of the policy grant.
+    public struct CreateProjectPolicyGrantDetail {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The grant details of the override domain unit owners policy.
+    public struct OverrideDomainUnitOwnersPolicyGrantDetail {
+        /// Specifies whether the policy is inherited by child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The details of the override project owners policy grant.
+    public struct OverrideProjectOwnersPolicyGrantDetail {
+        /// Specifies whether the policy is inherited by child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The details of the policy grant.
+    public enum PolicyGrantDetail {
+        /// Specifies that this is a create domain unit policy.
+        case createdomainunit(DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail)
+        /// Specifies whether to override domain unit owners.
+        case overridedomainunitowners(DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail)
+        /// Specifies that the policy grant is to be added to the members of the project.
+        case addtoprojectmemberpool(DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail)
+        /// Specifies whether to override project owners.
+        case overrideprojectowners(DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail)
+        /// Specifies that this is a create glossary policy.
+        case createglossary(DataZoneClientTypes.CreateGlossaryPolicyGrantDetail)
+        /// Specifies that this is a create form type policy.
+        case createformtype(DataZoneClientTypes.CreateFormTypePolicyGrantDetail)
+        /// Specifies that this is a create asset type policy.
+        case createassettype(DataZoneClientTypes.CreateAssetTypePolicyGrantDetail)
+        /// Specifies that this is a create project policy.
+        case createproject(DataZoneClientTypes.CreateProjectPolicyGrantDetail)
+        /// Specifies that this is a create environment profile policy.
+        case createenvironmentprofile(DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail)
+        /// Specifies that this is the delegation of the create environment profile policy.
+        case delegatecreateenvironmentprofile(DataZoneClientTypes.Unit)
+        /// Specifies that this is a create environment policy.
+        case createenvironment(DataZoneClientTypes.Unit)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension DataZoneClientTypes {
+
+    public enum TargetEntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domainUnit
+        case environmentBlueprintConfiguration
+        case environmentProfile
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetEntityType] {
+            return [
+                .domainUnit,
+                .environmentBlueprintConfiguration,
+                .environmentProfile
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domainUnit: return "DOMAIN_UNIT"
+            case .environmentBlueprintConfiguration: return "ENVIRONMENT_BLUEPRINT_CONFIGURATION"
+            case .environmentProfile: return "ENVIRONMENT_PROFILE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum ManagedPolicyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case addToProjectMemberPool
+        case createAssetType
+        case createDomainUnit
+        case createEnvironment
+        case createEnvironmentProfile
+        case createFormType
+        case createGlossary
+        case createProject
+        case delegateCreateEnvironmentProfile
+        case overrideDomainUnitOwners
+        case overrideProjectOwners
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedPolicyType] {
+            return [
+                .addToProjectMemberPool,
+                .createAssetType,
+                .createDomainUnit,
+                .createEnvironment,
+                .createEnvironmentProfile,
+                .createFormType,
+                .createGlossary,
+                .createProject,
+                .delegateCreateEnvironmentProfile,
+                .overrideDomainUnitOwners,
+                .overrideProjectOwners
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .addToProjectMemberPool: return "ADD_TO_PROJECT_MEMBER_POOL"
+            case .createAssetType: return "CREATE_ASSET_TYPE"
+            case .createDomainUnit: return "CREATE_DOMAIN_UNIT"
+            case .createEnvironment: return "CREATE_ENVIRONMENT"
+            case .createEnvironmentProfile: return "CREATE_ENVIRONMENT_PROFILE"
+            case .createFormType: return "CREATE_FORM_TYPE"
+            case .createGlossary: return "CREATE_GLOSSARY"
+            case .createProject: return "CREATE_PROJECT"
+            case .delegateCreateEnvironmentProfile: return "DELEGATE_CREATE_ENVIRONMENT_PROFILE"
+            case .overrideDomainUnitOwners: return "OVERRIDE_DOMAIN_UNIT_OWNERS"
+            case .overrideProjectOwners: return "OVERRIDE_PROJECT_OWNERS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum DomainUnitDesignation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case owner
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainUnitDesignation] {
+            return [
+                .owner
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .owner: return "OWNER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The grant filter for all domain units.
+    public struct AllDomainUnitsGrantFilter {
+
+        public init() { }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The grant filter for the domain unit. In the current release of Amazon DataZone, the only supported filter is the allDomainUnitsGrantFilter.
+    public enum DomainUnitGrantFilter {
+        /// Specifies a grant filter containing all domain units.
+        case alldomainunitsgrantfilter(DataZoneClientTypes.AllDomainUnitsGrantFilter)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The domain unit principal to whom the policy is granted.
+    public struct DomainUnitPolicyGrantPrincipal {
+        /// Specifes the designation of the domain unit users.
+        /// This member is required.
+        public var domainUnitDesignation: DataZoneClientTypes.DomainUnitDesignation?
+        /// The grant filter for the domain unit.
+        public var domainUnitGrantFilter: DataZoneClientTypes.DomainUnitGrantFilter?
+        /// The ID of the domain unit.
+        public var domainUnitIdentifier: Swift.String?
+
+        public init(
+            domainUnitDesignation: DataZoneClientTypes.DomainUnitDesignation? = nil,
+            domainUnitGrantFilter: DataZoneClientTypes.DomainUnitGrantFilter? = nil,
+            domainUnitIdentifier: Swift.String? = nil
+        )
+        {
+            self.domainUnitDesignation = domainUnitDesignation
+            self.domainUnitGrantFilter = domainUnitGrantFilter
+            self.domainUnitIdentifier = domainUnitIdentifier
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The group principal to whom the policy is granted.
+    public enum GroupPolicyGrantPrincipal {
+        /// The ID Of the group of the group principal.
+        case groupidentifier(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension DataZoneClientTypes {
+
+    public enum ProjectDesignation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contributor
+        case owner
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProjectDesignation] {
+            return [
+                .contributor,
+                .owner
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contributor: return "CONTRIBUTOR"
+            case .owner: return "OWNER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The domain unit filter of the project grant filter.
+    public struct DomainUnitFilterForProject {
+        /// The domain unit ID to use in the filter.
+        /// This member is required.
+        public var domainUnit: Swift.String?
+        /// Specifies whether to include child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            domainUnit: Swift.String? = nil,
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.domainUnit = domainUnit
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The project grant filter.
+    public enum ProjectGrantFilter {
+        /// The domain unit filter of the project grant filter.
+        case domainunitfilter(DataZoneClientTypes.DomainUnitFilterForProject)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The project policy grant principal.
+    public struct ProjectPolicyGrantPrincipal {
+        /// The project designation of the project policy grant principal.
+        /// This member is required.
+        public var projectDesignation: DataZoneClientTypes.ProjectDesignation?
+        /// The project grant filter of the project policy grant principal.
+        public var projectGrantFilter: DataZoneClientTypes.ProjectGrantFilter?
+        /// The project ID of the project policy grant principal.
+        public var projectIdentifier: Swift.String?
+
+        public init(
+            projectDesignation: DataZoneClientTypes.ProjectDesignation? = nil,
+            projectGrantFilter: DataZoneClientTypes.ProjectGrantFilter? = nil,
+            projectIdentifier: Swift.String? = nil
+        )
+        {
+            self.projectDesignation = projectDesignation
+            self.projectGrantFilter = projectGrantFilter
+            self.projectIdentifier = projectIdentifier
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The all users grant filter.
+    public struct AllUsersGrantFilter {
+
+        public init() { }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The user policy grant principal.
+    public enum UserPolicyGrantPrincipal {
+        /// The user ID of the user policy grant principal.
+        case useridentifier(Swift.String)
+        /// The all users grant filter of the user policy grant principal.
+        case allusersgrantfilter(DataZoneClientTypes.AllUsersGrantFilter)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The policy grant principal.
+    public enum PolicyGrantPrincipal {
+        /// The user of the policy grant principal.
+        case user(DataZoneClientTypes.UserPolicyGrantPrincipal)
+        /// The group of the policy grant principal.
+        case group(DataZoneClientTypes.GroupPolicyGrantPrincipal)
+        /// The project of the policy grant principal.
+        case project(DataZoneClientTypes.ProjectPolicyGrantPrincipal)
+        /// The domain unit of the policy grant principal.
+        case domainunit(DataZoneClientTypes.DomainUnitPolicyGrantPrincipal)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+public struct AddPolicyGrantInput {
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The details of the policy grant.
+    /// This member is required.
+    public var detail: DataZoneClientTypes.PolicyGrantDetail?
+    /// The ID of the domain where you want to add a policy grant.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the entity (resource) to which you want to add a policy grant.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of entity (resource) to which the grant is added.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.TargetEntityType?
+    /// The type of policy that you want to grant.
+    /// This member is required.
+    public var policyType: DataZoneClientTypes.ManagedPolicyType?
+    /// The principal to whom the permissions are granted.
+    /// This member is required.
+    public var principal: DataZoneClientTypes.PolicyGrantPrincipal?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        detail: DataZoneClientTypes.PolicyGrantDetail? = nil,
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.TargetEntityType? = nil,
+        policyType: DataZoneClientTypes.ManagedPolicyType? = nil,
+        principal: DataZoneClientTypes.PolicyGrantPrincipal? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.detail = detail
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.policyType = policyType
+        self.principal = principal
+    }
+}
+
+public struct AddPolicyGrantOutput {
+
+    public init() { }
+}
+
 extension DataZoneClientTypes {
 
     public enum ListingStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -764,31 +1418,6 @@ extension DataZoneClientTypes {
         }
     }
 
-}
-
-/// The request has exceeded the specified service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
 }
 
 extension DataZoneClientTypes {
@@ -4082,6 +4711,8 @@ public struct CreateDomainOutput {
     public var name: Swift.String?
     /// The URL of the data portal for this Amazon DataZone domain.
     public var portalUrl: Swift.String?
+    /// The ID of the root domain unit.
+    public var rootDomainUnitId: Swift.String?
     /// The single-sign on configuration of the Amazon DataZone domain.
     public var singleSignOn: DataZoneClientTypes.SingleSignOn?
     /// The status of the Amazon DataZone domain.
@@ -4097,6 +4728,7 @@ public struct CreateDomainOutput {
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         portalUrl: Swift.String? = nil,
+        rootDomainUnitId: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil,
         status: DataZoneClientTypes.DomainStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -4109,10 +4741,145 @@ public struct CreateDomainOutput {
         self.kmsKeyIdentifier = kmsKeyIdentifier
         self.name = name
         self.portalUrl = portalUrl
+        self.rootDomainUnitId = rootDomainUnitId
         self.singleSignOn = singleSignOn
         self.status = status
         self.tags = tags
     }
+}
+
+public struct CreateDomainUnitInput {
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The description of the domain unit.
+    public var description: Swift.String?
+    /// The ID of the domain where you want to crate a domain unit.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The name of the domain unit.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ID of the parent domain unit.
+    /// This member is required.
+    public var parentDomainUnitIdentifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        parentDomainUnitIdentifier: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.name = name
+        self.parentDomainUnitIdentifier = parentDomainUnitIdentifier
+    }
+}
+
+extension CreateDomainUnitInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDomainUnitInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), parentDomainUnitIdentifier: \(Swift.String(describing: parentDomainUnitIdentifier)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+    /// The properties of a domain unit group.
+    public struct DomainUnitGroupProperties {
+        /// The ID of the domain unit group.
+        public var groupId: Swift.String?
+
+        public init(
+            groupId: Swift.String? = nil
+        )
+        {
+            self.groupId = groupId
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The properties of the domain unit user.
+    public struct DomainUnitUserProperties {
+        /// The ID of teh domain unit user.
+        public var userId: Swift.String?
+
+        public init(
+            userId: Swift.String? = nil
+        )
+        {
+            self.userId = userId
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The properties of the domain unit owner.
+    public enum DomainUnitOwnerProperties {
+        /// Indicates that the domain unit owner is a user.
+        case user(DataZoneClientTypes.DomainUnitUserProperties)
+        /// Indicates that the domain unit owner is a group.
+        case group(DataZoneClientTypes.DomainUnitGroupProperties)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+public struct CreateDomainUnitOutput {
+    /// The IDs of the ancestor domain units.
+    /// This member is required.
+    public var ancestorDomainUnitIds: [Swift.String]?
+    /// The timestamp at which the domain unit was created.
+    public var createdAt: Foundation.Date?
+    /// The user who created the domain unit.
+    public var createdBy: Swift.String?
+    /// The description of the domain unit.
+    public var description: Swift.String?
+    /// The ID of the domain where the domain unit was created.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The ID of the domain unit.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the domain unit.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The owners of the domain unit.
+    /// This member is required.
+    public var owners: [DataZoneClientTypes.DomainUnitOwnerProperties]?
+    /// The ID of the parent domain unit.
+    public var parentDomainUnitId: Swift.String?
+
+    public init(
+        ancestorDomainUnitIds: [Swift.String]? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        owners: [DataZoneClientTypes.DomainUnitOwnerProperties]? = nil,
+        parentDomainUnitId: Swift.String? = nil
+    )
+    {
+        self.ancestorDomainUnitIds = ancestorDomainUnitIds
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.id = id
+        self.name = name
+        self.owners = owners
+        self.parentDomainUnitId = parentDomainUnitId
+    }
+}
+
+extension CreateDomainUnitOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDomainUnitOutput(ancestorDomainUnitIds: \(Swift.String(describing: ancestorDomainUnitIds)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owners: \(Swift.String(describing: owners)), parentDomainUnitId: \(Swift.String(describing: parentDomainUnitId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -5317,6 +6084,8 @@ public struct CreateProjectInput {
     /// The ID of the Amazon DataZone domain in which this project is created.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The ID of the domain unit. This parameter is not required and if it is not specified, then the project is created at the root domain unit level.
+    public var domainUnitId: Swift.String?
     /// The glossary terms that can be used in this Amazon DataZone project.
     public var glossaryTerms: [Swift.String]?
     /// The name of the Amazon DataZone project.
@@ -5326,12 +6095,14 @@ public struct CreateProjectInput {
     public init(
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
         name: Swift.String? = nil
     )
     {
         self.description = description
         self.domainIdentifier = domainIdentifier
+        self.domainUnitId = domainUnitId
         self.glossaryTerms = glossaryTerms
         self.name = name
     }
@@ -5339,7 +6110,7 @@ public struct CreateProjectInput {
 
 extension CreateProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -5405,6 +6176,8 @@ public struct CreateProjectOutput {
     /// The identifier of the Amazon DataZone domain in which the project was created.
     /// This member is required.
     public var domainId: Swift.String?
+    /// The ID of the domain unit.
+    public var domainUnitId: Swift.String?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The glossary terms that can be used in the project.
@@ -5425,6 +6198,7 @@ public struct CreateProjectOutput {
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
         failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
@@ -5437,6 +6211,7 @@ public struct CreateProjectOutput {
         self.createdBy = createdBy
         self.description = description
         self.domainId = domainId
+        self.domainUnitId = domainUnitId
         self.failureReasons = failureReasons
         self.glossaryTerms = glossaryTerms
         self.id = id
@@ -5448,7 +6223,7 @@ public struct CreateProjectOutput {
 
 extension CreateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -8305,6 +9080,8 @@ public struct GetDomainOutput {
     public var name: Swift.String?
     /// The URL of the data portal for this Amazon DataZone domain.
     public var portalUrl: Swift.String?
+    /// The ID of the root domain in Amazon Datazone.
+    public var rootDomainUnitId: Swift.String?
     /// The single sing-on option of the specified Amazon DataZone domain.
     public var singleSignOn: DataZoneClientTypes.SingleSignOn?
     /// The status of the specified Amazon DataZone domain.
@@ -8323,6 +9100,7 @@ public struct GetDomainOutput {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         portalUrl: Swift.String? = nil,
+        rootDomainUnitId: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil,
         status: DataZoneClientTypes.DomainStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -8337,6 +9115,7 @@ public struct GetDomainOutput {
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.portalUrl = portalUrl
+        self.rootDomainUnitId = rootDomainUnitId
         self.singleSignOn = singleSignOn
         self.status = status
         self.tags = tags
@@ -8484,6 +9263,8 @@ public struct UpdateDomainOutput {
     public var lastUpdatedAt: Foundation.Date?
     /// The name to be updated as part of the UpdateDomain action.
     public var name: Swift.String?
+    /// The ID of the root domain unit.
+    public var rootDomainUnitId: Swift.String?
     /// The single sign-on option of the Amazon DataZone domain.
     public var singleSignOn: DataZoneClientTypes.SingleSignOn?
 
@@ -8493,6 +9274,7 @@ public struct UpdateDomainOutput {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        rootDomainUnitId: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil
     )
     {
@@ -8501,8 +9283,260 @@ public struct UpdateDomainOutput {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.rootDomainUnitId = rootDomainUnitId
         self.singleSignOn = singleSignOn
     }
+}
+
+public struct DeleteDomainUnitInput {
+    /// The ID of the domain where you want to delete a domain unit.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the domain unit that you want to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteDomainUnitOutput {
+
+    public init() { }
+}
+
+public struct GetDomainUnitInput {
+    /// The ID of the domain where you want to get a domain unit.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the domain unit that you want to get.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct GetDomainUnitOutput {
+    /// The time stamp at which the domain unit was created.
+    public var createdAt: Foundation.Date?
+    /// The user who created the domain unit.
+    public var createdBy: Swift.String?
+    /// The description of the domain unit.
+    public var description: Swift.String?
+    /// The ID of the domain in which the domain unit lives.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The ID of the domain unit.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp at which the domain unit was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The user who last updated the domain unit.
+    public var lastUpdatedBy: Swift.String?
+    /// The name of the domain unit.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The owners of the domain unit.
+    /// This member is required.
+    public var owners: [DataZoneClientTypes.DomainUnitOwnerProperties]?
+    /// The ID of the parent domain unit.
+    public var parentDomainUnitId: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        lastUpdatedBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        owners: [DataZoneClientTypes.DomainUnitOwnerProperties]? = nil,
+        parentDomainUnitId: Swift.String? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.lastUpdatedBy = lastUpdatedBy
+        self.name = name
+        self.owners = owners
+        self.parentDomainUnitId = parentDomainUnitId
+    }
+}
+
+extension GetDomainUnitOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetDomainUnitOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lastUpdatedBy: \(Swift.String(describing: lastUpdatedBy)), owners: \(Swift.String(describing: owners)), parentDomainUnitId: \(Swift.String(describing: parentDomainUnitId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDomainUnitsForParentInput {
+    /// The ID of the domain in which you want to list domain units for a parent domain unit.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of domain units to return in a single call to ListDomainUnitsForParent. When the number of domain units to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListDomainUnitsForParent to list the next set of domain units.
+    public var maxResults: Swift.Int?
+    /// When the number of domain units is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of domain units, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDomainUnitsForParent to list the next set of domain units.
+    public var nextToken: Swift.String?
+    /// The ID of the parent domain unit.
+    /// This member is required.
+    public var parentDomainUnitIdentifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        parentDomainUnitIdentifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.parentDomainUnitIdentifier = parentDomainUnitIdentifier
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The summary of the domain unit.
+    public struct DomainUnitSummary {
+        /// The ID of the domain unit summary.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the domain unit summary.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.id = id
+            self.name = name
+        }
+    }
+
+}
+
+public struct ListDomainUnitsForParentOutput {
+    /// The results returned by this action.
+    /// This member is required.
+    public var items: [DataZoneClientTypes.DomainUnitSummary]?
+    /// When the number of domain units is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of domain units, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDomainUnitsForParent to list the next set of domain units.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.DomainUnitSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateDomainUnitInput {
+    /// The description of the domain unit that you want to update.
+    public var description: Swift.String?
+    /// The ID of the domain where you want to update a domain unit.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the domain unit that you want to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the domain unit that you want to update.
+    public var name: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.name = name
+    }
+}
+
+extension UpdateDomainUnitInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDomainUnitInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), identifier: \(Swift.String(describing: identifier)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateDomainUnitOutput {
+    /// The time stamp at which the domain unit that you want to update was created.
+    public var createdAt: Foundation.Date?
+    /// The user who created the domain unit that you want to update.
+    public var createdBy: Swift.String?
+    /// The description of the domain unit that you want to update.
+    public var description: Swift.String?
+    /// The ID of the domain where you want to update the domain unit.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The ID of the domain unit that you want to update.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp at which the domain unit was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The user who last updated the domain unit.
+    public var lastUpdatedBy: Swift.String?
+    /// The name of the domain unit that you want to update.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The owners of the domain unit that you want to update.
+    /// This member is required.
+    public var owners: [DataZoneClientTypes.DomainUnitOwnerProperties]?
+    /// The ID of the parent domain unit.
+    public var parentDomainUnitId: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        lastUpdatedBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        owners: [DataZoneClientTypes.DomainUnitOwnerProperties]? = nil,
+        parentDomainUnitId: Swift.String? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.lastUpdatedBy = lastUpdatedBy
+        self.name = name
+        self.owners = owners
+        self.parentDomainUnitId = parentDomainUnitId
+    }
+}
+
+extension UpdateDomainUnitOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDomainUnitOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lastUpdatedBy: \(Swift.String(describing: lastUpdatedBy)), owners: \(Swift.String(describing: owners)), parentDomainUnitId: \(Swift.String(describing: parentDomainUnitId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteEnvironmentBlueprintConfigurationInput {
@@ -9560,6 +10594,8 @@ public struct GetProjectOutput {
     /// The ID of the Amazon DataZone domain in which the project exists.
     /// This member is required.
     public var domainId: Swift.String?
+    /// The ID of the domain unit.
+    public var domainUnitId: Swift.String?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The business glossary terms that can be used in the project.
@@ -9580,6 +10616,7 @@ public struct GetProjectOutput {
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
         failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
@@ -9592,6 +10629,7 @@ public struct GetProjectOutput {
         self.createdBy = createdBy
         self.description = description
         self.domainId = domainId
+        self.domainUnitId = domainUnitId
         self.failureReasons = failureReasons
         self.glossaryTerms = glossaryTerms
         self.id = id
@@ -9603,7 +10641,7 @@ public struct GetProjectOutput {
 
 extension GetProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSubscriptionInput {
@@ -10672,6 +11710,98 @@ public struct ListDataSourceRunActivitiesOutput {
     }
 }
 
+public struct ListEntityOwnersInput {
+    /// The ID of the domain where you want to list entity owners.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the entity that you want to list.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of the entity that you want to list.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.DataZoneEntityType?
+    /// The maximum number of entities to return in a single call to ListEntityOwners. When the number of entities to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListEntityOwners to list the next set of entities.
+    public var maxResults: Swift.Int?
+    /// When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEntityOwners to list the next set of entities.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.DataZoneEntityType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The properties of the domain unit owners group.
+    public struct OwnerGroupPropertiesOutput {
+        /// The ID of the domain unit owners group.
+        public var groupId: Swift.String?
+
+        public init(
+            groupId: Swift.String? = nil
+        )
+        {
+            self.groupId = groupId
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The properties of the owner user.
+    public struct OwnerUserPropertiesOutput {
+        /// The ID of the owner user.
+        public var userId: Swift.String?
+
+        public init(
+            userId: Swift.String? = nil
+        )
+        {
+            self.userId = userId
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    /// The ID of the domain unit owners group.
+    public enum OwnerPropertiesOutput {
+        /// Specifies that the domain unit owner is a user.
+        case user(DataZoneClientTypes.OwnerUserPropertiesOutput)
+        /// Specifies that the domain unit owner is a group.
+        case group(DataZoneClientTypes.OwnerGroupPropertiesOutput)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+public struct ListEntityOwnersOutput {
+    /// When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEntityOwners to list the next set of entities.
+    public var nextToken: Swift.String?
+    /// The owners of the entity.
+    /// This member is required.
+    public var owners: [DataZoneClientTypes.OwnerPropertiesOutput]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        owners: [DataZoneClientTypes.OwnerPropertiesOutput]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.owners = owners
+    }
+}
+
 public struct ListEnvironmentActionsInput {
     /// The ID of the Amazon DataZone domain in which the environment actions are listed.
     /// This member is required.
@@ -11723,6 +12853,87 @@ public struct ListNotificationsOutput {
     }
 }
 
+public struct ListPolicyGrantsInput {
+    /// The ID of the domain where you want to list policy grants.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the entity for which you want to list policy grants.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of entity for which you want to list policy grants.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.TargetEntityType?
+    /// The maximum number of grants to return in a single call to ListPolicyGrants. When the number of grants to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListPolicyGrants to list the next set of grants.
+    public var maxResults: Swift.Int?
+    /// When the number of grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListPolicyGrants to list the next set of grants.
+    public var nextToken: Swift.String?
+    /// The type of policy that you want to list.
+    /// This member is required.
+    public var policyType: DataZoneClientTypes.ManagedPolicyType?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.TargetEntityType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        policyType: DataZoneClientTypes.ManagedPolicyType? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.policyType = policyType
+    }
+}
+
+extension DataZoneClientTypes {
+    /// A member of the policy grant list.
+    public struct PolicyGrantMember {
+        /// Specifies the timestamp at which policy grant member was created.
+        public var createdAt: Foundation.Date?
+        /// Specifies the user who created the policy grant member.
+        public var createdBy: Swift.String?
+        /// The details of the policy grant member.
+        public var detail: DataZoneClientTypes.PolicyGrantDetail?
+        /// The principal of the policy grant member.
+        public var principal: DataZoneClientTypes.PolicyGrantPrincipal?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            detail: DataZoneClientTypes.PolicyGrantDetail? = nil,
+            principal: DataZoneClientTypes.PolicyGrantPrincipal? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.detail = detail
+            self.principal = principal
+        }
+    }
+
+}
+
+public struct ListPolicyGrantsOutput {
+    /// The results of this action - the listed grants.
+    /// This member is required.
+    public var grantList: [DataZoneClientTypes.PolicyGrantMember]?
+    /// When the number of grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListPolicyGrants to list the next set of grants.
+    public var nextToken: Swift.String?
+
+    public init(
+        grantList: [DataZoneClientTypes.PolicyGrantMember]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.grantList = grantList
+        self.nextToken = nextToken
+    }
+}
+
 extension DataZoneClientTypes {
 
     public enum SortFieldProject: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -11919,6 +13130,8 @@ extension DataZoneClientTypes {
         /// The identifier of a Amazon DataZone domain where the project exists.
         /// This member is required.
         public var domainId: Swift.String?
+        /// The ID of the domain unit.
+        public var domainUnitId: Swift.String?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
         /// The identifier of a project.
@@ -11937,6 +13150,7 @@ extension DataZoneClientTypes {
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
             domainId: Swift.String? = nil,
+            domainUnitId: Swift.String? = nil,
             failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -11948,6 +13162,7 @@ extension DataZoneClientTypes {
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
+            self.domainUnitId = domainUnitId
             self.failureReasons = failureReasons
             self.id = id
             self.name = name
@@ -11960,7 +13175,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.ProjectSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProjectSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), failureReasons: \(Swift.String(describing: failureReasons)), id: \(Swift.String(describing: id)), projectStatus: \(Swift.String(describing: projectStatus)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "ProjectSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), id: \(Swift.String(describing: id)), projectStatus: \(Swift.String(describing: projectStatus)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListProjectsOutput {
@@ -13317,6 +14532,85 @@ extension RejectSubscriptionRequestOutput: Swift.CustomDebugStringConvertible {
         "RejectSubscriptionRequestOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
 }
 
+public struct RemoveEntityOwnerInput {
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the domain where you want to remove an owner from an entity.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the entity from which you want to remove an owner.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of the entity from which you want to remove an owner.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.DataZoneEntityType?
+    /// The owner that you want to remove from an entity.
+    /// This member is required.
+    public var owner: DataZoneClientTypes.OwnerProperties?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.DataZoneEntityType? = nil,
+        owner: DataZoneClientTypes.OwnerProperties? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.owner = owner
+    }
+}
+
+public struct RemoveEntityOwnerOutput {
+
+    public init() { }
+}
+
+public struct RemovePolicyGrantInput {
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the domain where you want to remove a policy grant.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the entity from which you want to remove a policy grant.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of the entity from which you want to remove a policy grant.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.TargetEntityType?
+    /// The type of the policy that you want to remove.
+    /// This member is required.
+    public var policyType: DataZoneClientTypes.ManagedPolicyType?
+    /// The principal from which you want to remove a policy grant.
+    /// This member is required.
+    public var principal: DataZoneClientTypes.PolicyGrantPrincipal?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.TargetEntityType? = nil,
+        policyType: DataZoneClientTypes.ManagedPolicyType? = nil,
+        principal: DataZoneClientTypes.PolicyGrantPrincipal? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.policyType = policyType
+        self.principal = principal
+    }
+}
+
+public struct RemovePolicyGrantOutput {
+
+    public init() { }
+}
+
 public struct RevokeSubscriptionInput {
     /// The identifier of the Amazon DataZone domain where you want to revoke a subscription.
     /// This member is required.
@@ -14578,7 +15872,7 @@ extension UpdateGroupProfileOutput: Swift.CustomDebugStringConvertible {
 public struct UpdateProjectInput {
     /// The description to be updated as part of the UpdateProject action.
     public var description: Swift.String?
-    /// The identifier of the Amazon DataZone domain in which a project is to be updated.
+    /// The ID of the Amazon DataZone domain where a project is being updated.
     /// This member is required.
     public var domainIdentifier: Swift.String?
     /// The glossary terms to be updated as part of the UpdateProject action.
@@ -14621,6 +15915,8 @@ public struct UpdateProjectOutput {
     /// The identifier of the Amazon DataZone domain in which a project is updated.
     /// This member is required.
     public var domainId: Swift.String?
+    /// The ID of the domain unit.
+    public var domainUnitId: Swift.String?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The glossary terms of the project that are to be updated.
@@ -14641,6 +15937,7 @@ public struct UpdateProjectOutput {
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
         failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
@@ -14653,6 +15950,7 @@ public struct UpdateProjectOutput {
         self.createdBy = createdBy
         self.description = description
         self.domainId = domainId
+        self.domainUnitId = domainUnitId
         self.failureReasons = failureReasons
         self.glossaryTerms = glossaryTerms
         self.id = id
@@ -14664,7 +15962,7 @@ public struct UpdateProjectOutput {
 
 extension UpdateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSubscriptionGrantStatusInput {
@@ -15559,6 +16857,38 @@ extension AcceptSubscriptionRequestInput {
     }
 }
 
+extension AddEntityOwnerInput {
+
+    static func urlPathProvider(_ value: AddEntityOwnerInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/addOwner"
+    }
+}
+
+extension AddPolicyGrantInput {
+
+    static func urlPathProvider(_ value: AddPolicyGrantInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/policies/managed/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/addGrant"
+    }
+}
+
 extension AssociateEnvironmentRoleInput {
 
     static func urlPathProvider(_ value: AssociateEnvironmentRoleInput) -> Swift.String? {
@@ -15684,6 +17014,16 @@ extension CreateDomainInput {
 
     static func urlPathProvider(_ value: CreateDomainInput) -> Swift.String? {
         return "/v2/domains"
+    }
+}
+
+extension CreateDomainUnitInput {
+
+    static func urlPathProvider(_ value: CreateDomainUnitInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/domain-units"
     }
 }
 
@@ -15943,6 +17283,19 @@ extension DeleteDomainInput {
             items.append(skipDeletionCheckQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteDomainUnitInput {
+
+    static func urlPathProvider(_ value: DeleteDomainUnitInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/domain-units/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -16307,6 +17660,19 @@ extension GetDomainInput {
             return nil
         }
         return "/v2/domains/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetDomainUnitInput {
+
+    static func urlPathProvider(_ value: GetDomainUnitInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/domain-units/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -16886,6 +18252,70 @@ extension ListDomainsInput {
     }
 }
 
+extension ListDomainUnitsForParentInput {
+
+    static func urlPathProvider(_ value: ListDomainUnitsForParentInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/domain-units"
+    }
+}
+
+extension ListDomainUnitsForParentInput {
+
+    static func queryItemProvider(_ value: ListDomainUnitsForParentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let parentDomainUnitIdentifier = value.parentDomainUnitIdentifier else {
+            let message = "Creating a URL Query Item failed. parentDomainUnitIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let parentDomainUnitIdentifierQueryItem = Smithy.URIQueryItem(name: "parentDomainUnitIdentifier".urlPercentEncoding(), value: Swift.String(parentDomainUnitIdentifier).urlPercentEncoding())
+        items.append(parentDomainUnitIdentifierQueryItem)
+        return items
+    }
+}
+
+extension ListEntityOwnersInput {
+
+    static func urlPathProvider(_ value: ListEntityOwnersInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/owners"
+    }
+}
+
+extension ListEntityOwnersInput {
+
+    static func queryItemProvider(_ value: ListEntityOwnersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListEnvironmentActionsInput {
 
     static func urlPathProvider(_ value: ListEnvironmentActionsInput) -> Swift.String? {
@@ -17206,6 +18636,44 @@ extension ListNotificationsInput {
             let taskStatusQueryItem = Smithy.URIQueryItem(name: "taskStatus".urlPercentEncoding(), value: Swift.String(taskStatus.rawValue).urlPercentEncoding())
             items.append(taskStatusQueryItem)
         }
+        return items
+    }
+}
+
+extension ListPolicyGrantsInput {
+
+    static func urlPathProvider(_ value: ListPolicyGrantsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/policies/managed/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/grants"
+    }
+}
+
+extension ListPolicyGrantsInput {
+
+    static func queryItemProvider(_ value: ListPolicyGrantsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let policyType = value.policyType else {
+            let message = "Creating a URL Query Item failed. policyType is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let policyTypeQueryItem = Smithy.URIQueryItem(name: "policyType".urlPercentEncoding(), value: Swift.String(policyType.rawValue).urlPercentEncoding())
+        items.append(policyTypeQueryItem)
         return items
     }
 }
@@ -17625,6 +19093,38 @@ extension RejectSubscriptionRequestInput {
     }
 }
 
+extension RemoveEntityOwnerInput {
+
+    static func urlPathProvider(_ value: RemoveEntityOwnerInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/removeOwner"
+    }
+}
+
+extension RemovePolicyGrantInput {
+
+    static func urlPathProvider(_ value: RemovePolicyGrantInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/policies/managed/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/removeGrant"
+    }
+}
+
 extension RevokeSubscriptionInput {
 
     static func urlPathProvider(_ value: RevokeSubscriptionInput) -> Swift.String? {
@@ -17798,6 +19298,19 @@ extension UpdateDomainInput {
     }
 }
 
+extension UpdateDomainUnitInput {
+
+    static func urlPathProvider(_ value: UpdateDomainUnitInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/domain-units/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateEnvironmentInput {
 
     static func urlPathProvider(_ value: UpdateEnvironmentInput) -> Swift.String? {
@@ -17968,6 +19481,26 @@ extension AcceptSubscriptionRequestInput {
     }
 }
 
+extension AddEntityOwnerInput {
+
+    static func write(value: AddEntityOwnerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["owner"].write(value.owner, with: DataZoneClientTypes.OwnerProperties.write(value:to:))
+    }
+}
+
+extension AddPolicyGrantInput {
+
+    static func write(value: AddPolicyGrantInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["detail"].write(value.detail, with: DataZoneClientTypes.PolicyGrantDetail.write(value:to:))
+        try writer["policyType"].write(value.policyType)
+        try writer["principal"].write(value.principal, with: DataZoneClientTypes.PolicyGrantPrincipal.write(value:to:))
+    }
+}
+
 extension CreateAssetInput {
 
     static func write(value: CreateAssetInput?, to writer: SmithyJSON.Writer) throws {
@@ -18081,6 +19614,17 @@ extension CreateDomainInput {
     }
 }
 
+extension CreateDomainUnitInput {
+
+    static func write(value: CreateDomainUnitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["parentDomainUnitIdentifier"].write(value.parentDomainUnitIdentifier)
+    }
+}
+
 extension CreateEnvironmentInput {
 
     static func write(value: CreateEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
@@ -18185,6 +19729,7 @@ extension CreateProjectInput {
     static func write(value: CreateProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["domainUnitId"].write(value.domainUnitId)
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
     }
@@ -18299,6 +19844,25 @@ extension RejectSubscriptionRequestInput {
     static func write(value: RejectSubscriptionRequestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["decisionComment"].write(value.decisionComment)
+    }
+}
+
+extension RemoveEntityOwnerInput {
+
+    static func write(value: RemoveEntityOwnerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["owner"].write(value.owner, with: DataZoneClientTypes.OwnerProperties.write(value:to:))
+    }
+}
+
+extension RemovePolicyGrantInput {
+
+    static func write(value: RemovePolicyGrantInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["policyType"].write(value.policyType)
+        try writer["principal"].write(value.principal, with: DataZoneClientTypes.PolicyGrantPrincipal.write(value:to:))
     }
 }
 
@@ -18438,6 +20002,15 @@ extension UpdateDomainInput {
         try writer["domainExecutionRole"].write(value.domainExecutionRole)
         try writer["name"].write(value.name)
         try writer["singleSignOn"].write(value.singleSignOn, with: DataZoneClientTypes.SingleSignOn.write(value:to:))
+    }
+}
+
+extension UpdateDomainUnitInput {
+
+    static func write(value: UpdateDomainUnitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
     }
 }
 
@@ -18589,6 +20162,20 @@ extension AcceptSubscriptionRequestOutput {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
+    }
+}
+
+extension AddEntityOwnerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddEntityOwnerOutput {
+        return AddEntityOwnerOutput()
+    }
+}
+
+extension AddPolicyGrantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddPolicyGrantOutput {
+        return AddPolicyGrantOutput()
     }
 }
 
@@ -18828,9 +20415,30 @@ extension CreateDomainOutput {
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.portalUrl = try reader["portalUrl"].readIfPresent()
+        value.rootDomainUnitId = try reader["rootDomainUnitId"].readIfPresent()
         value.singleSignOn = try reader["singleSignOn"].readIfPresent(with: DataZoneClientTypes.SingleSignOn.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateDomainUnitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDomainUnitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDomainUnitOutput()
+        value.ancestorDomainUnitIds = try reader["ancestorDomainUnitIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitOwnerProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parentDomainUnitId = try reader["parentDomainUnitId"].readIfPresent()
         return value
     }
 }
@@ -19001,6 +20609,7 @@ extension CreateProjectOutput {
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
@@ -19174,6 +20783,13 @@ extension DeleteDomainOutput {
         var value = DeleteDomainOutput()
         value.status = try reader["status"].readIfPresent()
         return value
+    }
+}
+
+extension DeleteDomainUnitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDomainUnitOutput {
+        return DeleteDomainUnitOutput()
     }
 }
 
@@ -19469,9 +21085,31 @@ extension GetDomainOutput {
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.name = try reader["name"].readIfPresent()
         value.portalUrl = try reader["portalUrl"].readIfPresent()
+        value.rootDomainUnitId = try reader["rootDomainUnitId"].readIfPresent()
         value.singleSignOn = try reader["singleSignOn"].readIfPresent(with: DataZoneClientTypes.SingleSignOn.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetDomainUnitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDomainUnitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDomainUnitOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitOwnerProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parentDomainUnitId = try reader["parentDomainUnitId"].readIfPresent()
         return value
     }
 }
@@ -19777,6 +21415,7 @@ extension GetProjectOutput {
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
@@ -20003,6 +21642,32 @@ extension ListDomainsOutput {
     }
 }
 
+extension ListDomainUnitsForParentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDomainUnitsForParentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDomainUnitsForParentOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEntityOwnersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEntityOwnersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEntityOwnersOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.OwnerPropertiesOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListEnvironmentActionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEnvironmentActionsOutput {
@@ -20103,6 +21768,19 @@ extension ListNotificationsOutput {
         var value = ListNotificationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.notifications = try reader["notifications"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NotificationOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListPolicyGrantsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPolicyGrantsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPolicyGrantsOutput()
+        value.grantList = try reader["grantList"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PolicyGrantMember.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -20286,6 +21964,20 @@ extension RejectSubscriptionRequestOutput {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
+    }
+}
+
+extension RemoveEntityOwnerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveEntityOwnerOutput {
+        return RemoveEntityOwnerOutput()
+    }
+}
+
+extension RemovePolicyGrantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemovePolicyGrantOutput {
+        return RemovePolicyGrantOutput()
     }
 }
 
@@ -20502,7 +22194,29 @@ extension UpdateDomainOutput {
         value.id = try reader["id"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.name = try reader["name"].readIfPresent()
+        value.rootDomainUnitId = try reader["rootDomainUnitId"].readIfPresent()
         value.singleSignOn = try reader["singleSignOn"].readIfPresent(with: DataZoneClientTypes.SingleSignOn.read(from:))
+        return value
+    }
+}
+
+extension UpdateDomainUnitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDomainUnitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDomainUnitOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitOwnerProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parentDomainUnitId = try reader["parentDomainUnitId"].readIfPresent()
         return value
     }
 }
@@ -20641,6 +22355,7 @@ extension UpdateProjectOutput {
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
@@ -20780,6 +22495,47 @@ enum AcceptSubscriptionRequestOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AddEntityOwnerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AddPolicyGrantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -21004,6 +22760,26 @@ enum CreateDomainOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDomainUnitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -21392,6 +23168,26 @@ enum DeleteDataSourceOutputError {
 }
 
 enum DeleteDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDomainUnitOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -21835,6 +23631,25 @@ enum GetDomainOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDomainUnitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -22380,6 +24195,42 @@ enum ListDomainsOutputError {
     }
 }
 
+enum ListDomainUnitsForParentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEntityOwnersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListEnvironmentActionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22521,6 +24372,24 @@ enum ListNotificationsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPolicyGrantsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -22777,6 +24646,43 @@ enum RejectSubscriptionRequestOutputError {
     }
 }
 
+enum RemoveEntityOwnerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RemovePolicyGrantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RevokeSubscriptionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -23017,6 +24923,26 @@ enum UpdateDomainOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDomainUnitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -24131,6 +26057,42 @@ extension DataZoneClientTypes.SingleSignOn {
     }
 }
 
+extension DataZoneClientTypes.DomainUnitOwnerProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitOwnerProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "user":
+                return .user(try reader["user"].read(with: DataZoneClientTypes.DomainUnitUserProperties.read(from:)))
+            case "group":
+                return .group(try reader["group"].read(with: DataZoneClientTypes.DomainUnitGroupProperties.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitGroupProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitGroupProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DomainUnitGroupProperties()
+        value.groupId = try reader["groupId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitUserProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitUserProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DomainUnitUserProperties()
+        value.userId = try reader["userId"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.Resource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Resource {
@@ -24793,6 +26755,53 @@ extension DataZoneClientTypes.DomainSummary {
     }
 }
 
+extension DataZoneClientTypes.DomainUnitSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DomainUnitSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OwnerPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OwnerPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "user":
+                return .user(try reader["user"].read(with: DataZoneClientTypes.OwnerUserPropertiesOutput.read(from:)))
+            case "group":
+                return .group(try reader["group"].read(with: DataZoneClientTypes.OwnerGroupPropertiesOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.OwnerGroupPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OwnerGroupPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OwnerGroupPropertiesOutput()
+        value.groupId = try reader["groupId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OwnerUserPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OwnerUserPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OwnerUserPropertiesOutput()
+        value.userId = try reader["userId"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.EnvironmentActionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentActionSummary {
@@ -24966,6 +26975,448 @@ extension DataZoneClientTypes.NotificationResource {
     }
 }
 
+extension DataZoneClientTypes.PolicyGrantMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PolicyGrantMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.PolicyGrantMember()
+        value.principal = try reader["principal"].readIfPresent(with: DataZoneClientTypes.PolicyGrantPrincipal.read(from:))
+        value.detail = try reader["detail"].readIfPresent(with: DataZoneClientTypes.PolicyGrantDetail.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.PolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.PolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .addtoprojectmemberpool(addtoprojectmemberpool):
+                try writer["addToProjectMemberPool"].write(addtoprojectmemberpool, with: DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail.write(value:to:))
+            case let .createassettype(createassettype):
+                try writer["createAssetType"].write(createassettype, with: DataZoneClientTypes.CreateAssetTypePolicyGrantDetail.write(value:to:))
+            case let .createdomainunit(createdomainunit):
+                try writer["createDomainUnit"].write(createdomainunit, with: DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail.write(value:to:))
+            case let .createenvironment(createenvironment):
+                try writer["createEnvironment"].write(createenvironment, with: DataZoneClientTypes.Unit.write(value:to:))
+            case let .createenvironmentprofile(createenvironmentprofile):
+                try writer["createEnvironmentProfile"].write(createenvironmentprofile, with: DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail.write(value:to:))
+            case let .createformtype(createformtype):
+                try writer["createFormType"].write(createformtype, with: DataZoneClientTypes.CreateFormTypePolicyGrantDetail.write(value:to:))
+            case let .createglossary(createglossary):
+                try writer["createGlossary"].write(createglossary, with: DataZoneClientTypes.CreateGlossaryPolicyGrantDetail.write(value:to:))
+            case let .createproject(createproject):
+                try writer["createProject"].write(createproject, with: DataZoneClientTypes.CreateProjectPolicyGrantDetail.write(value:to:))
+            case let .delegatecreateenvironmentprofile(delegatecreateenvironmentprofile):
+                try writer["delegateCreateEnvironmentProfile"].write(delegatecreateenvironmentprofile, with: DataZoneClientTypes.Unit.write(value:to:))
+            case let .overridedomainunitowners(overridedomainunitowners):
+                try writer["overrideDomainUnitOwners"].write(overridedomainunitowners, with: DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail.write(value:to:))
+            case let .overrideprojectowners(overrideprojectowners):
+                try writer["overrideProjectOwners"].write(overrideprojectowners, with: DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "createDomainUnit":
+                return .createdomainunit(try reader["createDomainUnit"].read(with: DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail.read(from:)))
+            case "overrideDomainUnitOwners":
+                return .overridedomainunitowners(try reader["overrideDomainUnitOwners"].read(with: DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail.read(from:)))
+            case "addToProjectMemberPool":
+                return .addtoprojectmemberpool(try reader["addToProjectMemberPool"].read(with: DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail.read(from:)))
+            case "overrideProjectOwners":
+                return .overrideprojectowners(try reader["overrideProjectOwners"].read(with: DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail.read(from:)))
+            case "createGlossary":
+                return .createglossary(try reader["createGlossary"].read(with: DataZoneClientTypes.CreateGlossaryPolicyGrantDetail.read(from:)))
+            case "createFormType":
+                return .createformtype(try reader["createFormType"].read(with: DataZoneClientTypes.CreateFormTypePolicyGrantDetail.read(from:)))
+            case "createAssetType":
+                return .createassettype(try reader["createAssetType"].read(with: DataZoneClientTypes.CreateAssetTypePolicyGrantDetail.read(from:)))
+            case "createProject":
+                return .createproject(try reader["createProject"].read(with: DataZoneClientTypes.CreateProjectPolicyGrantDetail.read(from:)))
+            case "createEnvironmentProfile":
+                return .createenvironmentprofile(try reader["createEnvironmentProfile"].read(with: DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail.read(from:)))
+            case "delegateCreateEnvironmentProfile":
+                return .delegatecreateenvironmentprofile(try reader["delegateCreateEnvironmentProfile"].read(with: DataZoneClientTypes.Unit.read(from:)))
+            case "createEnvironment":
+                return .createenvironment(try reader["createEnvironment"].read(with: DataZoneClientTypes.Unit.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.Unit {
+
+    static func write(value: DataZoneClientTypes.Unit?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Unit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DataZoneClientTypes.Unit()
+    }
+}
+
+extension DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnitId"].write(value.domainUnitId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CreateProjectPolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.CreateProjectPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateProjectPolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CreateProjectPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CreateAssetTypePolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.CreateAssetTypePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateAssetTypePolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CreateAssetTypePolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CreateFormTypePolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.CreateFormTypePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateFormTypePolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CreateFormTypePolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CreateGlossaryPolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.CreateGlossaryPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateGlossaryPolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CreateGlossaryPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.PolicyGrantPrincipal {
+
+    static func write(value: DataZoneClientTypes.PolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .domainunit(domainunit):
+                try writer["domainUnit"].write(domainunit, with: DataZoneClientTypes.DomainUnitPolicyGrantPrincipal.write(value:to:))
+            case let .group(group):
+                try writer["group"].write(group, with: DataZoneClientTypes.GroupPolicyGrantPrincipal.write(value:to:))
+            case let .project(project):
+                try writer["project"].write(project, with: DataZoneClientTypes.ProjectPolicyGrantPrincipal.write(value:to:))
+            case let .user(user):
+                try writer["user"].write(user, with: DataZoneClientTypes.UserPolicyGrantPrincipal.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PolicyGrantPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "user":
+                return .user(try reader["user"].read(with: DataZoneClientTypes.UserPolicyGrantPrincipal.read(from:)))
+            case "group":
+                return .group(try reader["group"].read(with: DataZoneClientTypes.GroupPolicyGrantPrincipal.read(from:)))
+            case "project":
+                return .project(try reader["project"].read(with: DataZoneClientTypes.ProjectPolicyGrantPrincipal.read(from:)))
+            case "domainUnit":
+                return .domainunit(try reader["domainUnit"].read(with: DataZoneClientTypes.DomainUnitPolicyGrantPrincipal.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitPolicyGrantPrincipal {
+
+    static func write(value: DataZoneClientTypes.DomainUnitPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnitDesignation"].write(value.domainUnitDesignation)
+        try writer["domainUnitGrantFilter"].write(value.domainUnitGrantFilter, with: DataZoneClientTypes.DomainUnitGrantFilter.write(value:to:))
+        try writer["domainUnitIdentifier"].write(value.domainUnitIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitPolicyGrantPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DomainUnitPolicyGrantPrincipal()
+        value.domainUnitDesignation = try reader["domainUnitDesignation"].readIfPresent()
+        value.domainUnitIdentifier = try reader["domainUnitIdentifier"].readIfPresent()
+        value.domainUnitGrantFilter = try reader["domainUnitGrantFilter"].readIfPresent(with: DataZoneClientTypes.DomainUnitGrantFilter.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitGrantFilter {
+
+    static func write(value: DataZoneClientTypes.DomainUnitGrantFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .alldomainunitsgrantfilter(alldomainunitsgrantfilter):
+                try writer["allDomainUnitsGrantFilter"].write(alldomainunitsgrantfilter, with: DataZoneClientTypes.AllDomainUnitsGrantFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitGrantFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "allDomainUnitsGrantFilter":
+                return .alldomainunitsgrantfilter(try reader["allDomainUnitsGrantFilter"].read(with: DataZoneClientTypes.AllDomainUnitsGrantFilter.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.AllDomainUnitsGrantFilter {
+
+    static func write(value: DataZoneClientTypes.AllDomainUnitsGrantFilter?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AllDomainUnitsGrantFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DataZoneClientTypes.AllDomainUnitsGrantFilter()
+    }
+}
+
+extension DataZoneClientTypes.ProjectPolicyGrantPrincipal {
+
+    static func write(value: DataZoneClientTypes.ProjectPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["projectDesignation"].write(value.projectDesignation)
+        try writer["projectGrantFilter"].write(value.projectGrantFilter, with: DataZoneClientTypes.ProjectGrantFilter.write(value:to:))
+        try writer["projectIdentifier"].write(value.projectIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectPolicyGrantPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ProjectPolicyGrantPrincipal()
+        value.projectDesignation = try reader["projectDesignation"].readIfPresent()
+        value.projectIdentifier = try reader["projectIdentifier"].readIfPresent()
+        value.projectGrantFilter = try reader["projectGrantFilter"].readIfPresent(with: DataZoneClientTypes.ProjectGrantFilter.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ProjectGrantFilter {
+
+    static func write(value: DataZoneClientTypes.ProjectGrantFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .domainunitfilter(domainunitfilter):
+                try writer["domainUnitFilter"].write(domainunitfilter, with: DataZoneClientTypes.DomainUnitFilterForProject.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectGrantFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "domainUnitFilter":
+                return .domainunitfilter(try reader["domainUnitFilter"].read(with: DataZoneClientTypes.DomainUnitFilterForProject.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitFilterForProject {
+
+    static func write(value: DataZoneClientTypes.DomainUnitFilterForProject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnit"].write(value.domainUnit)
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitFilterForProject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DomainUnitFilterForProject()
+        value.domainUnit = try reader["domainUnit"].readIfPresent()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GroupPolicyGrantPrincipal {
+
+    static func write(value: DataZoneClientTypes.GroupPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .groupidentifier(groupidentifier):
+                try writer["groupIdentifier"].write(groupidentifier)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GroupPolicyGrantPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "groupIdentifier":
+                return .groupidentifier(try reader["groupIdentifier"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.UserPolicyGrantPrincipal {
+
+    static func write(value: DataZoneClientTypes.UserPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .allusersgrantfilter(allusersgrantfilter):
+                try writer["allUsersGrantFilter"].write(allusersgrantfilter, with: DataZoneClientTypes.AllUsersGrantFilter.write(value:to:))
+            case let .useridentifier(useridentifier):
+                try writer["userIdentifier"].write(useridentifier)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UserPolicyGrantPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "userIdentifier":
+                return .useridentifier(try reader["userIdentifier"].read())
+            case "allUsersGrantFilter":
+                return .allusersgrantfilter(try reader["allUsersGrantFilter"].read(with: DataZoneClientTypes.AllUsersGrantFilter.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.AllUsersGrantFilter {
+
+    static func write(value: DataZoneClientTypes.AllUsersGrantFilter?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AllUsersGrantFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DataZoneClientTypes.AllUsersGrantFilter()
+    }
+}
+
 extension DataZoneClientTypes.ProjectMember {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectMember {
@@ -25027,6 +27478,7 @@ extension DataZoneClientTypes.ProjectSummary {
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
         return value
     }
 }
@@ -25444,6 +27896,37 @@ extension DataZoneClientTypes.AcceptChoice {
         try writer["editedValue"].write(value.editedValue)
         try writer["predictionChoice"].write(value.predictionChoice)
         try writer["predictionTarget"].write(value.predictionTarget)
+    }
+}
+
+extension DataZoneClientTypes.OwnerProperties {
+
+    static func write(value: DataZoneClientTypes.OwnerProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .group(group):
+                try writer["group"].write(group, with: DataZoneClientTypes.OwnerGroupProperties.write(value:to:))
+            case let .user(user):
+                try writer["user"].write(user, with: DataZoneClientTypes.OwnerUserProperties.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.OwnerGroupProperties {
+
+    static func write(value: DataZoneClientTypes.OwnerGroupProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupIdentifier"].write(value.groupIdentifier)
+    }
+}
+
+extension DataZoneClientTypes.OwnerUserProperties {
+
+    static func write(value: DataZoneClientTypes.OwnerUserProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["userIdentifier"].write(value.userIdentifier)
     }
 }
 
