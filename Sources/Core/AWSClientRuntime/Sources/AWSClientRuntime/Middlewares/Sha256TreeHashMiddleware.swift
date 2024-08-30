@@ -24,7 +24,7 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
         context: Context
     ) async throws {
         switch request.body {
-        case .data(let data):
+        case .data:
             break
         case .stream(let stream):
             let streamBytes: Data?
