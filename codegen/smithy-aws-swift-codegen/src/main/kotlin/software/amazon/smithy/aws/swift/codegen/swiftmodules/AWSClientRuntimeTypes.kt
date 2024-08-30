@@ -8,23 +8,23 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SwiftSymbol
 object AWSClientRuntimeTypes {
 
     object AWSQuery {
-        val AWSQueryError = runtimeSymbol("AWSQueryError", SwiftDeclaration.STRUCT, "SmithyReadWrite")
+        val AWSQueryError = runtimeSymbol("AWSQueryError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
     }
     object EC2Query {
-        val EC2QueryError = runtimeSymbol("EC2QueryError", SwiftDeclaration.STRUCT, "SmithyReadWrite")
+        val EC2QueryError = runtimeSymbol("EC2QueryError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
     }
     object AWSJSON {
-        val AWSJSONError = runtimeSymbol("AWSJSONError", SwiftDeclaration.STRUCT, "SmithyReadWrite")
+        val AWSJSONError = runtimeSymbol("AWSJSONError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
         val XAmzTargetMiddleware = runtimeSymbol("XAmzTargetMiddleware", SwiftDeclaration.STRUCT)
     }
     object RestJSON {
-        val RestJSONError = runtimeSymbol("RestJSONError", SwiftDeclaration.STRUCT, "SmithyReadWrite")
+        val RestJSONError = runtimeSymbol("RestJSONError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
     }
 
     object RestXML {
-        val RestXMLError = runtimeSymbol("RestXMLError", SwiftDeclaration.STRUCT, "SmithyReadWrite")
+        val RestXMLError = runtimeSymbol("RestXMLError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
         object S3 {
-            val AWSS3ServiceError = runtimeSymbol("AWSS3ServiceError", SwiftDeclaration.PROTOCOL, "SmithyReadWrite")
+            val AWSS3ServiceError = runtimeSymbol("AWSS3ServiceError", SwiftDeclaration.PROTOCOL, listOf("SmithyReadWrite"))
             val AWSS3ErrorWith200StatusXMLMiddleware = runtimeSymbol("AWSS3ErrorWith200StatusXMLMiddleware", SwiftDeclaration.STRUCT)
         }
     }
@@ -33,7 +33,7 @@ object AWSClientRuntimeTypes {
         val AWSUserAgentMetadata = runtimeSymbol("AWSUserAgentMetadata", SwiftDeclaration.STRUCT)
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware", SwiftDeclaration.STRUCT)
         val EndpointResolverMiddleware = runtimeSymbol("EndpointResolverMiddleware", SwiftDeclaration.STRUCT)
-        val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError", SwiftDeclaration.STRUCT, "UnknownAWSHTTPServiceError")
+        val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError", SwiftDeclaration.STRUCT, listOf("UnknownAWSHTTPServiceError"))
         val AWSServiceError = runtimeSymbol("AWSServiceError", SwiftDeclaration.PROTOCOL)
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware", SwiftDeclaration.STRUCT)
         val AWSRetryErrorInfoProvider = runtimeSymbol("AWSRetryErrorInfoProvider", SwiftDeclaration.ENUM)
@@ -56,10 +56,11 @@ object AWSClientRuntimeTypes {
 private fun runtimeSymbol(
     name: String,
     declaration: SwiftDeclaration,
-    spiName: String? = null
+    spiNames: List<String> = emptyList(),
 ): Symbol = SwiftSymbol.make(
     name,
     declaration,
     AWSSwiftDependency.AWS_CLIENT_RUNTIME,
-    spiName,
+    emptyList(),
+    spiNames,
 )
