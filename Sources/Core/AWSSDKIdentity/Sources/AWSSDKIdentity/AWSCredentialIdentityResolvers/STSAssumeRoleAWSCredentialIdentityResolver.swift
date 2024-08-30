@@ -7,6 +7,7 @@
 
 import class AwsCommonRuntimeKit.CredentialsProvider
 import ClientRuntime
+import enum Smithy.ClientError
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 import struct Foundation.TimeInterval
@@ -36,6 +37,7 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
         sessionName: String,
         durationSeconds: TimeInterval = 900
     ) throws {
+        try validateString(name: sessionName, regex: "^[\\w+=,.@-]*$")
         self.crtAWSCredentialIdentityResolver = try AwsCommonRuntimeKit.CredentialsProvider(source: .sts(
             bootstrap: SDKDefaultIO.shared.clientBootstrap,
             tlsContext: SDKDefaultIO.shared.tlsContext,
@@ -48,3 +50,9 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
 }
 
 // swiftlint:enable type_name
+
+func validateString(name: String, regex: String) throws {
+    guard let _ = name.range(of: regex, options: .regularExpression) else {
+        throw ClientError.invalidValue("The input value [\(name)] does not match the required regex: \(regex)")
+    }
+}
