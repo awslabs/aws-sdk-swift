@@ -26,9 +26,9 @@ extension QueryTimestampsInput {
 
     static func write(value: QueryTimestampsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["epochMember"].writeTimestamp(value.epochMember, format: .epochSeconds)
-        try writer["epochTarget"].writeTimestamp(value.epochTarget, format: .epochSeconds)
-        try writer["normalFormat"].writeTimestamp(value.normalFormat, format: .dateTime)
+        try writer["epochMember"].writeTimestamp(value.epochMember, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["epochTarget"].writeTimestamp(value.epochTarget, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["normalFormat"].writeTimestamp(value.normalFormat, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["Action"].write("QueryTimestamps")
         try writer["Version"].write("2020-01-08")
     }
