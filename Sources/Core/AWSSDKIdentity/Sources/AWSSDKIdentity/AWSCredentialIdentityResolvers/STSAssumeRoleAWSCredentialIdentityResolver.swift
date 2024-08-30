@@ -52,7 +52,7 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
 // swiftlint:enable type_name
 
 func validateString(name: String, regex: String) throws {
-    guard let _ = name.range(of: regex, options: .regularExpression) else {
+    guard name.range(of: regex, options: .regularExpression) != nil else {
         throw ClientError.invalidValue("The input value [\(name)] does not match the required regex: \(regex)")
     }
 }
