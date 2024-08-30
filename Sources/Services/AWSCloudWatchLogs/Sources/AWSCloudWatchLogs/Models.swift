@@ -313,7 +313,7 @@ extension CloudWatchLogsClientTypes {
 }
 
 extension CloudWatchLogsClientTypes {
-    /// A tructures that contains information about one pattern token related to an anomaly. For more information about patterns and tokens, see [CreateLogAnomalyDetector](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogAnomalyDetector.html).
+    /// A structure that contains information about one pattern token related to an anomaly. For more information about patterns and tokens, see [CreateLogAnomalyDetector](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogAnomalyDetector.html).
     public struct PatternToken {
         /// For a dynamic token, this indicates where in the pattern that this token appears, related to other dynamic tokens. The dynamic token that appears first has a value of 1, the one that appears second is 2, and so on.
         public var dynamicTokenPosition: Swift.Int
@@ -2879,6 +2879,70 @@ public struct DisassociateKmsKeyInput {
 }
 
 extension CloudWatchLogsClientTypes {
+    /// Reserved for future use.
+    public struct Entity {
+        /// Reserved for future use.
+        public var attributes: [Swift.String: Swift.String]?
+        /// Reserved for future use.
+        public var keyAttributes: [Swift.String: Swift.String]?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            keyAttributes: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.attributes = attributes
+            self.keyAttributes = keyAttributes
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum EntityRejectionErrorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entitySizeTooLarge
+        case invalidAttributes
+        case invalidEntity
+        case invalidKeyAttribute
+        case invalidTypeValue
+        case missingRequiredFields
+        case unsupportedLogGroupType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntityRejectionErrorType] {
+            return [
+                .entitySizeTooLarge,
+                .invalidAttributes,
+                .invalidEntity,
+                .invalidKeyAttribute,
+                .invalidTypeValue,
+                .missingRequiredFields,
+                .unsupportedLogGroupType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entitySizeTooLarge: return "EntitySizeTooLarge"
+            case .invalidAttributes: return "InvalidAttributes"
+            case .invalidEntity: return "InvalidEntity"
+            case .invalidKeyAttribute: return "InvalidKeyAttributes"
+            case .invalidTypeValue: return "InvalidTypeValue"
+            case .missingRequiredFields: return "MissingRequiredFields"
+            case .unsupportedLogGroupType: return "UnsupportedLogGroupType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
     /// Represents a matched event.
     public struct FilteredLogEvent {
         /// The ID of the event.
@@ -2924,9 +2988,9 @@ public struct FilterLogEventsInput {
     public var logGroupIdentifier: Swift.String?
     /// The name of the log group to search. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupName: Swift.String?
-    /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
+    /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, the action returns an InvalidParameterException error.
     public var logStreamNamePrefix: Swift.String?
-    /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNamePrefix and logStreamNames, the action returns an InvalidParameterException error.
+    /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNames and logStreamNamePrefix, the action returns an InvalidParameterException error.
     public var logStreamNames: [Swift.String]?
     /// The token for the next set of events to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
@@ -3797,7 +3861,7 @@ public struct PutAccountPolicyInput {
     ///
     /// * FilterPattern A filter pattern for subscribing to a filtered stream of log events.
     ///
-    /// * DistributionThe method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.
+    /// * Distribution The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.
     /// This member is required.
     public var policyDocument: Swift.String?
     /// A name for the policy. This must be unique within the account.
@@ -3955,9 +4019,11 @@ public struct PutDeliveryDestinationPolicyOutput {
 public struct PutDeliverySourceInput {
     /// Defines the type of log that the source is sending.
     ///
+    /// * For Amazon Bedrock, the valid value is APPLICATION_LOGS.
+    ///
     /// * For Amazon CodeWhisperer, the valid value is EVENT_LOGS.
     ///
-    /// * For IAM Identity Centerr, the valid value is ERROR_LOGS.
+    /// * For IAM Identity Center, the valid value is ERROR_LOGS.
     ///
     /// * For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, and WORKMAIL_MAILBOX_ACCESS_LOGS.
     /// This member is required.
@@ -4083,6 +4149,8 @@ public struct UnrecognizedClientException: ClientRuntime.ModeledError, AWSClient
 }
 
 public struct PutLogEventsInput {
+    /// Reserved for future use.
+    public var entity: CloudWatchLogsClientTypes.Entity?
     /// The log events.
     /// This member is required.
     public var logEvents: [CloudWatchLogsClientTypes.InputLogEvent]?
@@ -4096,17 +4164,36 @@ public struct PutLogEventsInput {
     public var sequenceToken: Swift.String?
 
     public init(
+        entity: CloudWatchLogsClientTypes.Entity? = nil,
         logEvents: [CloudWatchLogsClientTypes.InputLogEvent]? = nil,
         logGroupName: Swift.String? = nil,
         logStreamName: Swift.String? = nil,
         sequenceToken: Swift.String? = nil
     )
     {
+        self.entity = entity
         self.logEvents = logEvents
         self.logGroupName = logGroupName
         self.logStreamName = logStreamName
         self.sequenceToken = sequenceToken
     }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// Reserved for future use.
+    public struct RejectedEntityInfo {
+        /// Reserved for future use.
+        /// This member is required.
+        public var errorType: CloudWatchLogsClientTypes.EntityRejectionErrorType?
+
+        public init(
+            errorType: CloudWatchLogsClientTypes.EntityRejectionErrorType? = nil
+        )
+        {
+            self.errorType = errorType
+        }
+    }
+
 }
 
 extension CloudWatchLogsClientTypes {
@@ -4136,15 +4223,19 @@ extension CloudWatchLogsClientTypes {
 public struct PutLogEventsOutput {
     /// The next sequence token. This field has been deprecated. The sequence token is now ignored in PutLogEvents actions. PutLogEvents actions are always accepted even if the sequence token is not valid. You can use parallel PutLogEvents actions on the same log stream and you do not need to wait for the response of a previous PutLogEvents action to obtain the nextSequenceToken value.
     public var nextSequenceToken: Swift.String?
+    /// Reserved for future use.
+    public var rejectedEntityInfo: CloudWatchLogsClientTypes.RejectedEntityInfo?
     /// The rejected events.
     public var rejectedLogEventsInfo: CloudWatchLogsClientTypes.RejectedLogEventsInfo?
 
     public init(
         nextSequenceToken: Swift.String? = nil,
+        rejectedEntityInfo: CloudWatchLogsClientTypes.RejectedEntityInfo? = nil,
         rejectedLogEventsInfo: CloudWatchLogsClientTypes.RejectedLogEventsInfo? = nil
     )
     {
         self.nextSequenceToken = nextSequenceToken
+        self.rejectedEntityInfo = rejectedEntityInfo
         self.rejectedLogEventsInfo = rejectedLogEventsInfo
     }
 }
@@ -5936,6 +6027,7 @@ extension PutLogEventsInput {
 
     static func write(value: PutLogEventsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["entity"].write(value.entity, with: CloudWatchLogsClientTypes.Entity.write(value:to:))
         try writer["logEvents"].writeList(value.logEvents, memberWritingClosure: CloudWatchLogsClientTypes.InputLogEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logGroupName"].write(value.logGroupName)
         try writer["logStreamName"].write(value.logStreamName)
@@ -6736,6 +6828,7 @@ extension PutLogEventsOutput {
         let reader = responseReader
         var value = PutLogEventsOutput()
         value.nextSequenceToken = try reader["nextSequenceToken"].readIfPresent()
+        value.rejectedEntityInfo = try reader["rejectedEntityInfo"].readIfPresent(with: CloudWatchLogsClientTypes.RejectedEntityInfo.read(from:))
         value.rejectedLogEventsInfo = try reader["rejectedLogEventsInfo"].readIfPresent(with: CloudWatchLogsClientTypes.RejectedLogEventsInfo.read(from:))
         return value
     }
@@ -8820,6 +8913,16 @@ extension CloudWatchLogsClientTypes.RejectedLogEventsInfo {
     }
 }
 
+extension CloudWatchLogsClientTypes.RejectedEntityInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.RejectedEntityInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.RejectedEntityInfo()
+        value.errorType = try reader["errorType"].readIfPresent()
+        return value
+    }
+}
+
 extension SessionStreamingException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SessionStreamingException {
@@ -8930,6 +9033,15 @@ extension CloudWatchLogsClientTypes.InputLogEvent {
         guard let value else { return }
         try writer["message"].write(value.message)
         try writer["timestamp"].write(value.timestamp)
+    }
+}
+
+extension CloudWatchLogsClientTypes.Entity {
+
+    static func write(value: CloudWatchLogsClientTypes.Entity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["keyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
