@@ -82,4 +82,21 @@ final class TranscribeStreamingTests: XCTestCase {
         ]
         XCTAssertTrue(candidates.contains(where: { $0.lowercased() == fullMessage.lowercased() }))
     }
+
+    func test_many() async throws {
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for _ in 1...36 {
+                group.addTask {
+//                    try await self.testStartStreamTranscription()
+
+                    do {
+                        try await self.testStartStreamTranscription()
+                    } catch {
+                        print("ERROR: \(error)")
+                    }
+                }
+            }
+            try await group.waitForAll()
+        }
+    }
 }

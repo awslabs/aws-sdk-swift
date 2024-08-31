@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "FF4C1A8F-5D70-4A2A-BFDE-77467500C547",
+      "id" : "7641BFBB-9D8F-4EC3-95C0-2654550A5C4E",
       "name" : "Test Scheme Action",
       "options" : {
 
@@ -9,18 +9,9 @@
     }
   ],
   "defaultOptions" : {
-    "environmentVariableEntries" : [
-
-    ]
+    "threadSanitizerEnabled" : true
   },
   "testTargets" : [
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSS3IntegrationTests",
-        "name" : "AWSS3IntegrationTests"
-      }
-    },
     {
       "target" : {
         "containerPath" : "container:",
@@ -52,6 +43,13 @@
     {
       "target" : {
         "containerPath" : "container:",
+        "identifier" : "AWSGlacierIntegrationTests",
+        "name" : "AWSGlacierIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
         "identifier" : "AWSKinesisIntegrationTests",
         "name" : "AWSKinesisIntegrationTests"
       }
@@ -73,6 +71,13 @@
     {
       "target" : {
         "containerPath" : "container:",
+        "identifier" : "AWSS3IntegrationTests",
+        "name" : "AWSS3IntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
         "identifier" : "AWSSQSIntegrationTests",
         "name" : "AWSSQSIntegrationTests"
       }
@@ -89,13 +94,6 @@
         "containerPath" : "container:",
         "identifier" : "AWSTranscribeStreamingIntegrationTests",
         "name" : "AWSTranscribeStreamingIntegrationTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSGlacierIntegrationTests",
-        "name" : "AWSGlacierIntegrationTests"
       }
     }
   ],
