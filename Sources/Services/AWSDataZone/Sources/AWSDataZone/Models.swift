@@ -87,6 +87,28 @@ extension DataZoneClientTypes.AcceptChoice: Swift.CustomDebugStringConvertible {
         "AcceptChoice(predictionChoice: \(Swift.String(describing: predictionChoice)), predictionTarget: \(Swift.String(describing: predictionTarget)), editedValue: \"CONTENT_REDACTED\")"}
 }
 
+extension DataZoneClientTypes {
+    /// The accepted asset scope.
+    public struct AcceptedAssetScope {
+        /// The asset ID of the accepted asset scope.
+        /// This member is required.
+        public var assetId: Swift.String?
+        /// The filter IDs of the accepted asset scope.
+        /// This member is required.
+        public var filterIds: [Swift.String]?
+
+        public init(
+            assetId: Swift.String? = nil,
+            filterIds: [Swift.String]? = nil
+        )
+        {
+            self.assetId = assetId
+            self.filterIds = filterIds
+        }
+    }
+
+}
+
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -344,6 +366,8 @@ public struct AcceptPredictionsOutput {
 }
 
 public struct AcceptSubscriptionRequestInput {
+    /// The asset scopes of the accept subscription request.
+    public var assetScopes: [DataZoneClientTypes.AcceptedAssetScope]?
     /// A description that specifies the reason for accepting the specified subscription request.
     public var decisionComment: Swift.String?
     /// The Amazon DataZone domain where the specified subscription request is being accepted.
@@ -354,11 +378,13 @@ public struct AcceptSubscriptionRequestInput {
     public var identifier: Swift.String?
 
     public init(
+        assetScopes: [DataZoneClientTypes.AcceptedAssetScope]? = nil,
         decisionComment: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
     )
     {
+        self.assetScopes = assetScopes
         self.decisionComment = decisionComment
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
@@ -367,7 +393,7 @@ public struct AcceptSubscriptionRequestInput {
 
 extension AcceptSubscriptionRequestInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AcceptSubscriptionRequestInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), identifier: \(Swift.String(describing: identifier)), decisionComment: \"CONTENT_REDACTED\")"}
+        "AcceptSubscriptionRequestInput(assetScopes: \(Swift.String(describing: assetScopes)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), identifier: \(Swift.String(describing: identifier)), decisionComment: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -403,6 +429,37 @@ extension DataZoneClientTypes {
 }
 
 extension DataZoneClientTypes {
+    /// The asset scope.
+    public struct AssetScope {
+        /// The asset ID of the asset scope.
+        /// This member is required.
+        public var assetId: Swift.String?
+        /// The error message of the asset scope.
+        public var errorMessage: Swift.String?
+        /// The filter IDs of the asset scope.
+        /// This member is required.
+        public var filterIds: [Swift.String]?
+        /// The status of the asset scope.
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            assetId: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            filterIds: [Swift.String]? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.assetId = assetId
+            self.errorMessage = errorMessage
+            self.filterIds = filterIds
+            self.status = status
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
     /// Details of a glossary term attached to the inventory asset.
     public struct DetailedGlossaryTerm {
         /// The name of a glossary term attached to the inventory asset.
@@ -430,6 +487,8 @@ extension DataZoneClientTypes.DetailedGlossaryTerm: Swift.CustomDebugStringConve
 extension DataZoneClientTypes {
     /// The details of the published asset for which the subscription grant is created.
     public struct SubscribedAssetListing {
+        /// The asset scope of the subscribed asset listing.
+        public var assetScope: DataZoneClientTypes.AssetScope?
         /// The identifier of the published asset for which the subscription grant is created.
         public var entityId: Swift.String?
         /// The revision of the published asset for which the subscription grant is created.
@@ -442,6 +501,7 @@ extension DataZoneClientTypes {
         public var glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]?
 
         public init(
+            assetScope: DataZoneClientTypes.AssetScope? = nil,
             entityId: Swift.String? = nil,
             entityRevision: Swift.String? = nil,
             entityType: Swift.String? = nil,
@@ -449,6 +509,7 @@ extension DataZoneClientTypes {
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil
         )
         {
+            self.assetScope = assetScope
             self.entityId = entityId
             self.entityRevision = entityRevision
             self.entityType = entityType
@@ -6440,6 +6501,8 @@ extension DataZoneClientTypes {
         /// The revision of the asset for which the subscription grant is created.
         /// This member is required.
         public var assetRevision: Swift.String?
+        /// The asset scope of the subscribed asset.
+        public var assetScope: DataZoneClientTypes.AssetScope?
         /// The failure cause included in the details of the asset for which the subscription grant is created.
         public var failureCause: DataZoneClientTypes.FailureCause?
         /// The failure timestamp included in the details of the asset for which the subscription grant is created.
@@ -6455,6 +6518,7 @@ extension DataZoneClientTypes {
         public init(
             assetId: Swift.String? = nil,
             assetRevision: Swift.String? = nil,
+            assetScope: DataZoneClientTypes.AssetScope? = nil,
             failureCause: DataZoneClientTypes.FailureCause? = nil,
             failureTimestamp: Foundation.Date? = nil,
             grantedTimestamp: Foundation.Date? = nil,
@@ -6464,6 +6528,7 @@ extension DataZoneClientTypes {
         {
             self.assetId = assetId
             self.assetRevision = assetRevision
+            self.assetScope = assetScope
             self.failureCause = failureCause
             self.failureTimestamp = failureTimestamp
             self.grantedTimestamp = grantedTimestamp
@@ -19477,6 +19542,7 @@ extension AcceptSubscriptionRequestInput {
 
     static func write(value: AcceptSubscriptionRequestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["assetScopes"].writeList(value.assetScopes, memberWritingClosure: DataZoneClientTypes.AcceptedAssetScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["decisionComment"].write(value.decisionComment)
     }
 }
@@ -25377,6 +25443,20 @@ extension DataZoneClientTypes.SubscribedAssetListing {
         value.entityType = try reader["entityType"].readIfPresent()
         value.forms = try reader["forms"].readIfPresent()
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.assetScope = try reader["assetScope"].readIfPresent(with: DataZoneClientTypes.AssetScope.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetScope {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetScope()
+        value.assetId = try reader["assetId"].readIfPresent()
+        value.filterIds = try reader["filterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }
@@ -26309,6 +26389,7 @@ extension DataZoneClientTypes.SubscribedAsset {
         value.failureCause = try reader["failureCause"].readIfPresent(with: DataZoneClientTypes.FailureCause.read(from:))
         value.grantedTimestamp = try reader["grantedTimestamp"].readTimestampIfPresent(format: .epochSeconds)
         value.failureTimestamp = try reader["failureTimestamp"].readTimestampIfPresent(format: .epochSeconds)
+        value.assetScope = try reader["assetScope"].readIfPresent(with: DataZoneClientTypes.AssetScope.read(from:))
         return value
     }
 }
@@ -27896,6 +27977,15 @@ extension DataZoneClientTypes.AcceptChoice {
         try writer["editedValue"].write(value.editedValue)
         try writer["predictionChoice"].write(value.predictionChoice)
         try writer["predictionTarget"].write(value.predictionTarget)
+    }
+}
+
+extension DataZoneClientTypes.AcceptedAssetScope {
+
+    static func write(value: DataZoneClientTypes.AcceptedAssetScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["filterIds"].writeList(value.filterIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
