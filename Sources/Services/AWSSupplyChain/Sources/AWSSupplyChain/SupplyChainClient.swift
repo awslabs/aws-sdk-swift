@@ -344,7 +344,7 @@ extension SupplyChainClient {
 
     /// Performs the `SendDataIntegrationEvent` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Send transactional data events with real-time data for analysis or monitoring.
+    /// Send the transactional data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake. New data events are synced with data lake at 5 PM GMT everyday. The updated transactional data is available in data lake after ingestion.
     ///
     /// - Parameter SendDataIntegrationEventInput : The request parameters for SendDataIntegrationEvent.
     ///

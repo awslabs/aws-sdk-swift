@@ -35,8 +35,7 @@ class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
 
     private fun middlewareParamsString(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter): String {
         return writer.format(
-            "metadata: \$N.fromConfig(serviceID: serviceName, version: \$L.version, config: config)",
-            AWSClientRuntimeTypes.Core.AWSUserAgentMetadata,
+            "serviceID: serviceName, version: \$L.version, config: config",
             ctx.symbolProvider.toSymbol(ctx.service).name,
         )
     }

@@ -277,6 +277,7 @@ extension ListAssetModelCompositeModelsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListAssetModelCompositeModelsInput {
         return ListAssetModelCompositeModelsInput(
             assetModelId: self.assetModelId,
+            assetModelVersion: self.assetModelVersion,
             maxResults: self.maxResults,
             nextToken: token
         )}
@@ -308,6 +309,7 @@ extension ListAssetModelPropertiesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListAssetModelPropertiesInput {
         return ListAssetModelPropertiesInput(
             assetModelId: self.assetModelId,
+            assetModelVersion: self.assetModelVersion,
             filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token
@@ -340,6 +342,7 @@ extension ListAssetModelsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListAssetModelsInput {
         return ListAssetModelsInput(
             assetModelTypes: self.assetModelTypes,
+            assetModelVersion: self.assetModelVersion,
             maxResults: self.maxResults,
             nextToken: token
         )}

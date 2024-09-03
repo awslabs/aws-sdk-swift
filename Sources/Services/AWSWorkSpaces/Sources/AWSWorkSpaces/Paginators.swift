@@ -108,6 +108,7 @@ extension DescribeWorkspaceDirectoriesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeWorkspaceDirectoriesInput {
         return DescribeWorkspaceDirectoriesInput(
             directoryIds: self.directoryIds,
+            filters: self.filters,
             limit: self.limit,
             nextToken: token,
             workspaceDirectoryNames: self.workspaceDirectoryNames

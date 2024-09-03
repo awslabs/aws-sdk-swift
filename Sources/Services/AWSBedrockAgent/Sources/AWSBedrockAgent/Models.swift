@@ -392,6 +392,36 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes {
+
+    /// ENUM to check if action requires user confirmation
+    public enum RequireConfirmation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RequireConfirmation] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
     /// Defines parameters that the agent needs to invoke from the user to complete the function. Corresponds to an action in an action group. This data type is used in the following API operations:
     ///
     /// * [CreateAgentActionGroup request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_RequestSyntax)
@@ -411,16 +441,20 @@ extension BedrockAgentClientTypes {
         public var name: Swift.String?
         /// The parameters that the agent elicits from the user to fulfill the function.
         public var parameters: [Swift.String: BedrockAgentClientTypes.ParameterDetail]?
+        /// Contains information if user confirmation is required to invoke the function.
+        public var requireConfirmation: BedrockAgentClientTypes.RequireConfirmation?
 
         public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil,
-            parameters: [Swift.String: BedrockAgentClientTypes.ParameterDetail]? = nil
+            parameters: [Swift.String: BedrockAgentClientTypes.ParameterDetail]? = nil,
+            requireConfirmation: BedrockAgentClientTypes.RequireConfirmation? = nil
         )
         {
             self.description = description
             self.name = name
             self.parameters = parameters
+            self.requireConfirmation = requireConfirmation
         }
     }
 
@@ -2463,7 +2497,7 @@ extension BedrockAgentClientTypes {
         /// The supported authentication type to authenticate and connect to your Confluence instance.
         /// This member is required.
         public var authType: BedrockAgentClientTypes.ConfluenceAuthType?
-        /// The Amazon Resource Name of an Secrets Manager secret that stores your authentication credentials for your SharePoint site/sites. For more information on the key-value pairs that must be included in your secret, depending on your authentication type, see [Confluence connection configuration](https://docs.aws.amazon.com/bedrock/latest/userguide/confluence-data-source-connector.html#configuration-confluence-connector).
+        /// The Amazon Resource Name of an Secrets Manager secret that stores your authentication credentials for your Confluence instance URL. For more information on the key-value pairs that must be included in your secret, depending on your authentication type, see [Confluence connection configuration](https://docs.aws.amazon.com/bedrock/latest/userguide/confluence-data-source-connector.html#configuration-confluence-connector).
         /// This member is required.
         public var credentialsSecretArn: Swift.String?
         /// The supported host type, whether online/cloud or server/on-premises.
@@ -2588,7 +2622,7 @@ extension BedrockAgentClientTypes {
         /// The supported authentication type to authenticate and connect to your Salesforce instance.
         /// This member is required.
         public var authType: BedrockAgentClientTypes.SalesforceAuthType?
-        /// The Amazon Resource Name of an Secrets Manager secret that stores your authentication credentials for your SharePoint site/sites. For more information on the key-value pairs that must be included in your secret, depending on your authentication type, see [Salesforce connection configuration](https://docs.aws.amazon.com/bedrock/latest/userguide/salesforce-data-source-connector.html#configuration-salesforce-connector).
+        /// The Amazon Resource Name of an Secrets Manager secret that stores your authentication credentials for your Salesforce instance URL. For more information on the key-value pairs that must be included in your secret, depending on your authentication type, see [Salesforce connection configuration](https://docs.aws.amazon.com/bedrock/latest/userguide/salesforce-data-source-connector.html#configuration-salesforce-connector).
         /// This member is required.
         public var credentialsSecretArn: Swift.String?
         /// The Salesforce host URL or instance URL.
@@ -3418,9 +3452,9 @@ public struct CreateDataSourceInput {
     public var clientToken: Swift.String?
     /// The data deletion policy for the data source. You can set the data deletion policy to:
     ///
-    /// * DELETE: Deletes all underlying data belonging to the data source from the vector store upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted, only the underlying data. This flag is ignored if an Amazon Web Services account is deleted.
+    /// * DELETE: Deletes all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted, only the data. This flag is ignored if an Amazon Web Services account is deleted.
     ///
-    /// * RETAIN: Retains all underlying data in your vector store upon deletion of a knowledge base or data source resource.
+    /// * RETAIN: Retains all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted if you delete a knowledge base or data source resource.
     public var dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy?
     /// The connection configuration for the data source.
     /// This member is required.
@@ -4903,13 +4937,13 @@ public struct GetFlowAliasOutput {
     /// The unique identifier of the alias of the flow.
     /// This member is required.
     public var id: Swift.String?
-    /// The name of the flow alias.
+    /// The name of the alias.
     /// This member is required.
     public var name: Swift.String?
     /// Contains information about the version that the alias is mapped to.
     /// This member is required.
     public var routingConfiguration: [BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem]?
-    /// The time at which the flow alias was last updated.
+    /// The time at which the alias was last updated.
     /// This member is required.
     public var updatedAt: Foundation.Date?
 
@@ -4961,7 +4995,7 @@ extension BedrockAgentClientTypes {
     ///
     /// * [ListFlowAliases response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListFlowAliases.html#API_agent_ListFlowAliases_ResponseSyntax)
     public struct FlowAliasSummary {
-        /// The Amazon Resource Name (ARN) of the flow alias.
+        /// The Amazon Resource Name (ARN) of the alias.
         /// This member is required.
         public var arn: Swift.String?
         /// The time at which the alias was created.
@@ -5010,7 +5044,7 @@ extension BedrockAgentClientTypes {
 }
 
 public struct ListFlowAliasesOutput {
-    /// A list, each member of which contains information about a flow alias.
+    /// A list, each member of which contains information about an alias.
     /// This member is required.
     public var flowAliasSummaries: [BedrockAgentClientTypes.FlowAliasSummary]?
     /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
@@ -5030,12 +5064,12 @@ public struct UpdateFlowAliasInput {
     /// The unique identifier of the alias.
     /// This member is required.
     public var aliasIdentifier: Swift.String?
-    /// A description for the flow alias.
+    /// A description for the alias.
     public var description: Swift.String?
     /// The unique identifier of the flow.
     /// This member is required.
     public var flowIdentifier: Swift.String?
-    /// The name of the flow alias.
+    /// The name of the alias.
     /// This member is required.
     public var name: Swift.String?
     /// Contains information about the version to which to map the alias.
@@ -5073,13 +5107,13 @@ public struct UpdateFlowAliasOutput {
     /// The unique identifier of the alias.
     /// This member is required.
     public var id: Swift.String?
-    /// The name of the flow alias.
+    /// The name of the alias.
     /// This member is required.
     public var name: Swift.String?
     /// Contains information about the version that the alias is mapped to.
     /// This member is required.
     public var routingConfiguration: [BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem]?
-    /// The time at which the flow alias was last updated.
+    /// The time at which the alias was last updated.
     /// This member is required.
     public var updatedAt: Foundation.Date?
 
@@ -5137,7 +5171,7 @@ public struct CreateFlowVersionOutput {
     public var customerEncryptionKeyArn: Swift.String?
     /// A definition of the nodes and connections in the flow.
     public var definition: BedrockAgentClientTypes.FlowDefinition?
-    /// The description of the flow version.
+    /// The description of the version.
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
     /// This member is required.
@@ -5145,7 +5179,7 @@ public struct CreateFlowVersionOutput {
     /// The unique identifier of the flow.
     /// This member is required.
     public var id: Swift.String?
-    /// The name of the flow version.
+    /// The name of the version.
     /// This member is required.
     public var name: Swift.String?
     /// The status of the flow.
@@ -5258,7 +5292,7 @@ public struct GetFlowVersionOutput {
     /// The unique identifier of the flow.
     /// This member is required.
     public var id: Swift.String?
-    /// The name of the flow version.
+    /// The name of the version.
     /// This member is required.
     public var name: Swift.String?
     /// The status of the flow.
@@ -5316,14 +5350,14 @@ public struct ListFlowVersionsInput {
 }
 
 extension BedrockAgentClientTypes {
-    /// Contains information about the flow version. This data type is used in the following API operations:
+    /// Contains information about a version of a flow. This data type is used in the following API operations:
     ///
     /// * [ListFlowVersions response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListFlowVersions.html#API_agent_ListFlowVersions_ResponseSyntax)
     public struct FlowVersionSummary {
         /// The Amazon Resource Name (ARN) of the flow that the version belongs to.
         /// This member is required.
         public var arn: Swift.String?
-        /// The time at the flow version was created.
+        /// The time at the version was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
         /// The unique identifier of the flow.
@@ -7400,12 +7434,12 @@ public struct CreatePromptVersionOutput {
     public var customerEncryptionKeyArn: Swift.String?
     /// The name of the default variant for the prompt. This value must match the name field in the relevant [PromptVariant](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html) object.
     public var defaultVariant: Swift.String?
-    /// A description for the prompt version.
+    /// A description for the version.
     public var description: Swift.String?
     /// The unique identifier of the prompt.
     /// This member is required.
     public var id: Swift.String?
-    /// The name of the prompt version.
+    /// The name of the prompt.
     /// This member is required.
     public var name: Swift.String?
     /// The time at which the prompt was last updated.
@@ -7452,7 +7486,7 @@ public struct DeletePromptInput {
     /// The unique identifier of the prompt.
     /// This member is required.
     public var promptIdentifier: Swift.String?
-    /// The version of the prompt to delete.
+    /// The version of the prompt to delete. To delete the prompt, omit this field.
     public var promptVersion: Swift.String?
 
     public init(
@@ -7486,7 +7520,7 @@ public struct GetPromptInput {
     /// The unique identifier of the prompt.
     /// This member is required.
     public var promptIdentifier: Swift.String?
-    /// The version of the prompt about which you want to retrieve information.
+    /// The version of the prompt about which you want to retrieve information. Omit this field to return information about the working draft of the prompt.
     public var promptVersion: Swift.String?
 
     public init(
@@ -7500,7 +7534,7 @@ public struct GetPromptInput {
 }
 
 public struct GetPromptOutput {
-    /// The Amazon Resource Name (ARN) of the prompt.
+    /// The Amazon Resource Name (ARN) of the prompt or the prompt version (if you specified a version in the request).
     /// This member is required.
     public var arn: Swift.String?
     /// The time at which the prompt was created.
@@ -7563,7 +7597,7 @@ public struct ListPromptsInput {
     public var maxResults: Swift.Int?
     /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     public var nextToken: Swift.String?
-    /// The unique identifier of the prompt.
+    /// The unique identifier of the prompt for whose versions you want to return information. Omit this field to list information about all prompts in an account.
     public var promptIdentifier: Swift.String?
 
     public init(
@@ -7583,7 +7617,7 @@ extension BedrockAgentClientTypes {
     ///
     /// * [ListPrompts response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListPrompts.html#API_agent_ListPrompts_ResponseSyntax)
     public struct PromptSummary {
-        /// The Amazon Resource Name (ARN) of the prompt.
+        /// The Amazon Resource Name (ARN) of the prompt or the prompt version (if you specified a version in the request).
         /// This member is required.
         public var arn: Swift.String?
         /// The time at which the prompt was created.
@@ -11401,6 +11435,7 @@ extension BedrockAgentClientTypes.Function {
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["parameters"].writeMap(value.parameters, valueWritingClosure: BedrockAgentClientTypes.ParameterDetail.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["requireConfirmation"].write(value.requireConfirmation)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.Function {
@@ -11409,6 +11444,7 @@ extension BedrockAgentClientTypes.Function {
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: BedrockAgentClientTypes.ParameterDetail.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.requireConfirmation = try reader["requireConfirmation"].readIfPresent()
         return value
     }
 }
