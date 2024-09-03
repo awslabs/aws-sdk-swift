@@ -245,6 +245,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StringArrayEndpointParam"
+               BuildableName = "StringArrayEndpointParam"
+               BlueprintName = "StringArrayEndpointParam"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -406,6 +420,16 @@
                BlueprintIdentifier = "rest_json_extrasTests"
                BuildableName = "rest_json_extrasTests"
                BlueprintName = "rest_json_extrasTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StringArrayEndpointParamTests"
+               BuildableName = "StringArrayEndpointParamTests"
+               BlueprintName = "StringArrayEndpointParamTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
