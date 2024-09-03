@@ -3670,6 +3670,51 @@ public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+extension MediaConnectClientTypes {
+
+    public enum ThumbnailState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThumbnailState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The settings for source monitoring.
+    public struct MonitoringConfig {
+        /// The state of thumbnail monitoring.
+        public var thumbnailState: MediaConnectClientTypes.ThumbnailState?
+
+        public init(
+            thumbnailState: MediaConnectClientTypes.ThumbnailState? = nil
+        )
+        {
+            self.thumbnailState = thumbnailState
+        }
+    }
+
+}
+
 /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
 public struct CreateFlowInput {
     /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
@@ -3689,6 +3734,8 @@ public struct CreateFlowInput {
     public var source: MediaConnectClientTypes.SetSourceRequest?
     /// The settings for source failover.
     public var sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig?
+    /// The settings for source monitoring.
+    public var sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig?
     public var sources: [MediaConnectClientTypes.SetSourceRequest]?
     /// The VPC interfaces you want on the flow.
     public var vpcInterfaces: [MediaConnectClientTypes.VpcInterfaceRequest]?
@@ -3702,6 +3749,7 @@ public struct CreateFlowInput {
         outputs: [MediaConnectClientTypes.AddOutputRequest]? = nil,
         source: MediaConnectClientTypes.SetSourceRequest? = nil,
         sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
+        sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil,
         sources: [MediaConnectClientTypes.SetSourceRequest]? = nil,
         vpcInterfaces: [MediaConnectClientTypes.VpcInterfaceRequest]? = nil
     )
@@ -3714,6 +3762,7 @@ public struct CreateFlowInput {
         self.outputs = outputs
         self.source = source
         self.sourceFailoverConfig = sourceFailoverConfig
+        self.sourceMonitoringConfig = sourceMonitoringConfig
         self.sources = sources
         self.vpcInterfaces = vpcInterfaces
     }
@@ -3750,6 +3799,8 @@ extension MediaConnectClientTypes {
         public var source: MediaConnectClientTypes.Source?
         /// The settings for source failover.
         public var sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig?
+        /// The settings for source monitoring.
+        public var sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig?
         public var sources: [MediaConnectClientTypes.Source]?
         /// The current status of the flow.
         /// This member is required.
@@ -3769,6 +3820,7 @@ extension MediaConnectClientTypes {
             outputs: [MediaConnectClientTypes.Output]? = nil,
             source: MediaConnectClientTypes.Source? = nil,
             sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
+            sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil,
             sources: [MediaConnectClientTypes.Source]? = nil,
             status: MediaConnectClientTypes.Status? = nil,
             vpcInterfaces: [MediaConnectClientTypes.VpcInterface]? = nil
@@ -3785,6 +3837,7 @@ extension MediaConnectClientTypes {
             self.outputs = outputs
             self.source = source
             self.sourceFailoverConfig = sourceFailoverConfig
+            self.sourceMonitoringConfig = sourceMonitoringConfig
             self.sources = sources
             self.status = status
             self.vpcInterfaces = vpcInterfaces
@@ -4140,6 +4193,65 @@ public struct DescribeFlowSourceMetadataOutput {
         self.messages = messages
         self.timestamp = timestamp
         self.transportMediaInfo = transportMediaInfo
+    }
+}
+
+public struct DescribeFlowSourceThumbnailInput {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var flowArn: Swift.String?
+
+    public init(
+        flowArn: Swift.String? = nil
+    )
+    {
+        self.flowArn = flowArn
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The details of the thumbnail, including thumbnail base64 string, timecode and the time when thumbnail was generated.
+    public struct ThumbnailDetails {
+        /// The ARN of the flow that DescribeFlowSourceThumbnail was performed on.
+        /// This member is required.
+        public var flowArn: Swift.String?
+        /// Thumbnail Base64 string.
+        public var thumbnail: Swift.String?
+        /// Status code and messages about the flow source thumbnail.
+        /// This member is required.
+        public var thumbnailMessages: [MediaConnectClientTypes.MessageDetail]?
+        /// Timecode of thumbnail.
+        public var timecode: Swift.String?
+        /// The timestamp of when thumbnail was generated.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            flowArn: Swift.String? = nil,
+            thumbnail: Swift.String? = nil,
+            thumbnailMessages: [MediaConnectClientTypes.MessageDetail]? = nil,
+            timecode: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        )
+        {
+            self.flowArn = flowArn
+            self.thumbnail = thumbnail
+            self.thumbnailMessages = thumbnailMessages
+            self.timecode = timecode
+            self.timestamp = timestamp
+        }
+    }
+
+}
+
+public struct DescribeFlowSourceThumbnailOutput {
+    /// The details of the thumbnail, including thumbnail base64 string, timecode and the time when thumbnail was generated.
+    public var thumbnailDetails: MediaConnectClientTypes.ThumbnailDetails?
+
+    public init(
+        thumbnailDetails: MediaConnectClientTypes.ThumbnailDetails? = nil
+    )
+    {
+        self.thumbnailDetails = thumbnailDetails
     }
 }
 
@@ -5338,16 +5450,20 @@ public struct UpdateFlowInput {
     public var maintenance: MediaConnectClientTypes.UpdateMaintenance?
     /// The settings for source failover.
     public var sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig?
+    /// The settings for source monitoring.
+    public var sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig?
 
     public init(
         flowArn: Swift.String? = nil,
         maintenance: MediaConnectClientTypes.UpdateMaintenance? = nil,
-        sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil
+        sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil,
+        sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil
     )
     {
         self.flowArn = flowArn
         self.maintenance = maintenance
         self.sourceFailoverConfig = sourceFailoverConfig
+        self.sourceMonitoringConfig = sourceMonitoringConfig
     }
 }
 
@@ -5940,6 +6056,16 @@ extension DescribeFlowSourceMetadataInput {
     }
 }
 
+extension DescribeFlowSourceThumbnailInput {
+
+    static func urlPathProvider(_ value: DescribeFlowSourceThumbnailInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
+            return nil
+        }
+        return "/v1/flows/\(flowArn.urlPercentEncoding())/source-thumbnail"
+    }
+}
+
 extension DescribeGatewayInput {
 
     static func urlPathProvider(_ value: DescribeGatewayInput) -> Swift.String? {
@@ -6518,6 +6644,7 @@ extension CreateFlowInput {
         try writer["outputs"].writeList(value.outputs, memberWritingClosure: MediaConnectClientTypes.AddOutputRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["source"].write(value.source, with: MediaConnectClientTypes.SetSourceRequest.write(value:to:))
         try writer["sourceFailoverConfig"].write(value.sourceFailoverConfig, with: MediaConnectClientTypes.FailoverConfig.write(value:to:))
+        try writer["sourceMonitoringConfig"].write(value.sourceMonitoringConfig, with: MediaConnectClientTypes.MonitoringConfig.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaConnectClientTypes.SetSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vpcInterfaces"].writeList(value.vpcInterfaces, memberWritingClosure: MediaConnectClientTypes.VpcInterfaceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -6599,6 +6726,7 @@ extension UpdateFlowInput {
         guard let value else { return }
         try writer["maintenance"].write(value.maintenance, with: MediaConnectClientTypes.UpdateMaintenance.write(value:to:))
         try writer["sourceFailoverConfig"].write(value.sourceFailoverConfig, with: MediaConnectClientTypes.UpdateFailoverConfig.write(value:to:))
+        try writer["sourceMonitoringConfig"].write(value.sourceMonitoringConfig, with: MediaConnectClientTypes.MonitoringConfig.write(value:to:))
     }
 }
 
@@ -6881,6 +7009,18 @@ extension DescribeFlowSourceMetadataOutput {
         value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: .dateTime)
         value.transportMediaInfo = try reader["transportMediaInfo"].readIfPresent(with: MediaConnectClientTypes.TransportMediaInfo.read(from:))
+        return value
+    }
+}
+
+extension DescribeFlowSourceThumbnailOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFlowSourceThumbnailOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeFlowSourceThumbnailOutput()
+        value.thumbnailDetails = try reader["thumbnailDetails"].readIfPresent(with: MediaConnectClientTypes.ThumbnailDetails.read(from:))
         return value
     }
 }
@@ -7616,6 +7756,25 @@ enum DescribeFlowOutputError {
 }
 
 enum DescribeFlowSourceMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeFlowSourceThumbnailOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8886,6 +9045,22 @@ extension MediaConnectClientTypes.Flow {
         value.status = try reader["status"].readIfPresent()
         value.vpcInterfaces = try reader["vpcInterfaces"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.VpcInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaConnectClientTypes.Maintenance.read(from:))
+        value.sourceMonitoringConfig = try reader["sourceMonitoringConfig"].readIfPresent(with: MediaConnectClientTypes.MonitoringConfig.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MonitoringConfig {
+
+    static func write(value: MediaConnectClientTypes.MonitoringConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["thumbnailState"].write(value.thumbnailState)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MonitoringConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MonitoringConfig()
+        value.thumbnailState = try reader["thumbnailState"].readIfPresent()
         return value
     }
 }
@@ -9009,6 +9184,20 @@ extension MediaConnectClientTypes.FrameResolution {
         var value = MediaConnectClientTypes.FrameResolution()
         value.frameHeight = try reader["frameHeight"].readIfPresent()
         value.frameWidth = try reader["frameWidth"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.ThumbnailDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ThumbnailDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ThumbnailDetails()
+        value.flowArn = try reader["flowArn"].readIfPresent()
+        value.thumbnail = try reader["thumbnail"].readIfPresent()
+        value.thumbnailMessages = try reader["thumbnailMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timecode = try reader["timecode"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: .dateTime)
         return value
     }
 }
