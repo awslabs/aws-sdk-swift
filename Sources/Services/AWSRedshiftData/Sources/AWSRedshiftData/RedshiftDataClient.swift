@@ -219,8 +219,10 @@ extension RedshiftDataClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ActiveSessionsExceededException` : The Amazon Redshift Data API operation failed because the maximum number of active sessions exceeded.
     /// - `ActiveStatementsExceededException` : The number of active statements exceeds the limit.
     /// - `BatchExecuteStatementException` : An SQL statement encountered an environmental error while running.
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput {
         let context = Smithy.ContextBuilder()
@@ -458,6 +460,7 @@ extension RedshiftDataClient {
     /// __Possible Exceptions:__
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `QueryTimeoutException` : The Amazon Redshift Data API operation failed due to timeout.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutput {
         let context = Smithy.ContextBuilder()
@@ -545,8 +548,10 @@ extension RedshiftDataClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ActiveSessionsExceededException` : The Amazon Redshift Data API operation failed because the maximum number of active sessions exceeded.
     /// - `ActiveStatementsExceededException` : The number of active statements exceeds the limit.
     /// - `ExecuteStatementException` : The SQL statement encountered an environmental error while running.
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput {
         let context = Smithy.ContextBuilder()
@@ -710,6 +715,7 @@ extension RedshiftDataClient {
     /// __Possible Exceptions:__
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `QueryTimeoutException` : The Amazon Redshift Data API operation failed due to timeout.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput {
         let context = Smithy.ContextBuilder()
@@ -799,6 +805,7 @@ extension RedshiftDataClient {
     /// __Possible Exceptions:__
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `QueryTimeoutException` : The Amazon Redshift Data API operation failed due to timeout.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput {
         let context = Smithy.ContextBuilder()
@@ -960,6 +967,7 @@ extension RedshiftDataClient {
     /// __Possible Exceptions:__
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `QueryTimeoutException` : The Amazon Redshift Data API operation failed due to timeout.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listTables(input: ListTablesInput) async throws -> ListTablesOutput {
         let context = Smithy.ContextBuilder()

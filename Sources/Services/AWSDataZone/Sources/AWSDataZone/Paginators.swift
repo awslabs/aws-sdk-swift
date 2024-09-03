@@ -142,6 +142,39 @@ extension PaginatorSequence where OperationStackInput == ListDataSourceRunActivi
     }
 }
 extension DataZoneClient {
+    /// Paginate over `[ListEntityOwnersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEntityOwnersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntityOwnersOutput`
+    public func listEntityOwnersPaginated(input: ListEntityOwnersInput) -> ClientRuntime.PaginatorSequence<ListEntityOwnersInput, ListEntityOwnersOutput> {
+        return ClientRuntime.PaginatorSequence<ListEntityOwnersInput, ListEntityOwnersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntityOwners(input:))
+    }
+}
+
+extension ListEntityOwnersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEntityOwnersInput {
+        return ListEntityOwnersInput(
+            domainIdentifier: self.domainIdentifier,
+            entityIdentifier: self.entityIdentifier,
+            entityType: self.entityType,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEntityOwnersInput, OperationStackOutput == ListEntityOwnersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEntityOwnersPaginated`
+    /// to access the nested member `[DataZoneClientTypes.OwnerPropertiesOutput]`
+    /// - Returns: `[DataZoneClientTypes.OwnerPropertiesOutput]`
+    public func owners() async throws -> [DataZoneClientTypes.OwnerPropertiesOutput] {
+        return try await self.asyncCompactMap { item in item.owners }
+    }
+}
+extension DataZoneClient {
     /// Paginate over `[ListEnvironmentActionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -351,6 +384,40 @@ extension PaginatorSequence where OperationStackInput == ListNotificationsInput,
     /// - Returns: `[DataZoneClientTypes.NotificationOutput]`
     public func notifications() async throws -> [DataZoneClientTypes.NotificationOutput] {
         return try await self.asyncCompactMap { item in item.notifications }
+    }
+}
+extension DataZoneClient {
+    /// Paginate over `[ListPolicyGrantsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPolicyGrantsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyGrantsOutput`
+    public func listPolicyGrantsPaginated(input: ListPolicyGrantsInput) -> ClientRuntime.PaginatorSequence<ListPolicyGrantsInput, ListPolicyGrantsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPolicyGrantsInput, ListPolicyGrantsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPolicyGrants(input:))
+    }
+}
+
+extension ListPolicyGrantsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPolicyGrantsInput {
+        return ListPolicyGrantsInput(
+            domainIdentifier: self.domainIdentifier,
+            entityIdentifier: self.entityIdentifier,
+            entityType: self.entityType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyType: self.policyType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPolicyGrantsInput, OperationStackOutput == ListPolicyGrantsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPolicyGrantsPaginated`
+    /// to access the nested member `[DataZoneClientTypes.PolicyGrantMember]`
+    /// - Returns: `[DataZoneClientTypes.PolicyGrantMember]`
+    public func grantList() async throws -> [DataZoneClientTypes.PolicyGrantMember] {
+        return try await self.asyncCompactMap { item in item.grantList }
     }
 }
 extension DataZoneClient {

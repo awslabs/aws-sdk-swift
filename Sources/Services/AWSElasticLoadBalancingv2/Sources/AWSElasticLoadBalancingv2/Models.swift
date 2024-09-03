@@ -1513,6 +1513,35 @@ public struct UnsupportedProtocolException: ClientRuntime.ModeledError, AWSClien
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum TrustStoreAssociationStatusEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case removed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustStoreAssociationStatusEnum] {
+            return [
+                .active,
+                .removed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .removed: return "removed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
     /// Information about the mutual authentication attributes of a listener.
     public struct MutualAuthenticationAttributes {
         /// Indicates whether expired client certificates are ignored.
@@ -1521,16 +1550,20 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var mode: Swift.String?
         /// The Amazon Resource Name (ARN) of the trust store.
         public var trustStoreArn: Swift.String?
+        /// Indicates a shared trust stores association status.
+        public var trustStoreAssociationStatus: ElasticLoadBalancingv2ClientTypes.TrustStoreAssociationStatusEnum?
 
         public init(
             ignoreClientCertificateExpiry: Swift.Bool? = nil,
             mode: Swift.String? = nil,
-            trustStoreArn: Swift.String? = nil
+            trustStoreArn: Swift.String? = nil,
+            trustStoreAssociationStatus: ElasticLoadBalancingv2ClientTypes.TrustStoreAssociationStatusEnum? = nil
         )
         {
             self.ignoreClientCertificateExpiry = ignoreClientCertificateExpiry
             self.mode = mode
             self.trustStoreArn = trustStoreArn
+            self.trustStoreAssociationStatus = trustStoreAssociationStatus
         }
     }
 
@@ -3002,6 +3035,30 @@ public struct CreateTrustStoreOutput {
     }
 }
 
+/// The specified association cannot be within the same account.
+public struct DeleteAssociationSameAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeleteAssociationSameAccount" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 public struct DeleteListenerInput {
     /// The Amazon Resource Name (ARN) of the listener.
     /// This member is required.
@@ -3052,6 +3109,53 @@ public struct DeleteRuleInput {
 }
 
 public struct DeleteRuleOutput {
+
+    public init() { }
+}
+
+/// The specified association does not exist.
+public struct TrustStoreAssociationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AssociationNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteSharedTrustStoreAssociationInput {
+    /// The Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// This member is required.
+    public var trustStoreArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        trustStoreArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.trustStoreArn = trustStoreArn
+    }
+}
+
+public struct DeleteSharedTrustStoreAssociationOutput {
 
     public init() { }
 }
@@ -3279,6 +3383,53 @@ public struct DescribeAccountLimitsOutput {
     {
         self.limits = limits
         self.nextMarker = nextMarker
+    }
+}
+
+public struct DescribeListenerAttributesInput {
+    /// The Amazon Resource Name (ARN) of the listener.
+    /// This member is required.
+    public var listenerArn: Swift.String?
+
+    public init(
+        listenerArn: Swift.String? = nil
+    )
+    {
+        self.listenerArn = listenerArn
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+    /// Information about a listener attribute.
+    public struct ListenerAttribute {
+        /// The name of the attribute. The following attribute is supported by Network Load Balancers, and Gateway Load Balancers.
+        ///
+        /// * tcp.idle_timeout.seconds - The tcp idle timeout value, in seconds. The valid range is 60-6000 seconds. The default is 350 seconds.
+        public var key: Swift.String?
+        /// The value of the attribute.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+public struct DescribeListenerAttributesOutput {
+    /// Information about the listener attributes.
+    public var attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]?
+
+    public init(
+        attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]? = nil
+    )
+    {
+        self.attributes = attributes
     }
 }
 
@@ -3866,7 +4017,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 public struct DescribeTargetHealthInput {
-    /// Used to inclue anomaly detection information.
+    /// Used to include anomaly detection information.
     public var include: [ElasticLoadBalancingv2ClientTypes.DescribeTargetHealthInputIncludeEnum]?
     /// The Amazon Resource Name (ARN) of the target group.
     /// This member is required.
@@ -4277,6 +4428,55 @@ public struct DescribeTrustStoresOutput {
     }
 }
 
+/// The specified resource does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct GetResourcePolicyInput {
+    /// The Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetResourcePolicyOutput {
+    /// The content of the resource policy.
+    public var policy: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
 public struct GetTrustStoreCaCertificatesBundleInput {
     /// The Amazon Resource Name (ARN) of the trust store.
     /// This member is required.
@@ -4395,6 +4595,36 @@ public struct ModifyListenerOutput {
     )
     {
         self.listeners = listeners
+    }
+}
+
+public struct ModifyListenerAttributesInput {
+    /// The listener attributes.
+    /// This member is required.
+    public var attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]?
+    /// The Amazon Resource Name (ARN) of the listener.
+    /// This member is required.
+    public var listenerArn: Swift.String?
+
+    public init(
+        attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]? = nil,
+        listenerArn: Swift.String? = nil
+    )
+    {
+        self.attributes = attributes
+        self.listenerArn = listenerArn
+    }
+}
+
+public struct ModifyListenerAttributesOutput {
+    /// Information about the listener attributes.
+    public var attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]?
+
+    public init(
+        attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]? = nil
+    )
+    {
+        self.attributes = attributes
     }
 }
 
@@ -4523,7 +4753,7 @@ public struct ModifyTargetGroupOutput {
 }
 
 public struct ModifyTargetGroupAttributesInput {
-    /// The attributes.
+    /// The target group attributes.
     /// This member is required.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]?
     /// The Amazon Resource Name (ARN) of the target group.
@@ -4541,7 +4771,7 @@ public struct ModifyTargetGroupAttributesInput {
 }
 
 public struct ModifyTargetGroupAttributesOutput {
-    /// Information about the attributes.
+    /// Information about the target group attributes.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]?
 
     public init(
@@ -4684,7 +4914,7 @@ public struct RemoveTrustStoreRevocationsOutput {
 }
 
 public struct SetIpAddressTypeInput {
-    /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+    /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). Note: Application Load Balancer authentication only supports IPv4 addresses when connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public IPv4 address the load balancer cannot complete the authentication process, resulting in HTTP 500 errors. [Network Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
     /// This member is required.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the load balancer.
@@ -4943,6 +5173,13 @@ extension DeleteRuleInput {
     }
 }
 
+extension DeleteSharedTrustStoreAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteSharedTrustStoreAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteTargetGroupInput {
 
     static func urlPathProvider(_ value: DeleteTargetGroupInput) -> Swift.String? {
@@ -4967,6 +5204,13 @@ extension DeregisterTargetsInput {
 extension DescribeAccountLimitsInput {
 
     static func urlPathProvider(_ value: DescribeAccountLimitsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeListenerAttributesInput {
+
+    static func urlPathProvider(_ value: DescribeListenerAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5062,6 +5306,13 @@ extension DescribeTrustStoresInput {
     }
 }
 
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetTrustStoreCaCertificatesBundleInput {
 
     static func urlPathProvider(_ value: GetTrustStoreCaCertificatesBundleInput) -> Swift.String? {
@@ -5079,6 +5330,13 @@ extension GetTrustStoreRevocationContentInput {
 extension ModifyListenerInput {
 
     static func urlPathProvider(_ value: ModifyListenerInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyListenerAttributesInput {
+
+    static func urlPathProvider(_ value: ModifyListenerAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5327,6 +5585,17 @@ extension DeleteRuleInput {
     }
 }
 
+extension DeleteSharedTrustStoreAssociationInput {
+
+    static func write(value: DeleteSharedTrustStoreAssociationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["TrustStoreArn"].write(value.trustStoreArn)
+        try writer["Action"].write("DeleteSharedTrustStoreAssociation")
+        try writer["Version"].write("2015-12-01")
+    }
+}
+
 extension DeleteTargetGroupInput {
 
     static func write(value: DeleteTargetGroupInput?, to writer: SmithyFormURL.Writer) throws {
@@ -5365,6 +5634,16 @@ extension DescribeAccountLimitsInput {
         try writer["Marker"].write(value.marker)
         try writer["PageSize"].write(value.pageSize)
         try writer["Action"].write("DescribeAccountLimits")
+        try writer["Version"].write("2015-12-01")
+    }
+}
+
+extension DescribeListenerAttributesInput {
+
+    static func write(value: DescribeListenerAttributesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ListenerArn"].write(value.listenerArn)
+        try writer["Action"].write("DescribeListenerAttributes")
         try writer["Version"].write("2015-12-01")
     }
 }
@@ -5527,6 +5806,16 @@ extension DescribeTrustStoresInput {
     }
 }
 
+extension GetResourcePolicyInput {
+
+    static func write(value: GetResourcePolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["Action"].write("GetResourcePolicy")
+        try writer["Version"].write("2015-12-01")
+    }
+}
+
 extension GetTrustStoreCaCertificatesBundleInput {
 
     static func write(value: GetTrustStoreCaCertificatesBundleInput?, to writer: SmithyFormURL.Writer) throws {
@@ -5561,6 +5850,17 @@ extension ModifyListenerInput {
         try writer["Protocol"].write(value.`protocol`)
         try writer["SslPolicy"].write(value.sslPolicy)
         try writer["Action"].write("ModifyListener")
+        try writer["Version"].write("2015-12-01")
+    }
+}
+
+extension ModifyListenerAttributesInput {
+
+    static func write(value: ModifyListenerAttributesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.ListenerAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ListenerArn"].write(value.listenerArn)
+        try writer["Action"].write("ModifyListenerAttributes")
         try writer["Version"].write("2015-12-01")
     }
 }
@@ -5833,6 +6133,13 @@ extension DeleteRuleOutput {
     }
 }
 
+extension DeleteSharedTrustStoreAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSharedTrustStoreAssociationOutput {
+        return DeleteSharedTrustStoreAssociationOutput()
+    }
+}
+
 extension DeleteTargetGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTargetGroupOutput {
@@ -5863,6 +6170,18 @@ extension DescribeAccountLimitsOutput {
         var value = DescribeAccountLimitsOutput()
         value.limits = try reader["Limits"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Limit.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeListenerAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeListenerAttributesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeListenerAttributesResult"]
+        var value = DescribeListenerAttributesOutput()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.ListenerAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6032,6 +6351,18 @@ extension DescribeTrustStoresOutput {
     }
 }
 
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetResourcePolicyResult"]
+        var value = GetResourcePolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
+    }
+}
+
 extension GetTrustStoreCaCertificatesBundleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTrustStoreCaCertificatesBundleOutput {
@@ -6064,6 +6395,18 @@ extension ModifyListenerOutput {
         let reader = responseReader["ModifyListenerResult"]
         var value = ModifyListenerOutput()
         value.listeners = try reader["Listeners"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Listener.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ModifyListenerAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyListenerAttributesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ModifyListenerAttributesResult"]
+        var value = ModifyListenerAttributesOutput()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.ListenerAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6428,6 +6771,22 @@ enum DeleteRuleOutputError {
     }
 }
 
+enum DeleteSharedTrustStoreAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DeleteAssociationSameAccount": return try DeleteAssociationSameAccountException.makeError(baseError: baseError)
+            case "AssociationNotFound": return try TrustStoreAssociationNotFoundException.makeError(baseError: baseError)
+            case "TrustStoreNotFound": return try TrustStoreNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteTargetGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6480,6 +6839,20 @@ enum DescribeAccountLimitsOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeListenerAttributesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6679,6 +7052,20 @@ enum DescribeTrustStoresOutputError {
     }
 }
 
+enum GetResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTrustStoreCaCertificatesBundleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6735,6 +7122,21 @@ enum ModifyListenerOutputError {
             case "TrustStoreNotFound": return try TrustStoreNotFoundException.makeError(baseError: baseError)
             case "TrustStoreNotReady": return try TrustStoreNotReadyException.makeError(baseError: baseError)
             case "UnsupportedProtocol": return try UnsupportedProtocolException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyListenerAttributesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidConfigurationRequest": return try InvalidConfigurationRequestException.makeError(baseError: baseError)
+            case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7530,6 +7932,32 @@ extension TooManyTrustStoresException {
     }
 }
 
+extension DeleteAssociationSameAccountException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DeleteAssociationSameAccountException {
+        let reader = baseError.errorBodyReader
+        var value = DeleteAssociationSameAccountException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TrustStoreAssociationNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreAssociationNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = TrustStoreAssociationNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TrustStoreInUseException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreInUseException {
@@ -7574,6 +8002,19 @@ extension RevocationIdNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RevocationIdNotFoundException {
         let reader = baseError.errorBodyReader
         var value = RevocationIdNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7637,6 +8078,7 @@ extension ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
         try writer["IgnoreClientCertificateExpiry"].write(value.ignoreClientCertificateExpiry)
         try writer["Mode"].write(value.mode)
         try writer["TrustStoreArn"].write(value.trustStoreArn)
+        try writer["TrustStoreAssociationStatus"].write(value.trustStoreAssociationStatus)
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
@@ -7645,6 +8087,7 @@ extension ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
         value.mode = try reader["Mode"].readIfPresent()
         value.trustStoreArn = try reader["TrustStoreArn"].readIfPresent()
         value.ignoreClientCertificateExpiry = try reader["IgnoreClientCertificateExpiry"].readIfPresent()
+        value.trustStoreAssociationStatus = try reader["TrustStoreAssociationStatus"].readIfPresent()
         return value
     }
 }
@@ -8116,6 +8559,23 @@ extension ElasticLoadBalancingv2ClientTypes.Limit {
         var value = ElasticLoadBalancingv2ClientTypes.Limit()
         value.name = try reader["Name"].readIfPresent()
         value.max = try reader["Max"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.ListenerAttribute {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.ListenerAttribute?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.ListenerAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.ListenerAttribute()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }

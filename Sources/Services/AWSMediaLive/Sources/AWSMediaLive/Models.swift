@@ -14693,6 +14693,8 @@ extension MediaLiveClientTypes {
         public var maxBitrate: Swift.Int?
         /// Only meaningful if sceneChangeDetect is set to enabled. Defaults to 5 if multiplex rate control is used. Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public var minIInterval: Swift.Int?
+        /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will apply an appropriate value.
+        public var minQp: Swift.Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public var numRefFrames: Swift.Int?
         /// This field indicates how the output pixel aspect ratio is specified. If "specified" is selected then the output video pixel aspect ratio is determined by parNumerator and parDenominator, else if "initializeFromSource" is selected then the output pixsel aspect ratio will be set equal to the input video pixel aspect ratio of the first input.
@@ -14773,6 +14775,7 @@ extension MediaLiveClientTypes {
             lookAheadRateControl: MediaLiveClientTypes.H264LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
+            minQp: Swift.Int? = nil,
             numRefFrames: Swift.Int? = nil,
             parControl: MediaLiveClientTypes.H264ParControl? = nil,
             parDenominator: Swift.Int? = nil,
@@ -14817,6 +14820,7 @@ extension MediaLiveClientTypes {
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.minQp = minQp
             self.numRefFrames = numRefFrames
             self.parControl = parControl
             self.parDenominator = parDenominator
@@ -15507,6 +15511,8 @@ extension MediaLiveClientTypes {
         public var maxBitrate: Swift.Int?
         /// Only meaningful if sceneChangeDetect is set to enabled. Defaults to 5 if multiplex rate control is used. Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public var minIInterval: Swift.Int?
+        /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will apply an appropriate value.
+        public var minQp: Swift.Int?
         /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
         public var mvOverPictureBoundaries: MediaLiveClientTypes.H265MvOverPictureBoundaries?
         /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
@@ -15572,6 +15578,7 @@ extension MediaLiveClientTypes {
             lookAheadRateControl: MediaLiveClientTypes.H265LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
+            minQp: Swift.Int? = nil,
             mvOverPictureBoundaries: MediaLiveClientTypes.H265MvOverPictureBoundaries? = nil,
             mvTemporalPredictor: MediaLiveClientTypes.H265MvTemporalPredictor? = nil,
             parDenominator: Swift.Int? = nil,
@@ -15610,6 +15617,7 @@ extension MediaLiveClientTypes {
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.minQp = minQp
             self.mvOverPictureBoundaries = mvOverPictureBoundaries
             self.mvTemporalPredictor = mvTemporalPredictor
             self.parDenominator = parDenominator
@@ -29743,6 +29751,7 @@ extension MediaLiveClientTypes.H265Settings {
         try writer["lookAheadRateControl"].write(value.lookAheadRateControl)
         try writer["maxBitrate"].write(value.maxBitrate)
         try writer["minIInterval"].write(value.minIInterval)
+        try writer["minQp"].write(value.minQp)
         try writer["mvOverPictureBoundaries"].write(value.mvOverPictureBoundaries)
         try writer["mvTemporalPredictor"].write(value.mvTemporalPredictor)
         try writer["parDenominator"].write(value.parDenominator)
@@ -29801,6 +29810,7 @@ extension MediaLiveClientTypes.H265Settings {
         value.tilePadding = try reader["tilePadding"].readIfPresent()
         value.tileWidth = try reader["tileWidth"].readIfPresent()
         value.treeblockSize = try reader["treeblockSize"].readIfPresent()
+        value.minQp = try reader["minQp"].readIfPresent()
         return value
     }
 }
@@ -29923,6 +29933,7 @@ extension MediaLiveClientTypes.H264Settings {
         try writer["lookAheadRateControl"].write(value.lookAheadRateControl)
         try writer["maxBitrate"].write(value.maxBitrate)
         try writer["minIInterval"].write(value.minIInterval)
+        try writer["minQp"].write(value.minQp)
         try writer["numRefFrames"].write(value.numRefFrames)
         try writer["parControl"].write(value.parControl)
         try writer["parDenominator"].write(value.parDenominator)
@@ -29988,6 +29999,7 @@ extension MediaLiveClientTypes.H264Settings {
         value.temporalAq = try reader["temporalAq"].readIfPresent()
         value.timecodeInsertion = try reader["timecodeInsertion"].readIfPresent()
         value.timecodeBurninSettings = try reader["timecodeBurninSettings"].readIfPresent(with: MediaLiveClientTypes.TimecodeBurninSettings.read(from:))
+        value.minQp = try reader["minQp"].readIfPresent()
         return value
     }
 }

@@ -505,6 +505,8 @@ extension TimestreamInfluxDBClientTypes {
         case failed
         case modifying
         case updating
+        case updatingDeploymentType
+        case updatingInstanceType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Status] {
@@ -515,7 +517,9 @@ extension TimestreamInfluxDBClientTypes {
                 .deleting,
                 .failed,
                 .modifying,
-                .updating
+                .updating,
+                .updatingDeploymentType,
+                .updatingInstanceType
             ]
         }
 
@@ -533,6 +537,8 @@ extension TimestreamInfluxDBClientTypes {
             case .failed: return "FAILED"
             case .modifying: return "MODIFYING"
             case .updating: return "UPDATING"
+            case .updatingDeploymentType: return "UPDATING_DEPLOYMENT_TYPE"
+            case .updatingInstanceType: return "UPDATING_INSTANCE_TYPE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -890,8 +896,12 @@ public struct ListDbInstancesOutput {
 }
 
 public struct UpdateDbInstanceInput {
+    /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
+    public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
     public var dbParameterGroupIdentifier: Swift.String?
+    /// Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
+    public var deploymentType: TimestreamInfluxDBClientTypes.DeploymentType?
     /// The id of the DB instance.
     /// This member is required.
     public var identifier: Swift.String?
@@ -899,12 +909,16 @@ public struct UpdateDbInstanceInput {
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
 
     public init(
+        dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
+        deploymentType: TimestreamInfluxDBClientTypes.DeploymentType? = nil,
         identifier: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil
     )
     {
+        self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+        self.deploymentType = deploymentType
         self.identifier = identifier
         self.logDeliveryConfiguration = logDeliveryConfiguration
     }
@@ -1507,7 +1521,9 @@ extension UpdateDbInstanceInput {
 
     static func write(value: UpdateDbInstanceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["dbInstanceType"].write(value.dbInstanceType)
         try writer["dbParameterGroupIdentifier"].write(value.dbParameterGroupIdentifier)
+        try writer["deploymentType"].write(value.deploymentType)
         try writer["identifier"].write(value.identifier)
         try writer["logDeliveryConfiguration"].write(value.logDeliveryConfiguration, with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.write(value:to:))
     }
