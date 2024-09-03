@@ -43,9 +43,10 @@ class UnauthenticatedAPITests: XCTestCase {
     }
 
     func testUnauthenticatedAPI() async throws {
-        _ = try await cognitoIdentityClient.getId(
+        let id = try await cognitoIdentityClient.getId(
             input: GetIdInput(accountId: accountID, identityPoolId: identityPoolID)
-        )
-        // API call completed successfully
+        ).identityId ?? ""
+        // Assert that successful response was returned with a nonempty ID.
+        XCTAssertTrue(id.count > 0)
     }
 }
