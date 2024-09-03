@@ -8,7 +8,7 @@
 import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
 import class SmithyHTTPAPI.HTTPResponse
-import class SmithyXML.Reader
+@_spi(SmithyReadWrite) import class SmithyXML.Reader
 
 public struct RestXMLError: BaseError {
     public let code: String
@@ -18,8 +18,9 @@ public struct RestXMLError: BaseError {
 
     public let httpResponse: HTTPResponse
     private let responseReader: Reader
-    public let errorBodyReader: Reader
+    @_spi(SmithyReadWrite) public let errorBodyReader: Reader
 
+    @_spi(SmithyReadWrite)
     public init(httpResponse: HTTPResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
         self.errorBodyReader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
         let code: String? = try errorBodyReader["Code"].readIfPresent()

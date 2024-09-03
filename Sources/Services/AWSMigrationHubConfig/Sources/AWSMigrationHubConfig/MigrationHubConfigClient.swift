@@ -40,7 +40,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -245,7 +244,7 @@ extension MigrationHubConfigClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHomeRegionControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateHomeRegionControlOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateHomeRegionControlInput, CreateHomeRegionControlOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateHomeRegionControlInput, CreateHomeRegionControlOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateHomeRegionControlInput, CreateHomeRegionControlOutput>(xAmzTarget: "AWSMigrationHubMultiAccountService.CreateHomeRegionControl"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateHomeRegionControlInput, CreateHomeRegionControlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateHomeRegionControlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHomeRegionControlInput, CreateHomeRegionControlOutput>(contentType: "application/x-amz-json-1.1"))
@@ -320,7 +319,7 @@ extension MigrationHubConfigClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHomeRegionControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteHomeRegionControlOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>(xAmzTarget: "AWSMigrationHubMultiAccountService.DeleteHomeRegionControl"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteHomeRegionControlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>(contentType: "application/x-amz-json-1.1"))
@@ -395,7 +394,7 @@ extension MigrationHubConfigClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHomeRegionControlsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeHomeRegionControlsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput>(xAmzTarget: "AWSMigrationHubMultiAccountService.DescribeHomeRegionControls"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeHomeRegionControlsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput>(contentType: "application/x-amz-json-1.1"))
@@ -470,7 +469,7 @@ extension MigrationHubConfigClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHomeRegionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetHomeRegionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetHomeRegionInput, GetHomeRegionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetHomeRegionInput, GetHomeRegionOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetHomeRegionInput, GetHomeRegionOutput>(xAmzTarget: "AWSMigrationHubMultiAccountService.GetHomeRegion"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetHomeRegionInput, GetHomeRegionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetHomeRegionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetHomeRegionInput, GetHomeRegionOutput>(contentType: "application/x-amz-json-1.1"))

@@ -41,7 +41,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -220,8 +219,10 @@ extension RedshiftDataClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ActiveSessionsExceededException` : The Amazon Redshift Data API operation failed because the maximum number of active sessions exceeded.
     /// - `ActiveStatementsExceededException` : The number of active statements exceeds the limit.
     /// - `BatchExecuteStatementException` : An SQL statement encountered an environmental error while running.
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput {
         let context = Smithy.ContextBuilder()
@@ -261,7 +262,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchExecuteStatementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchExecuteStatementOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(xAmzTarget: "RedshiftData.BatchExecuteStatement"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchExecuteStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(contentType: "application/x-amz-json-1.1"))
@@ -335,7 +336,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelStatementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CancelStatementOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelStatementInput, CancelStatementOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelStatementInput, CancelStatementOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelStatementInput, CancelStatementOutput>(xAmzTarget: "RedshiftData.CancelStatement"))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelStatementInput, CancelStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelStatementInput, CancelStatementOutput>(contentType: "application/x-amz-json-1.1"))
@@ -408,7 +409,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStatementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeStatementOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStatementInput, DescribeStatementOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStatementInput, DescribeStatementOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStatementInput, DescribeStatementOutput>(xAmzTarget: "RedshiftData.DescribeStatement"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeStatementInput, DescribeStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStatementInput, DescribeStatementOutput>(contentType: "application/x-amz-json-1.1"))
@@ -459,6 +460,7 @@ extension RedshiftDataClient {
     /// __Possible Exceptions:__
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `QueryTimeoutException` : The Amazon Redshift Data API operation failed due to timeout.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutput {
         let context = Smithy.ContextBuilder()
@@ -497,7 +499,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTableInput, DescribeTableOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTableInput, DescribeTableOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTableInput, DescribeTableOutput>(xAmzTarget: "RedshiftData.DescribeTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTableInput, DescribeTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTableInput, DescribeTableOutput>(contentType: "application/x-amz-json-1.1"))
@@ -546,8 +548,10 @@ extension RedshiftDataClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ActiveSessionsExceededException` : The Amazon Redshift Data API operation failed because the maximum number of active sessions exceeded.
     /// - `ActiveStatementsExceededException` : The number of active statements exceeds the limit.
     /// - `ExecuteStatementException` : The SQL statement encountered an environmental error while running.
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput {
         let context = Smithy.ContextBuilder()
@@ -587,7 +591,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteStatementOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ExecuteStatementOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(xAmzTarget: "RedshiftData.ExecuteStatement"))
         builder.serialize(ClientRuntime.BodyMiddleware<ExecuteStatementInput, ExecuteStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(contentType: "application/x-amz-json-1.1"))
@@ -660,7 +664,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStatementResultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetStatementResultOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStatementResultInput, GetStatementResultOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStatementResultInput, GetStatementResultOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStatementResultInput, GetStatementResultOutput>(xAmzTarget: "RedshiftData.GetStatementResult"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetStatementResultInput, GetStatementResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStatementResultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStatementResultInput, GetStatementResultOutput>(contentType: "application/x-amz-json-1.1"))
@@ -711,6 +715,7 @@ extension RedshiftDataClient {
     /// __Possible Exceptions:__
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `QueryTimeoutException` : The Amazon Redshift Data API operation failed due to timeout.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput {
         let context = Smithy.ContextBuilder()
@@ -749,7 +754,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatabasesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDatabasesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDatabasesInput, ListDatabasesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDatabasesInput, ListDatabasesOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDatabasesInput, ListDatabasesOutput>(xAmzTarget: "RedshiftData.ListDatabases"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDatabasesInput, ListDatabasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatabasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatabasesInput, ListDatabasesOutput>(contentType: "application/x-amz-json-1.1"))
@@ -800,6 +805,7 @@ extension RedshiftDataClient {
     /// __Possible Exceptions:__
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `QueryTimeoutException` : The Amazon Redshift Data API operation failed due to timeout.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput {
         let context = Smithy.ContextBuilder()
@@ -838,7 +844,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListSchemasOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSchemasInput, ListSchemasOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSchemasInput, ListSchemasOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSchemasInput, ListSchemasOutput>(xAmzTarget: "RedshiftData.ListSchemas"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSchemasInput, ListSchemasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSchemasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSchemasInput, ListSchemasOutput>(contentType: "application/x-amz-json-1.1"))
@@ -910,7 +916,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStatementsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListStatementsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStatementsInput, ListStatementsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStatementsInput, ListStatementsOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStatementsInput, ListStatementsOutput>(xAmzTarget: "RedshiftData.ListStatements"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStatementsInput, ListStatementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStatementsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStatementsInput, ListStatementsOutput>(contentType: "application/x-amz-json-1.1"))
@@ -961,6 +967,7 @@ extension RedshiftDataClient {
     /// __Possible Exceptions:__
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `QueryTimeoutException` : The Amazon Redshift Data API operation failed due to timeout.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listTables(input: ListTablesInput) async throws -> ListTablesOutput {
         let context = Smithy.ContextBuilder()
@@ -999,7 +1006,7 @@ extension RedshiftDataClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTablesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTablesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTablesInput, ListTablesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTablesInput, ListTablesOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTablesInput, ListTablesOutput>(xAmzTarget: "RedshiftData.ListTables"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTablesInput, ListTablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTablesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTablesInput, ListTablesOutput>(contentType: "application/x-amz-json-1.1"))

@@ -21,9 +21,9 @@ import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 extension ChatbotClientTypes {
-    /// Preferences which apply for AWS Chatbot usage in the calling AWS account.
+    /// Preferences related to AWS Chatbot usage in the calling AWS account.
     public struct AccountPreferences {
-        /// Turns on training data collection. This helps improve the AWS Chatbot experience by allowing AWS Chatbot to store and use your customer information, such as AWS Chatbot configurations, notifications, user inputs, AWS Chatbot generated responses, and interaction data. This data helps us to continuously improve and develop Artificial Intelligence (AI) technologies. Your data is not shared with any third parties and is protected using sophisticated controls to prevent unauthorized access and misuse. AWS Chatbot does not store or use interactions in chat channels with Amazon Q for training AWS Chatbot’s AI technologies.
+        /// Turns on training data collection. This helps improve the AWS Chatbot experience by allowing AWS Chatbot to store and use your customer information, such as AWS Chatbot configurations, notifications, user inputs, AWS Chatbot generated responses, and interaction data. This data helps us to continuously improve and develop Artificial Intelligence (AI) technologies. Your data is not shared with any third parties and is protected using sophisticated controls to prevent unauthorized access and misuse. AWS Chatbot does not store or use interactions in chat channels with Amazon Q for training AI technologies for AWS Chatbot.
         public var trainingDataCollectionEnabled: Swift.Bool?
         /// Enables use of a user role requirement in your chat configuration.
         public var userAuthorizationRequired: Swift.Bool?
@@ -41,12 +41,12 @@ extension ChatbotClientTypes {
 }
 
 extension ChatbotClientTypes {
-    /// A tag applied to the configuration.
+    /// A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. Do not include confidential or sensitive information in this field. For more information, see [User-Defined Tag Restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the AWS Billing and Cost Management User Guide.
     public struct Tag {
-        /// The tag key.
+        /// The key of the tag.
         /// This member is required.
         public var tagKey: Swift.String?
-        /// The tag value.
+        /// The value of the tag.
         /// This member is required.
         public var tagValue: Swift.String?
 
@@ -65,22 +65,22 @@ extension ChatbotClientTypes {
 extension ChatbotClientTypes {
     /// An AWS Chatbot configuration for Amazon Chime.
     public struct ChimeWebhookConfiguration {
-        /// The ARN of the ChimeWebhookConfiguration.
+        /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
         /// The name of the configuration.
         public var configurationName: Swift.String?
-        /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+        /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var iamRoleArn: Swift.String?
-        /// Specifies the logging level for this configuration. This property affects the log entries pushed to Amazon CloudWatch Logs.Logging levels include ERROR, INFO, or NONE.
+        /// Logging levels include ERROR, INFO, or NONE.
         public var loggingLevel: Swift.String?
-        /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+        /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
         /// This member is required.
         public var snsTopicArns: [Swift.String]?
-        /// A list of tags applied to the configuration.
+        /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
         public var tags: [ChatbotClientTypes.Tag]?
-        /// Description of the webhook. Recommend using the convention RoomName/WebhookName. See Chime setup tutorial for more details: https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
+        /// A description of the webhook. We recommend using the convention RoomName/WebhookName. For more information, see [Tutorial: Get started with Amazon Chime](https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var webhookDescription: Swift.String?
 
@@ -106,10 +106,15 @@ extension ChatbotClientTypes {
 
 }
 
+extension ChatbotClientTypes.ChimeWebhookConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ChimeWebhookConfiguration(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), webhookDescription: \"CONTENT_REDACTED\")"}
+}
+
 extension ChatbotClientTypes {
-    /// A Microsoft Teams team that has been authorized with AWS Chatbot.
+    /// A Microsoft Teams team that is authorized with AWS Chatbot.
     public struct ConfiguredTeam {
-        /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
+        /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var teamId: Swift.String?
         /// The name of the Microsoft Teams Team.
@@ -180,7 +185,7 @@ public struct CreateChimeWebhookConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-/// Your request input doesn't meet the constraints that AWS Chatbot requires.
+/// Your request input doesn't meet the constraints required by AWS Chatbot.
 public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -204,7 +209,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// Your request input doesn't meet the constraints that AWS Chatbot requires.
+/// Your request input doesn't meet the constraints required by AWS Chatbot.
 public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -256,20 +261,20 @@ public struct CreateChimeWebhookConfigurationInput {
     /// The name of the configuration.
     /// This member is required.
     public var configurationName: Swift.String?
-    /// This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+    /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
     /// This member is required.
     public var iamRoleArn: Swift.String?
     /// Logging levels include ERROR, INFO, or NONE.
     public var loggingLevel: Swift.String?
-    /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
     /// This member is required.
     public var snsTopicArns: [Swift.String]?
-    /// A list of tags to apply to the configuration.
+    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
     public var tags: [ChatbotClientTypes.Tag]?
-    /// Description of the webhook. Recommend using the convention RoomName/WebhookName. See Chime setup tutorial for more details: https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
+    /// A description of the webhook. We recommend using the convention RoomName/WebhookName. For more information, see [Tutorial: Get started with Amazon Chime](https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html) in the AWS Chatbot Administrator Guide.
     /// This member is required.
     public var webhookDescription: Swift.String?
-    /// URL for the Chime webhook.
+    /// The URL for the Amazon Chime webhook.
     /// This member is required.
     public var webhookUrl: Swift.String?
 
@@ -293,8 +298,13 @@ public struct CreateChimeWebhookConfigurationInput {
     }
 }
 
+extension CreateChimeWebhookConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateChimeWebhookConfigurationInput(configurationName: \(Swift.String(describing: configurationName)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), webhookDescription: \"CONTENT_REDACTED\", webhookUrl: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateChimeWebhookConfigurationOutput {
-    /// Chime webhook configuration.
+    /// An Amazon Chime webhook configuration.
     public var webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration?
 
     public init(
@@ -338,18 +348,18 @@ public struct CreateMicrosoftTeamsChannelConfigurationInput {
     /// The name of the configuration.
     /// This member is required.
     public var configurationName: Swift.String?
-    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is not set.
+    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set.
     public var guardrailPolicyArns: [Swift.String]?
-    /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+    /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
     /// This member is required.
     public var iamRoleArn: Swift.String?
     /// Logging levels include ERROR, INFO, or NONE.
     public var loggingLevel: Swift.String?
-    /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
     public var snsTopicArns: [Swift.String]?
-    /// A list of tags to apply to the configuration.
+    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
     public var tags: [ChatbotClientTypes.Tag]?
-    /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
+    /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
     /// This member is required.
     public var teamId: Swift.String?
     /// The name of the Microsoft Teams Team.
@@ -390,6 +400,11 @@ public struct CreateMicrosoftTeamsChannelConfigurationInput {
     }
 }
 
+extension CreateMicrosoftTeamsChannelConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMicrosoftTeamsChannelConfigurationInput(channelId: \(Swift.String(describing: channelId)), configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), teamId: \(Swift.String(describing: teamId)), tenantId: \(Swift.String(describing: tenantId)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), channelName: \"CONTENT_REDACTED\", teamName: \"CONTENT_REDACTED\")"}
+}
+
 extension ChatbotClientTypes {
     /// An AWS Chatbot configuration for Microsoft Teams.
     public struct TeamsChannelConfiguration {
@@ -398,24 +413,24 @@ extension ChatbotClientTypes {
         public var channelId: Swift.String?
         /// The name of the Microsoft Teams channel.
         public var channelName: Swift.String?
-        /// The ARN of the MicrosoftTeamsChannelConfiguration.
+        /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
         /// The name of the configuration.
         public var configurationName: Swift.String?
-        /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is not set.
+        /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set.
         public var guardrailPolicyArns: [Swift.String]?
-        /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+        /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var iamRoleArn: Swift.String?
         /// Logging levels include ERROR, INFO, or NONE.
         public var loggingLevel: Swift.String?
-        /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+        /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
         /// This member is required.
         public var snsTopicArns: [Swift.String]?
-        /// A list of tags applied to the configuration.
+        /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
         public var tags: [ChatbotClientTypes.Tag]?
-        /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
+        /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var teamId: Swift.String?
         /// The name of the Microsoft Teams Team.
@@ -460,6 +475,11 @@ extension ChatbotClientTypes {
 
 }
 
+extension ChatbotClientTypes.TeamsChannelConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TeamsChannelConfiguration(channelId: \(Swift.String(describing: channelId)), chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), teamId: \(Swift.String(describing: teamId)), tenantId: \(Swift.String(describing: tenantId)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), channelName: \"CONTENT_REDACTED\", teamName: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateMicrosoftTeamsChannelConfigurationOutput {
     /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
@@ -500,24 +520,24 @@ public struct CreateSlackChannelConfigurationInput {
     /// The name of the configuration.
     /// This member is required.
     public var configurationName: Swift.String?
-    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is not set.
+    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set.
     public var guardrailPolicyArns: [Swift.String]?
-    /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+    /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
     /// This member is required.
     public var iamRoleArn: Swift.String?
     /// Logging levels include ERROR, INFO, or NONE.
     public var loggingLevel: Swift.String?
-    /// The ID of the Slack channel. To get the ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ.
+    /// The ID of the Slack channel. To get this ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ.
     /// This member is required.
     public var slackChannelId: Swift.String?
-    /// The name of the Slack Channel.
+    /// The name of the Slack channel.
     public var slackChannelName: Swift.String?
     /// The ID of the Slack workspace authorized with AWS Chatbot.
     /// This member is required.
     public var slackTeamId: Swift.String?
-    /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
     public var snsTopicArns: [Swift.String]?
-    /// A list of tags to apply to the configuration.
+    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
     public var tags: [ChatbotClientTypes.Tag]?
     /// Enables use of a user role requirement in your chat configuration.
     public var userAuthorizationRequired: Swift.Bool?
@@ -548,37 +568,42 @@ public struct CreateSlackChannelConfigurationInput {
     }
 }
 
+extension CreateSlackChannelConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateSlackChannelConfigurationInput(configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), slackChannelId: \(Swift.String(describing: slackChannelId)), slackTeamId: \(Swift.String(describing: slackTeamId)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), slackChannelName: \"CONTENT_REDACTED\")"}
+}
+
 extension ChatbotClientTypes {
     /// An AWS Chatbot configuration for Slack.
     public struct SlackChannelConfiguration {
-        /// The ARN of the SlackChannelConfiguration.
+        /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
         /// The name of the configuration.
         public var configurationName: Swift.String?
-        /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is not set.
+        /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set.
         public var guardrailPolicyArns: [Swift.String]?
-        /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+        /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var iamRoleArn: Swift.String?
         /// Logging levels include ERROR, INFO, or NONE.
         public var loggingLevel: Swift.String?
-        /// The ID of the Slack channel. To get the ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ.
+        /// The ID of the Slack channel. To get this ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ.
         /// This member is required.
         public var slackChannelId: Swift.String?
-        /// The name of the Slack Channel.
+        /// The name of the Slack channel.
         /// This member is required.
         public var slackChannelName: Swift.String?
-        /// The ID of the Slack workspace authorized with AWS Chatbot.
+        /// The ID of the Slack workspace authorized with Amazon Chime.
         /// This member is required.
         public var slackTeamId: Swift.String?
-        /// Name of the Slack Workspace.
+        /// Name of the Slack workspace.
         /// This member is required.
         public var slackTeamName: Swift.String?
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         /// This member is required.
         public var snsTopicArns: [Swift.String]?
-        /// A list of tags applied to the configuration.
+        /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
         public var tags: [ChatbotClientTypes.Tag]?
         /// Enables use of a user role requirement in your chat configuration.
         public var userAuthorizationRequired: Swift.Bool?
@@ -613,6 +638,11 @@ extension ChatbotClientTypes {
         }
     }
 
+}
+
+extension ChatbotClientTypes.SlackChannelConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SlackChannelConfiguration(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), slackChannelId: \(Swift.String(describing: slackChannelId)), slackTeamId: \(Swift.String(describing: slackTeamId)), slackTeamName: \(Swift.String(describing: slackTeamName)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), slackChannelName: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateSlackChannelConfigurationOutput {
@@ -651,7 +681,7 @@ public struct DeleteChimeWebhookConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-/// We were not able to find the resource for your request.
+/// We were unable to find the resource for your request
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -676,7 +706,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public struct DeleteChimeWebhookConfigurationInput {
-    /// The ARN of the ChimeWebhookConfiguration to delete.
+    /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
 
@@ -718,7 +748,7 @@ public struct DeleteTeamsChannelConfigurationException: ClientRuntime.ModeledErr
 }
 
 public struct DeleteMicrosoftTeamsChannelConfigurationInput {
-    /// The ARN of the MicrosoftTeamsChannelConfiguration to delete.
+    /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
 
@@ -760,7 +790,7 @@ public struct DeleteTeamsConfiguredTeamException: ClientRuntime.ModeledError, AW
 }
 
 public struct DeleteMicrosoftTeamsConfiguredTeamInput {
-    /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
+    /// The ID of the Microsoft Teams team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
     /// This member is required.
     public var teamId: Swift.String?
 
@@ -805,7 +835,7 @@ public struct DeleteMicrosoftTeamsUserIdentityInput {
     /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
-    /// Id from Microsoft Teams for user.
+    /// The Microsoft Teams user ID.
     /// This member is required.
     public var userId: Swift.String?
 
@@ -849,7 +879,7 @@ public struct DeleteSlackChannelConfigurationException: ClientRuntime.ModeledErr
 }
 
 public struct DeleteSlackChannelConfigurationInput {
-    /// The ARN of the SlackChannelConfiguration to delete.
+    /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
 
@@ -897,7 +927,7 @@ public struct DeleteSlackUserIdentityInput {
     /// The ID of the Slack workspace authorized with AWS Chatbot.
     /// This member is required.
     public var slackTeamId: Swift.String?
-    /// The ID of the user in Slack.
+    /// The ID of the user in Slack
     /// This member is required.
     public var slackUserId: Swift.String?
 
@@ -985,7 +1015,7 @@ public struct DescribeChimeWebhookConfigurationsException: ClientRuntime.Modeled
 }
 
 public struct DescribeChimeWebhookConfigurationsInput {
-    /// An optional ARN of a ChimeWebhookConfiguration to describe.
+    /// An optional Amazon Resource Number (ARN) of a ChimeWebhookConfiguration to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -1007,7 +1037,7 @@ public struct DescribeChimeWebhookConfigurationsInput {
 public struct DescribeChimeWebhookConfigurationsOutput {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
-    /// A list of Chime webhooks associated with the account.
+    /// A list of Amazon Chime webhooks associated with the account.
     public var webhookConfigurations: [ChatbotClientTypes.ChimeWebhookConfiguration]?
 
     public init(
@@ -1045,7 +1075,7 @@ public struct DescribeSlackChannelConfigurationsException: ClientRuntime.Modeled
 }
 
 public struct DescribeSlackChannelConfigurationsInput {
-    /// An optional ARN of a SlackChannelConfiguration to describe.
+    /// An optional Amazon Resource Number (ARN) of a SlackChannelConfiguration to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -1105,7 +1135,7 @@ public struct DescribeSlackUserIdentitiesException: ClientRuntime.ModeledError, 
 }
 
 public struct DescribeSlackUserIdentitiesInput {
-    /// The ARN of the SlackChannelConfiguration associated with the user identities to describe.
+    /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration associated with the user identities to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -1125,20 +1155,20 @@ public struct DescribeSlackUserIdentitiesInput {
 }
 
 extension ChatbotClientTypes {
-    /// Identifes a User level permission for a channel configuration.
+    /// Identifes a user level permission for a channel configuration.
     public struct SlackUserIdentity {
-        /// The AWS user identity ARN used to associate a Slack User Identity with an IAM Role.
+        /// The AWS user identity ARN used to associate a Slack user ID with an IAM Role.
         public var awsUserIdentity: Swift.String?
-        /// The ARN of the SlackChannelConfiguration associated with the user identity.
+        /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration associated with the user identity to delete.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
-        /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+        /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var iamRoleArn: Swift.String?
         /// The ID of the Slack workspace authorized with AWS Chatbot.
         /// This member is required.
         public var slackTeamId: Swift.String?
-        /// The ID of the user in Slack.
+        /// The ID of the user in Slack
         /// This member is required.
         public var slackUserId: Swift.String?
 
@@ -1217,12 +1247,12 @@ public struct DescribeSlackWorkspacesInput {
 }
 
 extension ChatbotClientTypes {
-    /// A Slack Workspace.
+    /// A Slack workspace.
     public struct SlackWorkspace {
         /// The ID of the Slack workspace authorized with AWS Chatbot.
         /// This member is required.
         public var slackTeamId: Swift.String?
-        /// Name of the Slack Workspace.
+        /// The name of the Slack workspace.
         /// This member is required.
         public var slackTeamName: Swift.String?
 
@@ -1241,7 +1271,7 @@ extension ChatbotClientTypes {
 public struct DescribeSlackWorkspacesOutput {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
-    /// A list of Slack Workspaces registered with AWS Chatbot.
+    /// A list of Slack workspaces registered with AWS Chatbot.
     public var slackWorkspaces: [ChatbotClientTypes.SlackWorkspace]?
 
     public init(
@@ -1284,7 +1314,7 @@ public struct GetAccountPreferencesInput {
 }
 
 public struct GetAccountPreferencesOutput {
-    /// Preferences which apply for AWS Chatbot usage in the calling AWS account.
+    /// The preferences related to AWS Chatbot usage in the calling AWS account.
     public var accountPreferences: ChatbotClientTypes.AccountPreferences?
 
     public init(
@@ -1320,7 +1350,7 @@ public struct GetTeamsChannelConfigurationException: ClientRuntime.ModeledError,
 }
 
 public struct GetMicrosoftTeamsChannelConfigurationInput {
-    /// The ARN of the MicrosoftTeamsChannelConfiguration to retrieve.
+    /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration to retrieve.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
 
@@ -1344,7 +1374,7 @@ public struct GetMicrosoftTeamsChannelConfigurationOutput {
     }
 }
 
-/// Customer/consumer-facing internal service exception. https://w.amazon.com/index.php/AWS/API_Standards/Exceptions#InternalServiceError
+/// Unexpected error during processing of request.
 public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1397,7 +1427,7 @@ public struct ListMicrosoftTeamsChannelConfigurationsInput {
     public var maxResults: Swift.Int?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
-    /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
+    /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
     public var teamId: Swift.String?
 
     public init(
@@ -1469,7 +1499,7 @@ public struct ListMicrosoftTeamsConfiguredTeamsInput {
 }
 
 public struct ListMicrosoftTeamsConfiguredTeamsOutput {
-    /// A list of teams in Microsoft Teams that have been configured with AWS Chatbot.
+    /// A list of teams in Microsoft Teams that are configured with AWS Chatbot.
     public var configuredTeams: [ChatbotClientTypes.ConfiguredTeam]?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
@@ -1509,7 +1539,7 @@ public struct ListMicrosoftTeamsUserIdentitiesException: ClientRuntime.ModeledEr
 }
 
 public struct ListMicrosoftTeamsUserIdentitiesInput {
-    /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identities to list.
+    /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identities to list.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -1531,22 +1561,22 @@ public struct ListMicrosoftTeamsUserIdentitiesInput {
 extension ChatbotClientTypes {
     /// Identifes a user level permission for a channel configuration.
     public struct TeamsUserIdentity {
-        /// The AWS user identity ARN used to associate a Microsoft Teams User Identity with an IAM Role.
+        /// The AWS user identity ARN used to associate a Microsoft Teams user Identity with an IAM Role.
         public var awsUserIdentity: Swift.String?
-        /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identity.
+        /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
-        /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+        /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var iamRoleArn: Swift.String?
-        /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
+        /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var teamId: Swift.String?
         /// The ID of the Microsoft Teams channel.
         public var teamsChannelId: Swift.String?
         /// The ID of the Microsoft Teams tenant.
         public var teamsTenantId: Swift.String?
-        /// Id from Microsoft Teams for user.
+        /// The Microsoft Teams user ID.
         public var userId: Swift.String?
 
         public init(
@@ -1612,7 +1642,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 public struct ListTagsForResourceInput {
-    /// The ARN of the configuration.
+    /// The ARN you specified to list the tags of.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -1625,7 +1655,7 @@ public struct ListTagsForResourceInput {
 }
 
 public struct ListTagsForResourceOutput {
-    /// A list of tags applied to the configuration.
+    /// Key-value pairs that are assigned to a resource, usually for the purpose of grouping and searching for items. Tags are metadata that you define.
     public var tags: [ChatbotClientTypes.Tag]?
 
     public init(
@@ -1684,10 +1714,10 @@ public struct TagResourceOutput {
 }
 
 public struct UntagResourceInput {
-    /// The ARN of the configuration.
+    /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role.
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// A list of tag keys to remove from the configuration.
+    /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -1731,7 +1761,7 @@ public struct UpdateAccountPreferencesException: ClientRuntime.ModeledError, AWS
 }
 
 public struct UpdateAccountPreferencesInput {
-    /// Turns on training data collection. This helps improve the AWS Chatbot experience by allowing AWS Chatbot to store and use your customer information, such as AWS Chatbot configurations, notifications, user inputs, AWS Chatbot generated responses, and interaction data. This data helps us to continuously improve and develop Artificial Intelligence (AI) technologies. Your data is not shared with any third parties and is protected using sophisticated controls to prevent unauthorized access and misuse. AWS Chatbot does not store or use interactions in chat channels with Amazon Q for training AWS Chatbot’s AI technologies.
+    /// Turns on training data collection. This helps improve the AWS Chatbot experience by allowing AWS Chatbot to store and use your customer information, such as AWS Chatbot configurations, notifications, user inputs, AWS Chatbot generated responses, and interaction data. This data helps us to continuously improve and develop Artificial Intelligence (AI) technologies. Your data is not shared with any third parties and is protected using sophisticated controls to prevent unauthorized access and misuse. AWS Chatbot does not store or use interactions in chat channels with Amazon Q for training AI technologies for AWS Chatbot.
     public var trainingDataCollectionEnabled: Swift.Bool?
     /// Enables use of a user role requirement in your chat configuration.
     public var userAuthorizationRequired: Swift.Bool?
@@ -1747,7 +1777,7 @@ public struct UpdateAccountPreferencesInput {
 }
 
 public struct UpdateAccountPreferencesOutput {
-    /// Preferences which apply for AWS Chatbot usage in the calling AWS account.
+    /// Preferences related to AWS Chatbot usage in the calling AWS account.
     public var accountPreferences: ChatbotClientTypes.AccountPreferences?
 
     public init(
@@ -1783,18 +1813,18 @@ public struct UpdateChimeWebhookConfigurationException: ClientRuntime.ModeledErr
 }
 
 public struct UpdateChimeWebhookConfigurationInput {
-    /// The ARN of the ChimeWebhookConfiguration to update.
+    /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
-    /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+    /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
     public var iamRoleArn: Swift.String?
     /// Logging levels include ERROR, INFO, or NONE.
     public var loggingLevel: Swift.String?
     /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
     public var snsTopicArns: [Swift.String]?
-    /// Description of the webhook. Recommend using the convention RoomName/WebhookName. See Chime setup tutorial for more details: https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
+    /// A description of the webhook. We recommend using the convention RoomName/WebhookName. For more information, see [Tutorial: Get started with Amazon Chime](https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html) in the AWS Chatbot Administrator Guide.
     public var webhookDescription: Swift.String?
-    /// URL for the Chime webhook.
+    /// The URL for the Amazon Chime webhook.
     public var webhookUrl: Swift.String?
 
     public init(
@@ -1815,8 +1845,13 @@ public struct UpdateChimeWebhookConfigurationInput {
     }
 }
 
+extension UpdateChimeWebhookConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateChimeWebhookConfigurationInput(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), webhookDescription: \"CONTENT_REDACTED\", webhookUrl: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateChimeWebhookConfigurationOutput {
-    /// Chime webhook configuration.
+    /// A Amazon Chime webhook configuration.
     public var webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration?
 
     public init(
@@ -1857,16 +1892,16 @@ public struct UpdateMicrosoftTeamsChannelConfigurationInput {
     public var channelId: Swift.String?
     /// The name of the Microsoft Teams channel.
     public var channelName: Swift.String?
-    /// The ARN of the MicrosoftTeamsChannelConfiguration to update.
+    /// The Amazon Resource Number (ARN) of the TeamsChannelConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
-    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is not set.
+    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set.
     public var guardrailPolicyArns: [Swift.String]?
-    /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+    /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
     public var iamRoleArn: Swift.String?
     /// Logging levels include ERROR, INFO, or NONE.
     public var loggingLevel: Swift.String?
-    /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
     public var snsTopicArns: [Swift.String]?
     /// Enables use of a user role requirement in your chat configuration.
     public var userAuthorizationRequired: Swift.Bool?
@@ -1891,6 +1926,11 @@ public struct UpdateMicrosoftTeamsChannelConfigurationInput {
         self.snsTopicArns = snsTopicArns
         self.userAuthorizationRequired = userAuthorizationRequired
     }
+}
+
+extension UpdateMicrosoftTeamsChannelConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateMicrosoftTeamsChannelConfigurationInput(channelId: \(Swift.String(describing: channelId)), chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), channelName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateMicrosoftTeamsChannelConfigurationOutput {
@@ -1930,21 +1970,21 @@ public struct UpdateSlackChannelConfigurationException: ClientRuntime.ModeledErr
 }
 
 public struct UpdateSlackChannelConfigurationInput {
-    /// The ARN of the SlackChannelConfiguration to update.
+    /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
-    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is not set.
+    /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set.
     public var guardrailPolicyArns: [Swift.String]?
-    /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This is a user-defined role that AWS Chatbot will assume. This is not the service-linked role. For more information, see IAM Policies for AWS Chatbot.
+    /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
     public var iamRoleArn: Swift.String?
     /// Logging levels include ERROR, INFO, or NONE.
     public var loggingLevel: Swift.String?
-    /// The ID of the Slack channel. To get the ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ.
+    /// The ID of the Slack channel. To get this ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ.
     /// This member is required.
     public var slackChannelId: Swift.String?
-    /// The name of the Slack Channel.
+    /// The name of the Slack channel.
     public var slackChannelName: Swift.String?
-    /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
     public var snsTopicArns: [Swift.String]?
     /// Enables use of a user role requirement in your chat configuration.
     public var userAuthorizationRequired: Swift.Bool?
@@ -1969,6 +2009,11 @@ public struct UpdateSlackChannelConfigurationInput {
         self.snsTopicArns = snsTopicArns
         self.userAuthorizationRequired = userAuthorizationRequired
     }
+}
+
+extension UpdateSlackChannelConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSlackChannelConfigurationInput(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), slackChannelId: \(Swift.String(describing: slackChannelId)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), slackChannelName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSlackChannelConfigurationOutput {

@@ -43,7 +43,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -209,8 +208,8 @@ extension BedrockRuntimeClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
-    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
-    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ServiceQuotaExceededException` : Your request exceeds the service quota for your account. You can view your quotas at [Viewing service quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/gs-request-quota.html). You can resubmit your request later.
+    /// - `ThrottlingException` : Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) to increase the rate or number of tokens you can process.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func applyGuardrail(input: ApplyGuardrailInput) async throws -> ApplyGuardrailOutput {
         let context = Smithy.ContextBuilder()
@@ -251,7 +250,7 @@ extension BedrockRuntimeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyGuardrailOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ApplyGuardrailOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ApplyGuardrailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -272,7 +271,7 @@ extension BedrockRuntimeClient {
 
     /// Performs the `Converse` operation on the `AmazonBedrockFrontendService` service.
     ///
-    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide For example code, see Converse API examples in the Amazon Bedrock User Guide. This operation requires permission for the bedrock:InvokeModel action.
+    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide For example code, see Converse API examples in the Amazon Bedrock User Guide. This operation requires permission for the bedrock:InvokeModel action.
     ///
     /// - Parameter ConverseInput : [no documentation found]
     ///
@@ -284,10 +283,11 @@ extension BedrockRuntimeClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ModelErrorException` : The request failed due to an error while processing the model.
-    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests.
+    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
     /// - `ModelTimeoutException` : The request took too long to process. Processing time exceeded the model timeout length.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
-    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ServiceUnavailableException` : The service isn't currently available. Try again later.
+    /// - `ThrottlingException` : Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) to increase the rate or number of tokens you can process.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func converse(input: ConverseInput) async throws -> ConverseOutput {
         let context = Smithy.ContextBuilder()
@@ -328,7 +328,7 @@ extension BedrockRuntimeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ConverseOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ConverseOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConverseInput, ConverseOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConverseInput, ConverseOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConverseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConverseInput, ConverseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConverseInput, ConverseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -349,7 +349,7 @@ extension BedrockRuntimeClient {
 
     /// Performs the `ConverseStream` operation on the `AmazonBedrockFrontendService` service.
     ///
-    /// Sends messages to the specified Amazon Bedrock model and returns the response in a stream. ConverseStream provides a consistent API that works with all Amazon Bedrock models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model. To find out if a model supports streaming, call [GetFoundationModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html) and check the responseStreamingSupported field in the response. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide For example code, see Conversation streaming example in the Amazon Bedrock User Guide. This operation requires permission for the bedrock:InvokeModelWithResponseStream action.
+    /// Sends messages to the specified Amazon Bedrock model and returns the response in a stream. ConverseStream provides a consistent API that works with all Amazon Bedrock models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model. To find out if a model supports streaming, call [GetFoundationModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html) and check the responseStreamingSupported field in the response. The CLI doesn't support streaming operations in Amazon Bedrock, including ConverseStream. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide For example code, see Conversation streaming example in the Amazon Bedrock User Guide. This operation requires permission for the bedrock:InvokeModelWithResponseStream action.
     ///
     /// - Parameter ConverseStreamInput : [no documentation found]
     ///
@@ -361,10 +361,11 @@ extension BedrockRuntimeClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ModelErrorException` : The request failed due to an error while processing the model.
-    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests.
+    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
     /// - `ModelTimeoutException` : The request took too long to process. Processing time exceeded the model timeout length.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
-    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ServiceUnavailableException` : The service isn't currently available. Try again later.
+    /// - `ThrottlingException` : Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) to increase the rate or number of tokens you can process.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func converseStream(input: ConverseStreamInput) async throws -> ConverseStreamOutput {
         let context = Smithy.ContextBuilder()
@@ -405,7 +406,7 @@ extension BedrockRuntimeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ConverseStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ConverseStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConverseStreamInput, ConverseStreamOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConverseStreamInput, ConverseStreamOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConverseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConverseStreamInput, ConverseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConverseStreamInput, ConverseStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -438,11 +439,12 @@ extension BedrockRuntimeClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ModelErrorException` : The request failed due to an error while processing the model.
-    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests.
+    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
     /// - `ModelTimeoutException` : The request took too long to process. Processing time exceeded the model timeout length.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
-    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
-    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ServiceQuotaExceededException` : Your request exceeds the service quota for your account. You can view your quotas at [Viewing service quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/gs-request-quota.html). You can resubmit your request later.
+    /// - `ServiceUnavailableException` : The service isn't currently available. Try again later.
+    /// - `ThrottlingException` : Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) to increase the rate or number of tokens you can process.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func invokeModel(input: InvokeModelInput) async throws -> InvokeModelOutput {
         let context = Smithy.ContextBuilder()
@@ -484,7 +486,7 @@ extension BedrockRuntimeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<InvokeModelOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeModelInput, InvokeModelOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeModelInput, InvokeModelOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvokeModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeModelInput, InvokeModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeModelInput, InvokeModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -505,7 +507,7 @@ extension BedrockRuntimeClient {
 
     /// Performs the `InvokeModelWithResponseStream` operation on the `AmazonBedrockFrontendService` service.
     ///
-    /// Invoke the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. The response is returned in a stream. To see if a model supports streaming, call [GetFoundationModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html) and check the responseStreamingSupported field in the response. The CLI doesn't support InvokeModelWithResponseStream. For example code, see Invoke model with streaming code example in the Amazon Bedrock User Guide. This operation requires permissions to perform the bedrock:InvokeModelWithResponseStream action.
+    /// Invoke the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. The response is returned in a stream. To see if a model supports streaming, call [GetFoundationModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html) and check the responseStreamingSupported field in the response. The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream. For example code, see Invoke model with streaming code example in the Amazon Bedrock User Guide. This operation requires permissions to perform the bedrock:InvokeModelWithResponseStream action.
     ///
     /// - Parameter InvokeModelWithResponseStreamInput : [no documentation found]
     ///
@@ -517,12 +519,13 @@ extension BedrockRuntimeClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ModelErrorException` : The request failed due to an error while processing the model.
-    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests.
+    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
     /// - `ModelStreamErrorException` : An error occurred while streaming the response. Retry your request.
     /// - `ModelTimeoutException` : The request took too long to process. Processing time exceeded the model timeout length.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
-    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
-    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ServiceQuotaExceededException` : Your request exceeds the service quota for your account. You can view your quotas at [Viewing service quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/gs-request-quota.html). You can resubmit your request later.
+    /// - `ServiceUnavailableException` : The service isn't currently available. Try again later.
+    /// - `ThrottlingException` : Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) to increase the rate or number of tokens you can process.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func invokeModelWithResponseStream(input: InvokeModelWithResponseStreamInput) async throws -> InvokeModelWithResponseStreamOutput {
         let context = Smithy.ContextBuilder()
@@ -564,7 +567,7 @@ extension BedrockRuntimeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelWithResponseStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<InvokeModelWithResponseStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvokeModelWithResponseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

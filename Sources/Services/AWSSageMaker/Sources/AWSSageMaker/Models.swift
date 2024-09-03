@@ -7589,6 +7589,38 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+
+    public enum AutoMountHomeEFS: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case defaultAsDomain
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoMountHomeEFS] {
+            return [
+                .defaultAsDomain,
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .defaultAsDomain: return "DefaultAsDomain"
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
     /// The name and an example value of the hyperparameter that you want to use in Autotune. If Automatic model tuning (AMT) determines that your hyperparameter is eligible for Autotune, an optimal hyperparameter range is selected for you.
     public struct AutoParameter {
         /// The name of the hyperparameter to optimize using Autotune.
@@ -10846,7 +10878,7 @@ extension SageMakerClientTypes {
         public var additionalModelDataSources: [SageMakerClientTypes.AdditionalModelDataSource]?
         /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of the parameter uniquely identifies the container for the purposes of logging and metrics. For information, see [Use Logs and Metrics to Monitor an Inference Pipeline](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-pipeline-logs-metrics.html). If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public var containerHostname: Swift.String?
-        /// The environment variables to set in the Docker container. The maximum length of each key and value in the Environment map is 1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If you pass multiple containers to a CreateModel request, then the maximum length of all of their maps, combined, is also 32 KB.
+        /// The environment variables to set in the Docker container. Don't include any sensitive data in your environment variables. The maximum length of each key and value in the Environment map is 1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If you pass multiple containers to a CreateModel request, then the maximum length of all of their maps, combined, is also 32 KB.
         public var environment: [Swift.String: Swift.String]?
         /// The path where inference code is stored. This can be either in Amazon EC2 Container Registry or in a Docker registry that is accessible from the same VPC that you configure for your endpoint. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html). The model artifacts in an Amazon S3 bucket and the Docker image for inference container in Amazon EC2 Container Registry must be in the same region as the model or endpoint you are creating.
         public var image: Swift.String?
@@ -13668,6 +13700,8 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
     /// A collection of settings that apply to users in a domain. These settings are specified when the CreateUserProfile API is called, and as DefaultUserSettings when the CreateDomain API is called. SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
     public struct UserSettings {
+        /// Indicates whether auto-mounting of an EFS volume is supported for the user profile. The DefaultAsDomain value is only supported for user profiles. Do not use the DefaultAsDomain value when setting this parameter for a domain.
+        public var autoMountHomeEFS: SageMakerClientTypes.AutoMountHomeEFS?
         /// The Canvas app settings.
         public var canvasAppSettings: SageMakerClientTypes.CanvasAppSettings?
         /// The Code Editor application settings.
@@ -13708,6 +13742,7 @@ extension SageMakerClientTypes {
         public var tensorBoardAppSettings: SageMakerClientTypes.TensorBoardAppSettings?
 
         public init(
+            autoMountHomeEFS: SageMakerClientTypes.AutoMountHomeEFS? = nil,
             canvasAppSettings: SageMakerClientTypes.CanvasAppSettings? = nil,
             codeEditorAppSettings: SageMakerClientTypes.CodeEditorAppSettings? = nil,
             customFileSystemConfigs: [SageMakerClientTypes.CustomFileSystemConfig]? = nil,
@@ -13727,6 +13762,7 @@ extension SageMakerClientTypes {
             tensorBoardAppSettings: SageMakerClientTypes.TensorBoardAppSettings? = nil
         )
         {
+            self.autoMountHomeEFS = autoMountHomeEFS
             self.canvasAppSettings = canvasAppSettings
             self.codeEditorAppSettings = codeEditorAppSettings
             self.customFileSystemConfigs = customFileSystemConfigs
@@ -23393,7 +23429,7 @@ public struct CreateTransformJobInput {
     public var dataCaptureConfig: SageMakerClientTypes.BatchDataCaptureConfig?
     /// The data structure used to specify the data to be used for inference in a batch transform job and to associate the data that is relevant to the prediction results in the output. The input filter provided allows you to exclude input data that is not needed for inference in a batch transform job. The output filter provided allows you to include input data relevant to interpreting the predictions in the output from the job. For more information, see [Associate Prediction Results with their Corresponding Input Records](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html).
     public var dataProcessing: SageMakerClientTypes.DataProcessing?
-    /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
+    /// The environment variables to set in the Docker container. Don't include any sensitive data in your environment variables. We support up to 16 key and values entries in the map.
     public var environment: [Swift.String: Swift.String]?
     /// Associates a SageMaker job as a trial component with an experiment and trial. Specified when you call the following APIs:
     ///
@@ -66893,6 +66929,7 @@ extension SageMakerClientTypes.UserSettings {
 
     static func write(value: SageMakerClientTypes.UserSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutoMountHomeEFS"].write(value.autoMountHomeEFS)
         try writer["CanvasAppSettings"].write(value.canvasAppSettings, with: SageMakerClientTypes.CanvasAppSettings.write(value:to:))
         try writer["CodeEditorAppSettings"].write(value.codeEditorAppSettings, with: SageMakerClientTypes.CodeEditorAppSettings.write(value:to:))
         try writer["CustomFileSystemConfigs"].writeList(value.customFileSystemConfigs, memberWritingClosure: SageMakerClientTypes.CustomFileSystemConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -66932,6 +66969,7 @@ extension SageMakerClientTypes.UserSettings {
         value.customPosixUserConfig = try reader["CustomPosixUserConfig"].readIfPresent(with: SageMakerClientTypes.CustomPosixUserConfig.read(from:))
         value.customFileSystemConfigs = try reader["CustomFileSystemConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CustomFileSystemConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.studioWebPortalSettings = try reader["StudioWebPortalSettings"].readIfPresent(with: SageMakerClientTypes.StudioWebPortalSettings.read(from:))
+        value.autoMountHomeEFS = try reader["AutoMountHomeEFS"].readIfPresent()
         return value
     }
 }

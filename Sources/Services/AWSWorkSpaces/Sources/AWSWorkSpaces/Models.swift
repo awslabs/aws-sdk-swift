@@ -2804,7 +2804,7 @@ extension WorkSpacesClientTypes {
         public var userVolumeEncryptionEnabled: Swift.Bool?
         /// The ARN of the symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public var volumeEncryptionKey: Swift.String?
-        /// The name of the user-decoupled WorkSpace.
+        /// The name of the user-decoupled WorkSpace. WorkspaceName is required if UserName is [UNDEFINED] for user-decoupled WorkSpaces. WorkspaceName is not applicable if UserName is specified for user-assigned WorkSpaces.
         public var workspaceName: Swift.String?
         /// The WorkSpace properties.
         public var workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?

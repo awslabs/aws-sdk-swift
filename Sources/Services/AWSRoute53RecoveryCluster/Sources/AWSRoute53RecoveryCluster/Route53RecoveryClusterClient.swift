@@ -40,7 +40,6 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -249,7 +248,7 @@ extension Route53RecoveryClusterClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRoutingControlStateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetRoutingControlStateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>(xAmzTarget: "ToggleCustomerAPI.GetRoutingControlState"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRoutingControlStateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>(contentType: "application/x-amz-json-1.0"))
@@ -329,7 +328,7 @@ extension Route53RecoveryClusterClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoutingControlsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListRoutingControlsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(xAmzTarget: "ToggleCustomerAPI.ListRoutingControls"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRoutingControlsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(contentType: "application/x-amz-json-1.0"))
@@ -410,7 +409,7 @@ extension Route53RecoveryClusterClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingControlStateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateRoutingControlStateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>(xAmzTarget: "ToggleCustomerAPI.UpdateRoutingControlState"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRoutingControlStateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>(contentType: "application/x-amz-json-1.0"))
@@ -492,7 +491,7 @@ extension Route53RecoveryClusterClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingControlStatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateRoutingControlStatesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>(serviceID: serviceName, version: "1.0", config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>(xAmzTarget: "ToggleCustomerAPI.UpdateRoutingControlStates"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRoutingControlStatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>(contentType: "application/x-amz-json-1.0"))

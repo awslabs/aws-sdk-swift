@@ -9,7 +9,7 @@ import enum Smithy.ByteStream
 import class Smithy.Context
 import ClientRuntime
 import SmithyHTTPAPI
-import SmithyXML
+@_spi(SmithyReadWrite) import SmithyXML
 import struct Foundation.Data
 import SmithyStreams
 

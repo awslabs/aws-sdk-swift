@@ -2473,6 +2473,223 @@ public struct UpdateGuardrailOutput {
     }
 }
 
+public struct GetInferenceProfileInput {
+    /// The unique identifier of the inference profile.
+    /// This member is required.
+    public var inferenceProfileIdentifier: Swift.String?
+
+    public init(
+        inferenceProfileIdentifier: Swift.String? = nil
+    )
+    {
+        self.inferenceProfileIdentifier = inferenceProfileIdentifier
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains information about a model.
+    public struct InferenceProfileModel {
+        /// The Amazon Resource Name (ARN) of the model.
+        public var modelArn: Swift.String?
+
+        public init(
+            modelArn: Swift.String? = nil
+        )
+        {
+            self.modelArn = modelArn
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+
+    public enum InferenceProfileStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InferenceProfileStatus] {
+            return [
+                .active
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum InferenceProfileType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case systemDefined
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InferenceProfileType] {
+            return [
+                .systemDefined
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .systemDefined: return "SYSTEM_DEFINED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetInferenceProfileOutput {
+    /// The time at which the inference profile was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the inference profile.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the inference profile.
+    /// This member is required.
+    public var inferenceProfileArn: Swift.String?
+    /// The unique identifier of the inference profile.
+    /// This member is required.
+    public var inferenceProfileId: Swift.String?
+    /// The name of the inference profile.
+    /// This member is required.
+    public var inferenceProfileName: Swift.String?
+    /// A list of information about each model in the inference profile.
+    /// This member is required.
+    public var models: [BedrockClientTypes.InferenceProfileModel]?
+    /// The status of the inference profile. ACTIVE means that the inference profile is available to use.
+    /// This member is required.
+    public var status: BedrockClientTypes.InferenceProfileStatus?
+    /// The type of the inference profile. SYSTEM_DEFINED means that the inference profile is defined by Amazon Bedrock.
+    /// This member is required.
+    public var type: BedrockClientTypes.InferenceProfileType?
+    /// The time at which the inference profile was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        inferenceProfileArn: Swift.String? = nil,
+        inferenceProfileId: Swift.String? = nil,
+        inferenceProfileName: Swift.String? = nil,
+        models: [BedrockClientTypes.InferenceProfileModel]? = nil,
+        status: BedrockClientTypes.InferenceProfileStatus? = nil,
+        type: BedrockClientTypes.InferenceProfileType? = nil,
+        updatedAt: Foundation.Date? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.description = description
+        self.inferenceProfileArn = inferenceProfileArn
+        self.inferenceProfileId = inferenceProfileId
+        self.inferenceProfileName = inferenceProfileName
+        self.models = models
+        self.status = status
+        self.type = type
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct ListInferenceProfilesInput {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains information about an inference profile.
+    public struct InferenceProfileSummary {
+        /// The time at which the inference profile was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the inference profile.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the inference profile.
+        /// This member is required.
+        public var inferenceProfileArn: Swift.String?
+        /// The unique identifier of the inference profile.
+        /// This member is required.
+        public var inferenceProfileId: Swift.String?
+        /// The name of the inference profile.
+        /// This member is required.
+        public var inferenceProfileName: Swift.String?
+        /// A list of information about each model in the inference profile.
+        /// This member is required.
+        public var models: [BedrockClientTypes.InferenceProfileModel]?
+        /// The status of the inference profile. ACTIVE means that the inference profile is available to use.
+        /// This member is required.
+        public var status: BedrockClientTypes.InferenceProfileStatus?
+        /// The type of the inference profile. SYSTEM_DEFINED means that the inference profile is defined by Amazon Bedrock.
+        /// This member is required.
+        public var type: BedrockClientTypes.InferenceProfileType?
+        /// The time at which the inference profile was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            inferenceProfileArn: Swift.String? = nil,
+            inferenceProfileId: Swift.String? = nil,
+            inferenceProfileName: Swift.String? = nil,
+            models: [BedrockClientTypes.InferenceProfileModel]? = nil,
+            status: BedrockClientTypes.InferenceProfileStatus? = nil,
+            type: BedrockClientTypes.InferenceProfileType? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.description = description
+            self.inferenceProfileArn = inferenceProfileArn
+            self.inferenceProfileId = inferenceProfileId
+            self.inferenceProfileName = inferenceProfileName
+            self.models = models
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+public struct ListInferenceProfilesOutput {
+    /// A list of information about each inference profile that you can use.
+    public var inferenceProfileSummaries: [BedrockClientTypes.InferenceProfileSummary]?
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        inferenceProfileSummaries: [BedrockClientTypes.InferenceProfileSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.inferenceProfileSummaries = inferenceProfileSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct DeleteModelInvocationLoggingConfigurationInput {
 
     public init() { }
@@ -5517,6 +5734,16 @@ extension GetImportedModelInput {
     }
 }
 
+extension GetInferenceProfileInput {
+
+    static func urlPathProvider(_ value: GetInferenceProfileInput) -> Swift.String? {
+        guard let inferenceProfileIdentifier = value.inferenceProfileIdentifier else {
+            return nil
+        }
+        return "/inference-profiles/\(inferenceProfileIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension GetModelCopyJobInput {
 
     static func urlPathProvider(_ value: GetModelCopyJobInput) -> Swift.String? {
@@ -5772,6 +5999,29 @@ extension ListImportedModelsInput {
         if let creationTimeBefore = value.creationTimeBefore {
             let creationTimeBeforeQueryItem = Smithy.URIQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
             items.append(creationTimeBeforeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListInferenceProfilesInput {
+
+    static func urlPathProvider(_ value: ListInferenceProfilesInput) -> Swift.String? {
+        return "/inference-profiles"
+    }
+}
+
+extension ListInferenceProfilesInput {
+
+    static func queryItemProvider(_ value: ListInferenceProfilesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
         return items
     }
@@ -6548,6 +6798,26 @@ extension GetImportedModelOutput {
     }
 }
 
+extension GetInferenceProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInferenceProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInferenceProfileOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .dateTime)
+        value.description = try reader["description"].readIfPresent()
+        value.inferenceProfileArn = try reader["inferenceProfileArn"].readIfPresent()
+        value.inferenceProfileId = try reader["inferenceProfileId"].readIfPresent()
+        value.inferenceProfileName = try reader["inferenceProfileName"].readIfPresent()
+        value.models = try reader["models"].readListIfPresent(memberReadingClosure: BedrockClientTypes.InferenceProfileModel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .dateTime)
+        return value
+    }
+}
+
 extension GetModelCopyJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetModelCopyJobOutput {
@@ -6746,6 +7016,19 @@ extension ListImportedModelsOutput {
         let reader = responseReader
         var value = ListImportedModelsOutput()
         value.modelSummaries = try reader["modelSummaries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.ImportedModelSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListInferenceProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInferenceProfilesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInferenceProfilesOutput()
+        value.inferenceProfileSummaries = try reader["inferenceProfileSummaries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.InferenceProfileSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7253,6 +7536,24 @@ enum GetImportedModelOutputError {
     }
 }
 
+enum GetInferenceProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetModelCopyJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7429,6 +7730,23 @@ enum ListGuardrailsOutputError {
 }
 
 enum ListImportedModelsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListInferenceProfilesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8344,6 +8662,16 @@ extension BedrockClientTypes.S3DataSource {
     }
 }
 
+extension BedrockClientTypes.InferenceProfileModel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InferenceProfileModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.InferenceProfileModel()
+        value.modelArn = try reader["modelArn"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.Tag {
 
     static func write(value: BedrockClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -8595,6 +8923,24 @@ extension BedrockClientTypes.ImportedModelSummary {
         value.modelArn = try reader["modelArn"].readIfPresent()
         value.modelName = try reader["modelName"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: .dateTime)
+        return value
+    }
+}
+
+extension BedrockClientTypes.InferenceProfileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InferenceProfileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.InferenceProfileSummary()
+        value.inferenceProfileName = try reader["inferenceProfileName"].readIfPresent()
+        value.models = try reader["models"].readListIfPresent(memberReadingClosure: BedrockClientTypes.InferenceProfileModel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.inferenceProfileArn = try reader["inferenceProfileArn"].readIfPresent()
+        value.inferenceProfileId = try reader["inferenceProfileId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

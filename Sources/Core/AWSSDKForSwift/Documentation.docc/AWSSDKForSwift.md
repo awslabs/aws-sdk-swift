@@ -597,6 +597,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSOutposts](../../../../../swift/api/awsoutposts/latest)
 
+[AWSPCS](../../../../../swift/api/awspcs/latest)
+
 [AWSPI](../../../../../swift/api/awspi/latest)
 
 [AWSPanorama](../../../../../swift/api/awspanorama/latest)
