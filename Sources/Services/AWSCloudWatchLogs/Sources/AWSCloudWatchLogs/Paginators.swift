@@ -11,6 +11,40 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension CloudWatchLogsClient {
+    /// Paginate over `[DescribeConfigurationTemplatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeConfigurationTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigurationTemplatesOutput`
+    public func describeConfigurationTemplatesPaginated(input: DescribeConfigurationTemplatesInput) -> ClientRuntime.PaginatorSequence<DescribeConfigurationTemplatesInput, DescribeConfigurationTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeConfigurationTemplatesInput, DescribeConfigurationTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConfigurationTemplates(input:))
+    }
+}
+
+extension DescribeConfigurationTemplatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeConfigurationTemplatesInput {
+        return DescribeConfigurationTemplatesInput(
+            deliveryDestinationTypes: self.deliveryDestinationTypes,
+            limit: self.limit,
+            logTypes: self.logTypes,
+            nextToken: token,
+            resourceTypes: self.resourceTypes,
+            service: self.service
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeConfigurationTemplatesInput, OperationStackOutput == DescribeConfigurationTemplatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeConfigurationTemplatesPaginated`
+    /// to access the nested member `[CloudWatchLogsClientTypes.ConfigurationTemplate]`
+    /// - Returns: `[CloudWatchLogsClientTypes.ConfigurationTemplate]`
+    public func configurationTemplates() async throws -> [CloudWatchLogsClientTypes.ConfigurationTemplate] {
+        return try await self.asyncCompactMap { item in item.configurationTemplates }
+    }
+}
+extension CloudWatchLogsClient {
     /// Paginate over `[DescribeDeliveriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
