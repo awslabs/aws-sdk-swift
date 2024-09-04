@@ -18,7 +18,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenera
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_REQUEST
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
-import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Middleware.NoopHandler
 import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
@@ -33,12 +32,12 @@ class PresignerGenerator : SwiftIntegration {
     override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
-        if (!SigV4Utils.isSupportedAuthentication(ctx.model, service)) return
+        if (!AWSAuthUtils.isSupportedAuthentication(ctx.model, service)) return
         val presignOperations = service.allOperations
             .map { ctx.model.expectShape<OperationShape>(it) }
             .filter { operationShape -> operationShape.hasTrait(Presignable.ID) }
             .map { operationShape ->
-                check(SigV4Utils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
+                check(AWSAuthUtils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
                 PresignableOperation(service.id.toString(), operationShape.id.toString())
             }
         presignOperations.forEach { presignableOperation ->
@@ -84,23 +83,22 @@ class PresignerGenerator : SwiftIntegration {
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
-            writer.openBlock("public func presign(config: \$L, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeName, FoundationTypes.TimeInterval, SmithyHTTPAPITypes.SdkHttpRequest) {
+            writer.openBlock("public func presign(config: \$L, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeName, FoundationTypes.TimeInterval, SmithyHTTPAPITypes.HTTPRequest) {
                 writer.write("let serviceName = \$S", ctx.settings.sdkId)
                 writer.write("let input = self")
-                if (protocolGeneratorContext.settings.useInterceptors) {
-                    writer.openBlock(
-                        "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
-                        "}",
-                        SmithyHTTPAPITypes.SdkHttpRequest,
-                        SmithyTypes.Context,
-                        SmithyHTTPAPITypes.HttpResponse,
-                    ) {
-                        writer.write(
-                            "throw \$N.unknownError(\"No HTTP client configured for presigned request\")",
-                            SmithyTypes.ClientError
-                        )
-                    }
+                writer.openBlock(
+                    "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
+                    "}",
+                    SmithyHTTPAPITypes.HTTPRequest,
+                    SmithyTypes.Context,
+                    SmithyHTTPAPITypes.HTTPResponse,
+                ) {
+                    writer.write(
+                        "throw \$N.unknownError(\"No HTTP client configured for presigned request\")",
+                        SmithyTypes.ClientError
+                    )
                 }
+
                 val operationStackName = "operation"
                 val generator = MiddlewareExecutionGenerator(
                     protocolGeneratorContext,
@@ -114,21 +112,7 @@ class PresignerGenerator : SwiftIntegration {
                     writer.write("return nil")
                 }
 
-                if (protocolGeneratorContext.settings.useInterceptors) {
-                    writer.write("return try await op.presignRequest(input: input)")
-                } else {
-                    val requestBuilderName = "presignedRequestBuilder"
-                    val builtRequestName = "builtRequest"
-                    writer.write(
-                        "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
-                        outputType,
-                        NoopHandler
-                    )
-                    writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build() else {", "}") {
-                        writer.write("return nil")
-                    }
-                    writer.write("return $builtRequestName")
-                }
+                writer.write("return try await op.presignRequest(input: input)")
             }
         }
     }
@@ -155,7 +139,7 @@ class PresignerGenerator : SwiftIntegration {
                     }
                     write(
                         "return try await \$N.makeURLRequest(from: presignedRequest)",
-                        SmithyHTTPAPITypes.SdkHttpRequest,
+                        SmithyHTTPAPITypes.HTTPRequest,
                     )
                 }
             }

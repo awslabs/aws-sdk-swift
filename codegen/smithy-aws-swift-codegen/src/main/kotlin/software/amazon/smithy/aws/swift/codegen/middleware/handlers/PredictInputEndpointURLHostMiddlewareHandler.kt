@@ -4,7 +4,6 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.steps.OperationInitializeStep
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
 
@@ -14,19 +13,12 @@ class PredictInputEndpointURLHostMiddlewareHandler(
     inputSymbol: Symbol,
     outputSymbol: Symbol,
     outputErrorSymbol: Symbol
-) : Middleware(writer, inputSymbol, OperationInitializeStep(inputSymbol, outputSymbol, outputErrorSymbol)) {
+) : Middleware(writer, inputSymbol) {
 
     override val typeName = "${inputSymbol.name}EndpointURLHostMiddleware"
 
     override fun generateInit() {
         writer.write("public init() { }")
-    }
-
-    override fun generateMiddlewareClosure() {
-        writer.openBlock("if let endpoint = input.predictEndpoint, let url = \$N(string: endpoint), let host = url.host {", "}", FoundationTypes.URL) {
-            writer.write("context.host = host")
-            writer.write("return try await next.handle(context: context, input: input)")
-        }
     }
 
     override fun renderExtensions() {

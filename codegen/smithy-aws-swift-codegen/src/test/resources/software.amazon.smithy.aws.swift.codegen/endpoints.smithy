@@ -7,6 +7,7 @@ use aws.protocols#restJson1
 use smithy.rules#clientContextParams
 use smithy.rules#staticContextParams
 use smithy.rules#contextParam
+use smithy.rules#operationContextParams
 use smithy.rules#endpointRuleSet
 
 @restJson1
@@ -37,6 +38,10 @@ apply ExampleService @endpointRuleSet({
         boolBaz: {type: "string"},
         stringArrayBar: {type: "stringArray"},
         region: {type: "string", builtIn: "AWS::Region", required: true},
+        subfield: {type: "string"},
+        wildcardProjectionArray: {type: "stringArray"},
+        keysFunctionArray: {type: "stringArray"},
+        flattenedArray: {type: "stringArray"}
     },
     rules: []
 })
@@ -46,6 +51,20 @@ apply ExampleService @endpointRuleSet({
     stringBar: {value: "some value"},
     boolBar: {value: true}
     stringArrayBar: {value: ["five", "six", "seven"]}
+)
+@operationContextParams(
+    subfield: {
+        path: "bar.subfield.subfield2"
+    }
+    wildcardProjectionArray: {
+        path: "bar.objects[*].id"
+    }
+    keysFunctionArray: {
+        path: "keys(bar.mapping)"
+    }
+    flattenedArray: {
+        path: "bar.objects[].content"
+    }
 )
 @http(method: "POST", uri: "/endpointtest/getthing")
 operation GetThing {
@@ -61,4 +80,30 @@ structure GetThingInput {
 
     @contextParam(name: "boolBaz")
     fuzz: String
+
+    bar: NestedContainer
+}
+
+structure NestedContainer {
+    subfield: NestedSubfield
+    objects: ObjectIdentifierList
+    mapping: ObjectIdentifierMap
+}
+
+structure NestedSubfield {
+    subfield2: String
+}
+
+list ObjectIdentifierList {
+    member: ObjectIdentifier
+}
+
+structure ObjectIdentifier {
+    id: String
+    content: String
+}
+
+map ObjectIdentifierMap {
+    key: String
+    value: Integer
 }

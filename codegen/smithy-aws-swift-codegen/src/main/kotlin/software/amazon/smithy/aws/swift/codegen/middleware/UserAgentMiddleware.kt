@@ -11,17 +11,11 @@ import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
-import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
 class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
 
     override val name = "UserAgentMiddleware"
-
-    override val middlewareStep = MiddlewareStep.BUILDSTEP
-
-    override val position = MiddlewarePosition.BEFORE
 
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
@@ -41,8 +35,7 @@ class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
 
     private fun middlewareParamsString(writer: SwiftWriter): String {
         return writer.format(
-            "metadata: \$N.fromConfig(serviceID: serviceName, version: \$S, config: config)",
-            AWSClientRuntimeTypes.Core.AWSUserAgentMetadata,
+            "serviceID: serviceName, version: \$S, config: config",
             settings.moduleVersion,
         )
     }

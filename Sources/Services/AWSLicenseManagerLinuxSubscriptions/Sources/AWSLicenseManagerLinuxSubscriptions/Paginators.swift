@@ -72,3 +72,34 @@ extension PaginatorSequence where OperationStackInput == ListLinuxSubscriptionsI
         return try await self.asyncCompactMap { item in item.subscriptions }
     }
 }
+extension LicenseManagerLinuxSubscriptionsClient {
+    /// Paginate over `[ListRegisteredSubscriptionProvidersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRegisteredSubscriptionProvidersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRegisteredSubscriptionProvidersOutput`
+    public func listRegisteredSubscriptionProvidersPaginated(input: ListRegisteredSubscriptionProvidersInput) -> ClientRuntime.PaginatorSequence<ListRegisteredSubscriptionProvidersInput, ListRegisteredSubscriptionProvidersOutput> {
+        return ClientRuntime.PaginatorSequence<ListRegisteredSubscriptionProvidersInput, ListRegisteredSubscriptionProvidersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRegisteredSubscriptionProviders(input:))
+    }
+}
+
+extension ListRegisteredSubscriptionProvidersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRegisteredSubscriptionProvidersInput {
+        return ListRegisteredSubscriptionProvidersInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            subscriptionProviderSources: self.subscriptionProviderSources
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRegisteredSubscriptionProvidersInput, OperationStackOutput == ListRegisteredSubscriptionProvidersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRegisteredSubscriptionProvidersPaginated`
+    /// to access the nested member `[LicenseManagerLinuxSubscriptionsClientTypes.RegisteredSubscriptionProvider]`
+    /// - Returns: `[LicenseManagerLinuxSubscriptionsClientTypes.RegisteredSubscriptionProvider]`
+    public func registeredSubscriptionProviders() async throws -> [LicenseManagerLinuxSubscriptionsClientTypes.RegisteredSubscriptionProvider] {
+        return try await self.asyncCompactMap { item in item.registeredSubscriptionProviders }
+    }
+}

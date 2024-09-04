@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import PackageDescription
+import AWSCLIUtils
 
 /// `PackageDependencies` is a representation of contents of the .plist stored at packageDependencies.plist
 struct PackageDependencies: Codable {

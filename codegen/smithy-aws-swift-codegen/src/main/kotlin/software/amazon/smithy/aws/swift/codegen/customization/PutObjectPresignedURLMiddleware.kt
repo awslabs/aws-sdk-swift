@@ -3,7 +3,6 @@ package software.amazon.smithy.aws.swift.codegen.customization
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 
 // This middleware is intended only for use with S3 `PutObject`, and only for use when
@@ -15,7 +14,7 @@ class PutObjectPresignedURLMiddleware(
     outputSymbol: Symbol,
     outputErrorSymbol: Symbol,
     private val writer: SwiftWriter
-) : Middleware(writer, inputSymbol, OperationSerializeStep(inputSymbol, outputSymbol, outputErrorSymbol)) {
+) : Middleware(writer, inputSymbol) {
     override val typeName = "PutObjectPresignedURLMiddleware"
 
     override fun generateInit() {
@@ -27,9 +26,9 @@ class PutObjectPresignedURLMiddleware(
             """
             extension $typeName: Smithy.RequestMessageSerializer {
                 public typealias InputType = ${inputSymbol.name}
-                public typealias RequestType = SmithyHTTPAPI.SdkHttpRequest
+                public typealias RequestType = SmithyHTTPAPI.HTTPRequest
                 
-                public func apply(input: InputType, builder: SmithyHTTPAPI.SdkHttpRequestBuilder, attributes: Smithy.Context) throws {
+                public func apply(input: InputType, builder: SmithyHTTPAPI.HTTPRequestBuilder, attributes: Smithy.Context) throws {
                     let metadata = input.metadata ?? [:]
                     for (metadataKey, metadataValue) in metadata {
                         let queryItem = ${'$'}N(
@@ -43,9 +42,5 @@ class PutObjectPresignedURLMiddleware(
             """.trimIndent(),
             SmithyTypes.URIQueryItem,
         )
-    }
-
-    override fun generateMiddlewareClosure() {
-        writer.write("try self.apply(input: input.operationInput, builder: input.builder, attributes: context)")
     }
 }

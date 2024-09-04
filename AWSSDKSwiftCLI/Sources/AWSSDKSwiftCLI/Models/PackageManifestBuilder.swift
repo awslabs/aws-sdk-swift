@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import PackageDescription
+import AWSCLIUtils
 
 /// Builds the contents of the package manifest file.
 struct PackageManifestBuilder {

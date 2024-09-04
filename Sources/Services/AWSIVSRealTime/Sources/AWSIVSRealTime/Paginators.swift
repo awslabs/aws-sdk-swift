@@ -106,6 +106,36 @@ extension ListParticipantsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IVSRealTimeClient {
+    /// Paginate over `[ListPublicKeysOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPublicKeysInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPublicKeysOutput`
+    public func listPublicKeysPaginated(input: ListPublicKeysInput) -> ClientRuntime.PaginatorSequence<ListPublicKeysInput, ListPublicKeysOutput> {
+        return ClientRuntime.PaginatorSequence<ListPublicKeysInput, ListPublicKeysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPublicKeys(input:))
+    }
+}
+
+extension ListPublicKeysInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPublicKeysInput {
+        return ListPublicKeysInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPublicKeysInput, OperationStackOutput == ListPublicKeysOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPublicKeysPaginated`
+    /// to access the nested member `[IVSRealTimeClientTypes.PublicKeySummary]`
+    /// - Returns: `[IVSRealTimeClientTypes.PublicKeySummary]`
+    public func publicKeys() async throws -> [IVSRealTimeClientTypes.PublicKeySummary] {
+        return try await self.asyncCompactMap { item in item.publicKeys }
+    }
+}
+extension IVSRealTimeClient {
     /// Paginate over `[ListStagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

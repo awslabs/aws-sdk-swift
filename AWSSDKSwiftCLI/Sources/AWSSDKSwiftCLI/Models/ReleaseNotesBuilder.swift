@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import PackageDescription
+import AWSCLIUtils
 
 // Builds the release notes
 struct ReleaseNotesBuilder {

@@ -83,56 +83,56 @@ let package = Package(
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity
             ],
-            path: "./Sources/Core/AWSClientRuntime",
+            path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
-                .copy("PrivacyInfo.xcprivacy")
+                .process("Resources"),
             ]
         ),
         .target(
             name: "AWSSDKCommon",
             dependencies: [.crt],
-            path: "./Sources/Core/AWSSDKCommon"
+            path: "Sources/Core/AWSSDKCommon/Sources"
         ),
         .target(
             name: "AWSSDKEventStreamsAuth",
             dependencies: [.smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt, .clientRuntime, "AWSSDKHTTPAuth"],
-            path: "./Sources/Core/AWSSDKEventStreamsAuth"
+            path: "Sources/Core/AWSSDKEventStreamsAuth/Sources"
         ),
         .target(
             name: "AWSSDKHTTPAuth",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKIdentity", "AWSSDKChecksums"],
-            path: "./Sources/Core/AWSSDKHTTPAuth"
+            path: "Sources/Core/AWSSDKHTTPAuth/Sources"
         ),
         .target(
             name: "AWSSDKIdentity",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
-            path: "./Sources/Core/AWSSDKIdentity"
+            path: "Sources/Core/AWSSDKIdentity/Sources"
         ),
         .target(
             name: "AWSSDKChecksums",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
-            path: "./Sources/Core/AWSSDKChecksums"
+            path: "Sources/Core/AWSSDKChecksums/Sources"
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
             dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .awsSDKCommon],
-            path: "./Tests/Core/AWSClientRuntimeTests",
+            path: "Sources/Core/AWSClientRuntime/Tests/AWSClientRuntimeTests",
             resources: [.process("Resources")]
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
-            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams],
-            path: "./Tests/Core/AWSSDKEventStreamsAuthTests"
+            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams, .smithyTestUtils],
+            path: "Sources/Core/AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
             name: "AWSSDKHTTPAuthTests",
             dependencies: ["AWSSDKHTTPAuth", "AWSClientRuntime", "AWSSDKEventStreamsAuth", .crt, .clientRuntime, .smithyTestUtils],
-            path: "./Tests/Core/AWSSDKHTTPAuthTests"
+            path: "Sources/Core/AWSSDKHTTPAuth/Tests/AWSSDKHTTPAuthTests"
         ),
         .testTarget(
             name: "AWSSDKIdentityTests",
             dependencies: [.smithy, .smithyIdentity, "AWSSDKIdentity", .awsClientRuntime],
-            path: "./Tests/Core/AWSSDKIdentityTests",
+            path: "Sources/Core/AWSSDKIdentity/Tests/AWSSDKIdentityTests",
             resources: [.process("Resources")]
         )
     ]
@@ -212,7 +212,8 @@ func addServiceTarget(_ name: String) {
         .target(
             name: name,
             dependencies: serviceTargetDependencies,
-            path: "./Sources/Services/\(name)/Sources/\(name)"
+            path: "Sources/Services/\(name)/Sources/\(name)",
+            resources: [.process("Resources")]
         )
     ]
 }
@@ -222,8 +223,8 @@ func addServiceUnitTestTarget(_ name: String) {
     package.targets += [
         .testTarget(
             name: "\(testName)",
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
-            path: "./Sources/Services/\(name)/Tests/\(testName)"
+            dependencies: [.clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
+            path: "Sources/Services/\(name)/Tests/\(testName)"
         )
     ]
 }
@@ -254,8 +255,8 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.51.0",
-    crtVersion: "0.32.0"
+    clientRuntimeVersion: "0.62.0",
+    crtVersion: "0.33.0"
 )
 
 // Uncomment this line to exclude runtime unit tests
@@ -339,10 +340,7 @@ let serviceTargets: [String] = [
     "AWSCodeGuruReviewer",
     "AWSCodeGuruSecurity",
     "AWSCodePipeline",
-    "AWSCodeStar",
-    "AWSCodeStarconnections",
     "AWSCodeartifact",
-    "AWSCodestarnotifications",
     "AWSCognitoIdentity",
     "AWSCognitoIdentityProvider",
     "AWSCognitoSync",
@@ -509,7 +507,6 @@ let serviceTargets: [String] = [
     "AWSMigrationHubOrchestrator",
     "AWSMigrationHubRefactorSpaces",
     "AWSMigrationHubStrategy",
-    "AWSMobile",
     "AWSMq",
     "AWSNeptune",
     "AWSNeptuneGraph",
@@ -527,6 +524,7 @@ let serviceTargets: [String] = [
     "AWSOpsWorksCM",
     "AWSOrganizations",
     "AWSOutposts",
+    "AWSPCS",
     "AWSPI",
     "AWSPanorama",
     "AWSPaymentCryptography",
@@ -545,6 +543,7 @@ let serviceTargets: [String] = [
     "AWSPricing",
     "AWSPrivateNetworks",
     "AWSProton",
+    "AWSQApps",
     "AWSQBusiness",
     "AWSQConnect",
     "AWSQLDB",
@@ -585,6 +584,7 @@ let serviceTargets: [String] = [
     "AWSSSM",
     "AWSSSMContacts",
     "AWSSSMIncidents",
+    "AWSSSMQuickSetup",
     "AWSSSO",
     "AWSSSOAdmin",
     "AWSSSOOIDC",

@@ -6,8 +6,8 @@
 //
 
 @testable import AWSSDKSwiftCLI
-import PackageDescription
 import XCTest
+import AWSCLIUtils
 
 class PrepareReleaseTests: CLITestCase {
     
@@ -25,14 +25,14 @@ class PrepareReleaseTests: CLITestCase {
     
     // MARK: Golden Path
     
-    func testGoldenPath() {
+    func testGoldenPath() throws {
         var commands: [String] = []
         let runner = ProcessRunner {
             commands.append($0.commandString)
         }
         ProcessRunner.testRunner = runner
-        let previousVersion = Version("1.2.3")
-        let newVersion = Version("1.3.0")
+        let previousVersion = try Version("1.2.3")
+        let newVersion = try Version("1.3.0")
         createPackageVersion(previousVersion)
         
         let subject = PrepareRelease.mock(diffChecker: { _,_ in true })
@@ -53,13 +53,13 @@ class PrepareReleaseTests: CLITestCase {
         XCTAssertTrue(commands[4].contains("git status"))
     }
     
-    func testRunBailsEarlyIfThereAreNoChanges() {
+    func testRunBailsEarlyIfThereAreNoChanges() throws {
         var commands: [String] = []
         let runner = ProcessRunner {
             commands.append($0.commandString)
         }
         ProcessRunner.testRunner = runner
-        let previousVersion = Version("1.2.3")
+        let previousVersion = try Version("1.2.3")
         createPackageVersion(previousVersion)
         
         let subject = PrepareRelease.mock(diffChecker: { _,_ in false })
@@ -73,9 +73,9 @@ class PrepareReleaseTests: CLITestCase {
     
     // MARK: createNewVersion()
     
-    func testCreateNewVersion() {
-        let previousVersion = Version("1.2.3")
-        let newVersion = Version("1.3.0")
+    func testCreateNewVersion() throws {
+        let previousVersion = try Version("1.2.3")
+        let newVersion = try Version("1.3.0")
         let subject = PrepareRelease.mock()
         let result = try! subject.createNewVersion(previousVersion)
         XCTAssertEqual(result, newVersion)
@@ -86,8 +86,8 @@ class PrepareReleaseTests: CLITestCase {
     
     // MARK: getPreviousVersion()
     
-    func testGetPreviousVersionFromPackageVersion() {
-        let version = Version("1.2.3")
+    func testGetPreviousVersionFromPackageVersion() throws {
+        let version = try Version("1.2.3")
         createPackageVersion(version)
         let subject = PrepareRelease.mock()
         let result = try! subject.getPreviousVersion()

@@ -179,6 +179,37 @@ extension PaginatorSequence where OperationStackInput == ListApprovedOriginsInpu
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListAuthenticationProfilesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAuthenticationProfilesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAuthenticationProfilesOutput`
+    public func listAuthenticationProfilesPaginated(input: ListAuthenticationProfilesInput) -> ClientRuntime.PaginatorSequence<ListAuthenticationProfilesInput, ListAuthenticationProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAuthenticationProfilesInput, ListAuthenticationProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAuthenticationProfiles(input:))
+    }
+}
+
+extension ListAuthenticationProfilesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAuthenticationProfilesInput {
+        return ListAuthenticationProfilesInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAuthenticationProfilesInput, OperationStackOutput == ListAuthenticationProfilesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAuthenticationProfilesPaginated`
+    /// to access the nested member `[ConnectClientTypes.AuthenticationProfileSummary]`
+    /// - Returns: `[ConnectClientTypes.AuthenticationProfileSummary]`
+    public func authenticationProfileSummaryList() async throws -> [ConnectClientTypes.AuthenticationProfileSummary] {
+        return try await self.asyncCompactMap { item in item.authenticationProfileSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListBotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1442,6 +1473,39 @@ extension PaginatorSequence where OperationStackInput == ListViewVersionsInput, 
     }
 }
 extension ConnectClient {
+    /// Paginate over `[SearchAgentStatusesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchAgentStatusesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchAgentStatusesOutput`
+    public func searchAgentStatusesPaginated(input: SearchAgentStatusesInput) -> ClientRuntime.PaginatorSequence<SearchAgentStatusesInput, SearchAgentStatusesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchAgentStatusesInput, SearchAgentStatusesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchAgentStatuses(input:))
+    }
+}
+
+extension SearchAgentStatusesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchAgentStatusesInput {
+        return SearchAgentStatusesInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchAgentStatusesInput, OperationStackOutput == SearchAgentStatusesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchAgentStatusesPaginated`
+    /// to access the nested member `[ConnectClientTypes.AgentStatus]`
+    /// - Returns: `[ConnectClientTypes.AgentStatus]`
+    public func agentStatuses() async throws -> [ConnectClientTypes.AgentStatus] {
+        return try await self.asyncCompactMap { item in item.agentStatuses }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[SearchAvailablePhoneNumbersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1837,6 +1901,39 @@ extension PaginatorSequence where OperationStackInput == SearchSecurityProfilesI
     /// - Returns: `[ConnectClientTypes.SecurityProfileSearchSummary]`
     public func securityProfiles() async throws -> [ConnectClientTypes.SecurityProfileSearchSummary] {
         return try await self.asyncCompactMap { item in item.securityProfiles }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[SearchUserHierarchyGroupsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchUserHierarchyGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchUserHierarchyGroupsOutput`
+    public func searchUserHierarchyGroupsPaginated(input: SearchUserHierarchyGroupsInput) -> ClientRuntime.PaginatorSequence<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchUserHierarchyGroups(input:))
+    }
+}
+
+extension SearchUserHierarchyGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchUserHierarchyGroupsInput {
+        return SearchUserHierarchyGroupsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchUserHierarchyGroupsInput, OperationStackOutput == SearchUserHierarchyGroupsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchUserHierarchyGroupsPaginated`
+    /// to access the nested member `[ConnectClientTypes.HierarchyGroup]`
+    /// - Returns: `[ConnectClientTypes.HierarchyGroup]`
+    public func userHierarchyGroups() async throws -> [ConnectClientTypes.HierarchyGroup] {
+        return try await self.asyncCompactMap { item in item.userHierarchyGroups }
     }
 }
 extension ConnectClient {

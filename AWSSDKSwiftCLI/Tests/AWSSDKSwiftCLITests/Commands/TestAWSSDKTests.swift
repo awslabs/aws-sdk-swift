@@ -7,8 +7,8 @@
 
 @testable import AWSSDKSwiftCLI
 import Algorithms
-import PackageDescription
 import XCTest
+import AWSCLIUtils
 
 class TestAWSSDKTests: CLITestCase {
     
@@ -23,14 +23,14 @@ class TestAWSSDKTests: CLITestCase {
         }
     }
     
-    func createGoldenPathEnvironment() {
+    func createGoldenPathEnvironment() throws {
         let services = ["A", "B", "C", "D", "E", "F", "G", "H"]
         
         // Create services
         createServiceFolders(services)
         
         // Create packageDependencies.plist
-        let deps = PackageDependencies(
+        let deps = try PackageDependencies(
             awsCRTSwiftVersion: .init("1.2.3"),
             clientRuntimeVersion: .init("3.2.1")
         )
@@ -48,9 +48,9 @@ class TestAWSSDKTests: CLITestCase {
     
     // MARK: Golden Path
     
-    func testGoldenPath() {
-        createGoldenPathEnvironment()
-        
+    func testGoldenPath() throws {
+        try createGoldenPathEnvironment()
+
         var commands: [String] = []
         let runner = ProcessRunner {
             commands.append($0.commandString)

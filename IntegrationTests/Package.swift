@@ -97,6 +97,8 @@ func addIntegrationTestTarget(_ name: String) {
             "README.md",
             "Resources/ECSIntegTestApp/"
         ]
+    case "AWSGlacier":
+        additionalDependencies = ["AWSSTS"]
     case "AWSS3":
         additionalDependencies = ["AWSSSOAdmin", "AWSS3Control", "AWSSTS"]
     case "AWSEventBridge":
@@ -105,6 +107,8 @@ func addIntegrationTestTarget(_ name: String) {
         additionalDependencies = ["AWSCloudFront"]
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
+    case "AWSCognitoIdentity":
+        additionalDependencies = ["AWSSTS"]
     default:
         break
     }
@@ -135,6 +139,7 @@ let servicesWithIntegrationTests: [String] = [
     "AWSEC2",
     "AWSECS",
     "AWSEventBridge",
+    "AWSGlacier",
     "AWSKinesis",
     "AWSMediaConvert",
     "AWSRoute53",
@@ -142,6 +147,7 @@ let servicesWithIntegrationTests: [String] = [
     "AWSSQS",
     "AWSSTS",
     "AWSTranscribeStreaming",
+    "AWSCognitoIdentity",
 ]
 
 func addIntegrationTests() {

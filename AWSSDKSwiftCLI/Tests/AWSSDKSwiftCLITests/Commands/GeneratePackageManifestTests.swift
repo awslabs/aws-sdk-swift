@@ -6,7 +6,7 @@
 //
 
 @testable import AWSSDKSwiftCLI
-import PackageDescription
+import AWSCLIUtils
 import XCTest
 
 class GeneratePackageManifestTests: CLITestCase {
@@ -16,10 +16,10 @@ class GeneratePackageManifestTests: CLITestCase {
     func createPackageDependencies(
         crtVersion: String,
         clientRuntimeVersion: String
-    ) {
-        let packageDependencies = PackageDependencies(
-            awsCRTSwiftVersion: .init(crtVersion)!,
-            clientRuntimeVersion: .init(clientRuntimeVersion)!
+    ) throws {
+        let packageDependencies = try PackageDependencies(
+            awsCRTSwiftVersion: .init(crtVersion),
+            clientRuntimeVersion: .init(clientRuntimeVersion)
         )
         try! packageDependencies.save()
     }
@@ -41,11 +41,11 @@ class GeneratePackageManifestTests: CLITestCase {
     
     // MARK: Golden Path
     
-    func testGoldenPath() {
+    func testGoldenPath() throws {
         let clientRuntimeVersion = "1.2.3"
         let crtVersion = "3.2.1"
         let services = ["EC2", "S3"]
-        createPackageDependencies(
+        try createPackageDependencies(
             crtVersion: crtVersion,
             clientRuntimeVersion: clientRuntimeVersion
         )
@@ -61,10 +61,10 @@ class GeneratePackageManifestTests: CLITestCase {
     
     // MARK: resolveVersions()
     
-    func testResolveVersionsRetrievesVersionsFromPackageDependencies() {
+    func testResolveVersionsRetrievesVersionsFromPackageDependencies() throws {
         let clientRuntimeVersion = "1.2.3"
         let crtVersion = "3.2.1"
-        createPackageDependencies(
+        try createPackageDependencies(
             crtVersion: crtVersion,
             clientRuntimeVersion: clientRuntimeVersion
         )
@@ -74,10 +74,10 @@ class GeneratePackageManifestTests: CLITestCase {
         XCTAssertEqual(versions.crt.description, crtVersion)
     }
     
-    func testResolveVersionsWithExplicitVersions() {
+    func testResolveVersionsWithExplicitVersions() throws {
         let clientRuntimeVersion = "1.2.3"
         let crtVersion = "3.2.1"
-        let subject = GeneratePackageManifest.mock(
+        let subject = try GeneratePackageManifest.mock(
             clientRuntimeVersion: .init(clientRuntimeVersion),
             crtVersion: .init(crtVersion)
         )
@@ -114,7 +114,6 @@ extension GeneratePackageManifest {
         clientRuntimeVersion: Version? = nil,
         crtVersion: Version? = nil,
         services: [String]? = nil,
-        includeProtocolTests: Bool = false,
         excludeAWSServices: Bool = false,
         excludeRuntimeTests: Bool = false,
         buildPackageManifest: @escaping BuildPackageManifest = { (_,_,_) throws -> String in "" }
@@ -125,7 +124,6 @@ extension GeneratePackageManifest {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
-            includeProtocolTests: includeProtocolTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests,
             buildPackageManifest: buildPackageManifest

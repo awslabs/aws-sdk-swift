@@ -1,5 +1,10 @@
 included:
-  - Sources/Core
+  - Sources/Core/AWSClientRuntime/Sources
+  - Sources/Core/AWSSDKChecksums/Sources
+  - Sources/Core/AWSSDKCommon/Sources
+  - Sources/Core/AWSSDKEventStreamsAuth/Sources
+  - Sources/Core/AWSSDKHTTPAuth/Sources
+  - Sources/Core/AWSSDKIdentity/Sources
 
 analyzer_rules:
   - unused_import
@@ -19,6 +24,7 @@ disabled_rules:
   - operator_whitespace
   - large_tuple
   - trailing_comma
+  - non_optional_string_data_conversion
 
 opt_in_rules:
   - empty_count

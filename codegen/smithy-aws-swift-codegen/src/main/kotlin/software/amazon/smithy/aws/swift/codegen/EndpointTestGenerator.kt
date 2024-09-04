@@ -20,9 +20,9 @@ import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.swiftmodules.CRT
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTestUtilTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.XCTestTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
@@ -47,7 +47,7 @@ class EndpointTestGenerator(
         writer.openBlock("class EndpointResolverTest: \$N {", "}", XCTestTypes.XCTestCase) {
             writer.write("")
             writer.openBlock("override class func setUp() {", "}") {
-                writer.write("\$N.initialize()", CRT.CommonRuntimeKit)
+                writer.write("\$N.initialize()", SmithyTestUtilTypes.TestInitializer)
             }
             writer.write("")
 
@@ -66,7 +66,7 @@ class EndpointTestGenerator(
                             val value = Value.fromNode(pair.second)
                             writer.call {
                                 generateValue(
-                                    writer, value, if (idx < applicableParams.count() - 1) "," else ""
+                                    writer, value, if (idx < applicableParams.count() - 1) "," else "", false
                                 )
                             }
                         }
@@ -127,7 +127,7 @@ class EndpointTestGenerator(
                     val value = Value.fromNode(second)
                     writer.writeInline("\$S: ", first)
                     writer.call {
-                        generateValue(writer, value, if (idx < properties.values.count() - 1) "," else "")
+                        generateValue(writer, value, if (idx < properties.values.count() - 1) "," else "", true)
                     }
                 }
             }
@@ -137,7 +137,7 @@ class EndpointTestGenerator(
     /**
      * Recursively traverse the value and render a JSON string literal.
      */
-    private fun generateValue(writer: SwiftWriter, value: Value, delimeter: String) {
+    private fun generateValue(writer: SwiftWriter, value: Value, delimeter: String, castToAnyHashable: Boolean) {
         when (value) {
             is StringValue -> {
                 writer.write("\$S$delimeter", value.toString())
@@ -156,10 +156,11 @@ class EndpointTestGenerator(
             }
 
             is ArrayValue -> {
-                writer.openBlock("[", "] as [AnyHashable]$delimeter") {
+                val castStmt = if (castToAnyHashable) " as [AnyHashable]$delimeter" else ""
+                writer.openBlock("[", "]$castStmt") {
                     value.values.forEachIndexed { idx, item ->
                         writer.call {
-                            generateValue(writer, item, if (idx < value.values.count() - 1) "," else "")
+                            generateValue(writer, item, if (idx < value.values.count() - 1) "," else "", castToAnyHashable)
                         }
                     }
                 }
@@ -173,7 +174,7 @@ class EndpointTestGenerator(
                         value.value.map { it.key to it.value }.forEachIndexed { idx, (first, second) ->
                             writer.writeInline("\$S: ", first.name)
                             writer.call {
-                                generateValue(writer, second, if (idx < value.value.count() - 1) "," else "")
+                                generateValue(writer, second, if (idx < value.value.count() - 1) "," else "", castToAnyHashable)
                             }
                         }
                     }

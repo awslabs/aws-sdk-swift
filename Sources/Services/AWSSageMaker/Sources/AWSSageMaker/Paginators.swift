@@ -1866,6 +1866,45 @@ extension PaginatorSequence where OperationStackInput == ListNotebookInstancesIn
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[ListOptimizationJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOptimizationJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOptimizationJobsOutput`
+    public func listOptimizationJobsPaginated(input: ListOptimizationJobsInput) -> ClientRuntime.PaginatorSequence<ListOptimizationJobsInput, ListOptimizationJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOptimizationJobsInput, ListOptimizationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOptimizationJobs(input:))
+    }
+}
+
+extension ListOptimizationJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOptimizationJobsInput {
+        return ListOptimizationJobsInput(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter,
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            optimizationContains: self.optimizationContains,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListOptimizationJobsInput, OperationStackOutput == ListOptimizationJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listOptimizationJobsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.OptimizationJobSummary]`
+    /// - Returns: `[SageMakerClientTypes.OptimizationJobSummary]`
+    public func optimizationJobSummaries() async throws -> [SageMakerClientTypes.OptimizationJobSummary] {
+        return try await self.asyncCompactMap { item in item.optimizationJobSummaries }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListPipelineExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
