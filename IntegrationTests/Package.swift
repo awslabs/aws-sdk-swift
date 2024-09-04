@@ -107,6 +107,8 @@ func addIntegrationTestTarget(_ name: String) {
         additionalDependencies = ["AWSCloudFront"]
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
+    case "AWSCognitoIdentity":
+        additionalDependencies = ["AWSSTS"]
     default:
         break
     }
@@ -145,6 +147,7 @@ let servicesWithIntegrationTests: [String] = [
     "AWSSQS",
     "AWSSTS",
     "AWSTranscribeStreaming",
+    "AWSCognitoIdentity",
 ]
 
 func addIntegrationTests() {

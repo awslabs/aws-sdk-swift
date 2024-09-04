@@ -10,7 +10,7 @@ import SmithyChecksumsAPI
 import SmithyHTTPAPI
 import XCTest
 import AwsCommonRuntimeKit
-import SmithyTestUtil
+@_spi(SmithyReadWrite) import SmithyTestUtil
 @testable import ClientRuntime
 import class SmithyStreams.BufferedStream
 import class SmithyChecksums.ChunkedStream
