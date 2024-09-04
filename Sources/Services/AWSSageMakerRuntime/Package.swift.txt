@@ -53,15 +53,15 @@ let package = Package(
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
+                    name: "SmithyReadWrite",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
                     name: "SmithyEventStreams",
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
                     name: "SmithyEventStreamsAPI",
-                    package: "aws-sdk-swift.smithy-swift"
-                ),
-                .product(
-                    name: "SmithyReadWrite",
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(

@@ -61,11 +61,11 @@ let package = Package(
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
-                    name: "SmithyEventStreamsAPI",
+                    name: "SmithyReadWrite",
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
-                    name: "SmithyReadWrite",
+                    name: "SmithyEventStreamsAPI",
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
