@@ -1724,6 +1724,8 @@ extension ConnectClientTypes {
 
     public enum VocabularyLanguageCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case arAe
+        case caEs
+        case daDk
         case deCh
         case deDe
         case enAb
@@ -1737,20 +1739,30 @@ extension ConnectClientTypes {
         case enZa
         case esEs
         case esUs
+        case fiFi
         case frCa
         case frFr
         case hiIn
+        case idId
         case itIt
         case jaJp
         case koKr
+        case msMy
+        case nlNl
+        case noNo
+        case plPl
         case ptBr
         case ptPt
+        case svSe
+        case tlPh
         case zhCn
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VocabularyLanguageCode] {
             return [
                 .arAe,
+                .caEs,
+                .daDk,
                 .deCh,
                 .deDe,
                 .enAb,
@@ -1764,14 +1776,22 @@ extension ConnectClientTypes {
                 .enZa,
                 .esEs,
                 .esUs,
+                .fiFi,
                 .frCa,
                 .frFr,
                 .hiIn,
+                .idId,
                 .itIt,
                 .jaJp,
                 .koKr,
+                .msMy,
+                .nlNl,
+                .noNo,
+                .plPl,
                 .ptBr,
                 .ptPt,
+                .svSe,
+                .tlPh,
                 .zhCn
             ]
         }
@@ -1784,6 +1804,8 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .arAe: return "ar-AE"
+            case .caEs: return "ca-ES"
+            case .daDk: return "da-DK"
             case .deCh: return "de-CH"
             case .deDe: return "de-DE"
             case .enAb: return "en-AB"
@@ -1797,14 +1819,22 @@ extension ConnectClientTypes {
             case .enZa: return "en-ZA"
             case .esEs: return "es-ES"
             case .esUs: return "es-US"
+            case .fiFi: return "fi-FI"
             case .frCa: return "fr-CA"
             case .frFr: return "fr-FR"
             case .hiIn: return "hi-IN"
+            case .idId: return "id-ID"
             case .itIt: return "it-IT"
             case .jaJp: return "ja-JP"
             case .koKr: return "ko-KR"
+            case .msMy: return "ms-MY"
+            case .nlNl: return "nl-NL"
+            case .noNo: return "no-NO"
+            case .plPl: return "pl-PL"
             case .ptBr: return "pt-BR"
             case .ptPt: return "pt-PT"
+            case .svSe: return "sv-SE"
+            case .tlPh: return "tl-PH"
             case .zhCn: return "zh-CN"
             case let .sdkUnknown(s): return s
             }
