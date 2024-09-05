@@ -137,6 +137,39 @@ extension PaginatorSequence where OperationStackInput == ListAccessPointsForObje
     }
 }
 extension S3ControlClient {
+    /// Paginate over `[ListCallerAccessGrantsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCallerAccessGrantsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCallerAccessGrantsOutput`
+    public func listCallerAccessGrantsPaginated(input: ListCallerAccessGrantsInput) -> ClientRuntime.PaginatorSequence<ListCallerAccessGrantsInput, ListCallerAccessGrantsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCallerAccessGrantsInput, ListCallerAccessGrantsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCallerAccessGrants(input:))
+    }
+}
+
+extension ListCallerAccessGrantsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCallerAccessGrantsInput {
+        return ListCallerAccessGrantsInput(
+            accountId: self.accountId,
+            allowedByApplication: self.allowedByApplication,
+            grantScope: self.grantScope,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCallerAccessGrantsInput, OperationStackOutput == ListCallerAccessGrantsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCallerAccessGrantsPaginated`
+    /// to access the nested member `[S3ControlClientTypes.ListCallerAccessGrantsEntry]`
+    /// - Returns: `[S3ControlClientTypes.ListCallerAccessGrantsEntry]`
+    public func callerAccessGrantsList() async throws -> [S3ControlClientTypes.ListCallerAccessGrantsEntry] {
+        return try await self.asyncCompactMap { item in item.callerAccessGrantsList }
+    }
+}
+extension S3ControlClient {
     /// Paginate over `[ListJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
