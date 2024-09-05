@@ -42,6 +42,9 @@ public struct STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentity
         roleSessionName: String? = nil,
         tokenFilePath: String? = nil
     ) throws {
+        if let roleSessionName {
+            try validateString(name: roleSessionName, regex: "^[\\w+=,.@-]*$")
+        }
         let fileBasedConfig = try CRTFileBasedConfiguration(
             configFilePath: configFilePath,
             credentialsFilePath: credentialsFilePath

@@ -73,6 +73,10 @@ let package = Package(
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
+                    name: "SmithyTimestamps",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
                     name: "SmithyTestUtil",
                     package: "aws-sdk-swift.smithy-swift"
                 ),

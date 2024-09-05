@@ -30,8 +30,8 @@ extension QueryListsInput {
         try writer["Hi"].writeList(value.flattenedListArgWithXmlName, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "item", isFlattened: true)
         try writer["ListArg"].writeList(value.listArg, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ListArgWithXmlNameMember"].writeList(value.listArgWithXmlNameMember, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "item", isFlattened: false)
-        try writer["flatTsList"].writeList(value.flatTsList, memberWritingClosure: SmithyReadWrite.timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: true)
-        try writer["tsList"].writeList(value.tsList, memberWritingClosure: SmithyReadWrite.timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        try writer["flatTsList"].writeList(value.flatTsList, memberWritingClosure: SmithyReadWrite.timestampWritingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: true)
+        try writer["tsList"].writeList(value.tsList, memberWritingClosure: SmithyReadWrite.timestampWritingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("QueryLists")
         try writer["Version"].write("2020-01-08")
     }

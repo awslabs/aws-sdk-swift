@@ -13,5 +13,6 @@ private fun runtimeSymbol(name: String, declaration: SwiftDeclaration? = null): 
     name,
     declaration,
     AWSSwiftDependency.AWS_SDK_EVENT_STREAMS_AUTH,
-    null,
+    emptyList(),
+    emptyList(),
 )

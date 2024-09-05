@@ -13,7 +13,7 @@ import SmithyHTTPAPI
 import SmithyIdentity
 import SmithyTestUtil
 import AwsCommonRuntimeKit
-import SmithyTimestamps
+@_spi(SmithyTimestamps) import SmithyTimestamps
 import SmithyEventStreams
 import SmithyEventStreamsAPI
 import AWSSDKIdentity

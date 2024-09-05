@@ -20,14 +20,14 @@ import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-import class SmithyJSON.Writer
+@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum SmithyReadWrite.Document
-import enum SmithyReadWrite.WritingClosures
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
@@ -43,16 +43,17 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.BlobBodyMiddleware
-import struct ClientRuntime.BodyMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-import struct ClientRuntime.DeserializeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
@@ -283,7 +284,7 @@ extension BedrockRuntimeClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ModelErrorException` : The request failed due to an error while processing the model.
-    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests.
+    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
     /// - `ModelTimeoutException` : The request took too long to process. Processing time exceeded the model timeout length.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ServiceUnavailableException` : The service isn't currently available. Try again later.
@@ -361,7 +362,7 @@ extension BedrockRuntimeClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ModelErrorException` : The request failed due to an error while processing the model.
-    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests.
+    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
     /// - `ModelTimeoutException` : The request took too long to process. Processing time exceeded the model timeout length.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ServiceUnavailableException` : The service isn't currently available. Try again later.
@@ -439,7 +440,7 @@ extension BedrockRuntimeClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ModelErrorException` : The request failed due to an error while processing the model.
-    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests.
+    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
     /// - `ModelTimeoutException` : The request took too long to process. Processing time exceeded the model timeout length.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ServiceQuotaExceededException` : Your request exceeds the service quota for your account. You can view your quotas at [Viewing service quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/gs-request-quota.html). You can resubmit your request later.
@@ -519,7 +520,7 @@ extension BedrockRuntimeClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ModelErrorException` : The request failed due to an error while processing the model.
-    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests.
+    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
     /// - `ModelStreamErrorException` : An error occurred while streaming the response. Retry your request.
     /// - `ModelTimeoutException` : The request took too long to process. Processing time exceeded the model timeout length.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.

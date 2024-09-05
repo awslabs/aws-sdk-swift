@@ -251,7 +251,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.60.0",
+    clientRuntimeVersion: "0.62.0",
     crtVersion: "0.33.0"
 )
 
@@ -520,6 +520,7 @@ let serviceTargets: [String] = [
     "AWSOpsWorksCM",
     "AWSOrganizations",
     "AWSOutposts",
+    "AWSPCS",
     "AWSPI",
     "AWSPanorama",
     "AWSPaymentCryptography",
