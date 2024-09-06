@@ -212,7 +212,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func acceptMatch(input: AcceptMatchInput) async throws -> AcceptMatchOutput {
         let context = Smithy.ContextBuilder()
@@ -296,7 +296,7 @@ extension GameLiftClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `OutOfCapacityException` : The specified game server group has no available game servers to fulfill a ClaimGameServer request. Clients can retry such requests immediately or after a waiting period.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func claimGameServer(input: ClaimGameServerInput) async throws -> ClaimGameServerOutput {
@@ -664,7 +664,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
@@ -730,7 +730,7 @@ extension GameLiftClient {
 
     /// Performs the `CreateFleetLocations` operation on the `GameLift` service.
     ///
-    /// This operation has been expanded to use with the Amazon GameLift containers feature, which is currently in public preview. Adds remote locations to an EC2 or container fleet and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, specify the fleet to be updated and provide a list of one or more locations. If successful, this operation returns the list of added locations with their status set to NEW. Amazon GameLift initiates the process of starting an instance in each added location. You can track the status of each new location by monitoring location creation events using [DescribeFleetEvents](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetEvents.html). Learn more [Setting up fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[Multi-location fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
+    /// This operation has been expanded to use with the Amazon GameLift containers feature, which is currently in public preview. Adds remote locations to an EC2 or container fleet and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, specify the fleet to be updated and provide a list of one or more locations. If successful, this operation returns the list of added locations with their status set to NEW. Amazon GameLift initiates the process of starting an instance in each added location. You can track the status of each new location by monitoring location creation events using [DescribeFleetEvents](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetEvents.html). Learn more [Setting up fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[Update fleet locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-editing.html#fleets-update-locations)[ Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting.
     ///
     /// - Parameter CreateFleetLocationsInput : [no documentation found]
     ///
@@ -744,7 +744,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -916,7 +916,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -993,7 +993,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createGameSessionQueue(input: CreateGameSessionQueueInput) async throws -> CreateGameSessionQueueOutput {
@@ -1145,7 +1145,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createMatchmakingConfiguration(input: CreateMatchmakingConfigurationInput) async throws -> CreateMatchmakingConfigurationOutput {
@@ -1303,7 +1303,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createPlayerSession(input: CreatePlayerSessionInput) async throws -> CreatePlayerSessionOutput {
@@ -1380,7 +1380,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createPlayerSessions(input: CreatePlayerSessionsInput) async throws -> CreatePlayerSessionsOutput {
@@ -1537,7 +1537,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createVpcPeeringAuthorization(input: CreateVpcPeeringAuthorizationInput) async throws -> CreateVpcPeeringAuthorizationOutput {
         let context = Smithy.ContextBuilder()
@@ -1611,7 +1611,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createVpcPeeringConnection(input: CreateVpcPeeringConnectionInput) async throws -> CreateVpcPeeringConnectionOutput {
         let context = Smithy.ContextBuilder()
@@ -1685,7 +1685,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
@@ -1760,7 +1760,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteBuild(input: DeleteBuildInput) async throws -> DeleteBuildOutput {
@@ -1837,7 +1837,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -1914,7 +1914,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
@@ -1989,7 +1989,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteFleetLocations(input: DeleteFleetLocationsInput) async throws -> DeleteFleetLocationsOutput {
@@ -2073,7 +2073,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteGameServerGroup(input: DeleteGameServerGroupInput) async throws -> DeleteGameServerGroupOutput {
         let context = Smithy.ContextBuilder()
@@ -2147,7 +2147,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteGameSessionQueue(input: DeleteGameSessionQueueInput) async throws -> DeleteGameSessionQueueOutput {
@@ -2222,7 +2222,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutput {
         let context = Smithy.ContextBuilder()
@@ -2296,7 +2296,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteMatchmakingConfiguration(input: DeleteMatchmakingConfigurationInput) async throws -> DeleteMatchmakingConfigurationOutput {
@@ -2373,7 +2373,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteMatchmakingRuleSet(input: DeleteMatchmakingRuleSetInput) async throws -> DeleteMatchmakingRuleSetOutput {
@@ -2448,7 +2448,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteScalingPolicy(input: DeleteScalingPolicyInput) async throws -> DeleteScalingPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2522,7 +2522,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteScript(input: DeleteScriptInput) async throws -> DeleteScriptOutput {
@@ -2597,7 +2597,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteVpcPeeringAuthorization(input: DeleteVpcPeeringAuthorizationInput) async throws -> DeleteVpcPeeringAuthorizationOutput {
         let context = Smithy.ContextBuilder()
@@ -2671,7 +2671,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutput {
         let context = Smithy.ContextBuilder()
@@ -2745,7 +2745,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deregisterCompute(input: DeregisterComputeInput) async throws -> DeregisterComputeOutput {
         let context = Smithy.ContextBuilder()
@@ -2819,7 +2819,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deregisterGameServer(input: DeregisterGameServerInput) async throws -> DeregisterGameServerOutput {
         let context = Smithy.ContextBuilder()
@@ -2893,7 +2893,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeAlias(input: DescribeAliasInput) async throws -> DescribeAliasOutput {
         let context = Smithy.ContextBuilder()
@@ -2967,7 +2967,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeBuild(input: DescribeBuildInput) async throws -> DescribeBuildOutput {
         let context = Smithy.ContextBuilder()
@@ -3047,7 +3047,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeCompute(input: DescribeComputeInput) async throws -> DescribeComputeOutput {
         let context = Smithy.ContextBuilder()
@@ -3123,7 +3123,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerGroupDefinition(input: DescribeContainerGroupDefinitionInput) async throws -> DescribeContainerGroupDefinitionOutput {
@@ -3295,7 +3295,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetAttributes(input: DescribeFleetAttributesInput) async throws -> DescribeFleetAttributesOutput {
         let context = Smithy.ContextBuilder()
@@ -3376,7 +3376,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetCapacity(input: DescribeFleetCapacityInput) async throws -> DescribeFleetCapacityOutput {
         let context = Smithy.ContextBuilder()
@@ -3450,7 +3450,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetEvents(input: DescribeFleetEventsInput) async throws -> DescribeFleetEventsOutput {
         let context = Smithy.ContextBuilder()
@@ -3520,7 +3520,7 @@ extension GameLiftClient {
     /// * To get data for all locations, provide a fleet identifier only. Location data is returned in no particular order.
     ///
     ///
-    /// When requesting attributes for multiple locations, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a LocationAttributes object is returned for each requested location. If the fleet does not have a requested location, no information is returned. This operation does not return the home Region. To get information on a fleet's home Region, call DescribeFleetAttributes. Learn more [Setting up Amazon GameLift fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
+    /// When requesting attributes for multiple locations, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a LocationAttributes object is returned for each requested location. If the fleet does not have a requested location, no information is returned. This operation does not return the home Region. To get information on a fleet's home Region, call DescribeFleetAttributes. Learn more [Setting up Amazon GameLift fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[ Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting
     ///
     /// - Parameter DescribeFleetLocationAttributesInput : [no documentation found]
     ///
@@ -3531,7 +3531,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationAttributes(input: DescribeFleetLocationAttributesInput) async throws -> DescribeFleetLocationAttributesOutput {
@@ -3595,7 +3595,7 @@ extension GameLiftClient {
 
     /// Performs the `DescribeFleetLocationCapacity` operation on the `GameLift` service.
     ///
-    /// Retrieves the resource capacity settings for a fleet location. The data returned includes the current capacity (number of EC2 instances) and some scaling settings for the requested fleet location. For a container fleet, this operation also returns counts for replica container groups. Use this operation to retrieve capacity information for a fleet's remote location or home Region (you can also retrieve home Region capacity by calling DescribeFleetCapacity). To retrieve capacity data, identify a fleet and location. If successful, a FleetCapacity object is returned for the requested fleet location. Learn more [Setting up Amazon GameLift fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[GameLift metrics for fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html#gamelift-metrics-fleet)
+    /// Retrieves the resource capacity settings for a fleet location. The data returned includes the current capacity (number of EC2 instances) and some scaling settings for the requested fleet location. For a container fleet, this operation also returns counts for replica container groups. Use this operation to retrieve capacity information for a fleet's remote location or home Region (you can also retrieve home Region capacity by calling DescribeFleetCapacity). To retrieve capacity data, identify a fleet and location. If successful, a FleetCapacity object is returned for the requested fleet location. Learn more [Setting up Amazon GameLift fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[ Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting [GameLift metrics for fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html#gamelift-metrics-fleet)
     ///
     /// - Parameter DescribeFleetLocationCapacityInput : [no documentation found]
     ///
@@ -3606,7 +3606,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationCapacity(input: DescribeFleetLocationCapacityInput) async throws -> DescribeFleetLocationCapacityOutput {
@@ -3670,7 +3670,7 @@ extension GameLiftClient {
 
     /// Performs the `DescribeFleetLocationUtilization` operation on the `GameLift` service.
     ///
-    /// Retrieves current usage data for a fleet location. Utilization data provides a snapshot of current game hosting activity at the requested location. Use this operation to retrieve utilization information for a fleet's remote location or home Region (you can also retrieve home Region utilization by calling DescribeFleetUtilization). To retrieve utilization data, identify a fleet and location. If successful, a FleetUtilization object is returned for the requested fleet location. Learn more [Setting up Amazon GameLift fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[GameLift metrics for fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html#gamelift-metrics-fleet)
+    /// Retrieves current usage data for a fleet location. Utilization data provides a snapshot of current game hosting activity at the requested location. Use this operation to retrieve utilization information for a fleet's remote location or home Region (you can also retrieve home Region utilization by calling DescribeFleetUtilization). To retrieve utilization data, identify a fleet and location. If successful, a FleetUtilization object is returned for the requested fleet location. Learn more [Setting up Amazon GameLift fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[ Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting [GameLift metrics for fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html#gamelift-metrics-fleet)
     ///
     /// - Parameter DescribeFleetLocationUtilizationInput : [no documentation found]
     ///
@@ -3681,7 +3681,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationUtilization(input: DescribeFleetLocationUtilizationInput) async throws -> DescribeFleetLocationUtilizationOutput {
@@ -3763,7 +3763,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetPortSettings(input: DescribeFleetPortSettingsInput) async throws -> DescribeFleetPortSettingsOutput {
@@ -3845,7 +3845,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetUtilization(input: DescribeFleetUtilizationInput) async throws -> DescribeFleetUtilizationOutput {
         let context = Smithy.ContextBuilder()
@@ -3919,7 +3919,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServer(input: DescribeGameServerInput) async throws -> DescribeGameServerOutput {
         let context = Smithy.ContextBuilder()
@@ -3993,7 +3993,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServerGroup(input: DescribeGameServerGroupInput) async throws -> DescribeGameServerGroupOutput {
         let context = Smithy.ContextBuilder()
@@ -4067,7 +4067,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServerInstances(input: DescribeGameServerInstancesInput) async throws -> DescribeGameServerInstancesOutput {
         let context = Smithy.ContextBuilder()
@@ -4150,7 +4150,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -4226,7 +4226,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameSessionPlacement(input: DescribeGameSessionPlacementInput) async throws -> DescribeGameSessionPlacementOutput {
         let context = Smithy.ContextBuilder()
@@ -4300,7 +4300,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameSessionQueues(input: DescribeGameSessionQueuesInput) async throws -> DescribeGameSessionQueuesOutput {
         let context = Smithy.ContextBuilder()
@@ -4383,7 +4383,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -4468,7 +4468,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput {
@@ -4691,7 +4691,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeMatchmakingRuleSets(input: DescribeMatchmakingRuleSetsInput) async throws -> DescribeMatchmakingRuleSetsOutput {
         let context = Smithy.ContextBuilder()
@@ -4774,7 +4774,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describePlayerSessions(input: DescribePlayerSessionsInput) async throws -> DescribePlayerSessionsOutput {
         let context = Smithy.ContextBuilder()
@@ -4848,7 +4848,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeRuntimeConfiguration(input: DescribeRuntimeConfigurationInput) async throws -> DescribeRuntimeConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -4922,7 +4922,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeScalingPolicies(input: DescribeScalingPoliciesInput) async throws -> DescribeScalingPoliciesOutput {
@@ -4997,7 +4997,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeScript(input: DescribeScriptInput) async throws -> DescribeScriptOutput {
         let context = Smithy.ContextBuilder()
@@ -5144,7 +5144,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeVpcPeeringConnections(input: DescribeVpcPeeringConnectionsInput) async throws -> DescribeVpcPeeringConnectionsOutput {
         let context = Smithy.ContextBuilder()
@@ -5213,8 +5213,6 @@ extension GameLiftClient {
     ///
     /// * [Debug fleet issues](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-creating-debug.html)
     ///
-    /// * [ Remotely connect to a container fleet](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-remote-access.html)
-    ///
     /// - Parameter GetComputeAccessInput : [no documentation found]
     ///
     /// - Returns: `GetComputeAccessOutput` : [no documentation found]
@@ -5224,7 +5222,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getComputeAccess(input: GetComputeAccessInput) async throws -> GetComputeAccessOutput {
         let context = Smithy.ContextBuilder()
@@ -5311,7 +5309,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getComputeAuthToken(input: GetComputeAuthTokenInput) async throws -> GetComputeAuthTokenOutput {
         let context = Smithy.ContextBuilder()
@@ -5385,7 +5383,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getGameSessionLogUrl(input: GetGameSessionLogUrlInput) async throws -> GetGameSessionLogUrlOutput {
         let context = Smithy.ContextBuilder()
@@ -5466,7 +5464,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getInstanceAccess(input: GetInstanceAccessInput) async throws -> GetInstanceAccessOutput {
         let context = Smithy.ContextBuilder()
@@ -5852,7 +5850,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput {
         let context = Smithy.ContextBuilder()
@@ -6218,7 +6216,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -6292,7 +6290,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -6523,7 +6521,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func requestUploadCredentials(input: RequestUploadCredentialsInput) async throws -> RequestUploadCredentialsOutput {
         let context = Smithy.ContextBuilder()
@@ -6597,7 +6595,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func resolveAlias(input: ResolveAliasInput) async throws -> ResolveAliasOutput {
@@ -6672,7 +6670,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func resumeGameServerGroup(input: ResumeGameServerGroupInput) async throws -> ResumeGameServerGroupOutput {
         let context = Smithy.ContextBuilder()
@@ -6770,7 +6768,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -6853,7 +6851,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startFleetActions(input: StartFleetActionsInput) async throws -> StartFleetActionsOutput {
@@ -6939,7 +6937,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func startGameSessionPlacement(input: StartGameSessionPlacementInput) async throws -> StartGameSessionPlacementOutput {
         let context = Smithy.ContextBuilder()
@@ -7013,7 +7011,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startMatchBackfill(input: StartMatchBackfillInput) async throws -> StartMatchBackfillOutput {
         let context = Smithy.ContextBuilder()
@@ -7087,7 +7085,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startMatchmaking(input: StartMatchmakingInput) async throws -> StartMatchmakingOutput {
         let context = Smithy.ContextBuilder()
@@ -7168,7 +7166,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func stopFleetActions(input: StopFleetActionsInput) async throws -> StopFleetActionsOutput {
@@ -7243,7 +7241,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func stopGameSessionPlacement(input: StopGameSessionPlacementInput) async throws -> StopGameSessionPlacementOutput {
         let context = Smithy.ContextBuilder()
@@ -7317,7 +7315,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func stopMatchmaking(input: StopMatchmakingInput) async throws -> StopMatchmakingOutput {
         let context = Smithy.ContextBuilder()
@@ -7396,7 +7394,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func suspendGameServerGroup(input: SuspendGameServerGroupInput) async throws -> SuspendGameServerGroupOutput {
         let context = Smithy.ContextBuilder()
@@ -7470,7 +7468,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -7544,7 +7542,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -7618,7 +7616,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
         let context = Smithy.ContextBuilder()
@@ -7692,7 +7690,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateBuild(input: UpdateBuildInput) async throws -> UpdateBuildOutput {
         let context = Smithy.ContextBuilder()
@@ -7769,7 +7767,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateFleetAttributes(input: UpdateFleetAttributesInput) async throws -> UpdateFleetAttributesOutput {
         let context = Smithy.ContextBuilder()
@@ -7853,7 +7851,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateFleetCapacity(input: UpdateFleetCapacityInput) async throws -> UpdateFleetCapacityOutput {
@@ -7931,7 +7929,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateFleetPortSettings(input: UpdateFleetPortSettingsInput) async throws -> UpdateFleetPortSettingsOutput {
         let context = Smithy.ContextBuilder()
@@ -8014,7 +8012,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameServer(input: UpdateGameServerInput) async throws -> UpdateGameServerOutput {
         let context = Smithy.ContextBuilder()
@@ -8088,7 +8086,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameServerGroup(input: UpdateGameServerGroupInput) async throws -> UpdateGameServerGroupOutput {
         let context = Smithy.ContextBuilder()
@@ -8164,7 +8162,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameSession(input: UpdateGameSessionInput) async throws -> UpdateGameSessionOutput {
         let context = Smithy.ContextBuilder()
@@ -8238,7 +8236,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameSessionQueue(input: UpdateGameSessionQueueInput) async throws -> UpdateGameSessionQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -8312,7 +8310,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateMatchmakingConfiguration(input: UpdateMatchmakingConfigurationInput) async throws -> UpdateMatchmakingConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -8388,7 +8386,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateRuntimeConfiguration(input: UpdateRuntimeConfigurationInput) async throws -> UpdateRuntimeConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -8462,7 +8460,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateScript(input: UpdateScriptInput) async throws -> UpdateScriptOutput {
         let context = Smithy.ContextBuilder()

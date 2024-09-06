@@ -66,6 +66,11 @@ public struct StopQAppSessionOutput {
     public init() { }
 }
 
+public struct UpdateLibraryItemMetadataOutput {
+
+    public init() { }
+}
+
 /// The client is not authorized to perform the requested operation.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -540,6 +545,41 @@ extension QAppsClientTypes {
     }
 }
 
+/// The requested operation could not be completed due to a conflict with the current state of the resource.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The unique identifier of the resource
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
 /// An internal service error occurred while processing the request.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -872,41 +912,6 @@ extension QAppsClientTypes {
 
 }
 
-/// The requested operation could not be completed due to a conflict with the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The unique identifier of the resource
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
 /// The requested operation could not be completed because the content exceeds the maximum allowed size.
 public struct ContentTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1028,6 +1033,8 @@ public struct CreateLibraryItemOutput {
     /// The user who created the library item.
     /// This member is required.
     public var createdBy: Swift.String?
+    /// Indicates whether the library item has been verified.
+    public var isVerified: Swift.Bool?
     /// The unique identifier of the new library item.
     /// This member is required.
     public var libraryItemId: Swift.String?
@@ -1045,6 +1052,7 @@ public struct CreateLibraryItemOutput {
     public init(
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
+        isVerified: Swift.Bool? = nil,
         libraryItemId: Swift.String? = nil,
         ratingCount: Swift.Int? = nil,
         status: Swift.String? = nil,
@@ -1054,6 +1062,7 @@ public struct CreateLibraryItemOutput {
     {
         self.createdAt = createdAt
         self.createdBy = createdBy
+        self.isVerified = isVerified
         self.libraryItemId = libraryItemId
         self.ratingCount = ratingCount
         self.status = status
@@ -1268,6 +1277,8 @@ public struct GetLibraryItemOutput {
     public var createdBy: Swift.String?
     /// Whether the current user has rated the library item.
     public var isRatedByUser: Swift.Bool?
+    /// Indicates whether the library item has been verified.
+    public var isVerified: Swift.Bool?
     /// The unique identifier of the library item.
     /// This member is required.
     public var libraryItemId: Swift.String?
@@ -1291,6 +1302,7 @@ public struct GetLibraryItemOutput {
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         isRatedByUser: Swift.Bool? = nil,
+        isVerified: Swift.Bool? = nil,
         libraryItemId: Swift.String? = nil,
         ratingCount: Swift.Int? = nil,
         status: Swift.String? = nil,
@@ -1305,6 +1317,7 @@ public struct GetLibraryItemOutput {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.isRatedByUser = isRatedByUser
+        self.isVerified = isVerified
         self.libraryItemId = libraryItemId
         self.ratingCount = ratingCount
         self.status = status
@@ -1452,6 +1465,8 @@ extension QAppsClientTypes {
         public var createdBy: Swift.String?
         /// Whether the current user has rated the library item.
         public var isRatedByUser: Swift.Bool?
+        /// Indicates whether the library item has been verified.
+        public var isVerified: Swift.Bool?
         /// The unique identifier of the library item.
         /// This member is required.
         public var libraryItemId: Swift.String?
@@ -1475,6 +1490,7 @@ extension QAppsClientTypes {
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             isRatedByUser: Swift.Bool? = nil,
+            isVerified: Swift.Bool? = nil,
             libraryItemId: Swift.String? = nil,
             ratingCount: Swift.Int? = nil,
             status: Swift.String? = nil,
@@ -1489,6 +1505,7 @@ extension QAppsClientTypes {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.isRatedByUser = isRatedByUser
+            self.isVerified = isVerified
             self.libraryItemId = libraryItemId
             self.ratingCount = ratingCount
             self.status = status
@@ -1607,6 +1624,8 @@ extension QAppsClientTypes {
         public var createdAt: Foundation.Date?
         /// The description of the Q App.
         public var description: Swift.String?
+        /// Indicates whether the Q App has been verified.
+        public var isVerified: Swift.Bool
         /// The status of the user's association with the Q App.
         public var status: Swift.String?
         /// The title of the Q App.
@@ -1619,6 +1638,7 @@ extension QAppsClientTypes {
             canEdit: Swift.Bool? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            isVerified: Swift.Bool = false,
             status: Swift.String? = nil,
             title: Swift.String? = nil
         )
@@ -1628,6 +1648,7 @@ extension QAppsClientTypes {
             self.canEdit = canEdit
             self.createdAt = createdAt
             self.description = description
+            self.isVerified = isVerified
             self.status = status
             self.title = title
         }
@@ -1863,6 +1884,8 @@ public struct UpdateLibraryItemOutput {
     public var createdBy: Swift.String?
     /// Whether the current user has rated the library item.
     public var isRatedByUser: Swift.Bool?
+    /// Indicates whether the library item has been verified.
+    public var isVerified: Swift.Bool?
     /// The unique identifier of the updated library item.
     /// This member is required.
     public var libraryItemId: Swift.String?
@@ -1886,6 +1909,7 @@ public struct UpdateLibraryItemOutput {
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         isRatedByUser: Swift.Bool? = nil,
+        isVerified: Swift.Bool? = nil,
         libraryItemId: Swift.String? = nil,
         ratingCount: Swift.Int? = nil,
         status: Swift.String? = nil,
@@ -1900,12 +1924,35 @@ public struct UpdateLibraryItemOutput {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.isRatedByUser = isRatedByUser
+        self.isVerified = isVerified
         self.libraryItemId = libraryItemId
         self.ratingCount = ratingCount
         self.status = status
         self.updatedAt = updatedAt
         self.updatedBy = updatedBy
         self.userCount = userCount
+    }
+}
+
+public struct UpdateLibraryItemMetadataInput {
+    /// The unique identifier of the Amazon Q Business application environment instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The verification status of the library item
+    public var isVerified: Swift.Bool?
+    /// The unique identifier of the updated library item.
+    /// This member is required.
+    public var libraryItemId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        isVerified: Swift.Bool? = nil,
+        libraryItemId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.isVerified = isVerified
+        self.libraryItemId = libraryItemId
     }
 }
 
@@ -2858,6 +2905,24 @@ extension UpdateLibraryItemInput {
     }
 }
 
+extension UpdateLibraryItemMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateLibraryItemMetadataInput) -> Swift.String? {
+        return "/catalog.updateItemMetadata"
+    }
+}
+
+extension UpdateLibraryItemMetadataInput {
+
+    static func headerProvider(_ value: UpdateLibraryItemMetadataInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let instanceId = value.instanceId {
+            items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
+        }
+        return items
+    }
+}
+
 extension UpdateQAppInput {
 
     static func urlPathProvider(_ value: UpdateQAppInput) -> Swift.String? {
@@ -3021,6 +3086,15 @@ extension UpdateLibraryItemInput {
     }
 }
 
+extension UpdateLibraryItemMetadataInput {
+
+    static func write(value: UpdateLibraryItemMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isVerified"].write(value.isVerified)
+        try writer["libraryItemId"].write(value.libraryItemId)
+    }
+}
+
 extension UpdateQAppInput {
 
     static func write(value: UpdateQAppInput?, to writer: SmithyJSON.Writer) throws {
@@ -3064,6 +3138,7 @@ extension CreateLibraryItemOutput {
         var value = CreateLibraryItemOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["createdBy"].readIfPresent()
+        value.isVerified = try reader["isVerified"].readIfPresent()
         value.libraryItemId = try reader["libraryItemId"].readIfPresent()
         value.ratingCount = try reader["ratingCount"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -3137,6 +3212,7 @@ extension GetLibraryItemOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.isRatedByUser = try reader["isRatedByUser"].readIfPresent()
+        value.isVerified = try reader["isVerified"].readIfPresent()
         value.libraryItemId = try reader["libraryItemId"].readIfPresent()
         value.ratingCount = try reader["ratingCount"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -3296,6 +3372,7 @@ extension UpdateLibraryItemOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.isRatedByUser = try reader["isRatedByUser"].readIfPresent()
+        value.isVerified = try reader["isVerified"].readIfPresent()
         value.libraryItemId = try reader["libraryItemId"].readIfPresent()
         value.ratingCount = try reader["ratingCount"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -3303,6 +3380,13 @@ extension UpdateLibraryItemOutput {
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.userCount = try reader["userCount"].readIfPresent()
         return value
+    }
+}
+
+extension UpdateLibraryItemMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLibraryItemMetadataOutput {
+        return UpdateLibraryItemMetadataOutput()
     }
 }
 
@@ -3351,6 +3435,7 @@ enum AssociateLibraryItemReviewOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -3471,6 +3556,7 @@ enum DisassociateLibraryItemReviewOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -3739,6 +3825,27 @@ enum UpdateLibraryItemOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLibraryItemMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -3849,6 +3956,21 @@ extension AccessDeniedException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
@@ -3889,21 +4011,6 @@ extension ThrottlingException {
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4146,6 +4253,7 @@ extension QAppsClientTypes.LibraryItemMember {
         value.ratingCount = try reader["ratingCount"].readIfPresent()
         value.isRatedByUser = try reader["isRatedByUser"].readIfPresent()
         value.userCount = try reader["userCount"].readIfPresent()
+        value.isVerified = try reader["isVerified"].readIfPresent()
         return value
     }
 }
@@ -4162,6 +4270,7 @@ extension QAppsClientTypes.UserAppItem {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.canEdit = try reader["canEdit"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        value.isVerified = try reader["isVerified"].readIfPresent() ?? false
         return value
     }
 }
