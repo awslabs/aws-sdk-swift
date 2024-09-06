@@ -1656,6 +1656,152 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListRuleExecutions` operation on the `CodePipeline_20150709` service.
+    ///
+    /// Lists the rule executions that have occurred in a pipeline configured for conditions with rules.
+    ///
+    /// - Parameter ListRuleExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRuleExecutionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
+    /// - `PipelineExecutionNotFoundException` : The pipeline execution was specified in an invalid format or cannot be found, or an execution ID does not belong to the specified pipeline.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    public func listRuleExecutions(input: ListRuleExecutionsInput) async throws -> ListRuleExecutionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRuleExecutions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "codepipeline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRuleExecutionsInput, ListRuleExecutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<ListRuleExecutionsInput, ListRuleExecutionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput>(ListRuleExecutionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleExecutionsOutput>(ListRuleExecutionsOutput.httpOutput(from:), ListRuleExecutionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleExecutionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListRuleExecutionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput>(xAmzTarget: "CodePipeline_20150709.ListRuleExecutions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRuleExecutionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleExecutionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRuleExecutionsInput, ListRuleExecutionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CodePipeline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRuleExecutions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRuleTypes` operation on the `CodePipeline_20150709` service.
+    ///
+    /// Lists the rules for the condition.
+    ///
+    /// - Parameter ListRuleTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRuleTypesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    public func listRuleTypes(input: ListRuleTypesInput) async throws -> ListRuleTypesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRuleTypes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "codepipeline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRuleTypesInput, ListRuleTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<ListRuleTypesInput, ListRuleTypesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRuleTypesInput, ListRuleTypesOutput>(ListRuleTypesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRuleTypesInput, ListRuleTypesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleTypesInput, ListRuleTypesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleTypesOutput>(ListRuleTypesOutput.httpOutput(from:), ListRuleTypesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleTypesInput, ListRuleTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleTypesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListRuleTypesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRuleTypesInput, ListRuleTypesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRuleTypesInput, ListRuleTypesOutput>(xAmzTarget: "CodePipeline_20150709.ListRuleTypes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRuleTypesInput, ListRuleTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRuleTypesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleTypesInput, ListRuleTypesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuleTypesInput, ListRuleTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRuleTypesInput, ListRuleTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CodePipeline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRuleTypes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `CodePipeline_20150709` service.
     ///
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
@@ -1732,7 +1878,7 @@ extension CodePipelineClient {
 
     /// Performs the `ListWebhooks` operation on the `CodePipeline_20150709` service.
     ///
-    /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
+    /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook. If a secret token was provided, it will be redacted in the response.
     ///
     /// - Parameter ListWebhooksInput : [no documentation found]
     ///
@@ -1790,6 +1936,83 @@ extension CodePipelineClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CodePipeline")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListWebhooks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `OverrideStageCondition` operation on the `CodePipeline_20150709` service.
+    ///
+    /// Used to override a stage condition.
+    ///
+    /// - Parameter OverrideStageConditionInput : [no documentation found]
+    ///
+    /// - Returns: `OverrideStageConditionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentPipelineExecutionsLimitExceededException` : The pipeline has reached the limit for concurrent pipeline executions.
+    /// - `ConditionNotOverridableException` : Unable to override because the condition does not allow overrides.
+    /// - `ConflictException` : Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
+    /// - `NotLatestPipelineExecutionException` : The stage has failed in a later run of the pipeline and the pipelineExecutionId associated with the request is out of date.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    public func overrideStageCondition(input: OverrideStageConditionInput) async throws -> OverrideStageConditionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "overrideStageCondition")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "codepipeline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<OverrideStageConditionInput, OverrideStageConditionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<OverrideStageConditionInput, OverrideStageConditionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput>(OverrideStageConditionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<OverrideStageConditionOutput>(OverrideStageConditionOutput.httpOutput(from:), OverrideStageConditionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<OverrideStageConditionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<OverrideStageConditionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput>(xAmzTarget: "CodePipeline_20150709.OverrideStageCondition"))
+        builder.serialize(ClientRuntime.BodyMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: OverrideStageConditionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<OverrideStageConditionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<OverrideStageConditionInput, OverrideStageConditionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CodePipeline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "OverrideStageCondition")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1958,6 +2181,7 @@ extension CodePipelineClient {
     ///
     /// __Possible Exceptions:__
     /// - `ActionNotFoundException` : The specified action cannot be found.
+    /// - `ConcurrentPipelineExecutionsLimitExceededException` : The pipeline has reached the limit for concurrent pipeline executions.
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
@@ -2393,7 +2617,7 @@ extension CodePipelineClient {
 
     /// Performs the `PutWebhook` operation on the `CodePipeline_20150709` service.
     ///
-    /// Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third parties to call the generated webhook URL.
+    /// Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third parties to call the generated webhook URL. When creating CodePipeline webhooks, do not use your own credentials or reuse the same secret token across multiple webhooks. For optimal security, generate a unique secret token for each webhook you create. The secret token is an arbitrary string that you provide, which GitHub uses to compute and sign the webhook payloads sent to CodePipeline, for protecting the integrity and authenticity of the webhook payloads. Using your own credentials or reusing the same token across multiple webhooks can lead to security vulnerabilities. If a secret token was provided, it will be redacted in the response.
     ///
     /// - Parameter PutWebhookInput : [no documentation found]
     ///
@@ -2552,6 +2776,7 @@ extension CodePipelineClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentPipelineExecutionsLimitExceededException` : The pipeline has reached the limit for concurrent pipeline executions.
     /// - `ConflictException` : Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
     /// - `NotLatestPipelineExecutionException` : The stage has failed in a later run of the pipeline and the pipelineExecutionId associated with the request is out of date.
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.

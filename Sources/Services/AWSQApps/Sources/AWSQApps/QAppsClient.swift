@@ -205,6 +205,7 @@ extension QAppsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The client is not authorized to perform the requested operation.
+    /// - `ConflictException` : The requested operation could not be completed due to a conflict with the current state of the resource.
     /// - `InternalServerException` : An internal service error occurred while processing the request.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The requested operation could not be completed because it would exceed the service's quota or limit.
@@ -667,6 +668,7 @@ extension QAppsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The client is not authorized to perform the requested operation.
+    /// - `ConflictException` : The requested operation could not be completed due to a conflict with the current state of the resource.
     /// - `InternalServerException` : An internal service error occurred while processing the request.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The requested operation could not be completed because it would exceed the service's quota or limit.
@@ -1705,7 +1707,7 @@ extension QAppsClient {
 
     /// Performs the `UpdateLibraryItem` operation on the `QAppsService` service.
     ///
-    /// Updates the metadata and status of a library item for an Amazon Q App.
+    /// Updates the library item for an Amazon Q App.
     ///
     /// - Parameter UpdateLibraryItemInput : [no documentation found]
     ///
@@ -1715,6 +1717,7 @@ extension QAppsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The client is not authorized to perform the requested operation.
+    /// - `ConflictException` : The requested operation could not be completed due to a conflict with the current state of the resource.
     /// - `InternalServerException` : An internal service error occurred while processing the request.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The requested operation could not be completed because too many requests were sent at once. Wait a bit and try again later.
@@ -1767,6 +1770,83 @@ extension QAppsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QApps")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLibraryItem")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateLibraryItemMetadata` operation on the `QAppsService` service.
+    ///
+    /// Updates the verification status of a library item for an Amazon Q App.
+    ///
+    /// - Parameter UpdateLibraryItemMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLibraryItemMetadataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The client is not authorized to perform the requested operation.
+    /// - `ConflictException` : The requested operation could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An internal service error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ThrottlingException` : The requested operation could not be completed because too many requests were sent at once. Wait a bit and try again later.
+    /// - `UnauthorizedException` : The client is not authenticated or authorized to perform the requested operation.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by the service.
+    public func updateLibraryItemMetadata(input: UpdateLibraryItemMetadataInput) async throws -> UpdateLibraryItemMetadataOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateLibraryItemMetadata")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "qapps")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
+            let i: any ClientRuntime.HttpInterceptor<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>(UpdateLibraryItemMetadataInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>(UpdateLibraryItemMetadataInput.headerProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLibraryItemMetadataInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLibraryItemMetadataOutput>(UpdateLibraryItemMetadataOutput.httpOutput(from:), UpdateLibraryItemMetadataOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLibraryItemMetadataOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateLibraryItemMetadataOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLibraryItemMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QApps")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLibraryItemMetadata")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

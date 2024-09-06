@@ -51,7 +51,7 @@ public extension Context {
         get { attributes.get(key: businessMetricsKey) ?? [:] }
         set(newPair) {
             var combined = businessMetrics
-            combined.merge(newPair) { (current, new) in new }
+            combined.merge(newPair) { (_, new) in new }
             attributes.set(key: businessMetricsKey, value: combined)
         }
     }
@@ -82,7 +82,7 @@ public let businessMetricsKey = AttributeKey<Dictionary<String, String>>(name: "
     "SIGV4A_SIGNING"            : "S"           : Y
     "RESOLVED_ACCOUNT_ID"       : "T"           :
  */
-fileprivate func setFlagsIntoContext(
+private func setFlagsIntoContext(
     config: UserAgentValuesFromConfig,
     context: Context
 ) {

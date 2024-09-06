@@ -4972,6 +4972,79 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum LifecycleManagement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LifecycleManagement] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+    /// Settings related to idle shutdown of Studio applications.
+    public struct IdleSettings {
+        /// The time that SageMaker waits after the application becomes idle before shutting it down.
+        public var idleTimeoutInMinutes: Swift.Int?
+        /// Indicates whether idle shutdown is activated for the application type.
+        public var lifecycleManagement: SageMakerClientTypes.LifecycleManagement?
+        /// The maximum value in minutes that custom idle shutdown can be set to by the user.
+        public var maxIdleTimeoutInMinutes: Swift.Int?
+        /// The minimum value in minutes that custom idle shutdown can be set to by the user.
+        public var minIdleTimeoutInMinutes: Swift.Int?
+
+        public init(
+            idleTimeoutInMinutes: Swift.Int? = nil,
+            lifecycleManagement: SageMakerClientTypes.LifecycleManagement? = nil,
+            maxIdleTimeoutInMinutes: Swift.Int? = nil,
+            minIdleTimeoutInMinutes: Swift.Int? = nil
+        )
+        {
+            self.idleTimeoutInMinutes = idleTimeoutInMinutes
+            self.lifecycleManagement = lifecycleManagement
+            self.maxIdleTimeoutInMinutes = maxIdleTimeoutInMinutes
+            self.minIdleTimeoutInMinutes = minIdleTimeoutInMinutes
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// Settings that are used to configure and manage the lifecycle of Amazon SageMaker Studio applications.
+    public struct AppLifecycleManagement {
+        /// Settings related to idle shutdown of Studio applications.
+        public var idleSettings: SageMakerClientTypes.IdleSettings?
+
+        public init(
+            idleSettings: SageMakerClientTypes.IdleSettings? = nil
+        )
+        {
+            self.idleSettings = idleSettings
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+
     public enum AppNetworkAccessType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case publicinternetonly
         case vpconly
@@ -10005,6 +10078,8 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
     /// The Code Editor application settings. For more information about Code Editor, see [Get started with Code Editor in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/code-editor.html).
     public struct CodeEditorAppSettings {
+        /// Settings that are used to configure and manage the lifecycle of CodeEditor applications.
+        public var appLifecycleManagement: SageMakerClientTypes.AppLifecycleManagement?
         /// A list of custom SageMaker images that are configured to run as a Code Editor app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
         /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
@@ -10013,11 +10088,13 @@ extension SageMakerClientTypes {
         public var lifecycleConfigArns: [Swift.String]?
 
         public init(
+            appLifecycleManagement: SageMakerClientTypes.AppLifecycleManagement? = nil,
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
         )
         {
+            self.appLifecycleManagement = appLifecycleManagement
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
             self.lifecycleConfigArns = lifecycleConfigArns
@@ -13261,6 +13338,8 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
     /// The settings for the JupyterLab application.
     public struct JupyterLabAppSettings {
+        /// Indicates whether idle shutdown is activated for JupyterLab applications.
+        public var appLifecycleManagement: SageMakerClientTypes.AppLifecycleManagement?
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
         /// A list of custom SageMaker images that are configured to run as a JupyterLab app.
@@ -13273,6 +13352,7 @@ extension SageMakerClientTypes {
         public var lifecycleConfigArns: [Swift.String]?
 
         public init(
+            appLifecycleManagement: SageMakerClientTypes.AppLifecycleManagement? = nil,
             codeRepositories: [SageMakerClientTypes.CodeRepository]? = nil,
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
@@ -13280,6 +13360,7 @@ extension SageMakerClientTypes {
             lifecycleConfigArns: [Swift.String]? = nil
         )
         {
+            self.appLifecycleManagement = appLifecycleManagement
             self.codeRepositories = codeRepositories
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
@@ -22705,15 +22786,51 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// Settings related to idle shutdown of Studio applications in a space.
+    public struct SpaceIdleSettings {
+        /// The time that SageMaker waits after the application becomes idle before shutting it down.
+        public var idleTimeoutInMinutes: Swift.Int?
+
+        public init(
+            idleTimeoutInMinutes: Swift.Int? = nil
+        )
+        {
+            self.idleTimeoutInMinutes = idleTimeoutInMinutes
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// Settings that are used to configure and manage the lifecycle of Amazon SageMaker Studio applications in a space.
+    public struct SpaceAppLifecycleManagement {
+        /// Settings related to idle shutdown of Studio applications.
+        public var idleSettings: SageMakerClientTypes.SpaceIdleSettings?
+
+        public init(
+            idleSettings: SageMakerClientTypes.SpaceIdleSettings? = nil
+        )
+        {
+            self.idleSettings = idleSettings
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// The application settings for a Code Editor space.
     public struct SpaceCodeEditorAppSettings {
+        /// Settings that are used to configure and manage the lifecycle of CodeEditor applications in a space.
+        public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
         /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
+            appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
         )
         {
+            self.appLifecycleManagement = appLifecycleManagement
             self.defaultResourceSpec = defaultResourceSpec
         }
     }
@@ -22750,16 +22867,20 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
     /// The settings for the JupyterLab application within a space.
     public struct SpaceJupyterLabAppSettings {
+        /// Settings that are used to configure and manage the lifecycle of JupyterLab applications in a space.
+        public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
         /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
+            appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement? = nil,
             codeRepositories: [SageMakerClientTypes.CodeRepository]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
         )
         {
+            self.appLifecycleManagement = appLifecycleManagement
             self.codeRepositories = codeRepositories
             self.defaultResourceSpec = defaultResourceSpec
         }
@@ -67089,6 +67210,7 @@ extension SageMakerClientTypes.JupyterLabAppSettings {
 
     static func write(value: SageMakerClientTypes.JupyterLabAppSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AppLifecycleManagement"].write(value.appLifecycleManagement, with: SageMakerClientTypes.AppLifecycleManagement.write(value:to:))
         try writer["CodeRepositories"].writeList(value.codeRepositories, memberWritingClosure: SageMakerClientTypes.CodeRepository.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CustomImages"].writeList(value.customImages, memberWritingClosure: SageMakerClientTypes.CustomImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DefaultResourceSpec"].write(value.defaultResourceSpec, with: SageMakerClientTypes.ResourceSpec.write(value:to:))
@@ -67103,6 +67225,7 @@ extension SageMakerClientTypes.JupyterLabAppSettings {
         value.customImages = try reader["CustomImages"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CustomImage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lifecycleConfigArns = try reader["LifecycleConfigArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRepositories = try reader["CodeRepositories"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CodeRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appLifecycleManagement = try reader["AppLifecycleManagement"].readIfPresent(with: SageMakerClientTypes.AppLifecycleManagement.read(from:))
         value.emrSettings = try reader["EmrSettings"].readIfPresent(with: SageMakerClientTypes.EmrSettings.read(from:))
         return value
     }
@@ -67121,6 +67244,42 @@ extension SageMakerClientTypes.EmrSettings {
         var value = SageMakerClientTypes.EmrSettings()
         value.assumableRoleArns = try reader["AssumableRoleArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.executionRoleArns = try reader["ExecutionRoleArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.AppLifecycleManagement {
+
+    static func write(value: SageMakerClientTypes.AppLifecycleManagement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IdleSettings"].write(value.idleSettings, with: SageMakerClientTypes.IdleSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AppLifecycleManagement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.AppLifecycleManagement()
+        value.idleSettings = try reader["IdleSettings"].readIfPresent(with: SageMakerClientTypes.IdleSettings.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.IdleSettings {
+
+    static func write(value: SageMakerClientTypes.IdleSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IdleTimeoutInMinutes"].write(value.idleTimeoutInMinutes)
+        try writer["LifecycleManagement"].write(value.lifecycleManagement)
+        try writer["MaxIdleTimeoutInMinutes"].write(value.maxIdleTimeoutInMinutes)
+        try writer["MinIdleTimeoutInMinutes"].write(value.minIdleTimeoutInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.IdleSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.IdleSettings()
+        value.lifecycleManagement = try reader["LifecycleManagement"].readIfPresent()
+        value.idleTimeoutInMinutes = try reader["IdleTimeoutInMinutes"].readIfPresent()
+        value.minIdleTimeoutInMinutes = try reader["MinIdleTimeoutInMinutes"].readIfPresent()
+        value.maxIdleTimeoutInMinutes = try reader["MaxIdleTimeoutInMinutes"].readIfPresent()
         return value
     }
 }
@@ -67163,6 +67322,7 @@ extension SageMakerClientTypes.CodeEditorAppSettings {
 
     static func write(value: SageMakerClientTypes.CodeEditorAppSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AppLifecycleManagement"].write(value.appLifecycleManagement, with: SageMakerClientTypes.AppLifecycleManagement.write(value:to:))
         try writer["CustomImages"].writeList(value.customImages, memberWritingClosure: SageMakerClientTypes.CustomImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DefaultResourceSpec"].write(value.defaultResourceSpec, with: SageMakerClientTypes.ResourceSpec.write(value:to:))
         try writer["LifecycleConfigArns"].writeList(value.lifecycleConfigArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -67174,6 +67334,7 @@ extension SageMakerClientTypes.CodeEditorAppSettings {
         value.defaultResourceSpec = try reader["DefaultResourceSpec"].readIfPresent(with: SageMakerClientTypes.ResourceSpec.read(from:))
         value.customImages = try reader["CustomImages"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CustomImage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lifecycleConfigArns = try reader["LifecycleConfigArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appLifecycleManagement = try reader["AppLifecycleManagement"].readIfPresent(with: SageMakerClientTypes.AppLifecycleManagement.read(from:))
         return value
     }
 }
@@ -71532,6 +71693,7 @@ extension SageMakerClientTypes.SpaceJupyterLabAppSettings {
 
     static func write(value: SageMakerClientTypes.SpaceJupyterLabAppSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AppLifecycleManagement"].write(value.appLifecycleManagement, with: SageMakerClientTypes.SpaceAppLifecycleManagement.write(value:to:))
         try writer["CodeRepositories"].writeList(value.codeRepositories, memberWritingClosure: SageMakerClientTypes.CodeRepository.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DefaultResourceSpec"].write(value.defaultResourceSpec, with: SageMakerClientTypes.ResourceSpec.write(value:to:))
     }
@@ -71541,6 +71703,37 @@ extension SageMakerClientTypes.SpaceJupyterLabAppSettings {
         var value = SageMakerClientTypes.SpaceJupyterLabAppSettings()
         value.defaultResourceSpec = try reader["DefaultResourceSpec"].readIfPresent(with: SageMakerClientTypes.ResourceSpec.read(from:))
         value.codeRepositories = try reader["CodeRepositories"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CodeRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appLifecycleManagement = try reader["AppLifecycleManagement"].readIfPresent(with: SageMakerClientTypes.SpaceAppLifecycleManagement.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.SpaceAppLifecycleManagement {
+
+    static func write(value: SageMakerClientTypes.SpaceAppLifecycleManagement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IdleSettings"].write(value.idleSettings, with: SageMakerClientTypes.SpaceIdleSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SpaceAppLifecycleManagement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.SpaceAppLifecycleManagement()
+        value.idleSettings = try reader["IdleSettings"].readIfPresent(with: SageMakerClientTypes.SpaceIdleSettings.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.SpaceIdleSettings {
+
+    static func write(value: SageMakerClientTypes.SpaceIdleSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IdleTimeoutInMinutes"].write(value.idleTimeoutInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SpaceIdleSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.SpaceIdleSettings()
+        value.idleTimeoutInMinutes = try reader["IdleTimeoutInMinutes"].readIfPresent()
         return value
     }
 }
@@ -71549,6 +71742,7 @@ extension SageMakerClientTypes.SpaceCodeEditorAppSettings {
 
     static func write(value: SageMakerClientTypes.SpaceCodeEditorAppSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AppLifecycleManagement"].write(value.appLifecycleManagement, with: SageMakerClientTypes.SpaceAppLifecycleManagement.write(value:to:))
         try writer["DefaultResourceSpec"].write(value.defaultResourceSpec, with: SageMakerClientTypes.ResourceSpec.write(value:to:))
     }
 
@@ -71556,6 +71750,7 @@ extension SageMakerClientTypes.SpaceCodeEditorAppSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SpaceCodeEditorAppSettings()
         value.defaultResourceSpec = try reader["DefaultResourceSpec"].readIfPresent(with: SageMakerClientTypes.ResourceSpec.read(from:))
+        value.appLifecycleManagement = try reader["AppLifecycleManagement"].readIfPresent(with: SageMakerClientTypes.SpaceAppLifecycleManagement.read(from:))
         return value
     }
 }

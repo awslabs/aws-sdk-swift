@@ -3375,6 +3375,7 @@ extension KinesisAnalyticsV2ClientTypes {
         case flink115
         case flink118
         case flink119
+        case flink120
         case flink16
         case flink18
         case sql10
@@ -3390,6 +3391,7 @@ extension KinesisAnalyticsV2ClientTypes {
                 .flink115,
                 .flink118,
                 .flink119,
+                .flink120,
                 .flink16,
                 .flink18,
                 .sql10,
@@ -3411,6 +3413,7 @@ extension KinesisAnalyticsV2ClientTypes {
             case .flink115: return "FLINK-1_15"
             case .flink118: return "FLINK-1_18"
             case .flink119: return "FLINK-1_19"
+            case .flink120: return "FLINK-1_20"
             case .flink16: return "FLINK-1_6"
             case .flink18: return "FLINK-1_8"
             case .sql10: return "SQL-1_0"
